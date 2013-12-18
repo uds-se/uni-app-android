@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="com.st.cs.unisaarland.SaarlandUniversityApp"
+          android:versionCode="1"
+          android:versionName="1.0">
+    <uses-sdk android:minSdkVersion="14"/>
+    <application android:label="@string/app_name" android:icon="@drawable/app_icon"
+                 android:hardwareAccelerated="true">
+        <activity android:name="MainActivity"
+                  android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity android:name=".news.NewsActivity" android:label="@string/newsText"/>
+        <activity android:name=".bus.BusActivity" android:label="@string/busText"/>
+        <activity android:name=".events.EventsActivity" android:label="@string/eventsText"/>
+        <activity android:name=".staff.SearchStaffActivity" android:label="@string/staff_searchText"/>
+        <activity android:name=".campus.CampusActivity"/>
+        <activity android:name=".restaurant.RestaurantActivity" android:label="@string/restaurantText"/>
+        <activity android:name=".restaurant.OpeningHoursActivity"/>
+        <activity android:name=".campus.CampusSearchActivity"/>
+        <activity android:name=".about.AboutActicvity" android:label="@string/aboutText"/>
+        <activity android:name=".news.NewsArticleActivity"/>
+        <activity android:name=".events.EventDetailActivity"/>
+        <activity android:name=".staff.SearchResultActivity"/>
+        <activity android:name=".staff.SearchResultItemDetailActivity"/>
+        <activity android:name=".staff.PersonDetailWebActivity"/>
+        <activity android:name=".bus.BusDetailActivity"/>
+
+        <meta-data
+                android:name="com.google.android.gms.version"
+                android:value="4030500" />
+
+        <meta-data
+                android:name="com.google.android.maps.v2.API_KEY"
+                android:value="AIzaSyAG9lbqdMB6zcJ8_5njMx-fn07jvX6-TrU"/>
+
+    </application>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
+    <!-- The following two permissions are not required to use
+         Google Maps Android API v2, but are recommended. -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-feature
+            android:glEsVersion="0x00020000"
+            android:required="true"/>
+
+
+</manifest>

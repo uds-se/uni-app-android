@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="200dp"
+                android:layout_height="fill_parent" android:background="#ffffff" android:alpha="0.5">
+    <TextView android:id="@+id/satellite" android:layout_width="100dp" android:layout_height="30dp"
+              android:textColor="#6373ff" android:text="Satellite" android:gravity="center_vertical|left"
+              android:layout_marginTop="10dp" android:layout_marginLeft="20dp"/>
+    <TextView android:id="@+id/normal" android:layout_width="100dp" android:layout_height="30dp"
+              android:textColor="#6373ff" android:text="Standard" android:gravity="center_vertical|left"
+              android:layout_marginTop="50dp" android:layout_marginLeft="20dp"/>
+    <TextView android:id="@+id/hybrid" android:layout_width="100dp" android:layout_height="30dp"
+              android:textColor="#6373ff" android:text="Hybrid" android:gravity="center_vertical|left"
+              android:layout_marginTop="90dp" android:layout_marginLeft="20dp"/>
+    <TextView android:id="@+id/remove" android:layout_width="130dp" android:layout_height="30dp"
+              android:textColor="#6373ff" android:text="Remove all pins" android:gravity="center_vertical|left"
+              android:layout_marginTop="130dp" android:singleLine="true" android:layout_marginLeft="20dp"/>
+</RelativeLayout>

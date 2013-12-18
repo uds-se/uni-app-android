@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" android:background="@drawable/home_screen_background">
+    <ImageButton android:layout_height="20dp" android:layout_width="20dp"
+                 android:id="@+id/back_icon"
+                 android:layout_alignParentLeft="true"
+                 android:visibility="visible" android:layout_marginLeft="10dp" android:clickable="true"
+                 android:background="@drawable/back" android:layout_marginTop="10dp"
+                 android:layout_alignParentTop="true"/>
+
+    <TextView android:layout_width="80dp" android:layout_height="30dp" android:layout_alignParentTop="true"
+              android:layout_alignParentLeft="true" android:layout_marginLeft="30dp" android:layout_marginTop="5dp"
+              android:text="@string/categories" android:textColor="#6479ff" android:textSize="14dp" android:textStyle="normal"
+              android:singleLine="true" android:gravity="center_vertical|left" android:id="@+id/backText" />
+
+    <TextView android:layout_width="80dp" android:layout_height="30dp" android:layout_alignParentTop="true"
+              android:layout_alignParentRight="true" android:layout_marginRight="20dp" android:layout_marginTop="5dp"
+              android:text="@string/pin_all" android:textColor="#6479ff" android:textSize="14dp" android:textStyle="normal"
+              android:singleLine="true" android:gravity="center_vertical|right" android:id="@+id/pin_all" />
+
+    <TextView android:layout_width="130dp" android:layout_height="30dp" android:text=""
+              android:textStyle="bold" android:textSize="18dp" android:id="@+id/page_heading"
+              android:gravity="center_vertical|center_horizontal" android:visibility="visible" android:textColor="#000000"
+              android:singleLine="true" android:layout_marginTop="5dp" android:layout_centerHorizontal="true"/>
+
+    <ListView android:layout_width="fill_parent" android:layout_height="wrap_content"
+              android:id="@+id/categoriesList" android:layout_alignParentTop="true"
+              android:clickable="true" android:layout_marginTop="50dp"/>
+
+
+</RelativeLayout>

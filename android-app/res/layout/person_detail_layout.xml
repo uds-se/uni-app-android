@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android"
+        android:background="@drawable/home_screen_background">
+
+    <WebView android:id="@id/web_view" android:layout_width="fill_parent" android:layout_height="fill_parent"
+             android:layout_marginBottom="30dp" android:visibility="invisible"/>
+
+    <ProgressBar
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_centerVertical="true" android:layout_centerHorizontal="true"
+            android:id="@+id/web_view_progress_bar"
+            />
+
+    <ImageView android:layout_width="fill_parent" android:layout_height="30dp"
+               android:background="@drawable/mensa_fold_r"
+               android:id="@+id/bottom_image" android:contentDescription="@string/empty_string"
+               android:layout_alignParentBottom="true"/>
+    <ImageButton android:id="@+id/back_button" android:layout_height="20dp" android:layout_width="20dp"
+                 android:layout_alignParentBottom="true"
+                 android:background="@drawable/back_button" android:layout_marginLeft="15dp"
+                 android:layout_marginBottom="5dp"/>
+
+    <ImageButton android:id="@+id/forward_button" android:layout_height="20dp" android:layout_width="20dp"
+                 android:layout_alignParentBottom="true"
+                 android:background="@drawable/forward_button" android:layout_marginLeft="55dp"
+                 android:layout_marginBottom="5dp"/>
+
+</RelativeLayout>

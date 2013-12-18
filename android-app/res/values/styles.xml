@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+
+    <style name="Transparent">
+
+        <item name="android:windowIsTranslucent">true</item>
+
+        <item name="android:windowAnimationStyle">
+
+            @android:style/Animation.Translucent
+
+        </item>
+
+
+        <item name="android:windowNoTitle">true</item>
+
+        <item name="android:colorForeground">#111</item>
+
+    </style>
+    <style name="DialogAnimation" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/popup_in</item>
+        <item name="android:windowExitAnimation">@anim/popup_out</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <style name="DialogSlideAnim" parent="@android:style/Theme.Dialog">
+        <item name="android:windowAnimationStyle">@style/DialogAnimation</item>
+    </style>
+</resources> 
+

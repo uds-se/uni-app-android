@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:background="@drawable/home_screen_background">
+    <TextView android:layout_height="40dp" android:layout_width="120dp" android:text="@string/last_name"
+              android:textColor="#000000" android:gravity="center_vertical|left" android:textSize="18dp"
+              android:textStyle="bold" android:layout_marginLeft="25dp" android:layout_marginTop="20dp"
+              android:layout_alignParentLeft="true" android:layout_alignParentTop="true" android:id="@+id/textView"/>
+
+    <TextView android:layout_height="40dp" android:layout_width="120dp" android:text="@string/first_name"
+              android:textColor="#000000" android:gravity="center_vertical|left" android:textSize="18dp"
+              android:textStyle="bold" android:layout_marginRight="25dp" android:layout_marginTop="20dp"
+              android:layout_alignParentRight="true" android:layout_alignParentTop="true"/>
+
+    <EditText android:id="@+id/last_name" android:layout_width="140dp" android:layout_height="40dp"
+              android:layout_marginTop="65dp" android:layout_marginLeft="20dp" android:gravity="center_vertical|left"
+              android:inputType="text" android:hint="@string/last_name" android:textColor="#000000"
+              android:textColorHint="#e2e2e2" android:textSize="16dp" android:editable="true"
+              android:ellipsize="end" android:singleLine="true" android:background="@drawable/search_field_shape"
+              android:layout_alignParentLeft="true" android:layout_alignParentTop="true"/>
+
+    <TextView android:layout_height="40dp" android:layout_width="120dp" android:text="@string/filter"
+              android:textColor="#000000" android:gravity="center_vertical|left" android:textSize="18dp"
+              android:textStyle="bold" android:layout_marginLeft="25dp" android:layout_marginTop="115dp"
+              android:layout_alignParentLeft="true" android:layout_alignParentTop="true"/>
+
+    <EditText android:id="@+id/first_name" android:layout_width="140dp" android:layout_height="40dp"
+              android:layout_marginTop="65dp" android:gravity="center_vertical|left"
+              android:inputType="text" android:hint="@string/first_name" android:textColor="#000000"
+              android:textColorHint="#e2e2e2" android:textSize="16dp" android:editable="true"
+              android:ellipsize="end" android:singleLine="true" android:background="@drawable/search_field_shape"
+              android:layout_alignParentRight="true" android:layout_alignParentTop="true"
+              android:layout_marginRight="20dp"/>
+
+    <com.st.cs.unisaarland.SaarlandUniversityApp.staff.uihelper.StaffRadioGroupChooser
+            android:layout_width="310dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/segment_text"
+            android:checkedButton="@+id/professors" android:layout_marginTop="165dp"
+            android:layout_centerHorizontal="true">
+        <RadioButton android:id="@+id/professors"
+                     android:layout_height="40dp"
+                     android:layout_width="155dp"
+                     android:minWidth="155dp"
+                     android:minHeight="40dp"
+                     android:text="@string/professors_only"
+                     android:gravity="center"
+                     android:textColor="@drawable/radio_button_text_color"
+                     android:textSize="14dp" android:singleLine="true"/>
+        <RadioButton android:id="@+id/all"
+                     android:layout_height="40dp"
+                     android:layout_width="155dp"
+                     android:minWidth="155dp"
+                     android:minHeight="40dp"
+                     android:text="@string/all"
+                     android:gravity="center"
+                     android:textColor="@drawable/radio_button_text_color"
+                     android:textSize="14dp" android:singleLine="true"/>
+
+    </com.st.cs.unisaarland.SaarlandUniversityApp.staff.uihelper.StaffRadioGroupChooser>
+
+    <Button android:layout_width="100dp"
+            android:layout_height="40dp" android:background="@drawable/search_button"
+            android:id="@+id/searchBtn" android:clickable="true"
+            android:gravity="center"
+            android:layout_centerHorizontal="true" android:layout_alignParentTop="true"
+            android:layout_marginTop="230dp" android:text="@string/search_text" android:textColor="#000000" android:textSize="14dp"
+            android:textStyle="bold"/>
+
+</RelativeLayout>
