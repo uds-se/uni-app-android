@@ -260,11 +260,11 @@ public class CampusActivity extends FragmentActivity implements ConnectionCallba
         final PointOfInterest p = poisMap.get(marker.getTitle());
         if (p.isCanShowRightCallOut() == 1 && p.getWebsite().length() > 0) {
             AlertDialog.Builder builder1 = new AlertDialog.Builder(CampusActivity.this);
-            builder1.setTitle("Action");
-            builder1.setMessage("Visit website or route");
+            builder1.setTitle(getString(R.string.action));
+            builder1.setMessage(getString(R.string.web_or_route));
             builder1.setCancelable(true);
 
-            builder1.setPositiveButton("Website",
+            builder1.setPositiveButton(getString(R.string.website),
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             if (p.isCanShowRightCallOut() == 1 && p.getWebsite().length() > 0) {
@@ -283,7 +283,7 @@ public class CampusActivity extends FragmentActivity implements ConnectionCallba
                             dialog.cancel();
                         }
                     });
-            builder1.setNegativeButton("Route",
+            builder1.setNegativeButton(getString(R.string.route),
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             Intent intent = new Intent(android.content.Intent.ACTION_VIEW,

@@ -27,7 +27,7 @@ public class WebFetcher{
     private URL url;
     private HttpURLConnection con;
     private XmlPullParser parser = null;
-    private final int CONNECTION_TIME = 15000;
+    private final int CONNECTION_TIME = 10000;
 
 
     public WebFetcher(INetworkLoaderDelegate delegate) {

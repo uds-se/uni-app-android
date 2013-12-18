@@ -67,4 +67,15 @@
     <string name="more_info">More information</string>
     <string name="categories">Categories</string>
     <string name="pin_all">Pin All</string>
+    <string name="email_subject">Saarland University Android app!</string>
+    <string name="action">Action</string>
+    <string name="web_or_route">Visit website or route</string>
+    <string name="website">Website</string>
+    <string name="route">Route</string>
+    <string name="ok">OK</string>
+    <string name="no_staff_member_title">Staff member not found</string>
+    <string name="no_staff_member_found_description">Unfortunately no staff member matches your search criteria</string>
+    <string name="empty_search_field">Empty search field</string>
+    <string name="fill_at_least_one">Please fill at least one search field</string>
+    <string name="check_internet_message">Please check your internet connection and try again</string>
 </resources>

@@ -149,10 +149,10 @@ public class SearchResultActivity extends Activity {
         pBar.setVisibility(View.INVISIBLE);
         if(namesArray.size() == 0){
             AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
-            builder1.setTitle("Staff member not found");
-            builder1.setMessage("Unfortunately no staff member matches your search criteria");
+            builder1.setTitle(getString(R.string.no_staff_member_title));
+            builder1.setMessage(getString(R.string.no_staff_member_found_description));
             builder1.setCancelable(true);
-            builder1.setPositiveButton("OK",
+            builder1.setPositiveButton(getString(R.string.ok),
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             dialog.cancel();

@@ -23,7 +23,7 @@ import com.st.cs.unisaarland.SaarlandUniversityApp.R;
  */
 public class AboutActicvity extends Activity {
 
-    private final String SUBJECT = "Saarland University Android app!";
+    private final String SUBJECT = getString(R.string.email_subject);
     private final String EMAIL_ID = "uniapp@uni-saarland.de";
 
     public void onCreate(Bundle savedInstanceState) {

@@ -93,7 +93,7 @@ public class SearchResultAdapter extends BaseAdapter {
                 AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
                 builder1.setMessage(context.getString(R.string.not_connected));
                 builder1.setCancelable(true);
-                builder1.setPositiveButton("OK",
+                builder1.setPositiveButton(context.getString(R.string.ok),
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 dialog.cancel();

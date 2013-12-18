@@ -66,10 +66,10 @@ public class SearchStaffActivity extends Activity implements OnCheckedChangeList
                 fstNam = fstNam.trim();
                 if(fstNam.length() ==0 && lstNam.length() == 0){
                     AlertDialog.Builder builder1 = new AlertDialog.Builder(SearchStaffActivity.this);
-                    builder1.setTitle("Empty search field");
-                    builder1.setMessage("Please fill at least one search field");
+                    builder1.setTitle(getString(R.string.empty_search_field));
+                    builder1.setMessage(getString(R.string.fill_at_least_one));
                     builder1.setCancelable(true);
-                    builder1.setPositiveButton("OK",
+                    builder1.setPositiveButton(getString(R.string.ok),
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
                                     dialog.cancel();
@@ -91,9 +91,9 @@ public class SearchStaffActivity extends Activity implements OnCheckedChangeList
                     SearchStaffActivity.this.startActivity(myIntent);
                 } else{
                     AlertDialog.Builder builder1 = new AlertDialog.Builder(SearchStaffActivity.this);
-                    builder1.setMessage("Please check your internet connection and try again");
+                    builder1.setMessage(getString(R.string.check_internet_message));
                     builder1.setCancelable(true);
-                    builder1.setPositiveButton("OK",
+                    builder1.setPositiveButton(getString(R.string.ok),
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
                                     dialog.cancel();

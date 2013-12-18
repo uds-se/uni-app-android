@@ -128,7 +128,7 @@ public class EventsActivity extends Activity {
                 AlertDialog.Builder builder1 = new AlertDialog.Builder(EventsActivity.this);
                 builder1.setMessage(message);
                 builder1.setCancelable(true);
-                builder1.setPositiveButton("OK",
+                builder1.setPositiveButton(getString(R.string.ok),
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 bar.clearAnimation();

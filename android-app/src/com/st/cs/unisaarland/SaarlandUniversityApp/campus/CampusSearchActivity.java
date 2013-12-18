@@ -40,7 +40,7 @@ public class CampusSearchActivity extends Activity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);    //To change body of overridden methods use File | Settings | File Templates.
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     public void onCreate(Bundle savedInstanceState) {
