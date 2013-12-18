@@ -24,7 +24,7 @@ import com.st.cs.unisaarland.SaarlandUniversityApp.R;
 public class AboutActicvity extends Activity {
 
     private final String SUBJECT = "Saarland University Android app!";
-    private final String EMAIL_ID = "a.shahzadaslam@gmail.com";
+    private final String EMAIL_ID = "uniapp@uni-saarland.de";
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,14 +33,17 @@ public class AboutActicvity extends Activity {
         try {
             final PackageManager packageManager = getPackageManager();
             final String versionName;
+            final int versionCode;
             if (packageManager != null) {
 
                 PackageInfo packageInfo = packageManager.getPackageInfo(getPackageName(), 0);
                 versionName = packageInfo.versionName;
+                versionCode = packageInfo.versionCode;
                 TextView version = (TextView) findViewById(R.id.version_number);
-                version.setText("Version " + versionName);
+                version.setText("Version " + versionName + " Version Code " + versionCode);
             }else{
                 versionName = null;
+                versionCode = 0;
             }
             Button contact = (Button) findViewById(R.id.contact_btn);
             contact.setOnClickListener(new View.OnClickListener() {
@@ -48,7 +51,7 @@ public class AboutActicvity extends Activity {
                 public void onClick(View v) {
                     try{
                         Intent sendIntent = new Intent(Intent.ACTION_SEND);
-                        sendIntent.putExtra(Intent.EXTRA_SUBJECT, SUBJECT + " Version " + versionName);
+                        sendIntent.putExtra(Intent.EXTRA_SUBJECT, SUBJECT + " Version " + versionName + " Version Code " + versionCode);
                         sendIntent.putExtra(Intent.EXTRA_EMAIL, new String[] { EMAIL_ID });
                         String emailBody = "";
                         sendIntent.putExtra(Intent.EXTRA_TEXT, emailBody);
