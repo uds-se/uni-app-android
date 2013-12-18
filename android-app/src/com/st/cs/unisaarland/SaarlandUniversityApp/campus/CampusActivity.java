@@ -73,6 +73,7 @@ public class CampusActivity extends FragmentActivity implements ConnectionCallba
             .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
     private String infoBuilding = null;
     private ArrayList<Marker> markers;
+    private AutoCompleteTextView search;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,6 +91,16 @@ public class CampusActivity extends FragmentActivity implements ConnectionCallba
         setUpMapIfNeeded();
         setUpLocationClient();
         locationClient.connect();
+    }
+
+    public void searchItemSelected(PointOfInterest model) {
+        ArrayList<PointOfInterest> pois = new ArrayList<PointOfInterest>();
+        pois.add(model);
+        pinPOIsInArray(pois);
+        search.setText("");
+        InputMethodManager imm = (InputMethodManager)getSystemService(
+                Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(search.getWindowToken(), 0);
     }
 
     class PanelButtonListener implements View.OnClickListener{
@@ -337,32 +348,16 @@ public class CampusActivity extends FragmentActivity implements ConnectionCallba
             }
         });
 
-        final AutoCompleteTextView search = (AutoCompleteTextView) actionBar.getCustomView().findViewById(R.id.search_field);
+        search = (AutoCompleteTextView) actionBar.getCustomView().findViewById(R.id.search_field);
         search.setVisibility(View.VISIBLE);
         search.setHint("Search");
 
         DatabaseHandler db = new DatabaseHandler(this);
-        final ArrayList<String> searchbase = db.getPointsOfInterestPartialMatchedTitles();
+
+        final ArrayList<PointOfInterest> searchBase = db.getPointsOfInterestPartialMatched();
         db.close();
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, searchbase);
-//        SearchViewAdapter adapter =  new SearchViewAdapter(searchbase,this,android.R.layout.simple_dropdown_item_1line,search);
+        SearchViewAdapter adapter =  new SearchViewAdapter(searchBase,this,android.R.layout.simple_dropdown_item_1line,this);
         search.setThreshold(1);
-
-        search.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String title = (String) parent.getItemAtPosition(position);
-                DatabaseHandler db = new DatabaseHandler(CampusActivity.this);
-                ArrayList<PointOfInterest> pois = db.getPointsOfInterestForTitle(title);
-                db.close();
-                pinPOIsInArray(pois);
-                search.setText("");
-                InputMethodManager imm = (InputMethodManager)getSystemService(
-                        Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(search.getWindowToken(), 0);
-            }
-        });
         search.setAdapter(adapter);
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
     }

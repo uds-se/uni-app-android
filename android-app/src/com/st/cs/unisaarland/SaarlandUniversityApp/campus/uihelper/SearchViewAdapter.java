@@ -1,13 +1,16 @@
 package com.st.cs.unisaarland.SaarlandUniversityApp.campus.uihelper;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 import com.st.cs.unisaarland.SaarlandUniversityApp.R;
 import com.st.cs.unisaarland.SaarlandUniversityApp.bus.model.PointOfInterest;
+import com.st.cs.unisaarland.SaarlandUniversityApp.campus.CampusActivity;
 import com.st.cs.unisaarland.SaarlandUniversityApp.database.DatabaseHandler;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -19,17 +22,17 @@ import java.util.HashMap;
  * To change this template use File | Settings | File Templates.
  */
 public class SearchViewAdapter extends ArrayAdapter<PointOfInterest>{
-    private final AutoCompleteTextView search;
+    private final CampusActivity parent;
     private ArrayList<PointOfInterest> searchBase;
     private final Context context;
     private HashMap<View, Integer> itemsMap;
 
-    public SearchViewAdapter(ArrayList<PointOfInterest> searchBase, Context context, int simple_dropdown_item_1line, AutoCompleteTextView search) {
+    public SearchViewAdapter(ArrayList<PointOfInterest> searchBase, Context context, int simple_dropdown_item_1line, CampusActivity parent) {
         super(context,simple_dropdown_item_1line,searchBase);
         this.context = context;
         this.searchBase = searchBase;
         itemsMap = new HashMap<View, Integer>();
-        this.search =search;
+        this.parent = parent;
     }
 
     /**
@@ -43,16 +46,25 @@ public class SearchViewAdapter extends ArrayAdapter<PointOfInterest>{
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
-            convertView = View.inflate(context, R.layout.campus_categories_row, null);
+            convertView = View.inflate(context, R.layout.campus_search_row_layout, null);
         }
         convertView.setClickable(true);
-        TextView categoryTitle = (TextView) convertView.findViewById(R.id.category_title);
+        TextView itemTitle = (TextView) convertView.findViewById(R.id.title);
+        TextView itemDescription = (TextView) convertView.findViewById(R.id.description);
         PointOfInterest po = searchBase.get(position);
         if(po!=null){
-            categoryTitle.setText(po.getTitle());
-            categoryTitle.setVisibility(View.VISIBLE);
+            itemTitle.setText(po.getTitle());
+            itemTitle.setVisibility(View.VISIBLE);
+            itemDescription.setText(po.getSubtitle());
+            itemDescription.setVisibility(View.VISIBLE);
             ImageView categoryIcon = (ImageView) convertView.findViewById(R.id.category_icon);
-            categoryIcon.setBackgroundResource(R.drawable.app_icon);
+            try {
+                Drawable d = Drawable.createFromStream(context.getAssets().open("cat" + po.getCategoryID() + ".png"), null);
+                categoryIcon.setBackground(d);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
             convertView.setOnClickListener(clickListener);
             itemsMap.put(convertView, position);
         }
@@ -65,7 +77,7 @@ public class SearchViewAdapter extends ArrayAdapter<PointOfInterest>{
             if(itemsMap.containsKey(v)){
                 int index = itemsMap.get(v);
                 PointOfInterest model = searchBase.get(index);
-                String url = "http://mobile.bahn.de/bin/mobil/query.exe/dox?country=DEU&rt=1&use_realtime_filter=1&webview=&searchMode=ADVANCED";
+                parent.searchItemSelected(model);
             }
         }
     };

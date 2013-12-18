@@ -65,6 +65,14 @@ public class EventsActivity extends Activity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        if(networkHandler != null){
+            networkHandler.invalidateRequest();
+        }
+        super.onBackPressed();
+    }
+
     private void setActionBar() {
         ActionBar actionBar = getActionBar();
         // add the custom view to the action bar
@@ -114,7 +122,6 @@ public class EventsActivity extends Activity {
                 loadEventsFromSavedFile();
                 bar.clearAnimation();
                 bar.setVisibility(View.INVISIBLE);
-                networkHandler.invalidateRequest();
                 setContentView(R.layout.news_panel);
                 populateEventItems();
             } else{
@@ -126,7 +133,6 @@ public class EventsActivity extends Activity {
                             public void onClick(DialogInterface dialog, int id) {
                                 bar.clearAnimation();
                                 bar.setVisibility(View.INVISIBLE);
-                                networkHandler.invalidateRequest();
                                 dialog.cancel();
                                 onBackPressed();
                             }
@@ -154,7 +160,6 @@ public class EventsActivity extends Activity {
         public void eventsList(ArrayList<EventsModel> eventsModels) {
             eventModelsArray = eventsModels;
             Collections.reverse(eventModelsArray);
-            networkHandler.invalidateRequest();
             removeLoadingView();
         }
     };
