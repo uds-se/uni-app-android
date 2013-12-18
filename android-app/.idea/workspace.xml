@@ -49,7 +49,7 @@
     <file path="/build.xml" changelist="c5489445-2f4d-4ace-9039-18ea4fab8c60" time="1385592822425" ignored="false" />
     <file path="/modules.xml" changelist="c5489445-2f4d-4ace-9039-18ea4fab8c60" time="1385592951527" ignored="false" />
     <file path="/.name" changelist="c5489445-2f4d-4ace-9039-18ea4fab8c60" time="1385593131532" ignored="false" />
-    <file path="/strings.xml" changelist="c5489445-2f4d-4ace-9039-18ea4fab8c60" time="1387397437946" ignored="false" />
+    <file path="/strings.xml" changelist="c5489445-2f4d-4ace-9039-18ea4fab8c60" time="1387398997327" ignored="false" />
     <file path="/Dummy.txt" changelist="c5489445-2f4d-4ace-9039-18ea4fab8c60" time="1387397150299" ignored="false" />
     <file path="/news_button.xml" changelist="c5489445-2f4d-4ace-9039-18ea4fab8c60" time="1385599258269" ignored="false" />
     <file path="/gradient.xml" changelist="c5489445-2f4d-4ace-9039-18ea4fab8c60" time="1385600273320" ignored="false" />
@@ -137,7 +137,7 @@
     <file path="/TileOverlayDemoActivity.java" changelist="c5489445-2f4d-4ace-9039-18ea4fab8c60" time="1386325671979" ignored="false" />
     <file path="/DatabaseInterface.java" changelist="c5489445-2f4d-4ace-9039-18ea4fab8c60" time="1386273762154" ignored="false" />
     <file path="$USER_HOME$/Desktop/ranch/src/com/gameviewstudios/tapranch/backend/dbinterface/DatabaseInterface.java" changelist="c5489445-2f4d-4ace-9039-18ea4fab8c60" time="1386273764125" ignored="false" />
-    <file path="/RestaurantActivity.java" changelist="c5489445-2f4d-4ace-9039-18ea4fab8c60" time="1387189777177" ignored="false" />
+    <file path="/RestaurantActivity.java" changelist="c5489445-2f4d-4ace-9039-18ea4fab8c60" time="1387400628426" ignored="false" />
     <file path="/restaurant_layout.xml" changelist="c5489445-2f4d-4ace-9039-18ea4fab8c60" time="1386383484657" ignored="false" />
     <file path="/MensaItem.java" changelist="c5489445-2f4d-4ace-9039-18ea4fab8c60" time="1386442112302" ignored="false" />
     <file path="/IMensaResultDelegate.java" changelist="c5489445-2f4d-4ace-9039-18ea4fab8c60" time="1386339000483" ignored="false" />
@@ -152,7 +152,7 @@
     <file path="/FlowIndicator.java" changelist="c5489445-2f4d-4ace-9039-18ea4fab8c60" time="1386379218761" ignored="false" />
     <file path="/ViewFlowAdapter.java" changelist="c5489445-2f4d-4ace-9039-18ea4fab8c60" time="1386384318969" ignored="false" />
     <file path="/restaurant_layout_list.xml" changelist="c5489445-2f4d-4ace-9039-18ea4fab8c60" time="1386383932694" ignored="false" />
-    <file path="/OpeningHoursActivity.java" changelist="c5489445-2f4d-4ace-9039-18ea4fab8c60" time="1386886687972" ignored="false" />
+    <file path="/OpeningHoursActivity.java" changelist="c5489445-2f4d-4ace-9039-18ea4fab8c60" time="1387398916108" ignored="false" />
     <file path="/opening_layout.xml" changelist="c5489445-2f4d-4ace-9039-18ea4fab8c60" time="1386465635076" ignored="false" />
     <file path="$USER_HOME$/Desktop/ApiDemos/src/com/example/android/apis/app/FragmentTabsFragment.java" changelist="c5489445-2f4d-4ace-9039-18ea4fab8c60" time="1386463425656" ignored="false" />
     <file path="/FragmentTabsFragment.java" changelist="c5489445-2f4d-4ace-9039-18ea4fab8c60" time="1386463423185" ignored="false" />
@@ -208,8 +208,8 @@
     <file path="/search_result_detail_layout.xml" changelist="c5489445-2f4d-4ace-9039-18ea4fab8c60" time="1387071392138" ignored="false" />
     <file path="/PersonDetailWebAvtivity.java" changelist="c5489445-2f4d-4ace-9039-18ea4fab8c60" time="1386964060444" ignored="false" />
     <file path="/person_detail_layout.xml" changelist="c5489445-2f4d-4ace-9039-18ea4fab8c60" time="1386964737302" ignored="false" />
-    <file path="/PersonDetailWebActivity.java" changelist="c5489445-2f4d-4ace-9039-18ea4fab8c60" time="1386973712665" ignored="false" />
-    <file path="/BusDetailActivity.java" changelist="c5489445-2f4d-4ace-9039-18ea4fab8c60" time="1387208867171" ignored="false" />
+    <file path="/PersonDetailWebActivity.java" changelist="c5489445-2f4d-4ace-9039-18ea4fab8c60" time="1387399603391" ignored="false" />
+    <file path="/BusDetailActivity.java" changelist="c5489445-2f4d-4ace-9039-18ea4fab8c60" time="1387399359678" ignored="false" />
     <file path="/AusLanderCafeParser.java" changelist="c5489445-2f4d-4ace-9039-18ea4fab8c60" time="1387188242340" ignored="false" />
     <file path="/CustomMapTileSupportProvider.java" changelist="c5489445-2f4d-4ace-9039-18ea4fab8c60" time="1386992570422" ignored="false" />
     <file path="/CustomMapTileProvider.java" changelist="c5489445-2f4d-4ace-9039-18ea4fab8c60" time="1386993223294" ignored="false" />
@@ -339,12 +339,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/com/st/cs/unisaarland/SaarlandUniversityApp/campus/CampusSearchActivity.java" />
-        <option value="$PROJECT_DIR$/src/com/st/cs/unisaarland/SaarlandUniversityApp/events/EventsActivity.java" />
-        <option value="$PROJECT_DIR$/src/com/st/cs/unisaarland/SaarlandUniversityApp/networkcommunicator/WebFetcher.java" />
-        <option value="$PROJECT_DIR$/src/com/st/cs/unisaarland/SaarlandUniversityApp/news/uihelper/NewsAdapter.java" />
-        <option value="$PROJECT_DIR$/src/com/st/cs/unisaarland/SaarlandUniversityApp/staff/uihelper/SearchResultAdapter.java" />
-        <option value="$PROJECT_DIR$/src/com/st/cs/unisaarland/SaarlandUniversityApp/staff/SearchResultActivity.java" />
         <option value="$PROJECT_DIR$/src/com/st/cs/unisaarland/SaarlandUniversityApp/staff/SearchStaffActivity.java" />
         <option value="$PROJECT_DIR$/src/com/st/cs/unisaarland/SaarlandUniversityApp/about/AboutActicvity.java" />
         <option value="$PROJECT_DIR$/res/layout/main.xml" />
@@ -353,8 +347,14 @@
         <option value="$PROJECT_DIR$/src/com/st/cs/unisaarland/SaarlandUniversityApp/restaurant/uihelper/HeroesCafeFragment.java" />
         <option value="$PROJECT_DIR$/res/layout/tab.xml" />
         <option value="$PROJECT_DIR$/src/com/st/cs/unisaarland/SaarlandUniversityApp/restaurant/uihelper/TabsFragment.java" />
-        <option value="$PROJECT_DIR$/res/values/strings.xml" />
+        <option value="$PROJECT_DIR$/src/com/st/cs/unisaarland/SaarlandUniversityApp/restaurant/OpeningHoursActivity.java" />
         <option value="$PROJECT_DIR$/res/values-de/strings.xml" />
+        <option value="$PROJECT_DIR$/res/values/strings.xml" />
+        <option value="$PROJECT_DIR$/src/com/st/cs/unisaarland/SaarlandUniversityApp/bus/BusDetailActivity.java" />
+        <option value="$PROJECT_DIR$/src/com/st/cs/unisaarland/SaarlandUniversityApp/staff/PersonDetailWebActivity.java" />
+        <option value="$PROJECT_DIR$/src/com/st/cs/unisaarland/SaarlandUniversityApp/database/DatabaseHandler.java" />
+        <option value="$PROJECT_DIR$/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/src/com/st/cs/unisaarland/SaarlandUniversityApp/restaurant/RestaurantActivity.java" />
       </list>
     </option>
   </component>
@@ -414,56 +414,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SaarlandUniversityApp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android-app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="values-de" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SaarlandUniversityApp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android-app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="values" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SaarlandUniversityApp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android-app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
       <pane id="PackagesPane" />
@@ -475,7 +425,7 @@
     <property name="project.structure.proportion" value="0.15" />
     <property name="OverrideImplement.combined" value="true" />
     <property name="options.splitter.main.proportions" value="0.3" />
-    <property name="ExportedApkPath" value="E:\Saarland University\Semester 3\UniApp\UniApp.apk" />
+    <property name="ExportedApkPath" value="E:\Saarland University\Semester 3\UniApp\UniApp1.apk" />
     <property name="MemberChooser.sorted" value="false" />
     <property name="recentsLimit" value="5" />
     <property name="ExportedModule" value="SaarlandUniversityApp" />
@@ -490,7 +440,7 @@
     <property name="options.splitter.details.proportions" value="0.2" />
     <property name="GoToFile.includeJavaFiles" value="false" />
     <property name="options.lastSelected" value="project.propVCSSupport.Mappings" />
-    <property name="AndroidLayoutSelectedEditor" value="android-designer" />
+    <property name="AndroidLayoutSelectedEditor" value="text-editor" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="MemberChooser.copyJavadoc" value="false" />
     <property name="AndroidRunProguardForReleaseBuild" value="false" />
@@ -723,17 +673,17 @@
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31897926" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39872408" sideWeight="0.5" order="11" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.28389156" sideWeight="0.5" order="11" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.19924243" sideWeight="0.20893142" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32854864" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32854864" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.13716109" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.57894737" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32854864" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.68102074" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2719697" sideWeight="0.76555026" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23444976" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2719697" sideWeight="0.76555026" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23444976" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" x="92" y="92" width="1182" height="584" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -811,90 +761,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/com/st/cs/unisaarland/SaarlandUniversityApp/news/uihelper/NewsAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="13" selection-start="834" selection-end="834" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/st/cs/unisaarland/SaarlandUniversityApp/restaurant/RestaurantActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="252" column="88" selection-start="9915" selection-end="9915" vertical-scroll-proportion="0.71882087">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/st/cs/unisaarland/SaarlandUniversityApp/restaurant/model/AusLanderCafeParser.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="116" column="58" selection-start="5156" selection-end="5170" vertical-scroll-proportion="0.21768707">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/auslander_cafe_view.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="123" selection-start="537" selection-end="537" vertical-scroll-proportion="0.42079207">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/st/cs/unisaarland/SaarlandUniversityApp/restaurant/uihelper/AuslanderCafeFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="55" selection-start="886" selection-end="886" vertical-scroll-proportion="0.9361234">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/juristen_cafe_view.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="4137" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/heroes_cafe_view.xml">
-      <provider selected="true" editor-type-id="android-designer">
-        <state />
-      </provider>
-      <provider editor-type-id="text-editor">
-        <state line="64" column="60" selection-start="3155" selection-end="3155" vertical-scroll-proportion="-10.2">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/st/cs/unisaarland/SaarlandUniversityApp/restaurant/uihelper/HeroesCafeFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="62" selection-start="887" selection-end="887" vertical-scroll-proportion="0.6255507">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/st/cs/unisaarland/SaarlandUniversityApp/restaurant/uihelper/JuristenCafeFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="32" column="14" selection-start="443" selection-end="929" vertical-scroll-proportion="0.8942731">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/opening_layout.xml">
-      <provider selected="true" editor-type-id="android-designer">
-        <state />
-      </provider>
-      <provider editor-type-id="text-editor">
-        <state line="12" column="48" selection-start="568" selection-end="568" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/res/layout/tabs_fragment.xml">
       <provider editor-type-id="android-designer">
         <state />
@@ -924,21 +790,94 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/st/cs/unisaarland/SaarlandUniversityApp/restaurant/OpeningHoursActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="42" selection-start="805" selection-end="805" vertical-scroll-proportion="0.25770926">
+        <state line="40" column="48" selection-start="1480" selection-end="1480" vertical-scroll-proportion="0.6365639">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/heroes_cafe_view.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="64" column="52" selection-start="3133" selection-end="3155" vertical-scroll-proportion="-5.02">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$ANDROID_SDK$/sources/android-16/android/view/View.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10203" column="16" selection-start="391328" selection-end="391328" vertical-scroll-proportion="0.22026432">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/res/values/strings.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="54" selection-start="1538" selection-end="1538" vertical-scroll-proportion="1.2284383">
+        <state line="28" column="38" selection-start="1345" selection-end="1345" vertical-scroll-proportion="0.2773893">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/res/values-de/strings.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="83" column="0" selection-start="4925" selection-end="4925" vertical-scroll-proportion="0.7226107">
+        <state line="29" column="39" selection-start="1419" selection-end="1428" vertical-scroll-proportion="0.69471157">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/st/cs/unisaarland/SaarlandUniversityApp/bus/BusDetailActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="112" column="20" selection-start="3943" selection-end="4151" vertical-scroll-proportion="0.5472222">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/st/cs/unisaarland/SaarlandUniversityApp/bus/BusActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="35" column="13" selection-start="1462" selection-end="1462" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/st/cs/unisaarland/SaarlandUniversityApp/staff/PersonDetailWebActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="40" column="52" selection-start="1211" selection-end="1211" vertical-scroll-proportion="0.534279">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/st/cs/unisaarland/SaarlandUniversityApp/database/DatabaseHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="170" column="1" selection-start="7139" selection-end="7139" vertical-scroll-proportion="-7.688889">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/st/cs/unisaarland/SaarlandUniversityApp/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="66" column="33" selection-start="2316" selection-end="2430" vertical-scroll-proportion="-1.0898346">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/st/cs/unisaarland/SaarlandUniversityApp/restaurant/RestaurantActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="193" column="29" selection-start="7457" selection-end="7457" vertical-scroll-proportion="0.28798187">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/st/cs/unisaarland/SaarlandUniversityApp/restaurant/model/AusLanderCafeParser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="225" column="0" selection-start="10597" selection-end="10597" vertical-scroll-proportion="0.61451244">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="22" column="16" selection-start="1356" selection-end="1356" vertical-scroll-proportion="0.8237885">
           <folding />
         </state>
       </provider>

@@ -113,14 +113,17 @@ public class RestaurantActivity extends Activity {
     };
 
     private void removeLoadingView() {
-        bar.clearAnimation();
-        bar.setVisibility(View.INVISIBLE);
-        setContentView(R.layout.restaurant_layout);
-        boolean itemsSaved = savMensaItemsToFile();
-        if(itemsSaved){
-            Log.i("MyTag","News are saved");
+        if(bar!=null){
+            bar.clearAnimation();
+            bar.setVisibility(View.INVISIBLE);
+            setContentView(R.layout.restaurant_layout);
+            boolean itemsSaved = savMensaItemsToFile();
+            if (itemsSaved) {
+                Log.i("MyTag", "News are saved");
+            }
+            populateMensaItems();
         }
-        populateMensaItems();
+
     }
 
     private void populateMensaItems() {

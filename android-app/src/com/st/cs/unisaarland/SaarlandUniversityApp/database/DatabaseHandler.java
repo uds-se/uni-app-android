@@ -168,9 +168,6 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         if (ids.size() >= 1) {
             for (int i = 0; i < ids.size(); i++) {
                 String idList = String.format("%d", ids.get(i));
-                //            for (int i = 1; i<IDs.count; i++) {
-                //                idList = [idList stringByAppendingString:[NSString stringWithFormat:@", %d",[[IDs objectAtIndex:i] integerValue]]];
-                //            }
                 try {
                     cursor = database.query("pointOfInterest", new String[]{"title", "subtitle", "canshowleftcallout",
                             "canshowrightcallout", "color", "website", "lat", "longi", "ID"}, "ID = ?",
@@ -263,53 +260,6 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         }
     }
 
-    private void copyFileOrDir(String path) {
-        AssetManager assetManager = context.getAssets();
-        String assets[] = null;
-        try {
-            assets = assetManager.list(path);
-            if (assets.length == 0) {
-                copyFile(path);
-            } else {
-                String fullPath = "/data/data/" + context.getPackageName() + "/" + path;
-                File dir = new File(fullPath);
-                if (!dir.exists())
-                    dir.mkdir();
-                for (int i = 0; i < assets.length; ++i) {
-                    copyFileOrDir(path + "/" + assets[i]);
-                }
-            }
-        } catch (IOException ex) {
-            Log.e("tag", "I/O Exception", ex);
-        }
-    }
-
-    private void copyFile(String filename) {
-        AssetManager assetManager = context.getAssets();
-
-        InputStream in = null;
-        OutputStream out = null;
-        try {
-            in = assetManager.open(filename);
-            String newFileName = "/data/data/" + context.getPackageName() + "/" + filename;
-            out = new FileOutputStream(newFileName);
-
-            byte[] buffer = new byte[1024];
-            int read;
-            while ((read = in.read(buffer)) != -1) {
-                out.write(buffer, 0, read);
-            }
-            in.close();
-            in = null;
-            out.flush();
-            out.close();
-            out = null;
-        } catch (Exception e) {
-            Log.e("tag", e.getMessage());
-        }
-
-    }
-
     private void copyDataBase() throws IOException {
 
         // Open your local db as the input stream
@@ -370,14 +320,6 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     public DatabaseHandler(Context context) {
         super(context,"pointOfInterest.sqlite3",null,1);
         this.context = context;
-//        SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
-//        boolean isCopied = settings.getBoolean("assetsCopied",false);
-//        if(!isCopied){
-//            copyFileOrDir("OverlayTiles");
-//            SharedPreferences.Editor editor = settings.edit();
-//            editor.putBoolean("assetsCopied", true);
-//            editor.commit();
-//        }
         try {
             crateDatabase();
             openDB();

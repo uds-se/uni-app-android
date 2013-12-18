@@ -38,7 +38,7 @@ public class OpeningHoursActivity extends FragmentActivity {
         pageText.setTextColor(Color.BLACK);
 
         TextView backPageText = (TextView) actionBar.getCustomView().findViewById(R.id.page_back_text);
-        backPageText.setText(R.string.restaurantText);
+        backPageText.setText(R.string.mensa_text);
         backPageText.setVisibility(View.VISIBLE);
         backPageText.setOnClickListener(new BackButtonClickListener(this));
 

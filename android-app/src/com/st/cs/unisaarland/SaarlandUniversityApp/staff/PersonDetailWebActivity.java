@@ -36,6 +36,9 @@ public class PersonDetailWebActivity extends Activity {
     public void onBackPressed() {
         url = null;
         pBar = null;
+        if(webView!=null){
+            webView.invalidate();
+        }
         webView = null;
         super.onBackPressed();
     }
@@ -93,8 +96,10 @@ public class PersonDetailWebActivity extends Activity {
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
-                pBar.setVisibility(View.GONE);
-                webView.setVisibility(View.VISIBLE);
+                if(pBar!=null && webView!=null) {
+                    pBar.setVisibility(View.GONE);
+                    webView.setVisibility(View.VISIBLE);
+                }
             }
         });
 

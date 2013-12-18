@@ -75,7 +75,7 @@
     <string name="website">Webseite</string>
     <string name="route">Wegbeschreibung</string>
     <string name="ok">OK</string>
-    <string name="mon_to_fri_heroes_time">10:30 am - 4:30 pm</string>
+    <string name="mon_to_fri_heroes_time">10:30 Uhr - 16:30 Uhr</string>
     <string name="no_staff_member_title">Suche erfolglos</string>
     <string name="no_staff_member_found_description">Leider konnte kein Personal gefunden werden, das Ihren Suchkriterien entspricht</string>
     <string name="empty_search_field">Leeres Suchfeld</string>
