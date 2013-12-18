@@ -43,7 +43,6 @@
     <string name="mon_to_thur_time_break">11:30 am - 2:15 pm</string>
     <string name="friday_time_break">11:30 am - 2:00 pm</string>
     <string name="mon_to_fri_mensa_cafe_time">7:45 am - 8:00 pm</string>
-    <string name="mon_to_fri_mensa_cafe_time">7:45 am - 8:00 pm</string>
     <string name="mon_to_fri_mensa_cafe_warm_meals">warm meals all day</string>
     <string name="mon_to_fri_mensa_cafe_warm_meals_until">(until 7:30 pm)</string>
     <string name="mon_to_thur_time_break_mensa_cafe">7:45 am - 3:00 pm</string>
