@@ -28,7 +28,7 @@
                     android:layout_height="80dp" android:background="@drawable/restaurant_button"
                     android:id="@+id/restaurantBtn" android:clickable="true"
                     android:layout_alignParentLeft="true"/>
-            <TextView android:layout_width="80dp" android:layout_height="20dp" android:text="@string/restaurantText"
+            <TextView android:layout_width="80dp" android:layout_height="20dp" android:text="@string/mensa_text"
                       android:textStyle="bold" android:textSize="12dp"
                       android:gravity="center_vertical|center_horizontal" android:layout_below="@+id/restaurantBtn"
                       android:textColor="#000000" android:id="@+id/restaurantTxt"/>

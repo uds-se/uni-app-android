@@ -22,8 +22,6 @@ import com.st.cs.unisaarland.SaarlandUniversityApp.R;
  * To change this template use File | Settings | File Templates.
  */
 public class AboutActicvity extends Activity {
-
-    private final String SUBJECT = getString(R.string.email_subject);
     private final String EMAIL_ID = "uniapp@uni-saarland.de";
 
     public void onCreate(Bundle savedInstanceState) {
@@ -51,7 +49,7 @@ public class AboutActicvity extends Activity {
                 public void onClick(View v) {
                     try{
                         Intent sendIntent = new Intent(Intent.ACTION_SEND);
-                        sendIntent.putExtra(Intent.EXTRA_SUBJECT, SUBJECT + " Version " + versionName + " Version Code " + versionCode);
+                        sendIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.email_subject) + " Version " + versionName + " Version Code " + versionCode);
                         sendIntent.putExtra(Intent.EXTRA_EMAIL, new String[] { EMAIL_ID });
                         String emailBody = "";
                         sendIntent.putExtra(Intent.EXTRA_TEXT, emailBody);
