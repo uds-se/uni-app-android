@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="90dp"
+	android:layout_width="70dp"
 	android:layout_height="80dp"
 	android:background="@drawable/tab_selector">
 
@@ -10,9 +10,9 @@
                android:layout_centerHorizontal="true"></ImageView>
     <TextView
 		android:id="@+id/text"
-		android:layout_width="90dp"
+		android:layout_width="70dp"
 		android:layout_height="20dp"
-		android:textSize="10dp"
+		android:textSize="9dp"
 		android:textStyle="normal"
 		android:textColor="@drawable/tab_text_selector" android:layout_alignParentTop="true"
         android:layout_marginTop="60dp" android:text="sdjhlasdjfhasjlfhasf" android:gravity="center_horizontal"

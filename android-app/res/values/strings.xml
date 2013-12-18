@@ -25,9 +25,11 @@
     <string name="search_text">Search</string>
     <string name="opening_hours">Opening hours</string>
     <string name="mensa">Mensa</string>
-    <string name="mensa_cafe">Mensa cafe</string>
-    <string name="auslander_cafe">Auslandercafe</string>
-    <string name="juristen_cafe">Juristencafe</string>
+    <string name="mensa_cafe">Mensa café</string>
+    <string name="auslander_cafe">Ausländer-Café</string>
+    <string name="juristen_cafe">Juristencaé</string>
+    <string name="heroes_cafe">Heroes café</string>
+    <string name="heroes_cafe_full_name">Fast Food Heroes</string>
     <string name="during_semester">During the semester:</string>
     <string name="mon_to_thur">Monday to Thursday:</string>
     <string name="mon_to_thur_time">11:30 am - 2:30 pm</string>
@@ -78,4 +80,5 @@
     <string name="empty_search_field">Empty search field</string>
     <string name="fill_at_least_one">Please fill at least one search field</string>
     <string name="check_internet_message">Please check your internet connection and try again</string>
+    <string name="mon_to_fri_heroes_time">10:30 am - 4:30 pm</string>
 </resources>

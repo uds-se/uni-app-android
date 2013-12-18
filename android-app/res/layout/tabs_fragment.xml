@@ -39,6 +39,10 @@
                     android:id="@+id/juristen"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent" />
+            <FrameLayout
+                    android:id="@+id/heroes"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent" />
 
         </FrameLayout>
     </LinearLayout>
