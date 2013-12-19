@@ -6,7 +6,7 @@
               android:layout_height="fill_parent" android:background="@drawable/home_screen_background">
 
     <fragment
-            class="com.st.cs.unisaarland.SaarlandUniversityApp.restaurant.uihelper.TabsFragment"
+            class="de.unisaarland.UniApp.restaurant.uihelper.TabsFragment"
             android:id="@+id/tabs_fragment"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent" />

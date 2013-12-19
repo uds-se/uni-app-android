@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res/com.st.cs.unisaarland.SaarlandUniversityApp"
+                xmlns:app="http://schemas.android.com/apk/res/de.unisaarland.UniApp"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:background="@drawable/home_screen_background">
@@ -9,7 +9,7 @@
                android:id="@+id/bottom_image" android:contentDescription="@string/empty_string"
                android:layout_alignParentBottom="true"/>
 
-    <com.st.cs.unisaarland.SaarlandUniversityApp.restaurant.uihelper.CircleFlowIndicator
+    <de.unisaarland.UniApp.restaurant.uihelper.CircleFlowIndicator
             android:padding="10dip"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
@@ -17,11 +17,11 @@
             android:layout_gravity="center_horizontal"
             app:inactiveType="fill"
             android:layout_alignParentBottom="true" android:layout_centerHorizontal="true"/>
-    <com.st.cs.unisaarland.SaarlandUniversityApp.restaurant.uihelper.ViewFlow
+    <de.unisaarland.UniApp.restaurant.uihelper.ViewFlow
             android:id="@+id/viewflow" android:layout_width="fill_parent"
             android:layout_height="fill_parent" android:layout_alignParentTop="true"
             android:layout_marginTop="2dp" android:layout_marginBottom="30dp">
 
-            </com.st.cs.unisaarland.SaarlandUniversityApp.restaurant.uihelper.ViewFlow>
+            </de.unisaarland.UniApp.restaurant.uihelper.ViewFlow>
 
 </RelativeLayout>

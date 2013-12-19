@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/SaarlandUniversityApp.iml" filepath="$PROJECT_DIR$/SaarlandUniversityApp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/UniApp.iml" filepath="$PROJECT_DIR$/UniApp.iml" />
       <module fileurl="file://$PROJECT_DIR$/libs/google-play-services_lib/google-play-services_lib.iml" filepath="$PROJECT_DIR$/libs/google-play-services_lib/google-play-services_lib.iml" />
       <module fileurl="file://$PROJECT_DIR$/../google_play_services/google-play-services_lib/google-play-services_lib.iml" filepath="$PROJECT_DIR$/../google_play_services/google-play-services_lib/google-play-services_lib.iml" />
       <module fileurl="file://$PROJECT_DIR$/../google_play_services/samples/maps/maps.iml" filepath="$PROJECT_DIR$/../google_play_services/samples/maps/maps.iml" />

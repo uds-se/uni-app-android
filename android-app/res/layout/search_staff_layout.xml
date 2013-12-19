@@ -34,7 +34,7 @@
               android:layout_alignParentRight="true" android:layout_alignParentTop="true"
               android:layout_marginRight="20dp"/>
 
-    <com.st.cs.unisaarland.SaarlandUniversityApp.staff.uihelper.StaffRadioGroupChooser
+    <de.unisaarland.UniApp.staff.uihelper.StaffRadioGroupChooser
             android:layout_width="310dp"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -60,7 +60,7 @@
                      android:textColor="@drawable/radio_button_text_color"
                      android:textSize="14dp" android:singleLine="true"/>
 
-    </com.st.cs.unisaarland.SaarlandUniversityApp.staff.uihelper.StaffRadioGroupChooser>
+    </de.unisaarland.UniApp.staff.uihelper.StaffRadioGroupChooser>
 
     <Button android:layout_width="100dp"
             android:layout_height="40dp" android:background="@drawable/search_button"
