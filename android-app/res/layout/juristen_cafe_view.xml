@@ -20,12 +20,12 @@
             android:textStyle="normal" android:layout_marginLeft="30dp"/>
 
     <TableRow
-            android:layout_width="260dp"
+            android:layout_width="310dp"
             android:layout_height="20dp" android:layout_alignParentTop="true"
-            android:layout_marginLeft="50dp"
+            android:layout_marginLeft="10dp"
             android:layout_marginTop="80dp">
         <TextView
-                android:layout_width="140dp"
+                android:layout_width="180dp"
                 android:layout_height="20dp"
                 android:id="@+id/mon_to_thu"
                 android:text="@string/mon_to_thur" android:textSize="12dp" android:textColor="#000000"
@@ -39,18 +39,18 @@
     </TableRow>
 
     <TableRow
-            android:layout_width="260dp"
+            android:layout_width="310dp"
             android:layout_height="20dp" android:layout_alignParentTop="true"
-            android:layout_marginLeft="50dp"
+            android:layout_marginLeft="10dp"
             android:layout_marginTop="100dp">
         <TextView
-                android:layout_width="140dp"
+                android:layout_width="180dp"
                 android:layout_height="20dp"
                 android:id="@+id/fri"
                 android:text="@string/friday" android:textSize="12dp" android:textColor="#000000"
                 android:singleLine="true"/>
         <TextView
-                android:layout_width="110dp"
+                android:layout_width="120dp"
                 android:layout_height="20dp"
                 android:id="@+id/fri_time"
                 android:text="@string/friday_time_juristen" android:textSize="12dp" android:singleLine="true"
@@ -67,12 +67,12 @@
 
 
     <TableRow
-            android:layout_width="260dp"
+            android:layout_width="310dp"
             android:layout_height="20dp" android:layout_alignParentTop="true"
-            android:layout_marginLeft="50dp"
+            android:layout_marginLeft="10dp"
             android:layout_marginTop="230dp">
         <TextView
-                android:layout_width="140dp"
+                android:layout_width="180dp"
                 android:layout_height="20dp"
                 android:id="@+id/mon_to_fri_break"
                 android:text="@string/mon_to_fri" android:textSize="12dp" android:textColor="#000000"

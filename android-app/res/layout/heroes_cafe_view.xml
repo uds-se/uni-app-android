@@ -20,12 +20,12 @@
             android:textStyle="normal" android:layout_marginLeft="30dp"/>
 
     <TableRow
-            android:layout_width="260dp"
+            android:layout_width="310dp"
             android:layout_height="20dp" android:layout_alignParentTop="true"
-            android:layout_marginLeft="50dp"
+            android:layout_marginLeft="10dp"
             android:layout_marginTop="80dp">
         <TextView
-                android:layout_width="140dp"
+                android:layout_width="180dp"
                 android:layout_height="20dp"
                 android:id="@+id/mon_to_fri"
                 android:text="@string/mon_to_fri" android:textSize="12dp" android:textColor="#000000"
@@ -48,12 +48,12 @@
 
 
     <TableRow
-            android:layout_width="260dp"
+            android:layout_width="310dp"
             android:layout_height="20dp" android:layout_alignParentTop="true"
-            android:layout_marginLeft="50dp"
+            android:layout_marginLeft="10dp"
             android:layout_marginTop="230dp">
         <TextView
-                android:layout_width="140dp"
+                android:layout_width="180dp"
                 android:layout_height="20dp"
                 android:id="@+id/mon_to_fri_break"
                 android:text="@string/mon_to_fri" android:textSize="12dp" android:textColor="#000000"

@@ -76,7 +76,7 @@ public class CampusSearchActivity extends Activity {
         backButton.setOnClickListener(new BackButtonClickListener(this));
 
         TextView pageText = (TextView) actionBar.getCustomView().findViewById(R.id.page_heading);
-        pageText.setText("Categories");
+        pageText.setText(R.string.categories);
         pageText.setVisibility(View.VISIBLE);
         pageText.setTextColor(Color.BLACK);
 
