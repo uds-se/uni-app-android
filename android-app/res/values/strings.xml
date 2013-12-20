@@ -81,4 +81,5 @@
     <string name="fill_at_least_one">Please fill at least one search field</string>
     <string name="check_internet_message">Please check your internet connection and try again</string>
     <string name="mon_to_fri_heroes_time">10:30 am - 4:30 pm</string>
+	<string name="back">Back</string>
 </resources>

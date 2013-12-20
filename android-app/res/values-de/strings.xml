@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Uni Saar</string>
-    <string name="newsText">News</string>
+    <string name="newsText">Neuigkeiten</string>
     <string name="restaurantText">Mensa</string>
     <string name="mensa_text">Mensa</string>
     <string name="campusText">Campus</string>
-    <string name="eventsText">Events</string>
+    <string name="eventsText">Ereignisse</string>
     <string name="event_article">Veranstaltungen</string>
     <string name="busText">Bus</string>
     <string name="staff_searchText">Personensuche</string>
@@ -81,4 +81,5 @@
     <string name="empty_search_field">Leeres Suchfeld</string>
     <string name="fill_at_least_one">Bitte geben Sie Name oder Vorname ein</string>
     <string name="check_internet_message">Bitte überprüfen Sie ihre Internetverbindung und versuchen Sie es erneut</string>
+    <string name="back">Zurück</string>
 </resources>
