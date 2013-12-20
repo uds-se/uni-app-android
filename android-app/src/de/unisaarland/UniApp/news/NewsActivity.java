@@ -70,8 +70,10 @@ public class NewsActivity extends Activity {
         public void onFailure(String message) {
             if (newsFileExist()){
                 loadNewsFromSavedFile();
-                bar.clearAnimation();
-                bar.setVisibility(View.INVISIBLE);
+                if(bar!=null){
+                    bar.clearAnimation();
+                    bar.setVisibility(View.INVISIBLE);
+                }
                 setContentView(R.layout.news_panel);
                 populateNewsItems();
             } else{
@@ -81,8 +83,10 @@ public class NewsActivity extends Activity {
                 builder1.setPositiveButton("OK",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                bar.clearAnimation();
-                                bar.setVisibility(View.INVISIBLE);
+                                if(bar!=null){
+                                    bar.clearAnimation();
+                                    bar.setVisibility(View.INVISIBLE);
+                                }
                                 dialog.cancel();
                                 onBackPressed();
                             }
@@ -152,8 +156,10 @@ public class NewsActivity extends Activity {
     }
 
     private void removeLoadingView() {
-        bar.clearAnimation();
-        bar.setVisibility(View.INVISIBLE);
+        if(bar!=null){
+            bar.clearAnimation();
+            bar.setVisibility(View.INVISIBLE);
+        }
         setContentView(R.layout.news_panel);
         boolean itemsSaved = saveCurrentNewItemsToFile();
         if(itemsSaved){
@@ -177,8 +183,10 @@ public class NewsActivity extends Activity {
 
     private void addLoadingView() {
         setContentView(R.layout.loading_layout);
-        bar = (ProgressBar) findViewById(R.id.progress_bar);
-        bar.animate();
+        if(bar!=null){
+            bar = (ProgressBar) findViewById(R.id.progress_bar);
+            bar.animate();
+        }
         networkHandler = new NetworkHandler(delegate);
         networkHandler.connect(URL, this);
     }

@@ -120,8 +120,10 @@ public class EventsActivity extends Activity {
         public void onFailure(String message) {
             if (eventsFileExist()){
                 loadEventsFromSavedFile();
-                bar.clearAnimation();
-                bar.setVisibility(View.INVISIBLE);
+                if(bar!=null){
+                    bar.clearAnimation();
+                    bar.setVisibility(View.INVISIBLE);
+                }
                 setContentView(R.layout.news_panel);
                 populateEventItems();
             } else{
@@ -131,8 +133,10 @@ public class EventsActivity extends Activity {
                 builder1.setPositiveButton(getString(R.string.ok),
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                bar.clearAnimation();
-                                bar.setVisibility(View.INVISIBLE);
+                                if(bar!=null){
+                                    bar.clearAnimation();
+                                    bar.setVisibility(View.INVISIBLE);
+                                }
                                 dialog.cancel();
                                 onBackPressed();
                             }
@@ -165,8 +169,10 @@ public class EventsActivity extends Activity {
     };
 
     private void removeLoadingView() {
-        bar.clearAnimation();
-        bar.setVisibility(View.INVISIBLE);
+        if(bar!=null){
+            bar.clearAnimation();
+            bar.setVisibility(View.INVISIBLE);
+        }
         setContentView(R.layout.news_panel);
         boolean itemsSaved = saveCurrentEventItemsToFile();
         if(itemsSaved){
