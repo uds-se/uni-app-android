@@ -78,7 +78,7 @@ public class BusStationsAdapter extends BaseAdapter {
                     stationDescription.setText(String.format("%.0f m",distanceInM));
                 } else {
                     if (distanceInM > 0.001) {
-                        stationDescription.setText("At bus station");
+                        stationDescription.setText(context.getString(R.string.at_station));
                     } else {
                         stationDescription.setText("");
                     }

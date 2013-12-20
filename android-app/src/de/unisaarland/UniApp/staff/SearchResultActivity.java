@@ -180,7 +180,7 @@ public class SearchResultActivity extends Activity {
         pageText.setTextColor(Color.BLACK);
 
         TextView backPageText = (TextView) actionBar.getCustomView().findViewById(R.id.page_back_text);
-        backPageText.setText(R.string.search_for_staff_text);
+        backPageText.setText(R.string.back);
         backPageText.setVisibility(View.VISIBLE);
         backPageText.setOnClickListener(new BackButtonClickListener(this));
 

@@ -82,4 +82,6 @@
     <string name="check_internet_message">Please check your internet connection and try again</string>
     <string name="mon_to_fri_heroes_time">10:30 am - 4:30 pm</string>
 	<string name="back">Back</string>
+    <string name="at_station">At bus station</string>
+    <string name="search_bus">Search a bus</string>
 </resources>

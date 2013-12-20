@@ -7,7 +7,7 @@
     <application android:label="@string/app_name" android:icon="@drawable/app_icon"
                  android:hardwareAccelerated="true">
         <activity android:name="de.unisaarland.UniApp.MainActivity"
-                  android:label="@string/app_name">
+                  android:label="@string/app_name" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -17,9 +17,9 @@
         <activity android:name=".bus.BusActivity" android:label="@string/busText"/>
         <activity android:name=".events.EventsActivity" android:label="@string/eventsText"/>
         <activity android:name=".staff.SearchStaffActivity" android:label="@string/staff_searchText"/>
-        <activity android:name=".campus.CampusActivity"/>
+        <activity android:name=".campus.CampusActivity" android:screenOrientation="portrait"/>
         <activity android:name=".restaurant.RestaurantActivity" android:label="@string/restaurantText"/>
-        <activity android:name=".restaurant.OpeningHoursActivity"/>
+        <activity android:name=".restaurant.OpeningHoursActivity" android:screenOrientation="portrait"/>
         <activity android:name=".campus.CampusSearchActivity"/>
         <activity android:name=".about.AboutActicvity" android:label="@string/aboutText"/>
         <activity android:name=".news.NewsArticleActivity"/>

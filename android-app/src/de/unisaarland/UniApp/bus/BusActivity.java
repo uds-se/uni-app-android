@@ -123,7 +123,7 @@ public class BusActivity extends Activity implements ConnectionCallbacks,Locatio
         ListView searchStationsList = (ListView) findViewById(R.id.search_list_view);
         ArrayList<SearchStationModel> searchStationArray = new ArrayList<SearchStationModel>();
         SearchStationModel searchStationModel = new SearchStationModel();
-        searchStationModel.setName("Search a bus");
+        searchStationModel.setName(getString(R.string.search_bus));
         searchStationModel.setURL("Bahn.de");
         searchStationArray.add(searchStationModel);
         searchStationsList.setAdapter(new SearchStationAdapter(this,searchStationArray));
