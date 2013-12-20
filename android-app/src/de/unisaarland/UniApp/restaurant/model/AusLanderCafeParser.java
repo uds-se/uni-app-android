@@ -45,11 +45,16 @@ public class AusLanderCafeParser {
                 }
                 Elements divElements = doc.getElementsByTag("table");
                 Element divElement = null;
+                boolean found = false;
                 for(int i=0 ; i < divElements.size() ; i++){
                     divElement = divElements.get(i);
                     if(divElement.className().equals("contenttable contenttable-0")){
+                        found = true;
                         break;
                     }
+                }
+                if(!found){
+                    return 0;
                 }
 
                 Elements dayElements = divElement.getElementsByTag("td");

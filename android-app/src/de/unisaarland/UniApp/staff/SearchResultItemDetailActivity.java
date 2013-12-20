@@ -124,69 +124,71 @@ public class SearchResultItemDetailActivity extends Activity {
     }
 
     private void showResult(String name, String gender, String academicDegree, String building, String room, String phone, String fax, String email) {
-        pBar.setVisibility(View.INVISIBLE);
-        TextView nameText = (TextView) findViewById(R.id.name);
-        nameText.setText(name);
-        nameText.setVisibility(View.VISIBLE);
-        TextView genderText = (TextView) findViewById(R.id.gendertext);
-        genderText.setVisibility(View.VISIBLE);
-        Button genderButton = (Button) findViewById(R.id.gender);
-        genderButton.setText(gender);
-        genderButton.setVisibility(View.VISIBLE);
-        TextView academicDegreeText = (TextView) findViewById(R.id.academicText);
-        academicDegreeText.setVisibility(View.VISIBLE);
-        Button academicDegreeButton = (Button) findViewById(R.id.academic_degree);
-        academicDegreeButton.setText(academicDegree);
-        academicDegreeButton.setVisibility(View.VISIBLE);
-        TextView buildingText = (TextView) findViewById(R.id.buildingText);
-        buildingText.setVisibility(View.VISIBLE);
-        final Button buildingButton = (Button) findViewById(R.id.building);
-        ImageButton buildingButtonForwardIcon = (ImageButton) findViewById(R.id.building_forward_icon);
-        if(building!=null && !building.equals("")){
-            buildingButtonForwardIcon.setVisibility(View.VISIBLE);
-            buildingButton.setOnClickListener(new View.OnClickListener() {
+        if(pBar!=null){
+            pBar.setVisibility(View.INVISIBLE);
+            TextView nameText = (TextView) findViewById(R.id.name);
+            nameText.setText(name);
+            nameText.setVisibility(View.VISIBLE);
+            TextView genderText = (TextView) findViewById(R.id.gendertext);
+            genderText.setVisibility(View.VISIBLE);
+            Button genderButton = (Button) findViewById(R.id.gender);
+            genderButton.setText(gender);
+            genderButton.setVisibility(View.VISIBLE);
+            TextView academicDegreeText = (TextView) findViewById(R.id.academicText);
+            academicDegreeText.setVisibility(View.VISIBLE);
+            Button academicDegreeButton = (Button) findViewById(R.id.academic_degree);
+            academicDegreeButton.setText(academicDegree);
+            academicDegreeButton.setVisibility(View.VISIBLE);
+            TextView buildingText = (TextView) findViewById(R.id.buildingText);
+            buildingText.setVisibility(View.VISIBLE);
+            final Button buildingButton = (Button) findViewById(R.id.building);
+            ImageButton buildingButtonForwardIcon = (ImageButton) findViewById(R.id.building_forward_icon);
+            if(building!=null && !building.equals("")){
+                buildingButtonForwardIcon.setVisibility(View.VISIBLE);
+                buildingButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent myIntent = new Intent(SearchResultItemDetailActivity.this, CampusActivity.class);
+                        myIntent.putExtra("building", buildingButton.getText());
+                        SearchResultItemDetailActivity.this.startActivity(myIntent);
+                    }
+                });
+            }
+            buildingButton.setText(building);
+            buildingButton.setVisibility(View.VISIBLE);
+            TextView roomText = (TextView) findViewById(R.id.roomText);
+            roomText.setVisibility(View.VISIBLE);
+            Button roomButton = (Button) findViewById(R.id.room);
+            roomButton.setText(room);
+            roomButton.setVisibility(View.VISIBLE);
+            TextView phoneText = (TextView) findViewById(R.id.phoneText);
+            phoneText.setVisibility(View.VISIBLE);
+            Button phoneButton = (Button) findViewById(R.id.phone);
+            phoneButton.setText(phone);
+            phoneButton.setVisibility(View.VISIBLE);
+            TextView faxText = (TextView) findViewById(R.id.faxText);
+            faxText.setVisibility(View.VISIBLE);
+            Button faxButton = (Button) findViewById(R.id.fax);
+            faxButton.setText(fax);
+            faxButton.setVisibility(View.VISIBLE);
+            TextView emailText = (TextView) findViewById(R.id.emailText);
+            emailText.setVisibility(View.VISIBLE);
+            Button emailButton = (Button) findViewById(R.id.email);
+            emailButton.setText(email);
+            emailButton.setVisibility(View.VISIBLE);
+            Button moreButton = (Button) findViewById(R.id.more);
+            ImageButton moreButtonForwardIcon = (ImageButton) findViewById(R.id.more_forward_icon);
+            moreButtonForwardIcon.setVisibility(View.VISIBLE);
+            moreButton.setVisibility(View.VISIBLE);
+            moreButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent myIntent = new Intent(SearchResultItemDetailActivity.this, CampusActivity.class);
-                    myIntent.putExtra("building", buildingButton.getText());
+                    Intent myIntent = new Intent(SearchResultItemDetailActivity.this, PersonDetailWebActivity.class);
+                    myIntent.putExtra("url", url);
                     SearchResultItemDetailActivity.this.startActivity(myIntent);
                 }
             });
         }
-        buildingButton.setText(building);
-        buildingButton.setVisibility(View.VISIBLE);
-        TextView roomText = (TextView) findViewById(R.id.roomText);
-        roomText.setVisibility(View.VISIBLE);
-        Button roomButton = (Button) findViewById(R.id.room);
-        roomButton.setText(room);
-        roomButton.setVisibility(View.VISIBLE);
-        TextView phoneText = (TextView) findViewById(R.id.phoneText);
-        phoneText.setVisibility(View.VISIBLE);
-        Button phoneButton = (Button) findViewById(R.id.phone);
-        phoneButton.setText(phone);
-        phoneButton.setVisibility(View.VISIBLE);
-        TextView faxText = (TextView) findViewById(R.id.faxText);
-        faxText.setVisibility(View.VISIBLE);
-        Button faxButton = (Button) findViewById(R.id.fax);
-        faxButton.setText(fax);
-        faxButton.setVisibility(View.VISIBLE);
-        TextView emailText = (TextView) findViewById(R.id.emailText);
-        emailText.setVisibility(View.VISIBLE);
-        Button emailButton = (Button) findViewById(R.id.email);
-        emailButton.setText(email);
-        emailButton.setVisibility(View.VISIBLE);
-        Button moreButton = (Button) findViewById(R.id.more);
-        ImageButton moreButtonForwardIcon = (ImageButton) findViewById(R.id.more_forward_icon);
-        moreButtonForwardIcon.setVisibility(View.VISIBLE);
-        moreButton.setVisibility(View.VISIBLE);
-        moreButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent myIntent = new Intent(SearchResultItemDetailActivity.this, PersonDetailWebActivity.class);
-                myIntent.putExtra("url", url);
-                SearchResultItemDetailActivity.this.startActivity(myIntent);
-            }
-        });
     }
 
     private void setActionBar() {
