@@ -5,8 +5,8 @@
     <string name="restaurantText">Mensa</string>
     <string name="mensa_text">Mensa</string>
     <string name="campusText">Campus</string>
-    <string name="eventsText">Ereignisse</string>
-    <string name="event_article">Veranstaltungen</string>
+    <string name="eventsText">Veranstaltungen</string>
+    <string name="event_article">Veranstaltung</string>
     <string name="busText">Bus</string>
     <string name="staff_searchText">Personensuche</string>
     <string name="search_for_staff_text">Suche nach Personal</string>
