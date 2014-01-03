@@ -12,6 +12,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -285,26 +286,38 @@ public class CampusActivity extends FragmentActivity implements ConnectionCallba
             builder1.setNegativeButton(getString(R.string.route),
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
-                                    Uri.parse("http://maps.google.com/maps?saddr=" + currentLocation.getLatitude() +
-                                            "," + currentLocation.getLongitude() + "&daddr=" +
-                                            p.getLatitude() + "," + p.getLongitude()));
-                            startActivity(intent);
-
+                            showRouteIfAvailable(p);
                             dialog.cancel();
                         }
                     });
             AlertDialog alert11 = builder1.create();
             alert11.show();
-
         } else {
+            showRouteIfAvailable(p);
+        }
+    }
 
-            Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+    private void showRouteIfAvailable(PointOfInterest p) {
+        if(currentLocation != null){
+            Intent intent = new Intent(Intent.ACTION_VIEW,
                     Uri.parse("http://maps.google.com/maps?saddr=" + currentLocation.getLatitude() +
                             "," + currentLocation.getLongitude() + "&daddr=" +
                             p.getLatitude() + "," + p.getLongitude()));
             startActivity(intent);
-
+        }else{
+            AlertDialog.Builder currentLocationOptionDialog = new AlertDialog.Builder(CampusActivity.this);
+            currentLocationOptionDialog.setTitle(getString(R.string.current_location_not_set));
+            currentLocationOptionDialog.setMessage(getString(R.string.enable_location_option));
+            currentLocationOptionDialog.setCancelable(true);
+            currentLocationOptionDialog.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Intent viewIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                    startActivity(viewIntent);
+                }
+            });
+            AlertDialog locationOption = currentLocationOptionDialog.create();
+            locationOption.show();
         }
     }
 

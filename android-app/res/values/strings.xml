@@ -84,4 +84,6 @@
 	<string name="back">Back</string>
     <string name="at_station">At bus station</string>
     <string name="search_bus">Search a bus</string>
+    <string name="current_location_not_set">Current location is not set</string>
+    <string name="enable_location_option">Please enable at least one location option</string>
 </resources>
