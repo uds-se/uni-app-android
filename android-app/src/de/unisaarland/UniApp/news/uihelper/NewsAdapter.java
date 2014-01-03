@@ -29,6 +29,10 @@ public class NewsAdapter extends BaseAdapter {
     private final ArrayList<NewsModel> newsModelsArray;
     private final HashMap<View,Integer> newsItemsMap = new HashMap<View,Integer>();
 
+    /*
+        * Will be called when user clicks on a news
+        * Will try to load news detail from the internet if internet is connected otherwise error will be displayed
+        * */
     View.OnClickListener clickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -61,19 +65,20 @@ public class NewsAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return newsModelsArray.size();  //To change body of implemented methods use File | Settings | File Templates.
+        return newsModelsArray.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return null;
     }
 
     @Override
     public long getItemId(int position) {
-        return 0;  //To change body of implemented methods use File | Settings | File Templates.
+        return 0;
     }
 
+    // sets the view of news item row
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if(convertView == null){

@@ -142,6 +142,7 @@ public class EventDetailActivity extends Activity {
 
         TextView backPageText = (TextView) actionBar.getCustomView().findViewById(R.id.page_back_text);
         backPageText.setText(R.string.eventsText);
+        backPageText.setTextSize(12);
         backPageText.setVisibility(View.VISIBLE);
         backPageText.setOnClickListener(new BackButtonClickListener(this));
 

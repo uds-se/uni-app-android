@@ -46,8 +46,12 @@ public class NewsActivity extends Activity {
     private final String URL = "http://www.uni-saarland.de/aktuelles/presse/pms.html?type=100&tx_ttnews[cat]=26";
     private NetworkHandler networkHandler = null;
 
+    /*
+    * Called when back button is pressed either from device or navigation bar.
+    * */
     @Override
     public void onBackPressed() {
+        // will invalidate the connection establishment request if it is not being completed yet and free the resources
         if(networkHandler!=null){
             networkHandler.invalidateRequest();
         }
@@ -56,6 +60,7 @@ public class NewsActivity extends Activity {
 
     @Override
     protected void onStop() {
+        // release the resources.
         if(newsModelsArray != null){
             newsModelsArray.clear();
         }
@@ -66,6 +71,12 @@ public class NewsActivity extends Activity {
     }
 
     INetworkLoaderDelegate delegate = new INetworkLoaderDelegate() {
+
+        /*
+        * Will be called in case of failure e.g internet connection problem
+        * Will try to load news from already stored model or in case if that model is not present will show the
+        * error dialog
+        * */
         @Override
         public void onFailure(String message) {
             if (newsFileExist()){
@@ -95,7 +106,10 @@ public class NewsActivity extends Activity {
                 alert11.show();
             }
         }
-
+        /*
+        * Will be called in case of success if connection is successfully established and parser is ready
+        * call the News parser to parse the resultant file and return the list of news models to specified call back method.
+        * */
         @Override
         public void onSuccess(XmlPullParser parser) {
             NewsXMLParser newsParser = new NewsXMLParser(newsResultDelegate);
@@ -109,6 +123,9 @@ public class NewsActivity extends Activity {
         }
     };
 
+    /*
+    * Load news from already saved model if internet is not available or coming back from news detail
+    * */
     private void loadNewsFromSavedFile() {
         try{
             ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File(getFilesDir().getAbsolutePath()+ Util.NEWS_FILE_NAME)));
@@ -119,6 +136,9 @@ public class NewsActivity extends Activity {
         }
     }
 
+    /*
+    * Check if news file already exist.
+    * */
     private boolean newsFileExist() {
         File f = new File(getFilesDir().getAbsolutePath()+ Util.NEWS_FILE_NAME);
         if(f.exists()) {
@@ -127,6 +147,9 @@ public class NewsActivity extends Activity {
         return false;
     }
 
+    /*
+    * Call back method of NewsResult will be called when all news are parsed and Model list is generated
+    * */
     private INewsResultDelegate newsResultDelegate = new INewsResultDelegate() {
         @Override
         public void newsList(ArrayList<NewsModel> newsModels) {
@@ -135,15 +158,28 @@ public class NewsActivity extends Activity {
         }
     };
 
+    /*
+    * Will be called when activity created first time e.g. from scratch
+    * */
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
+    /*
+    * Will be called when activity created first time after onCreate or when activity comes to the front again or in a pausing state
+    * So its better to set all the things needed to use in the activity here if in case anything is released in onPause method
+    * */
     @Override
     protected void onResume() {
         super.onResume();
+        // sets the custom navigation bar according to each activity.
         setActionBar();
-
+        /*
+        * Checks if news are already loaded and models are built then no need to download the from internet again
+        * e.g. if activity is just changed to see the details of any specific news and comes back to the news list
+        * otherwise if it is being loaded from main activity page and internet is available it will be downloaded from internet
+        * again.
+        * */
         SharedPreferences settings = getSharedPreferences(Util.PREFS_NAME, 0);
         boolean isCopied = settings.getBoolean(Util.NEWS_LOADED,false);
         if(!isCopied){
@@ -155,6 +191,11 @@ public class NewsActivity extends Activity {
         }
     }
 
+    /*
+    * Will remove the loading view as news are being downloaded and parsed also the models are built
+    * Will save the current news model
+    * and show the news list.
+    * */
     private void removeLoadingView() {
         if(bar!=null){
             bar.clearAnimation();
@@ -168,6 +209,10 @@ public class NewsActivity extends Activity {
         populateNewsItems();
     }
 
+    /*
+    * Save current news model to file (temporary) so that these will be used later in case if user don't have internet connection
+    * and also if user is coming back from seeing a detailed news.
+    * */
     private boolean saveCurrentNewItemsToFile() {
         try{
             ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File(getFilesDir().getAbsolutePath()+ Util.NEWS_FILE_NAME)));
@@ -182,15 +227,26 @@ public class NewsActivity extends Activity {
     }
 
     private void addLoadingView() {
+        //displays the loading view and download and parse the news items from internet
         setContentView(R.layout.loading_layout);
+        // safety check in case user press the back button then bar will be null
         if(bar!=null){
             bar = (ProgressBar) findViewById(R.id.progress_bar);
             bar.animate();
         }
+        /**
+         * Calls the custom class to connect and download the specific XML and pass the deligate method which will be called
+         * in case of success and failure
+         */
+
         networkHandler = new NetworkHandler(delegate);
         networkHandler.connect(URL, this);
     }
 
+    /*
+    * after downloading and parsing the news when models are built it will call the adapter and pass the
+    * specified model to it so that it will display list of news items.
+    * */
     private void populateNewsItems() {
         ListView newsList = (ListView) findViewById(R.id.newsItemListView);
         newsList.setAdapter(new NewsAdapter(this,newsModelsArray));
@@ -216,6 +272,11 @@ public class NewsActivity extends Activity {
         backButton.setVisibility(View.VISIBLE);
         backButton.setOnClickListener(new BackButtonClickListener(this));
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+
+        /**
+         * add the face book page and on clicking of this button it will check if the facebook app is installed on the device then it will
+         * open the specific page on that app otherwise it will open the page on browser.
+         */
 
         ImageButton facebookButton = (ImageButton) actionBar.getCustomView().findViewById(R.id.page_right_icon);
         facebookButton.setVisibility(View.VISIBLE);
@@ -250,6 +311,7 @@ public class NewsActivity extends Activity {
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
     }
 
+    // custom class to show the back button action using navigation bar and will call the onBack method of activity
     class BackButtonClickListener implements View.OnClickListener{
         final Activity activity;
         public BackButtonClickListener(Activity activity) {

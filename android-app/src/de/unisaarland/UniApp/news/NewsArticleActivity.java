@@ -35,15 +35,27 @@ public class NewsArticleActivity extends Activity {
     private WebView body = null;
     private ProgressBar pBar = null;
 
+    /*
+    * Will be called when activity created as this activity is being created from scratch evry time when user
+    * wants to view a new news details so all work is being done in onCreate no need to separate the work
+    * in onResume.
+    * It gets the news model object from intent which is saved with name model.
+    * */
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         savedInstanceState = getIntent().getExtras();
         model = (NewsModel) savedInstanceState.getSerializable("model");
+        // sets the custom navigation bar according to each activity.
         setActionBar();
         setContentView(R.layout.news_detail);
         showNews();
     }
 
+    /*
+    * Called when back button is pressed either from device or navigation bar.
+    * sets the preference variable that news are already loaded so in case of going back to
+    * news activity news wouldn't be loaded back from internet again
+    * */
     @Override
     public void onBackPressed() {
         SharedPreferences settings = getSharedPreferences(Util.PREFS_NAME, 0);
@@ -59,6 +71,9 @@ public class NewsArticleActivity extends Activity {
         super.onBackPressed();
     }
 
+    /*
+    * show the loading bar and call the async thread to load the detailed page and parse it
+    * */
     private void showNews() {
         body = (WebView) findViewById(R.id.body);
         pBar = (ProgressBar) findViewById(R.id.web_view_progress_bar);
@@ -73,6 +88,8 @@ public class NewsArticleActivity extends Activity {
             String date;
             String heading;
             String body;
+
+            // It will only show the news description all other attributes of html will be omitted.
             @Override
             protected Integer doInBackground(Void... params) {
                 Document doc = null;
@@ -122,15 +139,22 @@ public class NewsArticleActivity extends Activity {
         };
     }
 
+    /**
+    * load the downloaded description of a news and show it as html after setting the necessary html tags.
+    **/
     private void loadmethod(String da, String head, String bod) {
-        pBar.setVisibility(View.GONE);
-        String htmlStart = "<html><head></html><body><h2><center>"+da+"</center></h2><h3><center><font color=\"#5578ff\">"+head+"</font></center></h3>";
-        body.loadDataWithBaseURL(null, htmlStart+bod, "text/html", "utf-8", null);
-        body.getSettings().setJavaScriptEnabled(true);
-        body.setVisibility(View.VISIBLE);
+        if(pBar != null && body != null){
+            pBar.setVisibility(View.GONE);
+            String htmlStart = "<html><head></html><body><h2><center>"+da+"</center></h2><h3><center><font color=\"#5578ff\">"+head+"</font></center></h3>";
+            body.loadDataWithBaseURL(null, htmlStart+bod, "text/html", "utf-8", null);
+            body.getSettings().setJavaScriptEnabled(true);
+            body.setVisibility(View.VISIBLE);
+        }
     }
 
-
+    /*
+    * sets the custom navigation bar according to each activity.
+    * */
     private void setActionBar() {
         ActionBar actionBar = getActionBar();
         // add the custom view to the action bar
@@ -176,6 +200,7 @@ public class NewsArticleActivity extends Activity {
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
     }
 
+    // custom class to show the back button action using navigation bar and will call the onBack method of activity
     class BackButtonClickListener implements View.OnClickListener{
         final Activity activity;
         public BackButtonClickListener(Activity activity) {

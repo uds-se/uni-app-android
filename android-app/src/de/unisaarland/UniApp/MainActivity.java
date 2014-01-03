@@ -21,10 +21,10 @@ import de.unisaarland.UniApp.staff.SearchStaffActivity;
 
 import java.io.File;
 
+/**
+ * Launcher Activity of the application this Activity will be displayed when application is launched from the launcher
+ * */
 public class MainActivity extends Activity {
-    /**
-     * Called when the activity is first created.
-     */
 
     //Buttons to perform actions
     private Button newsButton = null;
@@ -34,20 +34,37 @@ public class MainActivity extends Activity {
     private Button busButton = null;
     private Button staffSearchButton = null;
     private Button aboutButton = null;
+
+    /*
+    * Will be called when activity created first time e.g. from scratch
+    * */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
+
+    /*
+    * Will be called when activity created first time after onCreate or when activity comes to the front again or in a pausing state
+    * So its better to set all the things needed to use in the activity here if in case anything is released in onPause method
+    * */
     @Override
     protected void onResume() {
+        // sets the custom navigation bar according to each activity.
         setActionBar();
         setContentView(R.layout.main);
+        // set Listeners for the main screen to launch specific activity
         setButtonListeners();
+
         setPreferences();
         super.onResume();
     }
 
+    /*
+    * set the preference for events, news and staff search so that in case if activity is
+    * loaded again (from main activity) then these items should be downloaded from internet again
+    * otherwise these items are already loaded and models are already built so they will be displayed from there.
+    * */
     private void setPreferences() {
         SharedPreferences settings = getSharedPreferences(Util.PREFS_NAME, 0);
         SharedPreferences.Editor editor = settings.edit();
@@ -60,6 +77,9 @@ public class MainActivity extends Activity {
         }
     }
 
+    /**
+     * sets the custom navigation bar according to each activity.
+     */
     private void setActionBar() {
         ActionBar actionBar = getActionBar();
         // add the custom view to the action bar
