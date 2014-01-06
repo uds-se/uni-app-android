@@ -31,7 +31,6 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.GoogleMap.InfoWindowAdapter;
 import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -41,6 +40,8 @@ import de.unisaarland.UniApp.bus.BusDetailActivity;
 import de.unisaarland.UniApp.bus.model.PointOfInterest;
 import de.unisaarland.UniApp.campus.model.CustomMapTileProvider;
 import de.unisaarland.UniApp.campus.model.CustomMapTileSupportProvider;
+import de.unisaarland.UniApp.campus.uihelper.CustomInfoWindowAdapter;
+import de.unisaarland.UniApp.campus.uihelper.PanelButtonListener;
 import de.unisaarland.UniApp.campus.uihelper.SearchViewAdapter;
 import de.unisaarland.UniApp.database.DatabaseHandler;
 import de.unisaarland.UniApp.restaurant.RestaurantActivity;
@@ -103,78 +104,8 @@ public class CampusActivity extends FragmentActivity implements ConnectionCallba
         imm.hideSoftInputFromWindow(search.getWindowToken(), 0);
     }
 
-    class PanelButtonListener implements View.OnClickListener{
-        @Override
-        public void onClick(View v) {
-            LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View view = layoutInflater.inflate(R.layout.map_options_layout, null);
-            final Dialog optionMenuDialog = new Dialog(CampusActivity.this, R.style.DialogSlideAnim);
-            optionMenuDialog.setContentView(view);
-
-            TextView satellite = (TextView) view.findViewById(R.id.satellite);
-            satellite.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    map.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
-                    optionMenuDialog.dismiss();
-                }
-            });
-            TextView standard = (TextView) view.findViewById(R.id.normal);
-            standard.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-                    optionMenuDialog.dismiss();
-                }
-            });
-
-            TextView hybrid = (TextView) view.findViewById(R.id.hybrid);
-            hybrid.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
-                    optionMenuDialog.dismiss();
-                }
-            });
-
-            TextView pins = (TextView) view.findViewById(R.id.remove);
-            pins.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int type = map.getMapType();
-                    markers.clear();
-                    map.clear();
-                    map.setMyLocationEnabled(true);
-                    map.setMapType(type);
-                    map.setOnMyLocationButtonClickListener(CampusActivity.this);
-                    map.setOnMarkerClickListener(CampusActivity.this);
-                    map.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
-                        @Override
-                        public void onCameraChange(CameraPosition cameraPosition) {
-                            float maxZoom = 18.0f;
-                            if (cameraPosition.zoom > maxZoom)
-                                map.animateCamera(CameraUpdateFactory.zoomTo(maxZoom));
-                        }
-                    });
-                    map.setBuildingsEnabled(false);
-                    map.getUiSettings().setZoomControlsEnabled(false);
-                    map.setInfoWindowAdapter(new CustomInfoWindowAdapter());
-                    map.setOnInfoWindowClickListener(CampusActivity.this);
-                    map.addTileOverlay(new TileOverlayOptions().tileProvider(new CustomMapTileProvider(getResources().getAssets())));
-                    map.addTileOverlay(new TileOverlayOptions().tileProvider(new CustomMapTileSupportProvider(getResources().getAssets())));
-                    CameraUpdate upd = CameraUpdateFactory.newLatLngZoom(new LatLng(49.25419, 7.041324), 15);
-                    map.moveCamera(upd);
-                    optionMenuDialog.dismiss();
-                }
-            });
-            optionMenuDialog.show();
-        }
-    }
-
     private void setUpMapIfNeeded() {
         // Do a null check to confirm that we have not already instantiated the map.
-        Button panelButton = (Button) findViewById(R.id.panel_button);
-        panelButton.setOnClickListener(new PanelButtonListener());
         if (map == null) {
             // Try to obtain the map from the SupportMapFragment.
             map = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
@@ -198,7 +129,7 @@ public class CampusActivity extends FragmentActivity implements ConnectionCallba
                 });
                 map.setBuildingsEnabled(false);
                 map.getUiSettings().setZoomControlsEnabled(false);
-                map.setInfoWindowAdapter(new CustomInfoWindowAdapter());
+                map.setInfoWindowAdapter(new CustomInfoWindowAdapter(this,poisMap));
                 map.setOnInfoWindowClickListener(this);
                 map.addTileOverlay(new TileOverlayOptions().tileProvider(new CustomMapTileProvider(getResources().getAssets())));
                 map.addTileOverlay(new TileOverlayOptions().tileProvider(new CustomMapTileSupportProvider(getResources().getAssets())));
@@ -212,49 +143,12 @@ public class CampusActivity extends FragmentActivity implements ConnectionCallba
                 }
             }
         }
+        Button panelButton = (Button) findViewById(R.id.panel_button);
+        panelButton.setOnClickListener(new PanelButtonListener(this,map,poisMap,markers));
     }
 
     public boolean onMarkerClick(com.google.android.gms.maps.model.Marker marker){
         return false;
-    }
-
-    class CustomInfoWindowAdapter implements InfoWindowAdapter {
-
-        private final View mWindow;
-
-        CustomInfoWindowAdapter() {
-            mWindow = getLayoutInflater().inflate(R.layout.custom_info_window, null);
-        }
-
-        @Override
-        public View getInfoWindow(Marker marker) {
-            render(marker, mWindow);
-            return mWindow;
-        }
-
-        @Override
-        public View getInfoContents(Marker marker) {
-//            render(marker, mContents);
-            return null;
-//            return mContents;
-        }
-
-        private void render(final Marker marker, View view) {
-            String title = marker.getTitle();
-            TextView titleUi = ((TextView) view.findViewById(R.id.title));
-            titleUi.setText(title);
-            final PointOfInterest p = poisMap.get(title);
-            ImageButton linkButton = (ImageButton)view.findViewById(R.id.web_button);
-            if(p.isCanShowRightCallOut() == 1 && p.getWebsite().length()>0){
-
-            }else{
-                linkButton.setVisibility(View.INVISIBLE);
-            }
-
-            String snippet = marker.getSnippet();
-            TextView snippetUi = ((TextView) view.findViewById(R.id.snippet));
-            snippetUi.setText(snippet);
-        }
     }
 
     @Override

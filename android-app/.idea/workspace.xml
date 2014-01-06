@@ -135,17 +135,7 @@
     <favorites_list name="SaarlandUniversityApp" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="CampusActivity.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/de/unisaarland/UniApp/campus/CampusActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="226" column="61" selection-start="10472" selection-end="10472" vertical-scroll-proportion="0.58603895" vertical-offset="2410" max-vertical-offset="7310">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf />
   </component>
   <component name="FindManager">
     <FindUsagesManager>
@@ -193,11 +183,13 @@
         <option value="$PROJECT_DIR$/src/de/unisaarland/UniApp/news/NewsActivity.java" />
         <option value="$PROJECT_DIR$/src/de/unisaarland/UniApp/events/EventsActivity.java" />
         <option value="$PROJECT_DIR$/src/de/unisaarland/UniApp/news/NewsArticleActivity.java" />
-        <option value="$PROJECT_DIR$/src/de/unisaarland/UniApp/events/EventDetailActivity.java" />
         <option value="$PROJECT_DIR$/src/de/unisaarland/UniApp/events/uihelper/EventsAdapter.java" />
         <option value="$PROJECT_DIR$/src/de/unisaarland/UniApp/events/model/IEventsResultDelegate.java" />
         <option value="$PROJECT_DIR$/src/de/unisaarland/UniApp/networkcommunicator/Util.java" />
         <option value="$PROJECT_DIR$/src/de/unisaarland/UniApp/networkcommunicator/NetworkHandler.java" />
+        <option value="$PROJECT_DIR$/src/de/unisaarland/UniApp/events/EventDetailActivity.java" />
+        <option value="$PROJECT_DIR$/src/de/unisaarland/UniApp/campus/uihelper/CustomInfoWindowAdapter.java" />
+        <option value="$PROJECT_DIR$/src/de/unisaarland/UniApp/campus/uihelper/PanelButtonListener.java" />
         <option value="$PROJECT_DIR$/src/de/unisaarland/UniApp/campus/CampusActivity.java" />
       </list>
     </option>
@@ -289,54 +281,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="UniApp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="UniApp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android-app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="UniApp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="campus" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="UniApp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android-app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="UniApp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="campus" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="uihelper" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -601,26 +545,27 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="784" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.28257576" sideWeight="0.76874006" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32854864" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.225" sideWeight="0.76874006" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977098" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977098" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31755725" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3832061" sideWeight="0.5" order="11" side_tool="true" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.19924243" sideWeight="0.20893142" order="3" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3832061" sideWeight="0.5" order="13" side_tool="true" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.19924243" sideWeight="0.20893142" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32854864" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.20892194" sideWeight="0.39318183" order="3" side_tool="true" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3832061" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32824427" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3832061" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32854864" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.68102074" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20921451" sideWeight="0.6045455" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20921451" sideWeight="0.6045455" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.22900763" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" x="92" y="92" width="1182" height="584" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
@@ -629,7 +574,6 @@
       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32954547" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32854864" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32824427" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -809,15 +753,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/de/unisaarland/UniApp/bus/BusActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="193" column="104" selection-start="7244" selection-end="7244" vertical-scroll-proportion="0.2972973" vertical-offset="2686" max-vertical-offset="3349">
-          <folding>
-            <element signature="e#5112#5132#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/de/unisaarland/UniApp/bus/model/SearchStationModel.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="9" column="13" selection-start="211" selection-end="211" vertical-scroll-proportion="0.24324325" vertical-offset="0" max-vertical-offset="629">
@@ -832,18 +767,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/de/unisaarland/UniApp/database/DatabaseHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="252" column="89" selection-start="10719" selection-end="10719" vertical-scroll-proportion="3.3733766" vertical-offset="2002" max-vertical-offset="5933">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/de/unisaarland/UniApp/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="81" column="8" selection-start="2900" selection-end="2977" vertical-scroll-proportion="0.7297297" vertical-offset="918" max-vertical-offset="2346">
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -852,11 +780,11 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="262" column="20" selection-start="10117" selection-end="10117" vertical-scroll-proportion="0.33766234" vertical-offset="3753" max-vertical-offset="4420">
           <folding>
-            <element signature="e#3436#3455#0" expanded="true" />
-            <element signature="e#3682#3699#0" expanded="true" />
-            <element signature="e#6179#6201#0" expanded="true" />
-            <element signature="e#7713#7975#0" expanded="true" />
-            <element signature="e#7968#7969#0" expanded="true" />
+            <element signature="e#3436#3455#0" expanded="false" />
+            <element signature="e#3682#3699#0" expanded="false" />
+            <element signature="e#6179#6201#0" expanded="false" />
+            <element signature="e#7713#7975#0" expanded="false" />
+            <element signature="e#7968#7969#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -871,23 +799,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/de/unisaarland/UniApp/events/EventDetailActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="201" column="115" selection-start="8248" selection-end="8248" vertical-scroll-proportion="0.5032467" vertical-offset="2648" max-vertical-offset="3264">
-          <folding>
-            <element signature="e#6449#6471#0" expanded="false" />
-            <element signature="e#6698#6717#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/de/unisaarland/UniApp/news/NewsArticleActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="202" column="115" selection-start="8141" selection-end="8252" vertical-scroll-proportion="1.1655844" vertical-offset="2257" max-vertical-offset="3281">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/de/unisaarland/UniApp/news/uihelper/NewsAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="34" column="13" selection-start="939" selection-end="1122" vertical-scroll-proportion="0.5405405" vertical-offset="0" max-vertical-offset="1411">
@@ -899,7 +810,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="37" column="32" selection-start="1212" selection-end="1212" vertical-scroll-proportion="0.3783784" vertical-offset="153" max-vertical-offset="1462">
           <folding>
-            <element signature="e#1924#1965#0" expanded="true" />
+            <element signature="e#1924#1965#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -967,10 +878,81 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/de/unisaarland/UniApp/news/NewsArticleActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="145" column="39" selection-start="5593" selection-end="5609" vertical-scroll-proportion="0.3780822" vertical-offset="1970" max-vertical-offset="3281">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/de/unisaarland/UniApp/events/EventDetailActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="145" column="24" selection-start="5621" selection-end="5621" vertical-scroll-proportion="0.33150685" vertical-offset="1987" max-vertical-offset="3298">
+          <folding>
+            <element signature="e#6521#6543#0" expanded="true" />
+            <element signature="e#6770#6789#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/de/unisaarland/UniApp/database/DatabaseHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="309" column="20" selection-start="12277" selection-end="12277" vertical-scroll-proportion="-0.087671235" vertical-offset="5081" max-vertical-offset="5933">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/de/unisaarland/UniApp/bus/BusActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="120" column="47" selection-start="3987" selection-end="3987" vertical-scroll-proportion="0.53968257" vertical-offset="1428" max-vertical-offset="3349">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/de/unisaarland/UniApp/campus/uihelper/CustomInfoWindowAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="21" column="94" selection-start="648" selection-end="688" vertical-scroll-proportion="0.36956522" vertical-offset="204" max-vertical-offset="1020">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/de/unisaarland/UniApp/campus/CampusActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="226" column="61" selection-start="10472" selection-end="10472" vertical-scroll-proportion="0.58603895" vertical-offset="2410" max-vertical-offset="7310">
-          <folding />
+        <state line="380" column="54" selection-start="16928" selection-end="16928" vertical-scroll-proportion="0.46135265" vertical-offset="5266" max-vertical-offset="5746">
+          <folding>
+            <element signature="e#7251#7277#0" expanded="true" />
+            <element signature="e#7312#7344#0" expanded="true" />
+            <element signature="e#7429#7456#0" expanded="true" />
+            <element signature="e#8065#8095#0" expanded="true" />
+            <element signature="e#8470#8500#0" expanded="true" />
+            <element signature="e#8782#8807#0" expanded="true" />
+            <element signature="e#9861#9905#0" expanded="true" />
+            <element signature="e#9959#10001#0" expanded="true" />
+            <element signature="e#10123#10145#0" expanded="true" />
+            <element signature="e#11330#11347#0" expanded="true" />
+            <element signature="e#11398#11411#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/de/unisaarland/UniApp/campus/uihelper/PanelButtonListener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="76" column="20" selection-start="3160" selection-end="3160" vertical-scroll-proportion="0.23690774" vertical-offset="1197" max-vertical-offset="1887">
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1985#2207#0" expanded="true" />
+            <element signature="e#2196#2197#0" expanded="true" />
+            <element signature="e#2317#2536#0" expanded="true" />
+            <element signature="e#2525#2526#0" expanded="true" />
+            <element signature="e#2643#2862#0" expanded="true" />
+            <element signature="e#2851#2852#0" expanded="true" />
+            <element signature="e#2965#4657#0" expanded="true" />
+            <element signature="e#3490#3870#0" expanded="true" />
+            <element signature="e#3851#3852#0" expanded="true" />
+            <element signature="e#4646#4647#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

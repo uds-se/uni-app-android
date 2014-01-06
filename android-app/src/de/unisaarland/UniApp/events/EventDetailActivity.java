@@ -143,11 +143,13 @@ public class EventDetailActivity extends Activity {
      * load the downloaded description of a event and show it as html after setting the necessary html tags.
      **/
     private void loadmethod(String da, String head, String bod) {
-        pBar.setVisibility(View.GONE);
-        String htmlStart = "<html><head></html><body><h2><center>"+da+"</center></h2><h3><center><font color=\"#5578ff\">"+head+"</font></center></h3>";
-        body.loadDataWithBaseURL(null, htmlStart+bod, "text/html", "utf-8", null);
-        body.getSettings().setJavaScriptEnabled(true);
-        body.setVisibility(View.VISIBLE);
+        if(pBar != null && body != null){
+            pBar.setVisibility(View.GONE);
+            String htmlStart = "<html><head></html><body><h2><center>"+da+"</center></h2><h3><center><font color=\"#5578ff\">"+head+"</font></center></h3>";
+            body.loadDataWithBaseURL(null, htmlStart+bod, "text/html", "utf-8", null);
+            body.getSettings().setJavaScriptEnabled(true);
+            body.setVisibility(View.VISIBLE);
+        }
     }
 
     /*
