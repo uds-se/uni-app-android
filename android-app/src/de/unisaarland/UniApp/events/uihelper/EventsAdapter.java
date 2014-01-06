@@ -33,7 +33,10 @@ public class EventsAdapter extends BaseAdapter {
         this.eventModelsArray = eventModelsArray;
     }
 
-
+    /*
+        * Will be called when user clicks on a event
+        * Will try to load event detail from the internet if internet is connected otherwise error will be displayed
+        * */
     View.OnClickListener clickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -74,6 +77,7 @@ public class EventsAdapter extends BaseAdapter {
         return 0;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
+    // sets the view of event item row
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if(convertView == null){

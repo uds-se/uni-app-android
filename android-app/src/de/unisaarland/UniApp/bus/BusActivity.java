@@ -33,6 +33,10 @@ import java.util.HashMap;
  * Time: 11:38 PM
  * To change this template use File | Settings | File Templates.
  */
+
+/*
+* It implements Location listeners to show the distance of the bus stop from users current location.
+* */
 public class BusActivity extends Activity implements ConnectionCallbacks,LocationListener,OnConnectionFailedListener {
     private final int BUS_ID = 5;
     private ArrayList<PointOfInterest> busStationsArray = null;
@@ -42,7 +46,7 @@ public class BusActivity extends Activity implements ConnectionCallbacks,Locatio
     private BusStationsAdapter busStationAdapter = null;
 
 
-    //////////////location //////////////
+    //////////////location will be updated after every 3 seconds//////////////
     private LocationClient locationClient;
     private static final LocationRequest REQUEST = LocationRequest.create()
             .setInterval(3000)         // 3 seconds
@@ -70,6 +74,9 @@ public class BusActivity extends Activity implements ConnectionCallbacks,Locatio
         super.onStop();
     }
 
+    /*
+    * Will be called after onStart method and connect the location client to get the location updates
+    * */
     @Override
     protected void onResume() {
         setUpLocationClientIfNeeded();
@@ -86,6 +93,9 @@ public class BusActivity extends Activity implements ConnectionCallbacks,Locatio
         }
     }
 
+    /*
+    * Will be called when activity created first time e.g. from scratch
+    * */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,6 +103,10 @@ public class BusActivity extends Activity implements ConnectionCallbacks,Locatio
         setContentView(R.layout.bus_layout);
     }
 
+    /*
+    * Will be called after onCreate method
+    * and here we will populate the list of bus stations which we are going to show.
+    * */
     @Override
     protected void onStart() {
         busStationsArray = new ArrayList<PointOfInterest>();
@@ -100,6 +114,9 @@ public class BusActivity extends Activity implements ConnectionCallbacks,Locatio
         super.onStart();
     }
 
+    /*
+    * retrieve list of bus stops from the database and sets them in busStationsArray.
+    * */
     private void updateModel(){
         DatabaseHandler dbHandler = new DatabaseHandler(this);
         ArrayList<PointOfInterest> tempBusStations = dbHandler.getPointsOfInterestForCategoryWithID(BUS_ID);
@@ -114,6 +131,10 @@ public class BusActivity extends Activity implements ConnectionCallbacks,Locatio
         populateItems();
     }
 
+    /*
+    * call the adapter and sets the bus station names and the distance to each bus station from current location
+    * in BusStationAdapter class.
+    * */
     private void populateItems() {
         busStationsList = (ListView) findViewById(R.id.bus_stations_list_view);
         busStationAdapter = new BusStationsAdapter(this,busStationsArray,currentLocation,provider);
@@ -129,6 +150,9 @@ public class BusActivity extends Activity implements ConnectionCallbacks,Locatio
         searchStationsList.setAdapter(new SearchStationAdapter(this,searchStationArray));
     }
 
+    /**
+     * sets the custom navigation bar according to each activity.
+     */
     private void setActionBar() {
         ActionBar actionBar = getActionBar();
         // add the custom view to the action bar
@@ -151,6 +175,7 @@ public class BusActivity extends Activity implements ConnectionCallbacks,Locatio
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
     }
 
+    ///////////////// call back methods of location client //////////////
     @Override
     public void onConnected(Bundle bundle) {
         locationClient.requestLocationUpdates(
@@ -166,6 +191,7 @@ public class BusActivity extends Activity implements ConnectionCallbacks,Locatio
     @Override
     public void onLocationChanged(Location location) {
         currentLocation = location;
+        // reset the adapter to show the updated distance list. It will be called after every 3 seconds.
         busStationAdapter.setCurrentLocation(currentLocation);
         busStationsList.invalidateViews();
     }
@@ -175,6 +201,7 @@ public class BusActivity extends Activity implements ConnectionCallbacks,Locatio
         //To change body of implemented methods use File | Settings | File Templates.
     }
 
+    // custom class to show the back button action using navigation bar and will call the onBack method of activity
     class BackButtonClickListener implements View.OnClickListener{
         final Activity activity;
         public BackButtonClickListener(Activity activity) {

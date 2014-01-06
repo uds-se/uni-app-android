@@ -36,6 +36,7 @@ public class BusDetailActivity extends Activity {
             url = savedInstanceState.getString("url");
             backText = savedInstanceState.getString("back");
         }
+        // set the dae and time to get the latest results from the saarvv website.
         Calendar calendar = Calendar.getInstance();
         String date = calendar.get(Calendar.DAY_OF_MONTH)+"."+(calendar.get(Calendar.MONTH)+1)+"."+(calendar.get(Calendar.YEAR));
         String time = calendar.get(Calendar.HOUR_OF_DAY)+":"+calendar.get(Calendar.MINUTE);
@@ -64,12 +65,15 @@ public class BusDetailActivity extends Activity {
         showDetail();
     }
 
+    /*
+    * Show the detail of bus stops
+    * */
     private void showDetail() {
         ImageButton backButton = (ImageButton) findViewById(R.id.back_button);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(webView.canGoBack()){
+                if (webView.canGoBack()) {
                     webView.goBack();
                 }
             }
@@ -118,7 +122,9 @@ public class BusDetailActivity extends Activity {
         webView.refreshDrawableState();
     }
 
-
+    /*
+    * sets the custom navigation bar according to each activity.
+    * */
     private void setActionBar() {
         ActionBar actionBar = getActionBar();
         // add the custom view to the action bar
@@ -145,6 +151,7 @@ public class BusDetailActivity extends Activity {
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
     }
 
+    // custom class to show the back button action using navigation bar and will call the onBack method of activity
     class BackButtonClickListener implements View.OnClickListener{
         final Activity activity;
         public BackButtonClickListener(Activity activity) {

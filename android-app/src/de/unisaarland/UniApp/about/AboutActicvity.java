@@ -22,8 +22,12 @@ import de.unisaarland.UniApp.R;
  * To change this template use File | Settings | File Templates.
  */
 public class AboutActicvity extends Activity {
+    // email id on which the email is to be sent
     private final String EMAIL_ID = "uniapp@uni-saarland.de";
 
+    /*
+    * Will be called when activity created first time e.g. from scratch
+    * */
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setActionBar();
@@ -33,7 +37,10 @@ public class AboutActicvity extends Activity {
             final String versionName;
             final int versionCode;
             if (packageManager != null) {
-
+                /*
+                * get version number and package no from the manifest file and display it on about screen as
+                * well as in the subject line of email.
+                * */
                 PackageInfo packageInfo = packageManager.getPackageInfo(getPackageName(), 0);
                 versionName = packageInfo.versionName;
                 versionCode = packageInfo.versionCode;
@@ -64,6 +71,9 @@ public class AboutActicvity extends Activity {
             Log.e("MyTag",e.getMessage());
         }
     }
+    /**
+     * sets the custom navigation bar according to each activity.
+     */
     private void setActionBar() {
         ActionBar actionBar = getActionBar();
         // add the custom view to the action bar

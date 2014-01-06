@@ -36,7 +36,7 @@ public class NewsArticleActivity extends Activity {
     private ProgressBar pBar = null;
 
     /*
-    * Will be called when activity created as this activity is being created from scratch evry time when user
+    * Will be called when activity created as this activity is being created from scratch every time when user
     * wants to view a new news details so all work is being done in onCreate no need to separate the work
     * in onResume.
     * It gets the news model object from intent which is saved with name model.

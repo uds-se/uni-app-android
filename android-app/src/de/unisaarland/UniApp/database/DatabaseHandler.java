@@ -24,6 +24,7 @@ import java.util.ArrayList;
 public class DatabaseHandler extends SQLiteOpenHelper{
     private SQLiteDatabase database = null;
     private Context context = null;
+    // path where the data base dhould be copied from the assets folder on first run and name of the database used in project
     private final String DATABASE_NAME = "pointOfInterest.sqlite3";
     private final String DB_PATH = "/data/data/de.unisaarland.UniApp/databases/";
 
@@ -248,6 +249,9 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         return result;
     }
 
+    /*
+    * copy the database from assets folder to the path given above if not already copied.
+    * */
     public void crateDatabase() throws IOException {
         boolean vtVarMi = isDatabaseExist();
 
@@ -330,6 +334,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         }
     }
 
+    // close current instance of database.
     @Override
     public synchronized void close() {
         if (database != null) {

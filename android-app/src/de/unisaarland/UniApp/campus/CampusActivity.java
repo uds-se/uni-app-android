@@ -182,6 +182,8 @@ public class CampusActivity extends FragmentActivity implements ConnectionCallba
             markers = new ArrayList<Marker>();
             // Check if we were successful in obtaining the map.
             if (map != null) {
+                // set default options of a map which are loaded with the activity
+                // like default zoom level and campera position
                 map.setMyLocationEnabled(true);
                 map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
                 map.setOnMyLocationButtonClickListener(this);

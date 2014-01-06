@@ -19,6 +19,7 @@ public class Util {
     public static final String NEWS_FILE_NAME = "news.dat";
     public static final String TEMP_STAFF_SEARCH_FILE = "staff.dat";
 
+    //to encode the url and remove spaces if there are any
     public static String urlEncode(String url) {
         String[] parts = url.split(" ");
         StringBuffer strBuf = new StringBuffer(parts.length + 1);
@@ -32,6 +33,7 @@ public class Util {
         return result;
     }
 
+    // remove html tags from the string
     public static String cleanHtmlCodeInString(String str){
         String result = str;
         result = result.replace("<b>","");
@@ -51,7 +53,7 @@ public class Util {
         return result ;
     }
 
-
+    // check if internet is connected
     public static boolean isConnectedToInternet(Context context) {
         ConnectivityManager cm = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();

@@ -252,6 +252,9 @@ public class NewsActivity extends Activity {
         newsList.setAdapter(new NewsAdapter(this,newsModelsArray));
     }
 
+    /**
+     * sets the custom navigation bar according to each activity.
+     */
     private void setActionBar() {
         ActionBar actionBar = getActionBar();
         // add the custom view to the action bar
