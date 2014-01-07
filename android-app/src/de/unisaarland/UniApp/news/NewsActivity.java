@@ -229,9 +229,9 @@ public class NewsActivity extends Activity {
     private void addLoadingView() {
         //displays the loading view and download and parse the news items from internet
         setContentView(R.layout.loading_layout);
+        bar = (ProgressBar) findViewById(R.id.progress_bar);
         // safety check in case user press the back button then bar will be null
         if(bar!=null){
-            bar = (ProgressBar) findViewById(R.id.progress_bar);
             bar.animate();
         }
         /**

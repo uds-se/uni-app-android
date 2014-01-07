@@ -146,25 +146,29 @@ public class SearchResultActivity extends Activity {
     }
 
     private void showSearchResults() {
+        if(pBar != null) {
         pBar.setVisibility(View.INVISIBLE);
-        if(namesArray.size() == 0){
-            AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
-            builder1.setTitle(getString(R.string.no_staff_member_title));
-            builder1.setMessage(getString(R.string.no_staff_member_found_description));
-            builder1.setCancelable(true);
-            builder1.setPositiveButton(getString(R.string.ok),
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            dialog.cancel();
-                            onBackPressed();
-                        }
-                    });
-            AlertDialog alert11 = builder1.create();
-            alert11.show();
-        } else {
-            body.setVisibility(View.VISIBLE);
-            SearchResultAdapter adapter = new SearchResultAdapter(this,namesArray,linksArray);
-            body.setAdapter(adapter);
+            if(namesArray.size() == 0){
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+                builder1.setTitle(getString(R.string.no_staff_member_title));
+                builder1.setMessage(getString(R.string.no_staff_member_found_description));
+                builder1.setCancelable(true);
+                builder1.setPositiveButton(getString(R.string.ok),
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                                onBackPressed();
+                            }
+                        });
+                AlertDialog alert11 = builder1.create();
+                alert11.show();
+            } else {
+                if(body != null){
+                    body.setVisibility(View.VISIBLE);
+                    SearchResultAdapter adapter = new SearchResultAdapter(this,namesArray,linksArray);
+                    body.setAdapter(adapter);
+                }
+            }
         }
     }
 

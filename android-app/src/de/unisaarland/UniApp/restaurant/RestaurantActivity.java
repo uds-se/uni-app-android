@@ -132,14 +132,13 @@ public class RestaurantActivity extends Activity {
         if(bar!=null){
             bar.clearAnimation();
             bar.setVisibility(View.INVISIBLE);
-            setContentView(R.layout.restaurant_layout);
-            boolean itemsSaved = savMensaItemsToFile();
-            if (itemsSaved) {
-                //Log.i("MyTag", "News are saved");
-            }
-            populateMensaItems();
         }
-
+        setContentView(R.layout.restaurant_layout);
+        boolean itemsSaved = savMensaItemsToFile();
+        if (itemsSaved) {
+            //Log.i("MyTag", "News are saved");
+        }
+        populateMensaItems();
     }
 
     /*
@@ -176,9 +175,9 @@ public class RestaurantActivity extends Activity {
     //displays the loading view and download and parse the mensa items from internet
     private void addLoadingView() {
         setContentView(R.layout.loading_layout);
+        bar = (ProgressBar) findViewById(R.id.progress_bar);
         // safety check in case user press the back button then bar will be null
         if(bar!=null){
-            bar = (ProgressBar) findViewById(R.id.progress_bar);
             bar.animate();
         }
         /**
