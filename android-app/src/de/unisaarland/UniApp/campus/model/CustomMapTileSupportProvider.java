@@ -17,6 +17,10 @@ import java.io.InputStream;
  * Time: 2:05 AM
  * To change this template use File | Settings | File Templates.
  */
+
+/*
+* provides custom tiles
+* */
 public class CustomMapTileSupportProvider implements TileProvider {
     private static final int TILE_WIDTH = 256;
     private static final int TILE_HEIGHT = 256;
@@ -40,7 +44,6 @@ public class CustomMapTileSupportProvider implements TileProvider {
     private boolean hasTile(int x, int y, int zoom) {
         Rect b = TILE_ZOOMS.get(zoom);
         return b == null ? false : true;
-        //TODO: both places add check
         //(b.left <= x && x <= b.right && b.top <= y && y <= b.bottom);
     }
 

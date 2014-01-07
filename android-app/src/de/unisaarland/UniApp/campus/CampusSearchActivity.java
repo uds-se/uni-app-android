@@ -66,7 +66,7 @@ public class CampusSearchActivity extends Activity {
         campusCategoriesadapter = new CampusCategoriesAdapter(this, categoryTitles, categoryIds);
         categoriesList.setAdapter(campusCategoriesadapter);
     }
-
+    // set custom navigation bar
     private void setActionBar() {
         ActionBar actionBar = getActionBar();
         // add the custom view to the action bar
@@ -134,6 +134,7 @@ public class CampusSearchActivity extends Activity {
             return 0;  //To change body of implemented methods use File | Settings | File Templates.
         }
 
+        // set categories view i.e buildings, restaurants etc
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             if (convertView == null) {
@@ -183,7 +184,7 @@ public class CampusSearchActivity extends Activity {
         };
     }
 
-
+    // set the result array in case if pinAll button or a single POI is selected.
     class DialogBackButtonClickListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {

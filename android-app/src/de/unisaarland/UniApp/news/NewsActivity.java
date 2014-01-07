@@ -235,7 +235,7 @@ public class NewsActivity extends Activity {
             bar.animate();
         }
         /**
-         * Calls the custom class to connect and download the specific XML and pass the deligate method which will be called
+         * Calls the custom class to connect and download the specific XML and pass the delegate method which will be called
          * in case of success and failure
          */
 

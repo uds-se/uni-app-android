@@ -17,6 +17,9 @@ import java.io.InputStream;
  * Time: 2:05 AM
  * To change this template use File | Settings | File Templates.
  */
+/*
+* provides custom tiles
+* */
 public class CustomMapTileProvider implements TileProvider {
     private static final int TILE_WIDTH = 256;
     private static final int TILE_HEIGHT = 256;

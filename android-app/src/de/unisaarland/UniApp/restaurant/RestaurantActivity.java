@@ -49,6 +49,11 @@ public class RestaurantActivity extends Activity {
     private ArrayList<String> keysList = null;
 
     INetworkLoaderDelegate mensaDelegate = new INetworkLoaderDelegate() {
+        /*
+        * Will be called in case of failure e.g internet connection problem
+        * Will try to load mensa information from already stored model or in case if that model is not present will show the
+        * error dialog
+        * */
         @Override
         public void onFailure(String message) {
             if (restaurantFileExist()){
@@ -77,6 +82,10 @@ public class RestaurantActivity extends Activity {
             }
         }
 
+        /*
+        * Will be called in case of success if connection is successfully established and parser is ready
+        * call the Mensa parser to parse the resultant file and return the map of mensa models to specified call back method.
+        * */
         @Override
         public void onSuccess(XmlPullParser parser) {
             MensaXMLParser mensaParser = new MensaXMLParser(mensaResultDelegate);
@@ -91,12 +100,15 @@ public class RestaurantActivity extends Activity {
     };
 
     private IMensaResultDelegate mensaResultDelegate = new IMensaResultDelegate() {
+        // will receive the map of mensa items and will call the Auslandercafe to parse its items and append
+        // in the map with a specific list.
         @Override
         public void mensaItemsList(HashMap<String,ArrayList<MensaItem>> daysDictionary) {
             new AusLanderCafeParser(auslanderResultDelegate,AUS_CAFE_URL,daysDictionary).parse();
         }
     };
 
+    // call back method of AuslanderCafeParser will sort the list and invalidate the network request
     private IMensaResultDelegate auslanderResultDelegate = new IMensaResultDelegate() {
         @Override
         public void mensaItemsList(HashMap<String, ArrayList<MensaItem>> daysDictionary) {
@@ -115,6 +127,7 @@ public class RestaurantActivity extends Activity {
         }
     };
 
+    // will remove the loading view and save the current maensa items in a file
     private void removeLoadingView() {
         if(bar!=null){
             bar.clearAnimation();
@@ -122,13 +135,17 @@ public class RestaurantActivity extends Activity {
             setContentView(R.layout.restaurant_layout);
             boolean itemsSaved = savMensaItemsToFile();
             if (itemsSaved) {
-                Log.i("MyTag", "News are saved");
+                //Log.i("MyTag", "News are saved");
             }
             populateMensaItems();
         }
 
     }
 
+    /*
+    * after downloading and parsing the mensa items when models are built it will call the adapter and pass the
+    * specified model to it so that it will display list of mensa items.
+    * */
     private void populateMensaItems() {
 
         ViewFlow viewFlow = (ViewFlow) findViewById(R.id.viewflow);
@@ -137,6 +154,10 @@ public class RestaurantActivity extends Activity {
         viewFlow.setFlowIndicator(indic);
     }
 
+    /*
+    * Will be called when activity created first time e.g. from scratch will have extras in intent if
+    * it is being called from campus activity
+    * */
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         savedInstanceState = getIntent().getExtras();
@@ -152,14 +173,25 @@ public class RestaurantActivity extends Activity {
         super.onStart();
     }
 
+    //displays the loading view and download and parse the mensa items from internet
     private void addLoadingView() {
         setContentView(R.layout.loading_layout);
-        bar = (ProgressBar) findViewById(R.id.progress_bar);
-        bar.animate();
+        // safety check in case user press the back button then bar will be null
+        if(bar!=null){
+            bar = (ProgressBar) findViewById(R.id.progress_bar);
+            bar.animate();
+        }
+        /**
+         * Calls the custom class to connect and download the specific XML and pass the delegate method which will be called
+         * in case of success and failure
+         */
         mensaNetworkHandler = new NetworkHandler(mensaDelegate);
         mensaNetworkHandler.connect(MENSA_URL, this);
     }
 
+    /*
+    * Save current mensa model to file (temporary) so that these will be used later in case if user don't have internet connection
+    * */
     private boolean savMensaItemsToFile(){
         try{
             ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File(getFilesDir().getAbsolutePath()+ RESTAURANT_FILE_NAME)));
@@ -229,6 +261,7 @@ public class RestaurantActivity extends Activity {
         }
     }
 
+    // set custom navigation bar
     private void setActionBar() {
         ActionBar actionBar = getActionBar();
         // add the custom view to the action bar
@@ -279,6 +312,9 @@ public class RestaurantActivity extends Activity {
         }
     }
 
+    /*
+   * Called when back button is pressed either from device or navigation bar.
+   * */
     @Override
     public void onBackPressed() {
         backText = null;
