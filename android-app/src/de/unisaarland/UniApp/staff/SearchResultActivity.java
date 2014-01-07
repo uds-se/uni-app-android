@@ -128,8 +128,11 @@ public class SearchResultActivity extends Activity {
                                 String name = nameArray[nameArray.length-1];
                                 name = String.format("%s %s",firstName,name);
                                 String url = nameElement.attr("href");
-                                namesArray.add(name);
-                                linksArray.add(url);
+                                //safety check in case user press the back button of device
+                                if(namesArray != null && linksArray != null){
+                                    namesArray.add(name);
+                                    linksArray.add(url);
+                                }
                             }
                         }
 
