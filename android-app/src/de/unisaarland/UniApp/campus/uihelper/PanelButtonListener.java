@@ -29,6 +29,7 @@ public class PanelButtonListener implements View.OnClickListener{
     private final CampusActivity campusActivity;
     private final HashMap<String, PointOfInterest> poisMap;
     private final ArrayList<Marker> markers;
+    // set the panel listener for changing map type and remove all pins
     public PanelButtonListener(CampusActivity campusActivity, GoogleMap map, HashMap<String, PointOfInterest> poisMap, ArrayList<Marker> markers){
         this.campusActivity = campusActivity;
         this.map = map;

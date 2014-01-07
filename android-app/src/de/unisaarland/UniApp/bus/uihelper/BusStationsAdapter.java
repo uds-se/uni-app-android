@@ -54,7 +54,7 @@ public class BusStationsAdapter extends BaseAdapter {
         return 0;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    //generate the row items of a list and update the distance from currnt position to bus stop bu using the current location
+    //generate the row items of a list and update the distance from current position to bus stop bu using the current location
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if(convertView == null){

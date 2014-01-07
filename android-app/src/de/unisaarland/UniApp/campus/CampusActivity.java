@@ -55,6 +55,10 @@ import java.util.ArrayList;
  * Time: 4:45 PM
  * To change this template use File | Settings | File Templates.
  */
+
+/*
+* It implements Location listeners to show the distance of the bus stop from users current location.
+* */
 public class CampusActivity extends FragmentActivity implements ConnectionCallbacks,OnConnectionFailedListener,
         LocationListener,
         GoogleMap.OnMyLocationButtonClickListener, OnMarkerClickListener,OnInfoWindowClickListener{
@@ -68,6 +72,7 @@ public class CampusActivity extends FragmentActivity implements ConnectionCallba
             new LatLng(7.03466212,49.25030771), new LatLng(7.05128056,49.25946299));
     private static final int TIME_INTERVAL = 3000; // 3 seconds
 
+    //////////////location will be updated after every 3 seconds//////////////
     private static final LocationRequest REQUEST = LocationRequest.create()
             .setInterval(TIME_INTERVAL)
             .setFastestInterval(16)    // 16ms = 60fps
@@ -76,6 +81,10 @@ public class CampusActivity extends FragmentActivity implements ConnectionCallba
     private ArrayList<Marker> markers;
     private AutoCompleteTextView search;
 
+    /*
+    * Will be called when activity created first time e.g. from scratch and check if intent has any extra information
+    * extra information will be set if activity is called from search staff page.
+    * */
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         savedInstanceState = getIntent().getExtras();
@@ -83,9 +92,14 @@ public class CampusActivity extends FragmentActivity implements ConnectionCallba
             infoBuilding = savedInstanceState.getString("building");
         }
         setContentView(R.layout.campus_layout);
+        // sets the custom navigation bar according to each activity.
         setActionBar();
     }
 
+    /*
+    * Will be called when activity created first time after onCreate or when activity comes to the front again or in a pausing state
+    * So its better to set all the things needed to use in the activity here if in case anything is released in onPause method
+    * */
     @Override
     protected void onResume() {
         super.onResume();
@@ -104,6 +118,8 @@ public class CampusActivity extends FragmentActivity implements ConnectionCallba
         imm.hideSoftInputFromWindow(search.getWindowToken(), 0);
     }
 
+    // get map object and set default parameters e.g mapType and camera position
+    // also set the panel listener for changing map type and remove all pins
     private void setUpMapIfNeeded() {
         // Do a null check to confirm that we have not already instantiated the map.
         if (map == null) {
@@ -135,6 +151,8 @@ public class CampusActivity extends FragmentActivity implements ConnectionCallba
                 map.addTileOverlay(new TileOverlayOptions().tileProvider(new CustomMapTileSupportProvider(getResources().getAssets())));
                 CameraUpdate upd = CameraUpdateFactory.newLatLngZoom(new LatLng(49.25419, 7.041324), 15);
                 map.moveCamera(upd);
+                // if info building != null means activity is called from search result details page
+                // so it will get the building position from the database and will set the marker there.
                 if(infoBuilding != null){
                     DatabaseHandler db = new DatabaseHandler(CampusActivity.this);
                     ArrayList<PointOfInterest> pois = db.getPointsOfInterestForTitle(infoBuilding);
@@ -147,10 +165,17 @@ public class CampusActivity extends FragmentActivity implements ConnectionCallba
         panelButton.setOnClickListener(new PanelButtonListener(this,map,poisMap,markers));
     }
 
+    // return false as i want to open the marker from default implementation i haven't done any specific
+    @Override
     public boolean onMarkerClick(com.google.android.gms.maps.model.Marker marker){
         return false;
     }
 
+    /*
+    * on clicking the info button it will check if more then 1 action available then it will open a dialog
+    * otherwise it will just open the chooser activity for the route
+    * and it also has extra check in case of mensa it will open the mensa page.
+    * */
     @Override
     public void onInfoWindowClick(final Marker marker) {
         final PointOfInterest p = poisMap.get(marker.getTitle());
@@ -193,6 +218,11 @@ public class CampusActivity extends FragmentActivity implements ConnectionCallba
         }
     }
 
+    /*
+    * It will show the route in external application from current position to destination
+    * if current location is set e.g. using wifi, mobile network or gps otherwise it will display
+    * message that please enable at least one location service and will open the settings page on Clicking
+    * */
     private void showRouteIfAvailable(PointOfInterest p) {
         if(currentLocation != null){
             Intent intent = new Intent(Intent.ACTION_VIEW,
@@ -217,6 +247,7 @@ public class CampusActivity extends FragmentActivity implements ConnectionCallba
         }
     }
 
+    // setup location listener
     private void setUpLocationClient() {
         if (locationClient == null) {
             locationClient = new LocationClient(
@@ -226,6 +257,9 @@ public class CampusActivity extends FragmentActivity implements ConnectionCallba
         }
     }
 
+    /**
+     * sets the custom navigation bar according to each activity.
+     */
     private void setActionBar() {
         ActionBar actionBar = getActionBar();
         // add the custom view to the action bar
@@ -270,6 +304,10 @@ public class CampusActivity extends FragmentActivity implements ConnectionCallba
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
     }
 
+    /*
+    * will be called when user selects any point of interest from campusSearchActivity page and will receive
+    * a list of PointOfInterests.
+    * */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -282,6 +320,10 @@ public class CampusActivity extends FragmentActivity implements ConnectionCallba
         }
     }
 
+    /*
+    * add pins to all pointOfInterests in the list and will compute the visible rectangle so that
+    * all point of interests are displayed on the screen.
+    * */
     private boolean pinPOIsInArray(ArrayList<PointOfInterest> POIs){
         boolean res = false;
         float lati = 0.0f;
@@ -329,6 +371,7 @@ public class CampusActivity extends FragmentActivity implements ConnectionCallba
 
     }
 
+    // will adjust the bounds to include markers
     private LatLngBounds adjustBoundsForMaxZoomLevel(LatLngBounds bounds) {
         LatLng sw = bounds.southwest;
         LatLng ne = bounds.northeast;
@@ -377,6 +420,7 @@ public class CampusActivity extends FragmentActivity implements ConnectionCallba
         return false;
     }
 
+    // custom class to show the back button action using navigation bar and will call the onBack method of activity
     class BackButtonClickListener implements View.OnClickListener{
         final Activity activity;
         public BackButtonClickListener(Activity activity) {

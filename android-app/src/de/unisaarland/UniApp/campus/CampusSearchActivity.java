@@ -43,6 +43,10 @@ public class CampusSearchActivity extends Activity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    /*
+    * Will be called when activity created first time e.g. from scratch and will get list of all
+    * Point of Interests from database and will call populate to show the list in adapter
+    * */
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.campus_search_layout);
@@ -54,6 +58,9 @@ public class CampusSearchActivity extends Activity {
         populateItems();
     }
 
+    /*
+    * populate the list of point of Interest categories
+    * */
     private void populateItems() {
         categoriesList = (ListView) findViewById(R.id.categoriesList);
         campusCategoriesadapter = new CampusCategoriesAdapter(this, categoryTitles, categoryIds);
@@ -83,6 +90,7 @@ public class CampusSearchActivity extends Activity {
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
     }
 
+    // custom class to show the back button action using navigation bar and will call the onBack method of activity
     class BackButtonClickListener implements View.OnClickListener {
         final Activity activity;
 
