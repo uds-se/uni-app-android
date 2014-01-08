@@ -2,6 +2,7 @@ package de.unisaarland.UniApp.restaurant;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import de.unisaarland.UniApp.R;
+import de.unisaarland.UniApp.networkcommunicator.Util;
 
 /**
  * Created with IntelliJ IDEA.
@@ -58,5 +60,17 @@ public class OpeningHoursActivity extends FragmentActivity {
         public void onClick(View v) {
             activity.onBackPressed();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        SharedPreferences settings = getSharedPreferences(Util.PREFS_NAME, 0);
+        boolean isCopied = settings.getBoolean(Util.MENSA_ITEMS_LOADED,false);
+        if(!isCopied){
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putBoolean(Util.MENSA_ITEMS_LOADED, true);
+            editor.commit();
+        }
+        super.onBackPressed();
     }
 }

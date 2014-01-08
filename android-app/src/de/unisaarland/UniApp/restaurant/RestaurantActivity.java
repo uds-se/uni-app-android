@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import de.unisaarland.UniApp.R;
 import de.unisaarland.UniApp.networkcommunicator.INetworkLoaderDelegate;
 import de.unisaarland.UniApp.networkcommunicator.NetworkHandler;
+import de.unisaarland.UniApp.networkcommunicator.Util;
 import de.unisaarland.UniApp.restaurant.model.AusLanderCafeParser;
 import de.unisaarland.UniApp.restaurant.model.IMensaResultDelegate;
 import de.unisaarland.UniApp.restaurant.model.MensaItem;
@@ -42,7 +44,7 @@ public class RestaurantActivity extends Activity {
     private NetworkHandler mensaNetworkHandler = null;
     private String backText = null;
 
-    private final String MENSA_URL = "http://studentenwerk.netzindianer.net/_menu/actual/speiseplan-saarbruecken.xml";
+    private final String MENSA_URL = "http://studentenwerk-saarland.de/_menu/actual/speiseplan-saarbruecken.xml";
     private final String AUS_CAFE_URL = "http://www.uni-saarland.de/campus/service-und-kultur/gastronomieaufdemcampus/auslaender-cafe.html";
 
     private HashMap<String,ArrayList<MensaItem>> mensaItemsDictionary = null;
@@ -168,7 +170,21 @@ public class RestaurantActivity extends Activity {
 
     @Override
     protected void onStart() {
-        addLoadingView();
+        /*
+        * Checks if news are already loaded and models are built then no need to download the from internet again
+        * e.g. if activity is just changed to see the details of any specific news and comes back to the news list
+        * otherwise if it is being loaded from main activity page and internet is available it will be downloaded from internet
+        * again.
+        * */
+        SharedPreferences settings = getSharedPreferences(Util.PREFS_NAME, 0);
+        boolean isCopied = settings.getBoolean(Util.MENSA_ITEMS_LOADED,false);
+        if(!isCopied){
+            addLoadingView();
+        }else{
+            loadMensaItemsFromSavedFile();
+            setContentView(R.layout.restaurant_layout);
+            populateMensaItems();
+        }
         super.onStart();
     }
 

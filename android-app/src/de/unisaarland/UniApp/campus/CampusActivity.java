@@ -108,6 +108,20 @@ public class CampusActivity extends FragmentActivity implements ConnectionCallba
         locationClient.connect();
     }
 
+    @Override
+    protected void onPause() {
+        if (locationClient != null) {
+            locationClient.disconnect();
+            locationClient = null;
+        }
+        super.onPause();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
     public void searchItemSelected(PointOfInterest model) {
         ArrayList<PointOfInterest> pois = new ArrayList<PointOfInterest>();
         pois.add(model);
@@ -116,53 +130,6 @@ public class CampusActivity extends FragmentActivity implements ConnectionCallba
         InputMethodManager imm = (InputMethodManager)getSystemService(
                 Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(search.getWindowToken(), 0);
-    }
-
-    // get map object and set default parameters e.g mapType and camera position
-    // also set the panel listener for changing map type and remove all pins
-    private void setUpMapIfNeeded() {
-        // Do a null check to confirm that we have not already instantiated the map.
-        if (map == null) {
-            // Try to obtain the map from the SupportMapFragment.
-            map = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
-                    .getMap();
-            markers = new ArrayList<Marker>();
-            // Check if we were successful in obtaining the map.
-            if (map != null) {
-                // set default options of a map which are loaded with the activity
-                // like default zoom level and campera position
-                map.setMyLocationEnabled(true);
-                map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-                map.setOnMyLocationButtonClickListener(this);
-                map.setOnMarkerClickListener(this);
-                map.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
-                    @Override
-                    public void onCameraChange(CameraPosition cameraPosition) {
-                        float maxZoom = 18.0f;
-                        if (cameraPosition.zoom > maxZoom)
-                            map.animateCamera(CameraUpdateFactory.zoomTo(maxZoom));
-                    }
-                });
-                map.setBuildingsEnabled(false);
-                map.getUiSettings().setZoomControlsEnabled(false);
-                map.setInfoWindowAdapter(new CustomInfoWindowAdapter(this,poisMap));
-                map.setOnInfoWindowClickListener(this);
-                map.addTileOverlay(new TileOverlayOptions().tileProvider(new CustomMapTileProvider(getResources().getAssets())));
-                map.addTileOverlay(new TileOverlayOptions().tileProvider(new CustomMapTileSupportProvider(getResources().getAssets())));
-                CameraUpdate upd = CameraUpdateFactory.newLatLngZoom(new LatLng(49.25419, 7.041324), 15);
-                map.moveCamera(upd);
-                // if info building != null means activity is called from search result details page
-                // so it will get the building position from the database and will set the marker there.
-                if(infoBuilding != null){
-                    DatabaseHandler db = new DatabaseHandler(CampusActivity.this);
-                    ArrayList<PointOfInterest> pois = db.getPointsOfInterestForTitle(infoBuilding);
-                    db.close();
-                    pinPOIsInArray(pois);
-                }
-            }
-        }
-        Button panelButton = (Button) findViewById(R.id.panel_button);
-        panelButton.setOnClickListener(new PanelButtonListener(this,map,poisMap,markers));
     }
 
     // return false as i want to open the marker from default implementation i haven't done any specific
@@ -216,6 +183,53 @@ public class CampusActivity extends FragmentActivity implements ConnectionCallba
         } else {
             showRouteIfAvailable(p);
         }
+    }
+
+    // get map object and set default parameters e.g mapType and camera position
+    // also set the panel listener for changing map type and remove all pins
+    private void setUpMapIfNeeded() {
+        // Do a null check to confirm that we have not already instantiated the map.
+        if (map == null) {
+            // Try to obtain the map from the SupportMapFragment.
+            map = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
+                    .getMap();
+            markers = new ArrayList<Marker>();
+            // Check if we were successful in obtaining the map.
+            if (map != null) {
+                // set default options of a map which are loaded with the activity
+                // like default zoom level and campera position
+                map.setMyLocationEnabled(true);
+                map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+                map.setOnMyLocationButtonClickListener(this);
+                map.setOnMarkerClickListener(this);
+                map.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
+                    @Override
+                    public void onCameraChange(CameraPosition cameraPosition) {
+                        float maxZoom = 18.0f;
+                        if (cameraPosition.zoom > maxZoom)
+                            map.animateCamera(CameraUpdateFactory.zoomTo(maxZoom));
+                    }
+                });
+                map.setBuildingsEnabled(false);
+                map.getUiSettings().setZoomControlsEnabled(false);
+                map.setInfoWindowAdapter(new CustomInfoWindowAdapter(this,poisMap));
+                map.setOnInfoWindowClickListener(this);
+                map.addTileOverlay(new TileOverlayOptions().tileProvider(new CustomMapTileProvider(getResources().getAssets())));
+                map.addTileOverlay(new TileOverlayOptions().tileProvider(new CustomMapTileSupportProvider(getResources().getAssets())));
+                CameraUpdate upd = CameraUpdateFactory.newLatLngZoom(new LatLng(49.25419, 7.041324), 15);
+                map.moveCamera(upd);
+                // if info building != null means activity is called from search result details page
+                // so it will get the building position from the database and will set the marker there.
+                if(infoBuilding != null){
+                    DatabaseHandler db = new DatabaseHandler(CampusActivity.this);
+                    ArrayList<PointOfInterest> pois = db.getPointsOfInterestForTitle(infoBuilding);
+                    db.close();
+                    pinPOIsInArray(pois);
+                }
+            }
+        }
+        Button panelButton = (Button) findViewById(R.id.panel_button);
+        panelButton.setOnClickListener(new PanelButtonListener(this,map,poisMap,markers));
     }
 
     /*
