@@ -22,7 +22,6 @@
     <string name="professors_only">Nur Professoren</string>
     <string name="all">Alle</string>
     <string name="filter">Filter</string>
-    <string name="search_text">Suchen</string>
     <string name="opening_hours">Öffnungszeiten</string>
     <string name="mensa">Mensa</string>
     <string name="heroes_cafe">Heroes café</string>
@@ -69,7 +68,7 @@
     <string name="more_info">Weitere Informationen</string>
     <string name="categories">Kategorien</string>
     <string name="pin_all">Alle markieren</string>
-    <string name="email_subject">Concerning Saarland University Android app</string>
+    <string name="email_subject">Concerning Saarland University Android App</string>
     <string name="action">Auswahl</string>
     <string name="web_or_route">Webseite oder Wegbeschreibung aufrufen</string>
     <string name="website">Webseite</string>
@@ -86,4 +85,10 @@
     <string name="search_bus">Bus Suche</string>
     <string name="current_location_not_set">Standort kann nicht ermittelt werden</string>
     <string name="enable_location_option">Bitte aktivieren Sie mindestens einen Standortdienst</string>
+    <string name="copyright">© Univerität des Saarlandes</string>
+    <string name="contact_feedback">Kontakt / Feedback</string>
+    <string name="development">Entwicklung:</string>
+    <string name="supervision">Betreut durch:</string>
+    <string name="special_thanks">Besonderen Dank an:</string>
+    <string name="cooperation_se_team">In Zusammenarbeit mit dem Projektteam der Software Engineering Vorlesung:</string>
 </resources>

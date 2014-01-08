@@ -67,7 +67,7 @@
             android:id="@+id/searchBtn" android:clickable="true"
             android:gravity="center"
             android:layout_centerHorizontal="true" android:layout_alignParentTop="true"
-            android:layout_marginTop="230dp" android:text="@string/search_text" android:textColor="#000000" android:textSize="14dp"
+            android:layout_marginTop="230dp" android:text="@android:string/search_go" android:textColor="#000000" android:textSize="14dp"
             android:textStyle="bold"/>
 
 </RelativeLayout>

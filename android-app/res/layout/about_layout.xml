@@ -12,84 +12,108 @@
                    android:layout_marginLeft="30dp"></ImageView>
         <TextView android:layout_width="fill_parent" android:layout_height="20dp" android:layout_marginTop="110dp"
                   android:layout_centerHorizontal="true" android:gravity="center_vertical|center_horizontal"
-                  android:text="Development:"
-                  android:textColor="#000000" android:textStyle="bold"/>
-        <TextView android:layout_width="fill_parent" android:layout_height="20dp" android:layout_marginTop="130dp"
-                  android:layout_centerHorizontal="true" android:gravity="center_vertical|center_horizontal"
+                  android:text="@string/development"
+                  android:textColor="#000000" android:textStyle="bold" android:id="@+id/textView16"/>
+        <TextView android:layout_width="fill_parent" android:layout_height="20dp"
+                  android:gravity="center_vertical|center_horizontal"
                   android:text="Hafiz Ahmad Shahzad Aslam"
-                  android:textColor="#000000"/>
+                  android:textColor="#000000" android:id="@+id/textView2" android:layout_below="@+id/textView16"
+                  android:layout_alignParentLeft="true"/>
 
-        <TextView android:layout_width="fill_parent" android:layout_height="40dp" android:layout_marginTop="170dp"
-                  android:layout_centerHorizontal="true" android:gravity="center_vertical|center_horizontal"
-                  android:text="In cooperation with project team of the Software Engineering lecture: "
-                  android:textColor="#000000" android:textStyle="bold"/>
-        <TextView android:layout_width="fill_parent" android:layout_height="20dp" android:layout_marginTop="220dp"
-                  android:layout_centerHorizontal="true" android:gravity="center_vertical|center_horizontal"
+        <TextView android:layout_width="fill_parent" android:layout_height="40dp"
+                  android:gravity="center_vertical|center_horizontal"
+                  android:text="@string/cooperation_se_team"
+                  android:textColor="#000000" android:textStyle="bold"
+                  android:layout_below="@+id/textView" android:layout_centerHorizontal="true"
+                  android:id="@+id/textView17" android:layout_marginLeft="40dp" android:layout_marginRight="40dp"
+                  android:layout_marginTop="15dp"/>
+        <TextView android:layout_width="fill_parent" android:layout_height="20dp"
+                  android:gravity="center_vertical|center_horizontal"
                   android:text="Andreas Freund"
-                  android:textColor="#000000"/>
-        <TextView android:layout_width="fill_parent" android:layout_height="20dp" android:layout_marginTop="240dp"
-                  android:layout_centerHorizontal="true" android:gravity="center_vertical|center_horizontal"
+                  android:textColor="#000000" android:id="@+id/textView5" android:layout_below="@+id/textView17"
+                  android:layout_alignParentLeft="true"/>
+        <TextView android:layout_width="fill_parent" android:layout_height="20dp"
+                  android:gravity="center_vertical|center_horizontal"
                   android:text="Tom Michels"
-                  android:textColor="#000000"/>
-        <TextView android:layout_width="fill_parent" android:layout_height="20dp" android:layout_marginTop="260dp"
-                  android:layout_centerHorizontal="true" android:gravity="center_vertical|center_horizontal"
+                  android:textColor="#000000" android:layout_below="@+id/textView5"
+                  android:layout_alignParentLeft="true" android:id="@+id/textView6"/>
+        <TextView android:layout_width="fill_parent" android:layout_height="20dp"
+                  android:gravity="center_vertical|center_horizontal"
                   android:text="Jianan Ma"
-                  android:textColor="#000000"/>
-        <TextView android:layout_width="fill_parent" android:layout_height="20dp" android:layout_marginTop="280dp"
-                  android:layout_centerHorizontal="true" android:gravity="center_vertical|center_horizontal"
+                  android:textColor="#000000" android:layout_below="@+id/textView6"
+                  android:layout_alignParentLeft="true" android:id="@+id/textView7"/>
+        <TextView android:layout_width="fill_parent" android:layout_height="20dp"
+                  android:gravity="center_vertical|center_horizontal"
                   android:text="Matthias Sambale"
-                  android:textColor="#000000"/>
-        <TextView android:layout_width="fill_parent" android:layout_height="20dp" android:layout_marginTop="300dp"
-                  android:layout_centerHorizontal="true" android:gravity="center_vertical|center_horizontal"
+                  android:textColor="#000000" android:id="@+id/textView4" android:layout_below="@+id/textView7"
+                  android:layout_alignParentLeft="true"/>
+        <TextView android:layout_width="fill_parent" android:layout_height="20dp"
+                  android:gravity="center_vertical|center_horizontal"
                   android:text="Tobias Tykvart"
-                  android:textColor="#000000"/>
-        <TextView android:layout_width="fill_parent" android:layout_height="20dp" android:layout_marginTop="320dp"
-                  android:layout_centerHorizontal="true" android:gravity="center_vertical|center_horizontal"
+                  android:textColor="#000000"
+                  android:layout_below="@+id/textView4" android:layout_alignParentLeft="true"
+                  android:id="@+id/textView8"/>
+        <TextView android:layout_width="fill_parent" android:layout_height="20dp"
+                  android:gravity="center_vertical|center_horizontal"
                   android:text="Wenbin Li"
-                  android:textColor="#000000"/>
-        <TextView android:layout_width="fill_parent" android:layout_height="20dp" android:layout_marginTop="350dp"
-                  android:layout_centerHorizontal="true" android:gravity="center_vertical|center_horizontal"
-                  android:text="Supervision:"
-                  android:textColor="#000000" android:textStyle="bold"/>
-        <TextView android:layout_width="fill_parent" android:layout_height="20dp" android:layout_marginTop="370dp"
-                  android:layout_centerHorizontal="true" android:gravity="center_vertical|center_horizontal"
+                  android:textColor="#000000" android:id="@+id/textView3"
+                  android:layout_below="@+id/textView8" android:layout_alignParentLeft="true"/>
+        <TextView android:layout_width="fill_parent" android:layout_height="20dp"
+                  android:gravity="center_vertical|center_horizontal"
+                  android:text="@string/supervision"
+                  android:textColor="#000000" android:textStyle="bold" android:layout_below="@+id/textView3"
+                  android:layout_alignParentLeft="true" android:id="@+id/textView9" android:layout_marginTop="15dp"/>
+        <TextView android:layout_width="fill_parent" android:layout_height="20dp"
+                  android:gravity="center_vertical|center_horizontal"
                   android:text="Krishna Narasimhan"
-                  android:textColor="#000000"/>
-        <TextView android:layout_width="fill_parent" android:layout_height="20dp" android:layout_marginTop="390dp"
-                  android:layout_centerHorizontal="true" android:gravity="center_vertical|center_horizontal"
+                  android:textColor="#000000" android:layout_below="@+id/textView9"
+                  android:layout_alignParentLeft="true" android:id="@+id/textView10"/>
+        <TextView android:layout_width="fill_parent" android:layout_height="20dp"
+                  android:gravity="center_vertical|center_horizontal"
                   android:text="Prof. Christian Hammer"
-                  android:textColor="#000000"/>
-        <TextView android:layout_width="fill_parent" android:layout_height="20dp" android:layout_marginTop="410dp"
-                  android:layout_centerHorizontal="true" android:gravity="center_vertical|center_horizontal"
+                  android:textColor="#000000" android:layout_below="@+id/textView10"
+                  android:layout_alignParentLeft="true" android:id="@+id/textView11"/>
+        <TextView android:layout_width="fill_parent" android:layout_height="20dp"
+                  android:gravity="center_vertical|center_horizontal"
                   android:text="Prof. Andreas Zeller"
-                  android:textColor="#000000"/>
-        <TextView android:layout_width="fill_parent" android:layout_height="20dp" android:layout_marginTop="440dp"
-                  android:layout_centerHorizontal="true" android:gravity="center_vertical|center_horizontal"
-                  android:text="Special Thanks to:"
-                  android:textColor="#000000" android:textStyle="bold"/>
-        <TextView android:layout_width="fill_parent" android:layout_height="20dp" android:layout_marginTop="460dp"
-                  android:layout_centerHorizontal="true" android:gravity="center_vertical|center_horizontal"
+                  android:textColor="#000000" android:layout_below="@+id/textView11"
+                  android:layout_alignParentLeft="true" android:id="@+id/textView12"/>
+        <TextView android:layout_width="fill_parent" android:layout_height="20dp"
+                  android:gravity="center_vertical|center_horizontal"
+                  android:text="@string/special_thanks"
+                  android:textColor="#000000" android:textStyle="bold" android:layout_below="@+id/textView12"
+                  android:layout_alignParentLeft="true" android:id="@+id/textView13" android:layout_marginTop="15dp"/>
+        <TextView android:layout_width="fill_parent" android:layout_height="20dp"
+                  android:gravity="center_vertical|center_horizontal"
                   android:text="Cliff Ross (Icon Design)"
-                  android:textColor="#000000"/>
-        <TextView android:layout_width="fill_parent" android:layout_height="20dp" android:layout_marginTop="480dp"
-                  android:layout_centerHorizontal="true" android:gravity="center_vertical|center_horizontal"
+                  android:textColor="#000000" android:layout_below="@+id/textView13"
+                  android:layout_alignParentLeft="true" android:id="@+id/textView14"/>
+        <TextView android:layout_width="fill_parent" android:layout_height="20dp"
+                  android:gravity="center_vertical|center_horizontal"
                   android:text="Saarland University Press"
-                  android:textColor="#000000"/>
+                  android:textColor="#000000" android:layout_below="@+id/textView14"
+                  android:layout_alignParentLeft="true" android:id="@+id/textView15"/>
         <Button android:layout_width="fill_parent"
                 android:layout_height="20dp"
                 android:id="@+id/contact_btn" android:clickable="true"
-                android:text="Contact/Feedback"
+                android:text="@string/contact_feedback"
                 android:gravity="center_vertical|center_horizontal" android:textColor="#1519a4"
                 android:textSize="16dp"
                 android:textStyle="bold" android:background="@android:color/transparent"
-                android:layout_marginTop="510dp" android:layout_centerHorizontal="true"/>
-        <TextView android:layout_width="fill_parent" android:layout_height="20dp" android:layout_marginTop="530dp"
-                  android:layout_centerHorizontal="true" android:gravity="center_vertical|center_horizontal"
-                  android:text="©Universität des saarlandes"
-                  android:textColor="#000000"/>
-        <TextView android:layout_width="fill_parent" android:layout_height="20dp" android:layout_marginTop="550dp"
-                  android:layout_centerHorizontal="true" android:gravity="center_vertical|center_horizontal"
-                  android:text="@string/empty_string"
+                android:layout_below="@+id/textView15" android:layout_alignParentLeft="true"
+                android:layout_marginTop="15dp"/>
+        <TextView android:layout_width="fill_parent" android:layout_height="20dp"
+                  android:gravity="center_vertical|center_horizontal"
+                  android:textColor="#000000" android:singleLine="true" android:text="@string/copyright"
+                  android:layout_below="@+id/contact_btn" android:layout_alignParentLeft="true"
+                  android:id="@+id/textView18"/>
+        <TextView android:layout_width="fill_parent" android:layout_height="20dp"
+                  android:gravity="center_vertical|center_horizontal"
+                  android:text="-version-" android:layout_below="@+id/textView18"
                   android:textColor="#000000" android:id="@+id/version_number"/>
+        <TextView android:layout_width="fill_parent" android:layout_height="20dp"
+                  android:gravity="center_vertical|center_horizontal"
+                  android:text="Clemens Hammacher" android:textColor="#000000" android:id="@+id/textView"
+                  android:layout_below="@+id/textView2" android:layout_alignParentLeft="true"/>
     </RelativeLayout>
 </ScrollView>
