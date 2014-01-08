@@ -84,6 +84,6 @@
     <string name="back">Zurück</string>
     <string name="at_station">An Haltestelle</string>
     <string name="search_bus">Bus Suche</string>
-    <string name="current_location_not_set">Current location is not set</string>
-    <string name="enable_location_option">Please enable at least one location option</string>
+    <string name="current_location_not_set">Standort kann nicht ermittelt werden</string>
+    <string name="enable_location_option">Bitte aktivieren Sie mindestens einen Standortdienst</string>
 </resources>
