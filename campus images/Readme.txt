@@ -1,0 +1,2 @@
+These are the images which are used for making tile overlays of the campus which are used on map.
+And forthis i used maptiler software (free version). In case if we buy that software we can also make tile for other zoom levels.
