@@ -6,22 +6,27 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.*;
-import de.unisaarland.UniApp.R;
-import de.unisaarland.UniApp.campus.uihelper.DetailedPOIView;
-import de.unisaarland.UniApp.database.DatabaseHandler;
+import android.widget.BaseAdapter;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import de.unisaarland.UniApp.R;
+import de.unisaarland.UniApp.campus.uihelper.DetailedPOIView;
+import de.unisaarland.UniApp.database.DatabaseHandler;
 
 /**
  * Created with IntelliJ IDEA.
@@ -69,6 +74,10 @@ public class CampusSearchActivity extends Activity {
     // set custom navigation bar
     private void setActionBar() {
         ActionBar actionBar = getActionBar();
+        //Enabling Up-Navigation
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle(R.string.categories);
+        /*
         // add the custom view to the action bar
         actionBar.setCustomView(R.layout.navigation_bar_layout);
         actionBar.setBackgroundDrawable(new ColorDrawable(Color.LTGRAY));
@@ -87,7 +96,18 @@ public class CampusSearchActivity extends Activity {
         pageText.setVisibility(View.VISIBLE);
         pageText.setTextColor(Color.BLACK);
 
-        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);*/
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                onBackPressed();
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     // custom class to show the back button action using navigation bar and will call the onBack method of activity
@@ -148,7 +168,7 @@ public class CampusSearchActivity extends Activity {
             try {
                 Drawable d = Drawable.createFromStream(context.getAssets().open("cat" + categoryIds.get(position) + ".png"), null);
                 ImageView categoryIcon = (ImageView) convertView.findViewById(R.id.category_icon);
-                categoryIcon.setBackground(d);
+                categoryIcon.setBackgroundDrawable(d);
 
             } catch (IOException e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.

@@ -2,26 +2,27 @@ package de.unisaarland.UniApp.news;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v4.app.NavUtils;
+import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
-import android.widget.ImageButton;
 import android.widget.ProgressBar;
-import android.widget.TextView;
-import de.unisaarland.UniApp.R;
-import de.unisaarland.UniApp.networkcommunicator.Util;
-import de.unisaarland.UniApp.news.model.NewsModel;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+
+import de.unisaarland.UniApp.R;
+import de.unisaarland.UniApp.networkcommunicator.Util;
+import de.unisaarland.UniApp.news.model.NewsModel;
 
 /**
  * Created with IntelliJ IDEA.
@@ -79,7 +80,6 @@ public class NewsArticleActivity extends Activity {
         pBar = (ProgressBar) findViewById(R.id.web_view_progress_bar);
         pBar.setVisibility(View.VISIBLE);
         body.setVisibility(View.GONE);
-
         getTask(model).execute();
     }
 
@@ -95,10 +95,8 @@ public class NewsArticleActivity extends Activity {
                 Document doc = null;
                 try {
                     String str = model.getLink();
-                    doc = Jsoup.connect(str).get();
-                } catch (IOException e) {
-                    Log.e("MyTag", e.getMessage());
-                }
+                    doc = Jsoup.connect(str).timeout(15*1000).get();
+
                 Elements elements = doc.getElementsByTag("div");
                 for(Element ele: elements){
                     if(ele.className().equals("news-single-item")){
@@ -129,12 +127,31 @@ public class NewsArticleActivity extends Activity {
                         body = Util.cleanHtmlCodeInString(text.toString());
                     }
                 }
-                return 1;
+                     return 1;
+                } catch (IOException e)
+                {
+                    return 0;
+                }
             }
 
             @Override
             protected void onPostExecute(Integer i) {
+                if (i == 1)
                 loadmethod(date,heading,body);
+                else{
+                    AlertDialog.Builder builder1 = new AlertDialog.Builder(NewsArticleActivity.this);
+                    builder1.setMessage(getString(R.string.not_connected));
+                    builder1.setCancelable(true);
+                    builder1.setPositiveButton(getString(R.string.ok),
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    finish();
+                                    dialog.cancel();
+                                }
+                            });
+                    AlertDialog alert11 = builder1.create();
+                    alert11.show();
+                }
             }
         };
     }
@@ -157,8 +174,12 @@ public class NewsArticleActivity extends Activity {
     * */
     private void setActionBar() {
         ActionBar actionBar = getActionBar();
+        actionBar.setTitle(R.string.article_text);
+        //Enable Up-Navigation
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
         // add the custom view to the action bar
-        actionBar.setCustomView(R.layout.navigation_bar_layout);
+       /*  actionBar.setCustomView(R.layout.navigation_bar_layout);
         actionBar.setBackgroundDrawable(new ColorDrawable(Color.LTGRAY));
 
         TextView pageText = (TextView) actionBar.getCustomView().findViewById(R.id.page_heading);
@@ -166,7 +187,7 @@ public class NewsArticleActivity extends Activity {
         pageText.setVisibility(View.VISIBLE);
         pageText.setTextColor(Color.BLACK);
 
-        TextView backPageText = (TextView) actionBar.getCustomView().findViewById(R.id.page_back_text);
+         TextView backPageText = (TextView) actionBar.getCustomView().findViewById(R.id.page_back_text);
         backPageText.setText(R.string.newsText);
         backPageText.setVisibility(View.VISIBLE);
         backPageText.setOnClickListener(new BackButtonClickListener(this));
@@ -197,7 +218,18 @@ public class NewsArticleActivity extends Activity {
         ImageButton backButton = (ImageButton) actionBar.getCustomView().findViewById(R.id.back_icon);
         backButton.setVisibility(View.VISIBLE);
         backButton.setOnClickListener(new BackButtonClickListener(this));
-        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);*/
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                onBackPressed();
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     // custom class to show the back button action using navigation bar and will call the onBack method of activity

@@ -4,12 +4,14 @@ import android.app.Activity;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
-import de.unisaarland.UniApp.R;
-import de.unisaarland.UniApp.bus.model.PointOfInterest;
 
 import java.util.HashMap;
+
+import de.unisaarland.UniApp.R;
+import de.unisaarland.UniApp.bus.model.PointOfInterest;
 
 /**
  * Created by Shahzad on 1/6/14.

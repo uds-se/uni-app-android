@@ -5,16 +5,16 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TextView;
+
 import de.unisaarland.UniApp.R;
 import de.unisaarland.UniApp.networkcommunicator.Util;
 import de.unisaarland.UniApp.staff.uihelper.StaffRadioGroupChooser;
@@ -108,6 +108,10 @@ public class SearchStaffActivity extends Activity implements OnCheckedChangeList
 
     private void setActionBar() {
         ActionBar actionBar = getActionBar();
+        //Enabling Up-Navigation
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle(R.string.search_for_staff_text);
+        /*
         // add the custom view to the action bar
         actionBar.setCustomView(R.layout.navigation_bar_layout);
         actionBar.setBackgroundDrawable(new ColorDrawable(Color.LTGRAY));
@@ -126,7 +130,22 @@ public class SearchStaffActivity extends Activity implements OnCheckedChangeList
         backButton.setVisibility(View.VISIBLE);
         backButton.setOnClickListener(new BackButtonClickListener(this));
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        */
     }
+
+    // Handling the Action Bar Buttons
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                onBackPressed();
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {

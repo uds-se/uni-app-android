@@ -2,17 +2,19 @@ package de.unisaarland.UniApp.database;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.database.MatrixCursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
-import de.unisaarland.UniApp.bus.model.PointOfInterest;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+
+import de.unisaarland.UniApp.bus.model.PointOfInterest;
 
 /**
  * Created with IntelliJ IDEA.
@@ -109,6 +111,37 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         return result;
     }
 
+    public Cursor getAllData(){
+
+        Cursor cursor =  database.query("pointOfInterest",new String[]{"title","subtitle","canshowleftcallout",
+                        "canshowrightcallout","color","website","lat","longi","ID","categorieID"},null,
+                null,null,null,null);
+        String[] columns = new String[] {"_id","title","subtitle","canshowleftcallout",
+                "canshowrightcallout","color","website","lat","longi","ID","categorieID"};
+        int i = 0;
+        String[] temp = new String[11];
+        MatrixCursor mcursor = new MatrixCursor(columns);
+        if(cursor!=null) {
+            while (cursor.moveToNext()) {
+                temp[0] = Integer.toString(i);
+                temp[1] = cursor.getString(0);
+                temp[2] = cursor.getString(1);
+                temp[3] = cursor.getString(2);
+                temp[4] = cursor.getString(3);
+                temp[5] = cursor.getString(4);
+                temp[6] = cursor.getString(5);
+                temp[7] = cursor.getString(6);
+                temp[8] = cursor.getString(7);
+                temp[9] = cursor.getString(8);
+                temp[10] = cursor.getString(9);
+                mcursor.addRow(temp);
+            }
+            cursor.close();
+        }
+
+        return mcursor;
+    }
+
     public ArrayList<String> getPointsOfInterestPartialMatchedTitles(){
         ArrayList<String> result = new ArrayList<String>();
         Cursor cursor = null ;
@@ -130,39 +163,80 @@ public class DatabaseHandler extends SQLiteOpenHelper{
 
     public ArrayList<PointOfInterest> getPointsOfInterestPartialMatchedForSearchKey(String searchKey){
         ArrayList<PointOfInterest> result = new ArrayList<PointOfInterest>();
-        Cursor cursor = null ;
+        Cursor cursor = null;
         String sKeyWithPercAtEnd = searchKey + "%";
 
         String sKeyWithPerAtBegEnd = "% " + searchKey + "%";
 
-        try{
-            cursor =database.query("pointOfInterest",new String[]{"title","subtitle","canshowleftcallout",
-                    "canshowrightcallout","color","website","lat","longi","ID","categorieID"},
-                    "(title LIKE ?) OR (subtitle LIKE ?)  OR (searchkey LIKE ?) OR ( title LIKE ? ) OR (subtitle LIKE ?)" +
-                            "  OR (searchkey LIKE ?)",
-                    new String[]{sKeyWithPercAtEnd,sKeyWithPercAtEnd,sKeyWithPercAtEnd,sKeyWithPerAtBegEnd,sKeyWithPerAtBegEnd,sKeyWithPerAtBegEnd},null,null,"title ASC");
-            if(cursor!=null) {
-                while (cursor.moveToNext()) {
-                    PointOfInterest poi = new PointOfInterest();
-                    poi.setTitle(cursor.getString(0));
-                    poi.setSubtitle(cursor.getString(1)) ;
-                    poi.setCanShowLeftCallOut(cursor.getInt(2));
-                    poi.setCanShowRightCallOut(cursor.getInt(3));
-                    poi.setColor(cursor.getInt(4));
-                    poi.setWebsite(cursor.getString(5));
-                    poi.setLatitude(cursor.getFloat(6));
-                    poi.setLongitude(cursor.getFloat(7));
-                    poi.setID(cursor.getInt(8));
-                    poi.setCategoryID(cursor.getInt(9));
-                    result.add(poi);
+        cursor =database.query("pointOfInterest",new String[]{"title","subtitle","canshowleftcallout",
+                        "canshowrightcallout","color","website","lat","longi","ID","categorieID"},
+                "(title LIKE ?) OR (subtitle LIKE ?)  OR (searchkey LIKE ?) OR ( title LIKE ? ) OR (subtitle LIKE ?)" +
+                        "  OR (searchkey LIKE ?)",
+                new String[]{sKeyWithPercAtEnd,sKeyWithPercAtEnd,sKeyWithPercAtEnd,sKeyWithPerAtBegEnd,sKeyWithPerAtBegEnd,sKeyWithPerAtBegEnd},null,null,"title ASC");
+        if(cursor!=null) {
+            try {
+
+                if (cursor != null) {
+                    while (cursor.moveToNext()) {
+                        PointOfInterest poi = new PointOfInterest();
+                        poi.setTitle(cursor.getString(0));
+                        poi.setSubtitle(cursor.getString(1));
+                        poi.setCanShowLeftCallOut(cursor.getInt(2));
+                        poi.setCanShowRightCallOut(cursor.getInt(3));
+                        poi.setColor(cursor.getInt(4));
+                        poi.setWebsite(cursor.getString(5));
+                        poi.setLatitude(cursor.getFloat(6));
+                        poi.setLongitude(cursor.getFloat(7));
+                        poi.setID(cursor.getInt(8));
+                        poi.setCategoryID(cursor.getInt(9));
+                        result.add(poi);
+                    }
+                    cursor.close();
                 }
-                cursor.close();
+            } catch (Exception e) {
+                Log.e("MyTag", e.getMessage());
+                return null;
             }
-        } catch (Exception e){
-            Log.e("MyTag",e.getMessage());
-            return null;
         }
         return result;
+    }
+
+
+
+    public Cursor getCursorPointsOfInterestPartialMatchedForSearchKey(String searchKey){
+        String sKeyWithPercAtEnd = searchKey + "%";
+
+        String sKeyWithPerAtBegEnd = "% " + searchKey + "%";
+
+        Cursor cursor =database.query("pointOfInterest",new String[]{"title","subtitle","canshowleftcallout",
+                        "canshowrightcallout","color","website","lat","longi","ID","categorieID"},
+                "(title LIKE ?) OR (subtitle LIKE ?)  OR (searchkey LIKE ?) OR ( title LIKE ? ) OR (subtitle LIKE ?)" +
+                        "  OR (searchkey LIKE ?)",
+                new String[]{sKeyWithPercAtEnd,sKeyWithPercAtEnd,sKeyWithPercAtEnd,sKeyWithPerAtBegEnd,sKeyWithPerAtBegEnd,sKeyWithPerAtBegEnd},null,null,"title ASC");
+        int i = 0;
+        String[] columns = new String[] {"_id","title","subtitle","canshowleftcallout",
+                "canshowrightcallout","color","website","lat","longi","ID","categorieID"};
+        Object[] temp = new Object[11];
+        MatrixCursor mcursor = new MatrixCursor(columns);
+        if(cursor!=null) {
+            while (cursor.moveToNext()) {
+                temp[0] = Integer.toString(i);
+                temp[1] = cursor.getString(0);
+                temp[2] = cursor.getString(1);
+                temp[3] = cursor.getString(2);
+                temp[4] = cursor.getString(3);
+                temp[5] = cursor.getString(4);
+                temp[6] = cursor.getString(5);
+                temp[7] = cursor.getString(6);
+                temp[8] = cursor.getString(7);
+                temp[9] = cursor.getInt(8);
+                temp[10] = cursor.getInt(9);
+                mcursor.addRow(temp);
+            }
+            cursor.close();
+        }
+
+        return mcursor;
     }
 
     public ArrayList<PointOfInterest> getPointsOfInterestForIDs(ArrayList<Integer> ids) {

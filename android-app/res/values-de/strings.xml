@@ -90,5 +90,7 @@
     <string name="development">Entwicklung:</string>
     <string name="supervision">Betreut durch:</string>
     <string name="special_thanks">Besonderen Dank an:</string>
+    <string name="search">Suche</string>
+    <string name="settings">Einstellungen</string>
     <string name="cooperation_se_team">In Zusammenarbeit mit dem Projektteam der Software Engineering Vorlesung:</string>
 </resources>

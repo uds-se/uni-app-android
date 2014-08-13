@@ -8,16 +8,29 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
+
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+import java.util.List;
+
 import de.unisaarland.UniApp.R;
 import de.unisaarland.UniApp.networkcommunicator.INetworkLoaderDelegate;
 import de.unisaarland.UniApp.networkcommunicator.NetworkHandler;
@@ -26,12 +39,6 @@ import de.unisaarland.UniApp.news.model.INewsResultDelegate;
 import de.unisaarland.UniApp.news.model.NewsModel;
 import de.unisaarland.UniApp.news.model.NewsXMLParser;
 import de.unisaarland.UniApp.news.uihelper.NewsAdapter;
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
-
-import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -69,6 +76,8 @@ public class NewsActivity extends Activity {
         newsModelsArray = null;
         super.onStop();
     }
+
+
 
     INetworkLoaderDelegate delegate = new INetworkLoaderDelegate() {
 
@@ -255,18 +264,24 @@ public class NewsActivity extends Activity {
     /**
      * sets the custom navigation bar according to each activity.
      */
+
     private void setActionBar() {
         ActionBar actionBar = getActionBar();
+        //Enable Up-Navigation
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeButtonEnabled(true);
+        actionBar.setTitle(R.string.newsText);
+
         // add the custom view to the action bar
-        actionBar.setCustomView(R.layout.navigation_bar_layout);
-        actionBar.setBackgroundDrawable(new ColorDrawable(Color.LTGRAY));
+        // actionBar.setCustomView(R.layout.navigation_bar_layout);
+        //actionBar.setBackgroundDrawable(new ColorDrawable(Color.rgb(255,255,255)));
 
-        TextView pageText = (TextView) actionBar.getCustomView().findViewById(R.id.page_heading);
-        pageText.setText(R.string.newsText);
-        pageText.setVisibility(View.VISIBLE);
-        pageText.setTextColor(Color.BLACK);
+       // TextView pageText = (TextView) actionBar.getCustomView().findViewById(R.id.page_heading);
+       // pageText.setText(R.string.newsText);
+       // pageText.setVisibility(View.VISIBLE);
+       // pageText.setTextColor(Color.BLACK);
 
-        TextView backPageText = (TextView) actionBar.getCustomView().findViewById(R.id.page_back_text);
+     /*   TextView backPageText = (TextView) actionBar.getCustomView().findViewById(R.id.page_back_text);
         backPageText.setText(R.string.homeText);
         backPageText.setVisibility(View.VISIBLE);
         backPageText.setOnClickListener(new BackButtonClickListener(this));
@@ -274,14 +289,14 @@ public class NewsActivity extends Activity {
         ImageButton backButton = (ImageButton) actionBar.getCustomView().findViewById(R.id.back_icon);
         backButton.setVisibility(View.VISIBLE);
         backButton.setOnClickListener(new BackButtonClickListener(this));
-        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);*/
 
         /**
          * add the face book page and on clicking of this button it will check if the facebook app is installed on the device then it will
          * open the specific page on that app otherwise it will open the page on browser.
          */
 
-        ImageButton facebookButton = (ImageButton) actionBar.getCustomView().findViewById(R.id.page_right_icon);
+      /*  ImageButton facebookButton = (ImageButton) actionBar.getCustomView().findViewById(R.id.page_right_icon);
         facebookButton.setVisibility(View.VISIBLE);
         facebookButton.setBackgroundResource(R.drawable.facebook_icon);
         facebookButton.setOnClickListener(new View.OnClickListener() {
@@ -311,7 +326,58 @@ public class NewsActivity extends Activity {
                 }
             }
         });
-        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM); */
+    }
+
+    //Creation Custom Actionbar
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu items for use in the action bar
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.news_activity_actions, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    // Handling the Action Bar Buttons
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                onBackPressed();
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+            /**
+             * clicking on the facebook-button will check if the facebook app is installed on the device then it will
+             * open the specific page on that app otherwise it will open the page on browser.
+             */
+            case R.id.action_facebook: {
+                if (networkHandler != null) {
+                    networkHandler.invalidateRequest();
+                }
+                Uri dataUri = Uri.parse("fb://profile/120807804649363");
+                Intent receiverIntent = new Intent(Intent.ACTION_VIEW, dataUri);
+
+                PackageManager packageManager = getPackageManager();
+                List<ResolveInfo> activities = packageManager.queryIntentActivities(receiverIntent, 0);
+
+                if (activities.size() > 0) {
+                    startActivity(receiverIntent);
+                } else {
+                    Uri webpage = Uri.parse("http://www.facebook.com/120807804649363");
+                    Intent webIntent = new Intent(Intent.ACTION_VIEW, webpage);
+
+                    packageManager = getPackageManager();
+                    activities = packageManager.queryIntentActivities(webIntent, 0);
+
+                    if (activities.size() > 0) {
+                        startActivity(webIntent);
+                    }
+                    return true;
+                }
+            }
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     // custom class to show the back button action using navigation bar and will call the onBack method of activity

@@ -8,13 +8,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import de.unisaarland.UniApp.R;
 import de.unisaarland.UniApp.events.EventDetailActivity;
 import de.unisaarland.UniApp.events.model.EventsModel;
 import de.unisaarland.UniApp.networkcommunicator.Util;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Created with IntelliJ IDEA.

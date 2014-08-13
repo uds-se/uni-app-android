@@ -21,15 +21,20 @@ import android.content.res.TypedArray;
 import android.database.DataSetObserver;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.*;
+import android.view.MotionEvent;
+import android.view.VelocityTracker;
+import android.view.View;
+import android.view.ViewConfiguration;
+import android.view.ViewGroup;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.Scroller;
-import de.unisaarland.UniApp.R;
 
 import java.util.EnumSet;
 import java.util.LinkedList;
+
+import de.unisaarland.UniApp.R;
 
 /**
  * A horizontally scrollable {@link android.view.ViewGroup} with items populated from an

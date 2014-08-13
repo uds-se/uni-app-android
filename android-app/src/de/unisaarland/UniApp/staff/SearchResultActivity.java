@@ -4,19 +4,14 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v4.app.NavUtils;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
-import de.unisaarland.UniApp.R;
-import de.unisaarland.UniApp.networkcommunicator.Util;
-import de.unisaarland.UniApp.staff.uihelper.SearchResultAdapter;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -27,6 +22,10 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
+
+import de.unisaarland.UniApp.R;
+import de.unisaarland.UniApp.networkcommunicator.Util;
+import de.unisaarland.UniApp.staff.uihelper.SearchResultAdapter;
 
 /**
  * Created with IntelliJ IDEA.
@@ -109,10 +108,7 @@ public class SearchResultActivity extends Activity {
             protected Integer doInBackground(Void... params) {
                 Document doc = null;
                 try {
-                    doc = Jsoup.connect(url).get();
-                } catch (IOException e) {
-                    Log.e("MyTag", e.getMessage());
-                }
+                    doc = Jsoup.connect(url).timeout(15*1000).get();
                 Elements divElements = doc.getElementsByTag("div");
                 for(Element divElement: divElements){
                     if(divElement.className().equals("erg_list_entry")){
@@ -139,11 +135,31 @@ public class SearchResultActivity extends Activity {
                     }
                 }
                 return 1;
+                } catch (IOException e) {
+                   return 0;
+                }
             }
 
             @Override
             protected void onPostExecute(Integer i) {
+                //if data fetching was successfull
+                if (i == 1)
                 showSearchResults();
+                //else show error message and dismiss view
+                else{
+                    AlertDialog.Builder builder1 = new AlertDialog.Builder(SearchResultActivity.this);
+                    builder1.setMessage(getString(R.string.not_connected));
+                    builder1.setCancelable(true);
+                    builder1.setPositiveButton(getString(R.string.ok),
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    finish();
+                                    dialog.cancel();
+                                }
+                            });
+                    AlertDialog alert11 = builder1.create();
+                    alert11.show();
+                }
             }
         };
     }
@@ -177,7 +193,10 @@ public class SearchResultActivity extends Activity {
 
     private void setActionBar() {
         ActionBar actionBar = getActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle(R.string.search_results);
         // add the custom view to the action bar
+        /*
         actionBar.setCustomView(R.layout.navigation_bar_layout);
         actionBar.setBackgroundDrawable(new ColorDrawable(Color.LTGRAY));
 
@@ -194,8 +213,22 @@ public class SearchResultActivity extends Activity {
         ImageButton backButton = (ImageButton) actionBar.getCustomView().findViewById(R.id.back_icon);
         backButton.setVisibility(View.VISIBLE);
         backButton.setOnClickListener(new BackButtonClickListener(this));
-        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);*/
     }
+
+    // Handling the Action Bar Buttons
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                onBackPressed();
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 
     class BackButtonClickListener implements View.OnClickListener{
         final Activity activity;

@@ -3,25 +3,27 @@ package de.unisaarland.UniApp.campus;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
+import android.database.Cursor;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.NavUtils;
 import android.util.Log;
-import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.TextView;
+import android.widget.SearchView;
+import android.widget.SearchView.OnQueryTextListener;
+
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks;
 import com.google.android.gms.common.GooglePlayServicesClient.OnConnectionFailedListener;
@@ -34,7 +36,16 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.*;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.TileOverlayOptions;
+
+import java.util.ArrayList;
+
 import de.unisaarland.UniApp.R;
 import de.unisaarland.UniApp.bus.BusDetailActivity;
 import de.unisaarland.UniApp.bus.model.PointOfInterest;
@@ -42,11 +53,9 @@ import de.unisaarland.UniApp.campus.model.CustomMapTileProvider;
 import de.unisaarland.UniApp.campus.model.CustomMapTileSupportProvider;
 import de.unisaarland.UniApp.campus.uihelper.CustomInfoWindowAdapter;
 import de.unisaarland.UniApp.campus.uihelper.PanelButtonListener;
-import de.unisaarland.UniApp.campus.uihelper.SearchViewAdapter;
+import de.unisaarland.UniApp.campus.uihelper.SearchAdapter;
 import de.unisaarland.UniApp.database.DatabaseHandler;
 import de.unisaarland.UniApp.restaurant.RestaurantActivity;
-
-import java.util.ArrayList;
 
 /**
  * Created with IntelliJ IDEA.
@@ -61,7 +70,7 @@ import java.util.ArrayList;
 * */
 public class CampusActivity extends FragmentActivity implements ConnectionCallbacks,OnConnectionFailedListener,
         LocationListener,
-        GoogleMap.OnMyLocationButtonClickListener, OnMarkerClickListener,OnInfoWindowClickListener{
+        GoogleMap.OnMyLocationButtonClickListener, OnMarkerClickListener,OnInfoWindowClickListener {
 
     private GoogleMap map;
     private LocationClient locationClient;
@@ -80,6 +89,8 @@ public class CampusActivity extends FragmentActivity implements ConnectionCallba
     private String infoBuilding = null;
     private ArrayList<Marker> markers;
     private AutoCompleteTextView search;
+    private ArrayList<PointOfInterest> searchBase;
+    private Menu menu;
 
     /*
     * Will be called when activity created first time e.g. from scratch and check if intent has any extra information
@@ -92,9 +103,8 @@ public class CampusActivity extends FragmentActivity implements ConnectionCallba
             infoBuilding = savedInstanceState.getString("building");
         }
         setContentView(R.layout.campus_layout);
-        // sets the custom navigation bar according to each activity.
-        setActionBar();
     }
+
 
     /*
     * Will be called when activity created first time after onCreate or when activity comes to the front again or in a pausing state
@@ -122,11 +132,15 @@ public class CampusActivity extends FragmentActivity implements ConnectionCallba
         super.onStop();
     }
 
+
+
     public void searchItemSelected(PointOfInterest model) {
         ArrayList<PointOfInterest> pois = new ArrayList<PointOfInterest>();
         pois.add(model);
         pinPOIsInArray(pois);
-        search.setText("");
+        final SearchView search = (SearchView) menu.findItem(R.id.activity_search).getActionView();
+        search.setQuery("",false);
+        search.setIconified(false);
         InputMethodManager imm = (InputMethodManager)getSystemService(
                 Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(search.getWindowToken(), 0);
@@ -228,8 +242,8 @@ public class CampusActivity extends FragmentActivity implements ConnectionCallba
                 }
             }
         }
-        Button panelButton = (Button) findViewById(R.id.panel_button);
-        panelButton.setOnClickListener(new PanelButtonListener(this,map,poisMap,markers));
+     //   Button panelButton = (Button) findViewById(R.id.panel_button);
+       // panelButton.setOnClickListener(new PanelButtonListener(this,map,poisMap,markers));
     }
 
     /*
@@ -271,57 +285,77 @@ public class CampusActivity extends FragmentActivity implements ConnectionCallba
         }
     }
 
-    /**
-     * sets the custom navigation bar according to each activity.
-     */
-    private void setActionBar() {
+    //Creation Custom Actionbar
+    public boolean onCreateOptionsMenu(Menu menu) {
         ActionBar actionBar = getActionBar();
-        // add the custom view to the action bar
-        actionBar.setCustomView(R.layout.navigation_bar_layout);
-        actionBar.setBackgroundDrawable(new ColorDrawable(Color.LTGRAY));
-
-        TextView backPageText = (TextView) actionBar.getCustomView().findViewById(R.id.page_back_text);
-        if(infoBuilding == null) {
-            backPageText.setText(R.string.homeText);
-        }else{
-            backPageText.setText(R.string.info);
-        }
-        backPageText.setVisibility(View.VISIBLE);
-        backPageText.setOnClickListener(new BackButtonClickListener(this));
-
-        ImageButton backButton = (ImageButton) actionBar.getCustomView().findViewById(R.id.back_icon);
-        backButton.setVisibility(View.VISIBLE);
-        backButton.setOnClickListener(new BackButtonClickListener(this));
-
-        ImageButton rightButton = (ImageButton) actionBar.getCustomView().findViewById(R.id.page_right_icon);
-        rightButton.setVisibility(View.VISIBLE);
-        rightButton.setBackgroundResource(R.drawable.lines_button);
-        rightButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent myIntent = new Intent(CampusActivity.this, CampusSearchActivity.class);
-                CampusActivity.this.startActivityForResult(myIntent,REQUEST_CODE);
-            }
-        });
-
-        search = (AutoCompleteTextView) actionBar.getCustomView().findViewById(R.id.search_field);
-        search.setVisibility(View.VISIBLE);
-        search.setHint("Search");
-
+        // Inflate the menu items for use in the action bar
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.campus_search_activity, menu);
+        //Enabling Up-Navigation
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        //Get cursor for the searchbar
         DatabaseHandler db = new DatabaseHandler(this);
-
-        final ArrayList<PointOfInterest> searchBase = db.getPointsOfInterestPartialMatched();
+        Cursor cursor = db.getAllData();
         db.close();
-        SearchViewAdapter adapter =  new SearchViewAdapter(searchBase,this,android.R.layout.simple_dropdown_item_1line,this);
-        search.setThreshold(1);
-        search.setAdapter(adapter);
-        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        //Setting up the search widget
+        this.menu = menu;
+
+        SearchManager manager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView search = (SearchView) menu.findItem(R.id.activity_search).getActionView();
+        search.setSearchableInfo(manager.getSearchableInfo(getComponentName()));
+        search.setSuggestionsAdapter(new SearchAdapter(this, cursor, this));
+        search.setOnQueryTextListener(new OnQueryTextListener() {
+
+            @Override
+            public boolean onQueryTextChange(String query) {
+                loadData(query);
+                return true;
+            }
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                loadData(query);
+                return true;
+            }
+
+        });
+        return true;
     }
 
-    /*
-    * will be called when user selects any point of interest from campusSearchActivity page and will receive
-    * a list of PointOfInterests.
-    * */
+
+    private void loadData(String query) {
+            //When the user input changes, the search results have to be adjusted
+            DatabaseHandler db = new DatabaseHandler(this);
+            Cursor cursor = db.getCursorPointsOfInterestPartialMatchedForSearchKey(query);
+            db.close();
+
+            SearchManager manager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+            final SearchView search = (SearchView) menu.findItem(R.id.activity_search).getActionView();
+            search.setSearchableInfo(manager.getSearchableInfo(getComponentName()));
+            search.setSuggestionsAdapter(new SearchAdapter(this, cursor, this));
+    }
+
+    // Handling the Action Bar Buttons
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                onBackPressed();
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+            case R.id.action_categories:
+                Intent myIntent = new Intent(CampusActivity.this, CampusSearchActivity.class);
+                CampusActivity.this.startActivityForResult(myIntent,REQUEST_CODE);
+                return true;
+            case R.id.action_settings:
+                ( new PanelButtonListener(this,map,poisMap,markers)).onClick(null);
+
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

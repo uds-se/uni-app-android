@@ -8,15 +8,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-import de.unisaarland.UniApp.R;
-import de.unisaarland.UniApp.networkcommunicator.Util;
-import de.unisaarland.UniApp.staff.SearchResultItemDetailActivity;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import de.unisaarland.UniApp.R;
+import de.unisaarland.UniApp.networkcommunicator.Util;
+import de.unisaarland.UniApp.staff.SearchResultItemDetailActivity;
 
 /**
  * Created with IntelliJ IDEA.

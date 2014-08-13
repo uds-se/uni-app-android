@@ -5,6 +5,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
+
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -12,14 +13,15 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.TileOverlayOptions;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import de.unisaarland.UniApp.R;
 import de.unisaarland.UniApp.bus.model.PointOfInterest;
 import de.unisaarland.UniApp.campus.CampusActivity;
 import de.unisaarland.UniApp.campus.model.CustomMapTileProvider;
 import de.unisaarland.UniApp.campus.model.CustomMapTileSupportProvider;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Created by Shahzad on 1/6/14.

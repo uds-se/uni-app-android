@@ -3,24 +3,26 @@ package de.unisaarland.UniApp.staff;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import de.unisaarland.UniApp.R;
-import de.unisaarland.UniApp.campus.CampusActivity;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+
+import de.unisaarland.UniApp.R;
+import de.unisaarland.UniApp.campus.CampusActivity;
 
 /**
  * Created with IntelliJ IDEA.
@@ -193,7 +195,11 @@ public class SearchResultItemDetailActivity extends Activity {
 
     private void setActionBar() {
         ActionBar actionBar = getActionBar();
+        //Enabling UP-Navigation
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle(R.string.info);
         // add the custom view to the action bar
+        /*
         actionBar.setCustomView(R.layout.navigation_bar_layout);
         actionBar.setBackgroundDrawable(new ColorDrawable(Color.LTGRAY));
 
@@ -210,8 +216,22 @@ public class SearchResultItemDetailActivity extends Activity {
         ImageButton backButton = (ImageButton) actionBar.getCustomView().findViewById(R.id.back_icon);
         backButton.setVisibility(View.VISIBLE);
         backButton.setOnClickListener(new BackButtonClickListener(this));
-        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);*/
     }
+
+    // Handling the Action Bar Buttons
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                this.onBackPressed();
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 
     class BackButtonClickListener implements View.OnClickListener{
         final Activity activity;

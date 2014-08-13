@@ -7,13 +7,14 @@ import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
-import de.unisaarland.UniApp.R;
-import de.unisaarland.UniApp.bus.model.PointOfInterest;
-import de.unisaarland.UniApp.database.DatabaseHandler;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+
+import de.unisaarland.UniApp.R;
+import de.unisaarland.UniApp.bus.model.PointOfInterest;
+import de.unisaarland.UniApp.database.DatabaseHandler;
 
 /**
  * Created with IntelliJ IDEA.

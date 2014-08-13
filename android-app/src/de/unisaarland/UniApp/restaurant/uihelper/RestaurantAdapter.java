@@ -6,10 +6,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-import de.unisaarland.UniApp.R;
-import de.unisaarland.UniApp.restaurant.model.MensaItem;
 
 import java.util.ArrayList;
+
+import de.unisaarland.UniApp.R;
+import de.unisaarland.UniApp.restaurant.model.MensaItem;
 
 /**
  * Created with IntelliJ IDEA.

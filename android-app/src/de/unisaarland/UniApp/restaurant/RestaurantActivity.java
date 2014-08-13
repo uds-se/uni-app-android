@@ -6,14 +6,31 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.ProgressBar;
-import android.widget.TextView;
+
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Set;
+
 import de.unisaarland.UniApp.R;
 import de.unisaarland.UniApp.networkcommunicator.INetworkLoaderDelegate;
 import de.unisaarland.UniApp.networkcommunicator.NetworkHandler;
@@ -25,11 +42,6 @@ import de.unisaarland.UniApp.restaurant.model.MensaXMLParser;
 import de.unisaarland.UniApp.restaurant.uihelper.CircleFlowIndicator;
 import de.unisaarland.UniApp.restaurant.uihelper.ViewFlow;
 import de.unisaarland.UniApp.restaurant.uihelper.ViewFlowAdapter;
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
-
-import java.io.*;
-import java.util.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -279,6 +291,10 @@ public class RestaurantActivity extends Activity {
     // set custom navigation bar
     private void setActionBar() {
         ActionBar actionBar = getActionBar();
+        //Enable Up-Navigation
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle(R.string.mensa_text);
+        /*
         // add the custom view to the action bar
         actionBar.setCustomView(R.layout.navigation_bar_layout);
         actionBar.setBackgroundDrawable(new ColorDrawable(Color.LTGRAY));
@@ -288,7 +304,7 @@ public class RestaurantActivity extends Activity {
         pageText.setVisibility(View.VISIBLE);
         pageText.setTextColor(Color.BLACK);
 
-        TextView backPageText = (TextView) actionBar.getCustomView().findViewById(R.id.page_back_text);
+       TextView backPageText = (TextView) actionBar.getCustomView().findViewById(R.id.page_back_text);
         if(backText == null){
             backPageText.setText(R.string.homeText);
         }else{
@@ -312,8 +328,35 @@ public class RestaurantActivity extends Activity {
         ImageButton backButton = (ImageButton) actionBar.getCustomView().findViewById(R.id.back_icon);
         backButton.setVisibility(View.VISIBLE);
         backButton.setOnClickListener(new BackButtonClickListener(this));
-        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);*/
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu items for use in the action bar
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.restaurant_activity_icons, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    // Handling the Action Bar Buttons
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                onBackPressed();
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+            case R.id.action_opening_hours:
+                //Open opening hours actions when button is pressed
+                Intent myIntent = new Intent(RestaurantActivity.this, OpeningHoursActivity.class);
+                RestaurantActivity.this.startActivity(myIntent);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 
     class BackButtonClickListener implements View.OnClickListener{
         final Activity activity;

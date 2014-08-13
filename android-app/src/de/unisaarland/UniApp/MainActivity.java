@@ -4,12 +4,12 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
+
+import java.io.File;
+
 import de.unisaarland.UniApp.about.AboutActicvity;
 import de.unisaarland.UniApp.bus.BusActivity;
 import de.unisaarland.UniApp.campus.CampusActivity;
@@ -18,8 +18,6 @@ import de.unisaarland.UniApp.networkcommunicator.Util;
 import de.unisaarland.UniApp.news.NewsActivity;
 import de.unisaarland.UniApp.restaurant.RestaurantActivity;
 import de.unisaarland.UniApp.staff.SearchStaffActivity;
-
-import java.io.File;
 
 /**
  * Launcher Activity of the application this Activity will be displayed when application is launched from the launcher
@@ -84,15 +82,14 @@ public class MainActivity extends Activity {
     private void setActionBar() {
         ActionBar actionBar = getActionBar();
         // add the custom view to the action bar
-        actionBar.setCustomView(R.layout.navigation_bar_layout);
-        actionBar.setBackgroundDrawable(new ColorDrawable(Color.LTGRAY));
-        TextView pageText = (TextView) actionBar.getCustomView().findViewById(R.id.page_heading);
-        pageText.setText(R.string.homeText);
-        pageText.setVisibility(View.VISIBLE);
-        pageText.setTextColor(Color.BLACK);
-        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        //actionBar.setCustomView(R.layout.navigation_bar_layout);
+        //actionBar.setBackgroundDrawable(new ColorDrawable(Color.rgb(255,255,255)));
+        // pageText = (TextView) actionBar.getCustomView().findViewById(R.id.page_heading);
+        //pageText.setText(R.string.homeText);
+        //pageText.setVisibility(View.VISIBLE);
+       // pageText.setTextColor(Color.BLACK);
+       // actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
     }
-
 
     private void setButtonListeners() {
         aboutButton = (Button) findViewById(R.id.about_btn);

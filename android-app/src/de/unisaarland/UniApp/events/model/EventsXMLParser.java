@@ -2,6 +2,7 @@ package de.unisaarland.UniApp.events.model;
 
 import android.os.AsyncTask;
 import android.util.Log;
+
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 

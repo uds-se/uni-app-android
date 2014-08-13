@@ -2,29 +2,29 @@ package de.unisaarland.UniApp.bus;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.TextView;
+
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks;
 import com.google.android.gms.common.GooglePlayServicesClient.OnConnectionFailedListener;
 import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import de.unisaarland.UniApp.R;
 import de.unisaarland.UniApp.bus.model.PointOfInterest;
 import de.unisaarland.UniApp.bus.model.SearchStationModel;
 import de.unisaarland.UniApp.bus.uihelper.BusStationsAdapter;
 import de.unisaarland.UniApp.bus.uihelper.SearchStationAdapter;
 import de.unisaarland.UniApp.database.DatabaseHandler;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Created with IntelliJ IDEA.
@@ -155,6 +155,10 @@ public class BusActivity extends Activity implements ConnectionCallbacks,Locatio
      */
     private void setActionBar() {
         ActionBar actionBar = getActionBar();
+        //Enabling Up-Navigation
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle(R.string.busText);
+        /*
         // add the custom view to the action bar
         actionBar.setCustomView(R.layout.navigation_bar_layout);
         actionBar.setBackgroundDrawable(new ColorDrawable(Color.LTGRAY));
@@ -164,7 +168,7 @@ public class BusActivity extends Activity implements ConnectionCallbacks,Locatio
         pageText.setVisibility(View.VISIBLE);
         pageText.setTextColor(Color.BLACK);
 
-        TextView backPageText = (TextView) actionBar.getCustomView().findViewById(R.id.page_back_text);
+       TextView backPageText = (TextView) actionBar.getCustomView().findViewById(R.id.page_back_text);
         backPageText.setText(R.string.homeText);
         backPageText.setVisibility(View.VISIBLE);
         backPageText.setOnClickListener(new BackButtonClickListener(this));
@@ -172,8 +176,22 @@ public class BusActivity extends Activity implements ConnectionCallbacks,Locatio
         ImageButton backButton = (ImageButton) actionBar.getCustomView().findViewById(R.id.back_icon);
         backButton.setVisibility(View.VISIBLE);
         backButton.setOnClickListener(new BackButtonClickListener(this));
-        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);*/
     }
+
+    // Handling the Action Bar Buttons
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                onBackPressed();
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 
     ///////////////// call back methods of location client //////////////
     @Override

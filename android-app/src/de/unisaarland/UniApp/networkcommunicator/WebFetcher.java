@@ -12,13 +12,15 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.util.Xml;
-import de.unisaarland.UniApp.R;
+
 import org.xmlpull.v1.XmlPullParser;
 
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import de.unisaarland.UniApp.R;
 
 
 public class WebFetcher{

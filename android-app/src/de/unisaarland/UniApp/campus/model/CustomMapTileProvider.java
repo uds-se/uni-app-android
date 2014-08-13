@@ -3,6 +3,7 @@ package de.unisaarland.UniApp.campus.model;
 import android.content.res.AssetManager;
 import android.graphics.Rect;
 import android.util.SparseArray;
+
 import com.google.android.gms.maps.model.Tile;
 import com.google.android.gms.maps.model.TileProvider;
 

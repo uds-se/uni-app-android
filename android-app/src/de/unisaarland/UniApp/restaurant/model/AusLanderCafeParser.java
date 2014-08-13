@@ -2,6 +2,7 @@ package de.unisaarland.UniApp.restaurant.model;
 
 import android.os.AsyncTask;
 import android.util.Log;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;

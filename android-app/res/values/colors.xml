@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="sa_green">#14a804</color>
+    <color name="stacked_green">#118504</color>
+    <color name="accent_green">#97e08f</color>
+    <color name="white">#ffffff</color>
+    <color name="uni_blue">#034A78</color>
+    <color name="black">#000000</color>
+</resources>

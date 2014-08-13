@@ -90,5 +90,7 @@
     <string name="development">Development:</string>
     <string name="supervision">Supervision:</string>
     <string name="special_thanks">Special Thanks to:</string>
+    <string name="search">Search</string>
+    <string name="settings">Settings</string>
     <string name="cooperation_se_team">In cooperation with the project team of the Software Engineering lecture:</string>
 </resources>

@@ -5,15 +5,26 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
+
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+import java.util.Collections;
+
 import de.unisaarland.UniApp.R;
 import de.unisaarland.UniApp.events.model.EventsModel;
 import de.unisaarland.UniApp.events.model.EventsXMLParser;
@@ -22,12 +33,6 @@ import de.unisaarland.UniApp.events.uihelper.EventsAdapter;
 import de.unisaarland.UniApp.networkcommunicator.INetworkLoaderDelegate;
 import de.unisaarland.UniApp.networkcommunicator.NetworkHandler;
 import de.unisaarland.UniApp.networkcommunicator.Util;
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
-
-import java.io.*;
-import java.util.ArrayList;
-import java.util.Collections;
 
 /**
  * Created with IntelliJ IDEA.
@@ -88,6 +93,11 @@ public class EventsActivity extends Activity {
      */
     private void setActionBar() {
         ActionBar actionBar = getActionBar();
+        actionBar.setTitle(R.string.eventsText);
+        //Enable Up-Navigation
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
+        /*
         // add the custom view to the action bar
         actionBar.setCustomView(R.layout.navigation_bar_layout);
         actionBar.setBackgroundDrawable(new ColorDrawable(Color.LTGRAY));
@@ -105,8 +115,22 @@ public class EventsActivity extends Activity {
         ImageButton backButton = (ImageButton) actionBar.getCustomView().findViewById(R.id.back_icon);
         backButton.setVisibility(View.VISIBLE);
         backButton.setOnClickListener(new BackButtonClickListener(this));
-        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);*/
     }
+
+    // Handling the Action Bar Buttons
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                onBackPressed();
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 
     private void addLoadingView() {
         //displays the loading view and download and parse the event items from internet
