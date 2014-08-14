@@ -5,7 +5,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:background="@drawable/home_screen_background">
-    <ImageView android:layout_width="fill_parent" android:layout_height="30dp" android:background="@drawable/mensa_fold_r"
+    <ImageView android:layout_width="fill_parent" android:layout_height="30dp" android:background="@drawable/bottom_bar_background"
                android:id="@+id/bottom_image" android:contentDescription="@string/empty_string"
                android:layout_alignParentBottom="true"/>
 
@@ -20,7 +20,8 @@
     <de.unisaarland.UniApp.restaurant.uihelper.ViewFlow
             android:id="@+id/viewflow" android:layout_width="fill_parent"
             android:layout_height="fill_parent" android:layout_alignParentTop="true"
-            android:layout_marginTop="2dp" android:layout_marginBottom="30dp">
+        android:layout_marginBottom="0dp"
+        android:layout_above="@+id/bottom_image">
 
             </de.unisaarland.UniApp.restaurant.uihelper.ViewFlow>
 

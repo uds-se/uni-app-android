@@ -3,12 +3,23 @@
 <resources>
 
     <style name="ActionBar" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
+
         <item name="android:background">@drawable/action_bar_background</item>
         <item name="android:titleTextStyle">@style/TitleTextStyle</item>
+        <item name="android:backgroundStacked">@color/white</item>
+        <item name="android:backgroundSplit">@color/white</item>
+
     </style>
+
+    <style name="ActionbarTabTheme" parent="@android:style/Widget.Holo.ActionBar.TabView">
+        <item name="android:background">@drawable/tab_bar_background</item>
+    </style>
+
 
     <style name="AppTheme" parent="android:Theme.Holo.Light">
         <item name="android:actionBarStyle">@style/ActionBar</item>
+
+        <item name="android:actionBarTabStyle">@style/ActionbarTabTheme</item>
     </style>
 
     <style name="TitleTextStyle" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">

@@ -4,16 +4,16 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content" android:background="@drawable/home_screen_background">
 
-    <ImageView android:layout_width="fill_parent" android:layout_height="30dp" android:background="@drawable/mensa_fold"
-               android:id="@+id/top_image" android:contentDescription="@string/empty_string"
-               android:layout_alignParentTop="true" android:visibility="visible"/>
     <TextView android:layout_width="fill_parent" android:layout_height="30dp" android:id="@+id/top_label" android:layout_alignParentTop="true"
               android:textColor="#000000" android:textSize="16dp" android:singleLine="true"
               android:gravity="center_vertical|center_horizontal" android:text="Montag, 06.11.2013"
-              android:visibility="visible"/>
+              android:visibility="visible"
+        android:background="@drawable/top_bar_background" />
 
-    <ListView android:layout_width="fill_parent" android:layout_height="wrap_content"
+    <ListView android:layout_width="fill_parent" android:layout_height="match_parent"
     android:id="@+id/mensaList" android:layout_alignParentTop="true"
-    android:clickable="true" android:layout_marginTop="32dp"/>
+    android:clickable="true"
+        android:layout_marginTop="30dp"
+        android:divider="#eeeeee"/>
 
 </RelativeLayout>

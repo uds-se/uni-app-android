@@ -4,13 +4,20 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.MenuItem;
 import android.view.View;
 
 import de.unisaarland.UniApp.R;
 import de.unisaarland.UniApp.networkcommunicator.Util;
+import de.unisaarland.UniApp.restaurant.uihelper.AuslanderCafeFragment;
+import de.unisaarland.UniApp.restaurant.uihelper.HeroesCafeFragment;
+import de.unisaarland.UniApp.restaurant.uihelper.JuristenCafeFragment;
+import de.unisaarland.UniApp.restaurant.uihelper.MensaCafeFragment;
+import de.unisaarland.UniApp.restaurant.uihelper.MensaFragment;
+import de.unisaarland.UniApp.restaurant.uihelper.OpeningTabListener;
 
 /**
  * Created with IntelliJ IDEA.
@@ -19,7 +26,12 @@ import de.unisaarland.UniApp.networkcommunicator.Util;
  * Time: 2:01 PM
  * To change this template use File | Settings | File Templates.
  */
-public class OpeningHoursActivity extends FragmentActivity {
+public class OpeningHoursActivity extends Activity {
+
+    PagerAdapter mCollectionPagerAdapter;
+    ViewPager mViewPager;
+    ActionBar actionBar;
+
     public void onCreate(Bundle savedInstanceState) {
         setActionBar();
         super.onCreate(savedInstanceState);
@@ -27,30 +39,27 @@ public class OpeningHoursActivity extends FragmentActivity {
     }
 
     private void setActionBar() {
-        ActionBar actionBar = getActionBar();
+        actionBar = getActionBar();
         //Enabling Up-Navigation
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle(R.string.mensa_text);
-        /*
-        // add the custom view to the action bar
-        actionBar.setCustomView(R.layout.navigation_bar_layout);
-        actionBar.setBackgroundDrawable(new ColorDrawable(Color.LTGRAY));
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
-        TextView pageText = (TextView) actionBar.getCustomView().findViewById(R.id.page_heading);
-        pageText.setText(R.string.opening_hours);
-        pageText.setVisibility(View.VISIBLE);
-        pageText.setTextColor(Color.BLACK);
 
-        TextView backPageText = (TextView) actionBar.getCustomView().findViewById(R.id.page_back_text);
-        backPageText.setText(R.string.mensa_text);
-        backPageText.setVisibility(View.VISIBLE);
-        backPageText.setOnClickListener(new BackButtonClickListener(this));
+        actionBar.addTab(actionBar.newTab().setTabListener(new OpeningTabListener<MensaFragment>(
+                this, "mensa", MensaFragment.class)).setText(R.string.mensa));
+        actionBar.addTab(actionBar.newTab().setTabListener(new OpeningTabListener<MensaCafeFragment>(
+                this, "mensacafe", MensaCafeFragment.class)).setText(R.string.mensa_cafe));
+        actionBar.addTab(actionBar.newTab().setTabListener(new OpeningTabListener<AuslanderCafeFragment>(
+                this, "auslaendercafe", AuslanderCafeFragment.class)).setText(R.string.auslander_cafe));
+        actionBar.addTab(actionBar.newTab().setTabListener(new OpeningTabListener<JuristenCafeFragment>(
+                this, "juristencafe", JuristenCafeFragment.class)).setText(R.string.juristen_cafe));
+        actionBar.addTab(actionBar.newTab().setTabListener(new OpeningTabListener<HeroesCafeFragment>(
+                this, "horoescafe", HeroesCafeFragment.class)).setText(R.string.heroes_cafe));
 
-        ImageButton backButton = (ImageButton) actionBar.getCustomView().findViewById(R.id.back_icon);
-        backButton.setVisibility(View.VISIBLE);
-        backButton.setOnClickListener(new BackButtonClickListener(this));
-        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);*/
+
     }
+
 
     // Handling the Action Bar Buttons
     @Override

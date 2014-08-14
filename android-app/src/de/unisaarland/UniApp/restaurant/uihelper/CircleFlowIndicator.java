@@ -108,7 +108,7 @@ public class CircleFlowIndicator extends View implements FlowIndicator,
 		int activeType = a.getInt(R.styleable.CircleFlowIndicator_activeType,
 				STYLE_FILL);
 		
-		int activeDefaultColor = 0xFFFFFFFF;
+		int activeDefaultColor = getResources().getColor(R.color.uni_blue);
 		
 		// Get a custom active color if there is one
 		int activeColor = a
@@ -119,19 +119,19 @@ public class CircleFlowIndicator extends View implements FlowIndicator,
 		int inactiveType = a.getInt(
 				R.styleable.CircleFlowIndicator_inactiveType, STYLE_STROKE);
 
-		int inactiveDefaultColor = 0x44FFFFFF;
+		int inactiveDefaultColor = getResources().getColor(R.color.uni_blue_light);
 		// Get a custom inactive color if there is one
 		int inactiveColor = a.getColor(
 				R.styleable.CircleFlowIndicator_inactiveColor,
 				inactiveDefaultColor);
 
 		// Retrieve the radius
-		mRadius = a.getDimension(R.styleable.CircleFlowIndicator_radius, 4.0f);
+		mRadius = a.getDimension(R.styleable.CircleFlowIndicator_radius, 8.0f);
 		mRadiusActive = mRadius;
 		mRadiusInactive = mRadius;
 
 		// Retrieve the spacing
-		spacing = a.getDimension(R.styleable.CircleFlowIndicator_spacing, 4.0f);
+		spacing = a.getDimension(R.styleable.CircleFlowIndicator_spacing, 8.0f);
 		// We want the spacing to be center-to-center
 		spacing += 2 * mRadiusActive;
 		

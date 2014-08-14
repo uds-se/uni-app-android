@@ -24,7 +24,7 @@
                   android:gravity="center_vertical|center_horizontal"
                   android:text="@string/cooperation_se_team"
                   android:textColor="#000000" android:textStyle="bold"
-                  android:layout_below="@+id/textView" android:layout_centerHorizontal="true"
+                  android:layout_below="@+id/news_description" android:layout_centerHorizontal="true"
                   android:id="@+id/textView17" android:layout_marginLeft="40dp" android:layout_marginRight="40dp"
                   android:layout_marginTop="15dp"/>
         <TextView android:layout_width="fill_parent" android:layout_height="20dp"
@@ -113,7 +113,7 @@
                   android:textColor="#000000" android:id="@+id/version_number"/>
         <TextView android:layout_width="fill_parent" android:layout_height="20dp"
                   android:gravity="center_vertical|center_horizontal"
-                  android:text="Clemens Hammacher" android:textColor="#000000" android:id="@+id/textView"
+                  android:text="Clemens Hammacher" android:textColor="#000000" android:id="@+id/news_description"
                   android:layout_below="@+id/textView2" android:layout_alignParentLeft="true"/>
     </RelativeLayout>
 </ScrollView>

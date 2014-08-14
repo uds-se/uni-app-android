@@ -16,6 +16,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewTreeObserver;
+import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
@@ -271,62 +273,6 @@ public class NewsActivity extends Activity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
         actionBar.setTitle(R.string.newsText);
-
-        // add the custom view to the action bar
-        // actionBar.setCustomView(R.layout.navigation_bar_layout);
-        //actionBar.setBackgroundDrawable(new ColorDrawable(Color.rgb(255,255,255)));
-
-       // TextView pageText = (TextView) actionBar.getCustomView().findViewById(R.id.page_heading);
-       // pageText.setText(R.string.newsText);
-       // pageText.setVisibility(View.VISIBLE);
-       // pageText.setTextColor(Color.BLACK);
-
-     /*   TextView backPageText = (TextView) actionBar.getCustomView().findViewById(R.id.page_back_text);
-        backPageText.setText(R.string.homeText);
-        backPageText.setVisibility(View.VISIBLE);
-        backPageText.setOnClickListener(new BackButtonClickListener(this));
-
-        ImageButton backButton = (ImageButton) actionBar.getCustomView().findViewById(R.id.back_icon);
-        backButton.setVisibility(View.VISIBLE);
-        backButton.setOnClickListener(new BackButtonClickListener(this));
-        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);*/
-
-        /**
-         * add the face book page and on clicking of this button it will check if the facebook app is installed on the device then it will
-         * open the specific page on that app otherwise it will open the page on browser.
-         */
-
-      /*  ImageButton facebookButton = (ImageButton) actionBar.getCustomView().findViewById(R.id.page_right_icon);
-        facebookButton.setVisibility(View.VISIBLE);
-        facebookButton.setBackgroundResource(R.drawable.facebook_icon);
-        facebookButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(networkHandler!=null){
-                    networkHandler.invalidateRequest();
-                }
-                Uri dataUri = Uri.parse("fb://profile/120807804649363");
-                Intent receiverIntent = new Intent(Intent.ACTION_VIEW, dataUri);
-
-                PackageManager packageManager = getPackageManager();
-                List<ResolveInfo> activities = packageManager.queryIntentActivities(receiverIntent, 0);
-
-                if (activities.size() > 0) {
-                    startActivity(receiverIntent);
-                } else {
-                    Uri webpage = Uri.parse("http://www.facebook.com/120807804649363");
-                    Intent webIntent = new Intent(Intent.ACTION_VIEW, webpage);
-
-                    packageManager = getPackageManager();
-                    activities = packageManager.queryIntentActivities(webIntent, 0);
-
-                    if (activities.size() > 0) {
-                        startActivity(webIntent);
-                    }
-                }
-            }
-        });
-        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM); */
     }
 
     //Creation Custom Actionbar

@@ -93,6 +93,6 @@
             android:layout_height="25dp"
             android:id="@+id/about_btn" android:layout_alignParentLeft="false" android:clickable="true"
             android:layout_alignParentBottom="true" android:layout_centerInParent="true" android:text="@string/aboutText"
-            android:gravity="center_vertical|center_horizontal" android:textColor="#1519a4" android:textSize="16dp"
+            android:gravity="center_vertical|center_horizontal" android:textColor="@color/uni_blue" android:textSize="16dp"
             android:textStyle="bold" android:layout_marginBottom="20dp" android:background="@android:color/transparent"/>
 </RelativeLayout>

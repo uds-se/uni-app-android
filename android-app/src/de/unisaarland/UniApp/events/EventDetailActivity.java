@@ -121,6 +121,7 @@ public class EventDetailActivity extends Activity {
                         if(textElements.size()>0){
                             for(Element textElement: textElements){
                                 text.append("");
+                                textElement.tagName("div");
                                 text.append(textElement.toString());
                             }
                         }
@@ -162,7 +163,8 @@ public class EventDetailActivity extends Activity {
     private void loadmethod(String da, String head, String bod) {
         if(pBar != null && body != null){
             pBar.setVisibility(View.GONE);
-            String htmlStart = "<html><head></html><body><h2><center>"+da+"</center></h2><h3><center><font color=\"#5578ff\">"+head+"</font></center></h3>";
+            String htmlStart = "<html><head></html><body><h5><center>"+da+"</center></h5><h3><center><font color=\"#034A78\">"+head+"</font></center></h3>";
+            bod = "<body style=\"padding-left:10px; padding-right:10px\">" + bod + "</body>";
             body.loadDataWithBaseURL(null, htmlStart+bod, "text/html", "utf-8", null);
             body.getSettings().setJavaScriptEnabled(true);
             body.setVisibility(View.VISIBLE);

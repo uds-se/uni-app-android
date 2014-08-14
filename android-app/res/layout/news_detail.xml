@@ -5,16 +5,17 @@
 
 
     <ProgressBar
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_centerVertical="true" android:layout_centerHorizontal="true"
             android:id="@+id/web_view_progress_bar"
             />
 
-        <WebView xmlns:android="http://schemas.android.com/apk/res/android"
-                 android:id="@+id/body" android:layout_width="fill_parent"
-                 android:layout_height="fill_parent" android:visibility="invisible" android:textColor="#000000"
-                 android:textSize="16dp" android:gravity="center_vertical|center_horizontal"/>
+    <WebView xmlns:android="http://schemas.android.com/apk/res/android"
+             android:id="@+id/body" android:layout_width="fill_parent"
+             android:layout_height="fill_parent" android:visibility="invisible" android:textColor="#000000"
+             android:textSize="16dp" android:gravity="center_vertical|center_horizontal"
+         />
 
 
 </RelativeLayout>

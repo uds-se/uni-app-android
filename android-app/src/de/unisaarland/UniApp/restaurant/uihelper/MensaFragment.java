@@ -15,7 +15,7 @@ import de.unisaarland.UniApp.R;
  * Time: 1:29 PM
  * To change this template use File | Settings | File Templates.
  */
-public class MensaFragment extends Fragment {
+public class MensaFragment extends android.app.Fragment {
     public MensaFragment() {
 
     }

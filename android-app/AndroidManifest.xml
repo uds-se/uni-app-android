@@ -61,6 +61,7 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".restaurant.RestaurantActivity" />
+
         </activity>
 
         <activity android:name=".campus.CampusSearchActivity">

@@ -81,14 +81,6 @@ public class MainActivity extends Activity {
      */
     private void setActionBar() {
         ActionBar actionBar = getActionBar();
-        // add the custom view to the action bar
-        //actionBar.setCustomView(R.layout.navigation_bar_layout);
-        //actionBar.setBackgroundDrawable(new ColorDrawable(Color.rgb(255,255,255)));
-        // pageText = (TextView) actionBar.getCustomView().findViewById(R.id.page_heading);
-        //pageText.setText(R.string.homeText);
-        //pageText.setVisibility(View.VISIBLE);
-       // pageText.setTextColor(Color.BLACK);
-       // actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
     }
 
     private void setButtonListeners() {

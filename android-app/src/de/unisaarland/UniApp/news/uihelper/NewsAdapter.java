@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -86,13 +87,11 @@ public class NewsAdapter extends BaseAdapter {
             convertView = View.inflate(context, R.layout.news_item, null);
         }
         NewsModel model = newsModelsArray.get(position);
-
         TextView newsTitle = (TextView) convertView.findViewById(R.id.news_title);
         newsTitle.setText(model.getPublicationDate());
-        newsTitle.setVisibility(View.VISIBLE);
         TextView newsDescription = (TextView) convertView.findViewById(R.id.news_description);
+        newsDescription.setGravity(Gravity.CENTER_VERTICAL);
         newsDescription.setText(model.getNewsTitle());
-        newsDescription.setVisibility(View.VISIBLE);
         convertView.setOnClickListener(clickListener);
         newsItemsMap.put(convertView,position);
         return convertView;
