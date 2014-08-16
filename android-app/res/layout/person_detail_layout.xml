@@ -9,24 +9,28 @@
              android:layout_marginBottom="30dp" android:visibility="invisible"/>
 
     <ProgressBar
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_centerVertical="true" android:layout_centerHorizontal="true"
             android:id="@+id/web_view_progress_bar"
             />
 
     <ImageView android:layout_width="fill_parent" android:layout_height="30dp"
-               android:background="@drawable/mensa_fold_r"
+               android:background="@drawable/bottom_bar_background"
                android:id="@+id/bottom_image" android:contentDescription="@string/empty_string"
                android:layout_alignParentBottom="true"/>
-    <ImageButton android:id="@+id/back_button" android:layout_height="20dp" android:layout_width="20dp"
+    <ImageButton android:id="@+id/back_button" android:layout_height="25dp" android:layout_width="25dp"
                  android:layout_alignParentBottom="true"
-                 android:background="@drawable/back_button" android:layout_marginLeft="15dp"
-                 android:layout_marginBottom="5dp"/>
+                 android:background="@drawable/ic_action_back"
+        android:layout_marginLeft="30dp"
+        android:layout_marginBottom="2.5dp" />
 
-    <ImageButton android:id="@+id/forward_button" android:layout_height="20dp" android:layout_width="20dp"
-                 android:layout_alignParentBottom="true"
-                 android:background="@drawable/forward_button" android:layout_marginLeft="55dp"
-                 android:layout_marginBottom="5dp"/>
+    <ImageButton android:id="@+id/forward_button" android:layout_height="25dp" android:layout_width="25dp"
+        android:background="@drawable/ic_action_forward"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="false"
+        android:layout_toRightOf="@+id/back_button"
+        android:layout_marginLeft="30dp"
+        android:layout_marginBottom="2.5dp" />
 
 </RelativeLayout>
