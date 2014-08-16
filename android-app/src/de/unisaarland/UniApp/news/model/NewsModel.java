@@ -1,6 +1,7 @@
 package de.unisaarland.UniApp.news.model;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Created with IntelliJ IDEA.
@@ -12,7 +13,7 @@ import java.io.Serializable;
 public class NewsModel implements Serializable{
     private String newsTitle;
     private String newsDescription;
-    private String publicationDate;
+    private Date publicationDate;
     private String link;
 
     public String getNewsTitle() {
@@ -27,11 +28,11 @@ public class NewsModel implements Serializable{
     public void setNewsDescription(String newsDescription) {
         this.newsDescription = newsDescription;
     }
-    public String getPublicationDate() {
+    public Date getPublicationDate() {
         return publicationDate;
     }
 
-    public void setPublicationDate(String publicationDate) {
+    public void setPublicationDate(Date publicationDate) {
         this.publicationDate = publicationDate;
     }
 

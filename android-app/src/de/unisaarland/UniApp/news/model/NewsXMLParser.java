@@ -5,11 +5,13 @@ import android.util.Log;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
-
+import java.util.Date;
 import java.io.IOException;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created with IntelliJ IDEA.
@@ -94,7 +96,10 @@ public class NewsXMLParser {
                 model.setNewsTitle(getElementValue(parser,TITLE));
             } else if (name.equals(PUBLICATION_DATE)) {
                 String input = getElementValue(parser, PUBLICATION_DATE);
-                model.setPublicationDate(input.substring(0,17));
+                String datestring = input.toString();
+                SimpleDateFormat parserSDF = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z", Locale.ENGLISH);
+                Date date = parserSDF.parse(datestring);
+                model.setPublicationDate(date);
             } else if (name.equals(LINK)) {
                 String link = getElementValue(parser,LINK);
                 model.setLink(link);

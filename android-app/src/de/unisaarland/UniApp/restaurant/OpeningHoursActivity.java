@@ -26,6 +26,8 @@ import de.unisaarland.UniApp.restaurant.uihelper.OpeningTabListener;
  * Time: 2:01 PM
  * To change this template use File | Settings | File Templates.
  */
+
+//TODO: Add swipe to change Tabs
 public class OpeningHoursActivity extends Activity {
 
     PagerAdapter mCollectionPagerAdapter;

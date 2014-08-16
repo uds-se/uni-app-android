@@ -1,6 +1,7 @@
 package de.unisaarland.UniApp.events.model;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Created with IntelliJ IDEA.
@@ -12,7 +13,7 @@ import java.io.Serializable;
 public class EventsModel implements Serializable{
     private String eventTitle;
     private String eventDescription;
-    private String publicationDate;
+    private Date publicationDate;
     private String link;
 
     public String getEventTitle() {
@@ -27,11 +28,11 @@ public class EventsModel implements Serializable{
     public void setEventDescription(String eventDescription) {
         this.eventDescription = eventDescription;
     }
-    public String getPublicationDate() {
+    public Date getPublicationDate() {
         return publicationDate;
     }
 
-    public void setPublicationDate(String publicationDate) {
+    public void setPublicationDate(Date publicationDate) {
         this.publicationDate = publicationDate;
     }
 

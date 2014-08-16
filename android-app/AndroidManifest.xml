@@ -15,25 +15,25 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".news.NewsActivity" android:label="@string/newsText">
+        <activity android:name=".news.NewsActivity" android:label="@string/newsText" android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="de.unisaarland.UniApp.MainActivity" />
         </activity>
 
-        <activity android:name=".bus.BusActivity" android:label="@string/busText">
+        <activity android:name=".bus.BusActivity" android:label="@string/busText" android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="de.unisaarland.UniApp.MainActivity" />
             </activity>
 
-        <activity android:name=".events.EventsActivity" android:label="@string/eventsText">
+        <activity android:name=".events.EventsActivity" android:label="@string/eventsText" android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
             android:value="de.unisaarland.UniApp.MainActivity" />
             </activity>
 
-        <activity android:name=".staff.SearchStaffActivity" android:label="@string/staff_searchText">
+        <activity android:name=".staff.SearchStaffActivity" android:label="@string/staff_searchText" android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="de.unisaarland.UniApp.MainActivity" />
@@ -51,7 +51,7 @@
             </activity>
 
 
-        <activity android:name=".restaurant.RestaurantActivity" android:label="@string/restaurantText">
+        <activity android:name=".restaurant.RestaurantActivity" android:label="@string/restaurantText" android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="de.unisaarland.UniApp.MainActivity" />
@@ -64,50 +64,50 @@
 
         </activity>
 
-        <activity android:name=".campus.CampusSearchActivity">
+        <activity android:name=".campus.CampusSearchActivity" android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".campus.CampusActivity" />
             </activity>
 
-        <activity android:name=".about.AboutActicvity" android:label="@string/aboutText">
+        <activity android:name=".about.AboutActicvity" android:label="@string/aboutText" android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="de.unisaarland.UniApp.MainActivity" />
             </activity>
 
-        <activity android:name=".news.NewsArticleActivity">
+        <activity android:name=".news.NewsArticleActivity" android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".news.NewsActivity" />
             </activity>
 
-        <activity android:name=".events.EventDetailActivity">
+        <activity android:name=".events.EventDetailActivity" android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".events.EventsActivity" />
         </activity>
 
-        <activity android:name=".staff.SearchResultActivity" android:launchMode="singleTop">
+        <activity android:name=".staff.SearchResultActivity" android:launchMode="singleTop" android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".staff.SearchStaffActivity" />
             </activity>
 
-        <activity android:name=".staff.SearchResultItemDetailActivity" android:launchMode="singleTop">
+        <activity android:name=".staff.SearchResultItemDetailActivity" android:launchMode="singleTop" android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".staff.SearchResultActivity" />
         </activity>
 
-        <activity android:name=".staff.PersonDetailWebActivity" android:launchMode="singleTop">
+        <activity android:name=".staff.PersonDetailWebActivity" android:launchMode="singleTop" android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".staff.SearchResultItemDetailActivity" />
         </activity>
 
 
-        <activity android:name=".bus.BusDetailActivity">
+        <activity android:name=".bus.BusDetailActivity" android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".bus.BusActivity" />

@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -88,7 +90,10 @@ public class NewsAdapter extends BaseAdapter {
         }
         NewsModel model = newsModelsArray.get(position);
         TextView newsTitle = (TextView) convertView.findViewById(R.id.news_title);
-        newsTitle.setText(model.getPublicationDate());
+        Date date = model.getPublicationDate();
+        SimpleDateFormat parserSDF = new SimpleDateFormat("d. MMMM yyyy");
+        String datestring = parserSDF.format(date);
+        newsTitle.setText(datestring);
         TextView newsDescription = (TextView) convertView.findViewById(R.id.news_description);
         newsDescription.setGravity(Gravity.CENTER_VERTICAL);
         newsDescription.setText(model.getNewsTitle());

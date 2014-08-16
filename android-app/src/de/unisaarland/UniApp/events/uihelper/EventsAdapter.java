@@ -9,7 +9,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 import de.unisaarland.UniApp.R;
@@ -85,12 +87,15 @@ public class EventsAdapter extends BaseAdapter {
             convertView = View.inflate(context, R.layout.event_item, null);
         }
         EventsModel model = eventModelsArray.get(position);
-        String date = model.getPublicationDate();
-
+        Date date = model.getPublicationDate();
+        //Set month in locale language
+        SimpleDateFormat SDF = new SimpleDateFormat("MMM");
         TextView eventMonth = (TextView) convertView.findViewById(R.id.month_text);
-        eventMonth.setText(date.substring(8,11));
+        eventMonth.setText(SDF.format(date));
+        //Set day in local language
+        SDF = new SimpleDateFormat("d");
         TextView eventDate = (TextView) convertView.findViewById(R.id.day_text);
-        eventDate.setText(date.substring(5,7));
+        eventDate.setText(SDF.format(date));
 
         TextView eventDescription = (TextView) convertView.findViewById(R.id.event_description);
         eventDescription.setText(model.getEventTitle());
