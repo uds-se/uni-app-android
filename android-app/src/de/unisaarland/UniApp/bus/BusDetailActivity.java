@@ -30,12 +30,13 @@ public class BusDetailActivity extends Activity {
     private ProgressBar pBar;
     private WebView webView;
     private String backText = null;
+    private String title;
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         savedInstanceState = getIntent().getExtras();
         if(savedInstanceState!=null){
             url = savedInstanceState.getString("url");
-            backText = savedInstanceState.getString("back");
+            title = savedInstanceState.getString("back");
         }
         // set the dae and time to get the latest results from the saarvv website.
         Calendar calendar = Calendar.getInstance();
@@ -131,29 +132,7 @@ public class BusDetailActivity extends Activity {
         //Enabling Up-Navigation
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle(R.string.busText);
-        /*
-        // add the custom view to the action bar
-        actionBar.setCustomView(R.layout.navigation_bar_layout);
-        actionBar.setBackgroundDrawable(new ColorDrawable(Color.LTGRAY));
 
-        TextView pageText = (TextView) actionBar.getCustomView().findViewById(R.id.page_heading);
-        pageText.setText(R.string.busText);
-        pageText.setVisibility(View.INVISIBLE);
-        pageText.setTextColor(Color.BLACK);
-
-        TextView backPageText = (TextView) actionBar.getCustomView().findViewById(R.id.page_back_text);
-        if(backText == null){
-            backPageText.setText(R.string.busText);
-        }else{
-            backPageText.setText(backText);
-        }
-        backPageText.setVisibility(View.VISIBLE);
-        backPageText.setOnClickListener(new BackButtonClickListener(this));
-
-        ImageButton backButton = (ImageButton) actionBar.getCustomView().findViewById(R.id.back_icon);
-        backButton.setVisibility(View.VISIBLE);
-        backButton.setOnClickListener(new BackButtonClickListener(this));
-        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);*/
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {

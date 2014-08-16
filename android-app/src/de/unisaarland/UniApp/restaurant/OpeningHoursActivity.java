@@ -44,7 +44,7 @@ public class OpeningHoursActivity extends Activity {
         actionBar = getActionBar();
         //Enabling Up-Navigation
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle(R.string.mensa_text);
+        actionBar.setTitle(getResources().getString(R.string.opening_hours));
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
 

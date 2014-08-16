@@ -2,14 +2,13 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="fill_parent"
-                android:layout_height="40dp" android:background="@drawable/news_row_button"
-                android:minHeight="40dp">
+                android:layout_height="50dp" android:background="@drawable/list_item_selector"
+                android:minHeight="50dp">
     <RelativeLayout android:layout_width="fill_parent"
-                    android:layout_height="37dp"
-                    android:minHeight="37dp" android:layout_marginTop="3dp"
-            >
+                    android:layout_height="50dp"
+                    android:minHeight="50dp">
 
-        <TextView android:layout_width="140dp" android:layout_height="25dp"
+        <TextView android:layout_width="wrap_content" android:layout_height="25dp"
                   android:text="dummy jdfhshdash"
                   android:textStyle="normal" android:textSize="14dp" android:id="@+id/bus_station_title"
                   android:gravity="center_vertical|left" android:visibility="visible" android:textColor="#000000"
@@ -18,13 +17,17 @@
                   android:layout_centerVertical="true"/>
         <TextView android:layout_width="90dp" android:layout_height="25dp"
                   android:id="@+id/bus_station_detail" android:layout_alignParentRight="true"
-                  android:gravity="center_vertical|right" android:visibility="visible" android:textColor="#000000"
+                  android:gravity="center_vertical|right" android:visibility="visible" android:textColor="@color/uni_blue"
                   android:layout_centerVertical="true"
-                  android:layout_marginRight="35dp"/>
-        <ImageButton android:layout_height="20dp" android:layout_width="20dp"
-                     android:id="@+id/forward_icon"
-                     android:layout_alignParentRight="true" android:layout_centerVertical="true"
-                     android:visibility="visible" android:layout_marginRight="10dp" android:clickable="true"
-                     android:background="@drawable/forward" android:contentDescription="@string/empty_string"/>
+                  android:layout_marginRight="35dp"
+            android:textSize="12dp"
+            android:textStyle="bold" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView"
+            android:background="@drawable/ic_ab_back_holo_light_am"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true" />
     </RelativeLayout>
 </RelativeLayout>

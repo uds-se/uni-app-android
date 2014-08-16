@@ -106,6 +106,7 @@ public class BusStationsAdapter extends BaseAdapter {
                 String url = model.getWebsite();
                 Intent myIntent = new Intent(context, BusDetailActivity.class);
                 myIntent.putExtra("url", url);
+                myIntent.putExtra("back", model.getTitle());
                 context.startActivity(myIntent);
             }
         }
