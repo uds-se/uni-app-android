@@ -88,7 +88,9 @@
         android:layout_alignLeft="@+id/textView"
         android:layout_alignRight="@+id/first_name"
         android:layout_marginBottom="10dp"
-        android:background="@color/uni_blue"
-        android:textColor="#ffffffff" />
+        android:background="@drawable/list_item_selector_invi"
+        android:textColor="@color/uni_blue"
+        android:textSize="18dp"
+        android:textStyle="bold" />
 
 </RelativeLayout>

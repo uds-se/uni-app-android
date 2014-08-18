@@ -27,10 +27,10 @@
             android:layout_alignParentRight="true"
             android:layout_weight="1"
             android:layout_alignLeft="@+id/button"
-            android:background="@color/uni_blue"
-            android:layout_margin="10dp"
-            android:textColor="#ffffffff"
-            android:textSize="14dp" />
+            android:background="@drawable/list_item_selector"
+            android:textColor="@color/uni_blue"
+            android:textSize="18dp"
+            android:textStyle="bold" />
 
         <Button
             android:layout_width="fill_parent"
@@ -40,10 +40,10 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_weight="1"
-            android:background="@color/uni_blue"
-            android:layout_margin="10dp"
-            android:textColor="#ffffffff"
-            android:textSize="14dp" />
+            android:background="@drawable/list_item_selector"
+            android:textColor="@color/uni_blue"
+            android:textSize="18dp"
+            android:textStyle="bold" />
     </LinearLayout>
 
 
