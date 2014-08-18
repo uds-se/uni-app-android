@@ -4,7 +4,7 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageButton;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -31,7 +31,7 @@ public class DetailedPOIView {
     private String title = null;
     private ArrayList<PointOfInterest> pois ;
     private HashMap<View,PointOfInterest> poisMap = new HashMap<View, PointOfInterest>();
-    private ImageButton backIconButton;
+    private Button backIconButton;
 
     public DetailedPOIView(View view,Context context, ArrayList<Integer> result,String title,int categoryId) {
         this.context = context;
@@ -42,11 +42,8 @@ public class DetailedPOIView {
         pois = db.getPointsOfInterestForCategoryWithID(this.categoryId);
         Collections.sort(pois);
 
-        TextView heading = (TextView) view.findViewById(R.id.page_heading);
-        heading.setText(title);
-
-        backIconButton = (ImageButton) view.findViewById(R.id.back_icon);
-        TextView pinAll = (TextView) view.findViewById(R.id.pin_all);
+        backIconButton = (Button) view.findViewById(R.id.bt_back);
+        TextView pinAll = (TextView) view.findViewById(R.id.bt_pin_all);
         if(categoryId == 1){
             pinAll.setVisibility(View.INVISIBLE);
         }else{

@@ -17,7 +17,6 @@ import android.widget.TextView;
 
 import de.unisaarland.UniApp.R;
 import de.unisaarland.UniApp.networkcommunicator.Util;
-import de.unisaarland.UniApp.staff.uihelper.StaffRadioGroupChooser;
 
 /**
  * Created with IntelliJ IDEA.
@@ -27,7 +26,7 @@ import de.unisaarland.UniApp.staff.uihelper.StaffRadioGroupChooser;
  * To change this template use File | Settings | File Templates.
  */
 public class SearchStaffActivity extends Activity implements OnCheckedChangeListener {
-    private StaffRadioGroupChooser radioGroupChooser;
+    private RadioGroup radioChooser;
     private TextView lastName;
     private TextView firstName;
 
@@ -35,9 +34,7 @@ public class SearchStaffActivity extends Activity implements OnCheckedChangeList
         super.onCreate(savedInstanceState);
         setActionBar();
         setContentView(R.layout.search_staff_layout);
-        radioGroupChooser = (StaffRadioGroupChooser) findViewById(R.id.segment_text);
-        radioGroupChooser.setOnCheckedChangeListener(this);
-
+        radioChooser = (RadioGroup) findViewById(R.id.radioChooser);
         lastName = (TextView) findViewById(R.id.last_name);
         firstName = (TextView) findViewById(R.id.first_name);
         final Button searchButton = (Button) findViewById(R.id.searchBtn);
@@ -81,7 +78,7 @@ public class SearchStaffActivity extends Activity implements OnCheckedChangeList
                     String allQueryURL = String.format("https://www.lsf.uni-saarland.de/qisserver/rds?state=wsearchv&search=7&purge=y&moduleParameter=person/person&personal.vorname=%s&personal.nachname=%s&P_start=0&P_anzahl=40&_form=display",fstNam,lstNam);
                     String profQueryURL = String.format("https://www.lsf.uni-saarland.de/qisserver/rds?state=wsearchv&search=7&purge=y&moduleParameter=person/person&choice.r_funktion.pfid=y&r_funktion.pfid=171&personal.vorname=%s&personal.nachname=%s&P_start=0&P_anzahl=50&_form=display",fstNam,lstNam);
                     String queryURL = "";
-                    if(radioGroupChooser.getCheckedRadioButtonId() == R.id.professors){
+                    if(radioChooser.getCheckedRadioButtonId() == R.id.rb_only_prof){
                         queryURL = profQueryURL;
                     }else{
                         queryURL = allQueryURL;

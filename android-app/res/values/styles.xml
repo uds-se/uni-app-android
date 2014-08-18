@@ -37,9 +37,6 @@
 
         </item>
 
-
-        <item name="android:windowNoTitle">true</item>
-
         <item name="android:colorForeground">#111</item>
 
     </style>

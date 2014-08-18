@@ -2,7 +2,7 @@
 
 <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_height="40dp"
+        android:layout_height="60dp"
         android:minHeight="0dp"
         android:layout_width="fill_parent"
         android:id="@+id/news_item_row"
@@ -10,10 +10,9 @@
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                     android:layout_width="fill_parent"
-                    android:layout_height="40dp"
+                    android:layout_height="60dp"
                     android:minWidth="40dp"
-                    android:layout_marginTop="2dp"
-                    android:background="@drawable/news_row_button">
+        android:background="@drawable/list_item_selector">
 
         <TextView android:layout_width="260dp" android:layout_height="wrap_content"
                   android:textStyle="normal" android:textSize="16dp" android:id="@+id/name"
@@ -21,10 +20,13 @@
                   android:layout_alignParentBottom="false" android:layout_alignParentLeft="true"
                   android:layout_marginLeft="10dp"
                   android:layout_alignParentTop="false" android:layout_centerVertical="true" android:singleLine="true"/>
-        <ImageButton android:layout_height="20dp" android:layout_width="20dp"
-                     android:id="@+id/forward_icon"
-                     android:layout_alignParentRight="true" android:layout_centerVertical="true"
-                     android:visibility="visible" android:layout_marginRight="10dp" android:clickable="true"
-                     android:background="@drawable/forward" android:contentDescription="@string/empty_string"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/ic_ab_back_holo_light_am" />
     </RelativeLayout>
 </RelativeLayout>

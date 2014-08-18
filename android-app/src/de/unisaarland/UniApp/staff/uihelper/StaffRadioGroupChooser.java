@@ -4,8 +4,6 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.RadioGroup;
 
-import de.unisaarland.UniApp.R;
-
 /**
  * Created with IntelliJ IDEA.
  * User: Shahzad
@@ -25,7 +23,7 @@ public class StaffRadioGroupChooser extends RadioGroup {
     }
 
     private void changeButtonsImages() {
-        super.getChildAt(0).setBackgroundResource(R.drawable.segment_button);
-        super.getChildAt(1).setBackgroundResource(R.drawable.segment_button);
+      //  super.getChildAt(0).setBackgroundResource(R.drawable.segment_button);
+      //  super.getChildAt(1).setBackgroundResource(R.drawable.segment_button);
     }
 }

@@ -128,9 +128,8 @@ public class SearchResultItemDetailActivity extends Activity {
     private void showResult(String name, String gender, String academicDegree, String building, String room, String phone, String fax, String email) {
         if(pBar!=null){
             pBar.setVisibility(View.INVISIBLE);
-            TextView nameText = (TextView) findViewById(R.id.name);
-            nameText.setText(name);
-            nameText.setVisibility(View.VISIBLE);
+            ActionBar actionBar = getActionBar();
+            actionBar.setTitle(name);
             TextView genderText = (TextView) findViewById(R.id.gendertext);
             genderText.setVisibility(View.VISIBLE);
             Button genderButton = (Button) findViewById(R.id.gender);

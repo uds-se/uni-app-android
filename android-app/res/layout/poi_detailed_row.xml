@@ -2,15 +2,14 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="fill_parent"
-                android:layout_height="40dp"
+                android:layout_height="60dp"
                 android:id="@+id/poi_detail_row"
                 android:minHeight="40dp"
                 android:background="#636363">
     <RelativeLayout android:layout_height="fill_parent"
                     android:layout_width="fill_parent"
-                    android:layout_marginTop="2dp"
-                    android:minHeight="40dp"
-                    android:background="@drawable/news_row_button">
+        android:minHeight="40dp"
+                    android:background="@drawable/list_item_selector">
 
 
         <TextView android:layout_width="260dp" android:layout_height="wrap_content" android:text="dummy"
@@ -20,9 +19,4 @@
                   android:layout_marginLeft="10dp"
                   android:layout_centerVertical="true"/>
     </RelativeLayout>
-    <ImageButton android:layout_height="20dp" android:layout_width="20dp"
-                 android:id="@+id/forward_icon"
-                 android:layout_alignParentRight="true" android:layout_centerVertical="true"
-                 android:visibility="visible" android:layout_marginRight="10dp" android:clickable="true"
-                 android:background="@drawable/forward" android:contentDescription="@string/empty_string"/>
 </RelativeLayout>

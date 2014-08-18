@@ -6,16 +6,20 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.view.Display;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.BaseAdapter;
-import android.widget.ImageButton;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -77,26 +81,7 @@ public class CampusSearchActivity extends Activity {
         //Enabling Up-Navigation
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle(R.string.categories);
-        /*
-        // add the custom view to the action bar
-        actionBar.setCustomView(R.layout.navigation_bar_layout);
-        actionBar.setBackgroundDrawable(new ColorDrawable(Color.LTGRAY));
 
-        TextView backPageText = (TextView) actionBar.getCustomView().findViewById(R.id.page_back_text);
-        backPageText.setText(R.string.campusText);
-        backPageText.setVisibility(View.VISIBLE);
-        backPageText.setOnClickListener(new BackButtonClickListener(this));
-
-        ImageButton backButton = (ImageButton) actionBar.getCustomView().findViewById(R.id.back_icon);
-        backButton.setVisibility(View.VISIBLE);
-        backButton.setOnClickListener(new BackButtonClickListener(this));
-
-        TextView pageText = (TextView) actionBar.getCustomView().findViewById(R.id.page_heading);
-        pageText.setText(R.string.categories);
-        pageText.setVisibility(View.VISIBLE);
-        pageText.setTextColor(Color.BLACK);
-
-        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);*/
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -186,18 +171,29 @@ public class CampusSearchActivity extends Activity {
                     String title = titles.get(index);
 
                     LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                    View view = layoutInflater.inflate(R.layout.campus_poi_layout, null);
+                    View view = layoutInflater.inflate(R.layout.campus_poi_layout,null);
                     DetailedPOIView poiView = new DetailedPOIView(view, CampusSearchActivity.this, result, title, categoryIds.get(index));
 
-                    ImageButton backIconButton = (ImageButton) view.findViewById(R.id.back_icon);
-                    TextView backText = (TextView) view.findViewById(R.id.backText);
-                    backText.setOnClickListener(new DialogBackButtonClickListener());
-                    backIconButton.setVisibility(View.VISIBLE);
+                    Button backIconButton = (Button) view.findViewById(R.id.bt_back);
                     backIconButton.setOnClickListener(new DialogBackButtonClickListener());
 
                     optionMenuDialog = new Dialog(context, R.style.Transparent);
+                    optionMenuDialog.requestWindowFeature(Window.FEATURE_ACTION_BAR);
                     optionMenuDialog.setContentView(view);
+                    optionMenuDialog.setTitle(title);
                     optionMenuDialog.setOnKeyListener(menuOnKeyListener);
+                    Display display = getWindowManager().getDefaultDisplay();
+                    Point size = new Point();
+                    display.getSize(size);
+                    int width = (int) Math.round(size.x*0.9);
+                    int height = (int) Math.round(size.y*0.9);
+                    optionMenuDialog.getWindow().setLayout(width, height);
+                    WindowManager.LayoutParams lp = optionMenuDialog.getWindow().getAttributes();
+                    lp.dimAmount = 0.7f;
+                    optionMenuDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+
+
+
                     optionMenuDialog.show();
                 }
             }
