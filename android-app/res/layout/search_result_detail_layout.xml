@@ -83,7 +83,8 @@
                 android:id="@+id/phone" android:visibility="invisible"
                 android:layout_below="@+id/phoneText"
                 android:paddingLeft="10dp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:autoLink="phone"/>
 
             <TextView android:layout_width="fill_parent" android:layout_height="25dp" android:layout_marginTop="15dp"
                       android:textSize="16dp" android:textStyle="normal" android:textColor="#b8000000" android:text="@string/fax"
@@ -97,7 +98,8 @@
                 android:id="@+id/fax" android:visibility="invisible"
                 android:layout_below="@+id/faxText"
                 android:paddingLeft="10dp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:autoLink="phone"/>
 
             <TextView android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="15dp"
                       android:textSize="16dp" android:textStyle="normal" android:textColor="#b8000000" android:text="@string/email"
@@ -111,7 +113,8 @@
                 android:id="@+id/email" android:visibility="invisible"
                 android:layout_below="@+id/emailText"
                 android:paddingLeft="10dp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:autoLink="email"/>
 
             <TextView android:layout_width="fill_parent" android:layout_height="25dp" android:layout_marginTop="5dp"
                       android:textSize="16dp" android:textStyle="bold" android:textColor="@color/uni_blue"
@@ -133,7 +136,7 @@
                 android:background="@drawable/ic_ab_back_holo_light_am"
                 android:layout_alignParentBottom="false"
                 android:layout_alignParentRight="true"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="7dp"
                 android:layout_alignTop="@+id/more"
                 android:visibility="invisible" />
 
@@ -143,7 +146,7 @@
                 android:id="@+id/building_forward_icon"
                 android:layout_alignParentRight="true"
                 android:layout_alignTop="@+id/building"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="7dp"
                 android:background="@drawable/ic_ab_back_holo_light_am"
                 android:visibility="invisible" />
 
