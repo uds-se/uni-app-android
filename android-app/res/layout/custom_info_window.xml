@@ -17,20 +17,19 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:background="@drawable/custom_info_bubble"
+              android:background="@drawable/custom_info_bubble2"
               android:orientation="horizontal" android:clickable="true">
     <ImageButton
             android:id="@+id/route_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
-            android:adjustViewBounds="true" android:background="@drawable/way_points_button" android:clickable="true"
-            android:layout_gravity="center_vertical">
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+        android:adjustViewBounds="true" android:background="@drawable/maps_icon" android:clickable="true">
     </ImageButton>
     <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+        android:layout_marginLeft="8dp">
         <TextView
                 android:id="@+id/title"
                 android:layout_width="wrap_content"
@@ -40,7 +39,8 @@
                 android:singleLine="true"
                 android:textColor="#ff000000"
                 android:textSize="14dp"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+            android:text="dummy" />
         <TextView
                 android:id="@+id/snippet"
                 android:layout_width="wrap_content"
@@ -48,7 +48,8 @@
                 android:ellipsize="end"
                 android:singleLine="true"
                 android:textColor="#000000"
-                android:textSize="10dp"/>
+                android:textSize="10dp"
+            android:text="dummy dummy dummy" />
     </LinearLayout>
     <ImageButton
             android:id="@+id/web_button"

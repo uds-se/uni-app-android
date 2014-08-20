@@ -68,8 +68,10 @@ public class RestaurantAdapter extends BaseAdapter {
 
 
         TextView mealPrice = (TextView) convertView.findViewById(R.id.mensa_menu_price);
-        mealPrice.setText("Studenten: " +model.getPreis1() +"€ Mitarbeiter: " + model.getPreis2()+"€ Besucher:" + model.getPreis3()+"€");
-        mealPrice.setVisibility(View.VISIBLE);
+        if (!model.getPreis1().equals("")) {
+            mealPrice.setText("Studenten: " + model.getPreis1() + "€ Mitarbeiter: " + model.getPreis2() + "€ Besucher: " + model.getPreis3() + "€");
+            mealPrice.setVisibility(View.VISIBLE);
+        }
         return convertView;
     }
 }

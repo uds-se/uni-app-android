@@ -46,6 +46,7 @@ public class CampusSearchActivity extends Activity {
     private CampusCategoriesAdapter campusCategoriesadapter;
     private Dialog optionMenuDialog;
     private ArrayList<Integer> result = new ArrayList<Integer>();
+    private Context context;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

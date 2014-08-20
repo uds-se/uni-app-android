@@ -43,11 +43,18 @@
     <style name="DialogAnimation" parent="android:Animation">
         <item name="android:windowEnterAnimation">@anim/popup_in</item>
         <item name="android:windowExitAnimation">@anim/popup_out</item>
-        <item name="android:windowNoTitle">true</item>
     </style>
 
-    <style name="DialogSlideAnim" parent="@android:style/Theme.Dialog">
-        <item name="android:windowAnimationStyle">@style/DialogAnimation</item>
+    <style name="DialogSlideAnim" >
+        <item name="android:windowIsTranslucent">true</item>
+
+        <item name="android:windowAnimationStyle">
+
+            @android:style/Animation.Translucent
+
+        </item>
+
+        <item name="android:colorForeground">#111</item>
     </style>
 </resources> 
 

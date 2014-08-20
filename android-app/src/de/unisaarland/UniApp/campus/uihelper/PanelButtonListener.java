@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdate;
@@ -43,6 +44,15 @@ public class PanelButtonListener implements View.OnClickListener{
         LayoutInflater layoutInflater = (LayoutInflater) campusActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = layoutInflater.inflate(R.layout.map_options_layout, null);
         final Dialog optionMenuDialog = new Dialog(campusActivity, R.style.DialogSlideAnim);
+        optionMenuDialog.setTitle(R.string.settings);
+        Context context = (Context) campusActivity;
+        final float scale = context.getResources().getDisplayMetrics().density;
+        int width = (int) (200 * scale + 0.5f);
+        int height = (int) (220 * scale + 0.5f);
+        optionMenuDialog.getWindow().setLayout(width, height);
+        WindowManager.LayoutParams lp = optionMenuDialog.getWindow().getAttributes();
+        lp.dimAmount = 0.7f;
+        optionMenuDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         optionMenuDialog.setContentView(view);
 
         TextView satellite = (TextView) view.findViewById(R.id.satellite);

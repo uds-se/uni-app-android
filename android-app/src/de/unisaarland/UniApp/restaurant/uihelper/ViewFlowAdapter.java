@@ -7,6 +7,7 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -52,7 +53,9 @@ public class ViewFlowAdapter extends BaseAdapter {
         convertView = View.inflate(context,R.layout.restaurant_layout_list, null);
         TextView topLabel = (TextView) convertView.findViewById(R.id.top_label);
         Date d = new Date(Long.parseLong(keysList.get(position))*1000);
-        topLabel.setText(d.toString().substring(0,11));
+        SimpleDateFormat parserSDF = new SimpleDateFormat("d. MMMM yyyy");
+        String datestring = parserSDF.format(d);
+        topLabel.setText(datestring);
         topLabel.setVisibility(View.VISIBLE);
         ListView mensaList = (ListView) convertView.findViewById(R.id.mensaList);
         mensaList.setAdapter(new RestaurantAdapter(context,mensaItemsDictionary.get(keysList.get(position))));
