@@ -24,7 +24,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/imageView"
+            android:id="@+id/info"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:background="@drawable/ic_ab_back_holo_light_am" />

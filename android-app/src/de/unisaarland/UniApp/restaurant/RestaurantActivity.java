@@ -141,6 +141,7 @@ public class RestaurantActivity extends Activity {
         }
     };
 
+
     // will remove the loading view and save the current maensa items in a file
     private void removeLoadingView() {
         if(bar!=null){

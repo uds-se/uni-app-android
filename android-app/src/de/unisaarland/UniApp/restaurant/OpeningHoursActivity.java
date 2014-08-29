@@ -58,6 +58,7 @@ public class OpeningHoursActivity extends Activity {
                 this, "juristencafe", JuristenCafeFragment.class)).setText(R.string.juristen_cafe));
         actionBar.addTab(actionBar.newTab().setTabListener(new OpeningTabListener<HeroesCafeFragment>(
                 this, "horoescafe", HeroesCafeFragment.class)).setText(R.string.heroes_cafe));
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
 
     }

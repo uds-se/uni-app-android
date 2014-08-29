@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent" android:layout_height="fill_parent" android:clickable="true"
+            android:background="@drawable/home_screen_background">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:weightSum="3"
+        android:gravity="center_horizontal">
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_vertical|center_horizontal">
+
+            <ImageView
+                android:layout_width="150dp"
+                android:layout_height="65dp"
+                android:background="@drawable/uds_logo"
+                android:adjustViewBounds="true"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/info"
+                android:layout_weight="1" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="3"
+            android:id="@+id/linearLayout"
+            android:layout_below="@+id/info"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical|center_horizontal">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:weightSum="4">
+
+                <TextView android:layout_width="fill_parent" android:layout_height="20dp"
+                    android:gravity="center_horizontal"
+                          android:text="@string/development"
+                          android:textColor="#000000" android:textStyle="bold" android:id="@+id/textView16"
+                    android:layout_below="@+id/info"
+                    android:layout_alignParentLeft="true"
+                    android:layout_weight="1" />
+
+                <TextView android:layout_width="fill_parent" android:layout_height="20dp"
+                          android:gravity="center_horizontal"
+                          android:text="Hafiz Ahmad Shahzad Aslam"
+                          android:textColor="#000000" android:id="@+id/label"
+                    android:layout_below="@+id/textView16"
+                    android:layout_alignParentLeft="true"
+                    android:layout_weight="1" />
+
+                <TextView android:layout_width="fill_parent" android:layout_height="20dp"
+                          android:gravity="center_horizontal"
+                          android:text="Janek Beicher" android:textColor="#000000" android:id="@+id/label"
+                    android:layout_below="@+id/label"
+                    android:layout_alignParentLeft="true"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="20dp"
+                    android:gravity="center_horizontal"
+                    android:text="Clemens Hammacher"
+                    android:textColor="#000000"
+                    android:id="@+id/ingredis"
+                    android:layout_below="@+id/label"
+                    android:layout_alignParentLeft="true"
+                    android:layout_weight="1" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical">
+
+                <TextView android:layout_width="fill_parent" android:layout_height="20dp"
+                    android:text="@string/supervision"
+                          android:textColor="#000000" android:textStyle="bold"
+                    android:id="@+id/textView9"
+                    android:layout_below="@+id/ingredis"
+                    android:layout_alignParentLeft="true"
+                    android:gravity="center_horizontal" />
+
+                <TextView android:layout_width="fill_parent" android:layout_height="20dp"
+                          android:gravity="center_horizontal"
+                          android:text="Krishna Narasimhan"
+                          android:textColor="#000000" android:layout_below="@+id/textView9"
+                          android:layout_alignParentLeft="true" android:id="@+id/textView10"/>
+
+                <TextView android:layout_width="fill_parent" android:layout_height="20dp"
+                          android:gravity="center_horizontal"
+                          android:text="Prof. Christian Hammer"
+                          android:textColor="#000000" android:layout_below="@+id/textView10"
+                          android:layout_alignParentLeft="true" android:id="@+id/textView11"/>
+
+                <TextView android:layout_width="fill_parent" android:layout_height="20dp"
+                          android:gravity="center_horizontal"
+                          android:text="Prof. Andreas Zeller"
+                          android:textColor="#000000" android:layout_below="@+id/textView11"
+                          android:layout_alignParentLeft="true" android:id="@+id/textView12"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical">
+
+                <TextView android:layout_width="fill_parent" android:layout_height="20dp"
+                          android:gravity="center_horizontal"
+                          android:text="@string/special_thanks"
+                          android:textColor="#000000" android:textStyle="bold" android:layout_below="@+id/textView12"
+                          android:layout_alignParentLeft="true" android:id="@+id/textView13" />
+
+                <TextView android:layout_width="fill_parent" android:layout_height="20dp"
+                          android:gravity="center_horizontal"
+                          android:text="Cliff Ross (Icon Design)"
+                          android:textColor="#000000"
+                    android:id="@+id/textView15"
+                    android:layout_below="@+id/textView3"
+                    android:layout_alignParentLeft="true" />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="20dp"
+                    android:gravity="center_horizontal"
+                    android:text="Saarland University Press"
+                    android:textColor="#000000"
+                    android:id="@+id/textView4"
+                    android:layout_below="@+id/textView15"
+                    android:layout_alignParentLeft="true" />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="20dp"
+                    android:gravity="center_horizontal"
+                    android:text="Tom Michels (iOS App)"
+                    android:textColor="#000000"
+                    android:id="@+id/textView3"
+                    android:layout_below="@+id/textView13"
+                    android:layout_alignParentLeft="true" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_below="@+id/linearLayout"
+            android:layout_weight="1"
+            android:gravity="center_horizontal">
+
+            <Button android:layout_width="fill_parent"
+                    android:layout_height="20dp"
+                    android:id="@+id/contact_btn" android:clickable="true"
+                    android:text="@string/contact_feedback"
+                android:textColor="#1519a4"
+                    android:textSize="16dp"
+                    android:textStyle="bold" android:background="@android:color/transparent"
+                android:layout_below="@+id/textView4"
+                android:layout_alignParentLeft="true" />
+
+            <TextView android:layout_width="fill_parent" android:layout_height="20dp"
+                android:textColor="#000000" android:singleLine="true" android:text="@string/copyright"
+                      android:layout_below="@+id/contact_btn" android:layout_alignParentLeft="true"
+                      android:id="@+id/textView18"
+                android:gravity="center_vertical|center_horizontal" />
+
+            <TextView android:layout_width="fill_parent" android:layout_height="20dp"
+                android:text="-version-" android:layout_below="@+id/textView18"
+                      android:textColor="#000000" android:id="@+id/version_number"
+                android:gravity="center_vertical|center_horizontal" />
+        </LinearLayout>
+
+    </LinearLayout>
+</RelativeLayout>

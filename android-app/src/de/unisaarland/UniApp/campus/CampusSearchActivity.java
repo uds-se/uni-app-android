@@ -165,8 +165,8 @@ public class CampusSearchActivity extends Activity {
         }
 
         View.OnClickListener clickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+                @Override
+                public void onClick(View v) {
                 if (categoriesMap.containsKey(v)) {
                     int index = categoriesMap.get(v);
                     String title = titles.get(index);

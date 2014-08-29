@@ -29,7 +29,7 @@ public class WebFetcher{
     private URL url;
     private HttpURLConnection con;
     private XmlPullParser parser = null;
-    private final int CONNECTION_TIME = 10000;
+    private final int CONNECTION_TIME = 20000;
 
 
     public WebFetcher(INetworkLoaderDelegate delegate) {
@@ -115,6 +115,7 @@ public class WebFetcher{
         try {
             disconnectConnection();
         } catch (Exception e) {
+
             Log.e("MyTag", e.getMessage());
         }
     }

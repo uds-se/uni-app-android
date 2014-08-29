@@ -3,14 +3,20 @@
 <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android"
-        android:background="@drawable/home_screen_background">
-    <RelativeLayout android:layout_height="wrap_content"
+        android:background="@drawable/home_screen_background"
+    android:id="@+id/relativeid">
+    <LinearLayout android:layout_height="wrap_content"
                     android:id="@+id/first_row" android:layout_alignParentTop="true"
-                    android:layout_width="wrap_content" android:layout_marginTop="30dp"
-                    android:layout_centerHorizontal="true">
+                    android:layout_width="fill_parent" android:layout_marginTop="30dp"
+                    android:layout_centerHorizontal="true"
+        android:weightSum="3"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp">
         <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="110dp">
+                android:layout_height="110dp"
+            android:layout_weight="1"
+            android:gravity="center">
             <Button android:layout_width="90dp"
                     android:layout_height="90dp" android:background="@drawable/news_button"
                     android:id="@+id/newsBtn" android:clickable="true"
@@ -23,7 +29,9 @@
         </RelativeLayout>
         <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="110dp" android:layout_marginLeft="105dp">
+                android:layout_height="110dp"
+            android:layout_weight="1"
+            android:gravity="center">
             <Button android:layout_width="90dp"
                     android:layout_height="90dp" android:background="@drawable/restaurant_button"
                     android:id="@+id/restaurantBtn" android:clickable="true"
@@ -35,7 +43,9 @@
         </RelativeLayout>
         <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="110dp" android:layout_marginLeft="210dp">
+                android:layout_height="110dp"
+            android:layout_weight="1"
+            android:gravity="center">
             <Button android:layout_width="90dp"
                     android:layout_height="90dp" android:background="@drawable/campus_button"
                     android:id="@+id/campusBtn" android:layout_alignParentLeft="true" android:clickable="true"/>
@@ -44,15 +54,20 @@
                       android:gravity="center_vertical|center_horizontal" android:layout_below="@+id/campusBtn"
                       android:textColor="#000000" android:id="@+id/campusTxt"/>
         </RelativeLayout>
-    </RelativeLayout>
+    </LinearLayout>
 
-    <RelativeLayout android:layout_height="wrap_content"
+    <LinearLayout android:layout_height="wrap_content"
                     android:id="@+id/second_row" android:layout_alignParentTop="true"
-                    android:layout_width="wrap_content" android:layout_marginTop="145dp"
-                    android:layout_centerHorizontal="true">
+                    android:layout_width="fill_parent" android:layout_marginTop="145dp"
+                    android:layout_centerHorizontal="true"
+        android:weightSum="3"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp">
         <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="110dp">
+                android:layout_height="110dp"
+            android:layout_weight="1"
+            android:gravity="center">
             <Button android:layout_width="90dp"
                     android:layout_height="90dp" android:background="@drawable/events_button"
                     android:id="@+id/eventsBtn" android:clickable="true"
@@ -64,7 +79,9 @@
         </RelativeLayout>
         <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="110dp" android:layout_marginLeft="105dp">
+                android:layout_height="110dp"
+            android:layout_weight="1"
+            android:gravity="center">
             <Button android:layout_width="90dp"
                     android:layout_height="90dp" android:background="@drawable/bus_button"
                     android:id="@+id/busBtn" android:clickable="true"
@@ -75,7 +92,9 @@
         </RelativeLayout>
         <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="110dp" android:layout_marginLeft="210dp">
+                android:layout_height="110dp"
+            android:layout_weight="1"
+            android:gravity="center">
             <Button android:layout_width="90dp"
                     android:layout_height="90dp" android:background="@drawable/search_for_staff_button"
                     android:id="@+id/staffBtn" android:layout_alignParentLeft="true" android:clickable="true"/>
@@ -84,11 +103,13 @@
                       android:gravity="center_vertical|center_horizontal"
                       android:layout_below="@+id/staffBtn" android:textColor="#000000" android:id="@+id/staffTxt"/>
         </RelativeLayout>
-    </RelativeLayout>
+    </LinearLayout>
     <ImageView android:layout_width="285dp"
-               android:layout_height="120dp" android:background="@drawable/uds_logo" android:layout_alignParentBottom="true"
-               android:layout_centerHorizontal="true" android:adjustViewBounds="true"
-               android:layout_marginBottom="50dp"></ImageView>
+               android:layout_height="120dp" android:background="@drawable/uds_logo"
+        android:adjustViewBounds="true"
+        android:layout_above="@+id/about_btn"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"></ImageView>
     <Button android:layout_width="160dp"
             android:layout_height="25dp"
             android:id="@+id/about_btn"
@@ -98,5 +119,6 @@
             android:textStyle="bold"
         android:background="@android:color/transparent"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp" />
 </RelativeLayout>

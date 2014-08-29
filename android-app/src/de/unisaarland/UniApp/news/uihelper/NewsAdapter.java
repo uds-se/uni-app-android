@@ -89,12 +89,12 @@ public class NewsAdapter extends BaseAdapter {
             convertView = View.inflate(context, R.layout.news_item, null);
         }
         NewsModel model = newsModelsArray.get(position);
-        TextView newsTitle = (TextView) convertView.findViewById(R.id.news_title);
+        TextView newsTitle = (TextView) convertView.findViewById(R.id.number);
         Date date = model.getPublicationDate();
         SimpleDateFormat parserSDF = new SimpleDateFormat("d. MMMM yyyy");
         String datestring = parserSDF.format(date);
         newsTitle.setText(datestring);
-        TextView newsDescription = (TextView) convertView.findViewById(R.id.news_description);
+        TextView newsDescription = (TextView) convertView.findViewById(R.id.label);
         newsDescription.setGravity(Gravity.CENTER_VERTICAL);
         newsDescription.setText(model.getNewsTitle());
         convertView.setOnClickListener(clickListener);

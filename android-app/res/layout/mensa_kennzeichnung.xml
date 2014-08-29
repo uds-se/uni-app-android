@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+    <Button
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:text="1"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/bt_kennzeichnung"
+        android:background="@drawable/kennzeichnung"
+        android:textSize="14dp"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"></Button>

@@ -14,7 +14,7 @@
         android:clickable="false"
         android:background="@drawable/list_item_selector">
         <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="dummy"
-                  android:textStyle="bold" android:textSize="12dp" android:id="@+id/news_title"
+                  android:textStyle="bold" android:textSize="12dp" android:id="@+id/number"
             android:visibility="visible" android:textColor="@color/uni_blue"
                   android:layout_alignParentTop="true" android:layout_alignParentLeft="true"
                   android:layout_marginTop="10dp" android:layout_marginLeft="10dp"
@@ -23,7 +23,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/imageView"
+            android:id="@+id/info"
             android:background="@drawable/ic_ab_back_holo_light_am"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true" />
@@ -33,11 +33,11 @@
             android:layout_height="70dp"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Medium Text"
-            android:id="@+id/news_description"
+            android:id="@+id/label"
             android:textSize="16sp"
             android:layout_marginRight="30dp"
             android:gravity="center_vertical"
-            android:layout_alignLeft="@+id/news_title"
+            android:layout_alignLeft="@+id/number"
             android:layout_marginTop="25dp" />
 
     </RelativeLayout>

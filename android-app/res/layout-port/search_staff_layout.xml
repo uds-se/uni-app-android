@@ -3,7 +3,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:background="@drawable/home_screen_background"
     android:id="@+id/test">
 
     <ScrollView
@@ -12,7 +11,11 @@
         android:id="@+id/scrollView"
         android:fadeScrollbars="false"
         android:layout_above="@+id/searchBtn"
-        android:layout_marginBottom="10dp">
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_gravity="center">
 
         <RelativeLayout
             android:layout_width="fill_parent"
@@ -21,16 +24,14 @@
             <TextView android:layout_height="wrap_content" android:layout_width="120dp" android:text="@string/last_name"
                       android:textColor="#000000" android:gravity="center_vertical|left" android:textSize="16dp"
                       android:textStyle="bold"
-                android:id="@+id/news_description"
+                android:id="@+id/label"
                 android:layout_alignParentTop="true"
-                android:layout_alignParentLeft="true"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp" />
+                android:layout_alignParentLeft="true" />
 
             <TextView android:layout_height="wrap_content" android:layout_width="120dp" android:text="@string/first_name"
                       android:textColor="#000000" android:gravity="center_vertical|left" android:textSize="16dp"
                       android:textStyle="bold"
-                android:id="@+id/textView2"
+                android:id="@+id/label"
                 android:layout_below="@+id/last_name"
                 android:layout_alignLeft="@+id/last_name"
                 android:layout_marginTop="5dp" />
@@ -40,27 +41,22 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/last_name"
                 android:singleLine="true"
-                android:imeOptions="actionNext"
-                android:layout_below="@+id/news_description"
+                android:imeOptions="flagNoExtractUi"
+                android:layout_below="@+id/label"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentRight="true"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:textSize="16dp"
-                android:nextFocusDown="@+id/first_name"
-                android:nextFocusForward="@+id/first_name"/>
+                android:textSize="16dp"/>
 
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/first_name"
-                android:layout_below="@+id/textView2"
-                android:layout_alignLeft="@+id/textView2"
+                android:layout_below="@+id/label"
+                android:layout_alignLeft="@+id/label"
                 android:layout_alignRight="@+id/last_name"
                 android:textSize="16dp"
-                android:singleLine="true"
-                android:imeOptions="actionNext"
-                android:nextFocusUp="@+id/last_name"/>
+                android:imeOptions="flagNoExtractUi"
+                android:singleLine="true"/>
 
             <TextView
                 android:layout_height="wrap_content"
@@ -71,7 +67,7 @@
                 android:textSize="16dp"
                 android:textStyle="bold"
 
-                android:id="@+id/textView"
+                android:id="@+id/ingredis"
                 android:layout_below="@+id/first_name"
                 android:layout_alignLeft="@+id/first_name"
                 android:layout_marginTop="5dp" />
@@ -79,7 +75,7 @@
             <RadioGroup
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/textView"
+                android:layout_below="@+id/ingredis"
                 android:layout_marginLeft="10dp"
                 android:id="@+id/radioChooser">
 
@@ -88,8 +84,8 @@
                     android:layout_height="wrap_content"
                     android:text="@string/professors_only"
                     android:id="@+id/rb_only_prof"
-                    android:layout_below="@+id/textView"
-                    android:layout_alignLeft="@+id/textView"
+                    android:layout_below="@+id/ingredis"
+                    android:layout_alignLeft="@+id/ingredis"
                     android:checked="true"
                     android:enabled="true"
                     android:textSize="16dp" />
@@ -118,7 +114,7 @@
         android:textSize="18dp"
         android:textStyle="bold"
         android:clickable="true"
-        android:imeOptions="actionDone"
+
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="10dp"

@@ -93,4 +93,6 @@
     <string name="search">Search</string>
     <string name="settings">Settings</string>
     <string name="cooperation_se_team">In cooperation with the project team of the Software Engineering lecture:</string>
+    <string name="label">Label</string>
+    <string name="labels">Labels</string>
 </resources>
