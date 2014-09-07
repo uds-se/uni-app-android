@@ -95,4 +95,27 @@
     <string name="cooperation_se_team">In cooperation with the project team of the Software Engineering lecture:</string>
     <string name="label">Label</string>
     <string name="labels">Labels</string>
+    <!-- Food labels -->
+    <string name="label_1">With dye</string>
+    <string name="label_2">With preservatives</string>
+    <string name="label_3">With antioxidants</string>
+    <string name="label_4">With flavor enhancer</string>
+    <string name="label_5">With sulfurized</string>
+    <string name="label_6">Blackened</string>
+    <string name="label_7">Waxed</string>
+    <string name="label_8">With phosphate</string>
+    <string name="label_9">With sweeteners</string>
+    <string name="label_10">Contains a source of phenylalanine</string>
+    <string name="label_11">With lactoprotein</string>
+    <string name="label_12">With parts of poultry</string>
+    <string name="label_13">With pork</string>
+    <string name="label_14">With alcohol</string>
+    <string name="label_15">May contain traces of nuts</string>
+    <string name="label_16">Without pork</string>
+    <string name="label_17">With garlic</string>
+    <string name="label_18">Vegetarian</string>
+    <string name="label_19">Organic food</string>
+    <string name="label_20">Raising agent</string>
+    <string name="label_22">Vegan food</string>
+    <string name="label_23">Fish from sustainable fishing</string>
 </resources>

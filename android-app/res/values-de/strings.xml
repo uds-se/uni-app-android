@@ -95,6 +95,7 @@
     <string name="cooperation_se_team">In Zusammenarbeit mit dem Projektteam der Software Engineering Vorlesung:</string>
     <string name="label">Kennzeichnung</string>
     <string name="labels">Kennzeichnungen</string>
+    <!-- Essenskennszeichnungen -->
     <string name="label_1">Mit Farbstoff</string>
     <string name="label_2">Mit Konservierungsstoffen</string>
     <string name="label_3">Mit Antioxidationsmittel</string>
