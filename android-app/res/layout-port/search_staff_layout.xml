@@ -24,14 +24,14 @@
             <TextView android:layout_height="wrap_content" android:layout_width="120dp" android:text="@string/last_name"
                       android:textColor="#000000" android:gravity="center_vertical|left" android:textSize="16dp"
                       android:textStyle="bold"
-                android:id="@+id/label"
+                android:id="@+id/label1"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentLeft="true" />
 
             <TextView android:layout_height="wrap_content" android:layout_width="120dp" android:text="@string/first_name"
                       android:textColor="#000000" android:gravity="center_vertical|left" android:textSize="16dp"
                       android:textStyle="bold"
-                android:id="@+id/label"
+                android:id="@+id/label2"
                 android:layout_below="@+id/last_name"
                 android:layout_alignLeft="@+id/last_name"
                 android:layout_marginTop="5dp" />
@@ -42,7 +42,7 @@
                 android:id="@+id/last_name"
                 android:singleLine="true"
                 android:imeOptions="flagNoExtractUi"
-                android:layout_below="@+id/label"
+                android:layout_below="@+id/label1"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentRight="true"
                 android:textSize="16dp"/>
@@ -51,8 +51,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/first_name"
-                android:layout_below="@+id/label"
-                android:layout_alignLeft="@+id/label"
+                android:layout_below="@+id/label2"
+                android:layout_alignLeft="@+id/label2"
                 android:layout_alignRight="@+id/last_name"
                 android:textSize="16dp"
                 android:imeOptions="flagNoExtractUi"
@@ -69,15 +69,15 @@
 
                 android:id="@+id/ingredis"
                 android:layout_below="@+id/first_name"
-                android:layout_alignLeft="@+id/first_name"
+                android:layout_alignParentLeft="true"
                 android:layout_marginTop="5dp" />
 
             <RadioGroup
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/radioChooser"
                 android:layout_below="@+id/ingredis"
-                android:layout_marginLeft="10dp"
-                android:id="@+id/radioChooser">
+                android:layout_alignParentLeft="true">
 
                 <RadioButton
                     android:layout_width="wrap_content"
