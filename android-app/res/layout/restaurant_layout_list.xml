@@ -2,14 +2,27 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content" android:background="@drawable/home_screen_background">
+                android:layout_height="wrap_content" android:background="@drawable/home_screen_background"
+    android:gravity="center_horizontal">
 
-    <TextView android:layout_width="fill_parent" android:layout_height="30dp" android:id="@+id/top_label" android:layout_alignParentTop="true"
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:id="@+id/textView"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignBottom="@+id/top_label"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/top_bar_background" />
+
+    <TextView android:layout_width="wrap_content" android:layout_height="30dp" android:id="@+id/top_label" android:layout_alignParentTop="true"
               android:textColor="#000000" android:textSize="16dp" android:singleLine="true"
-              android:gravity="center_vertical|center_horizontal" android:text="Montag, 06.11.2013"
+        android:text="Montag, 06.11.2013"
               android:visibility="visible"
-        android:background="@drawable/top_bar_background"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_vertical|center_horizontal" />
 
     <ListView android:layout_width="fill_parent" android:layout_height="match_parent"
     android:id="@+id/mensaList" android:layout_alignParentTop="true"

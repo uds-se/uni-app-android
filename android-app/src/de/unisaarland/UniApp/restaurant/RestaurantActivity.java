@@ -51,12 +51,13 @@ import de.unisaarland.UniApp.restaurant.uihelper.ViewFlowAdapter;
  * To change this template use File | Settings | File Templates.
  */
 public class RestaurantActivity extends Activity {
-    private final String RESTAURANT_FILE_NAME = "restaurant.dat";
+    private final String RESTAURANT_FILE_NAME = "restaurant_sb.dat";
     private ProgressBar bar;
     private NetworkHandler mensaNetworkHandler = null;
     private String backText = null;
 
-    private final String MENSA_URL = "http://studentenwerk-saarland.de/_menu/actual/speiseplan-saarbruecken.xml";
+    private final String MENSA_URL_SB = "http://studentenwerk-saarland.de/_menu/actual/speiseplan-saarbruecken.xml";
+    private final String MENSA_URL_HOM = "http://studentenwerk-saarland.de/_menu/actual/speiseplan-homburg.xml";
     private final String AUS_CAFE_URL = "http://www.uni-saarland.de/campus/service-und-kultur/gastronomieaufdemcampus/auslaender-cafe.html";
 
     private HashMap<String,ArrayList<MensaItem>> mensaItemsDictionary = null;
@@ -118,7 +119,12 @@ public class RestaurantActivity extends Activity {
         // in the map with a specific list.
         @Override
         public void mensaItemsList(HashMap<String,ArrayList<MensaItem>> daysDictionary) {
-            new AusLanderCafeParser(auslanderResultDelegate,AUS_CAFE_URL,daysDictionary).parse();
+            SharedPreferences settings = getSharedPreferences(Util.PREFS_NAME, 0);
+            Boolean uni_saar = settings.getBoolean(Util.CAMPUS_SAAR,true);
+            if (uni_saar)
+                new AusLanderCafeParser(auslanderResultDelegate,AUS_CAFE_URL,daysDictionary).parse();
+            else
+                setMensaEntries(daysDictionary);
         }
     };
 
@@ -126,20 +132,25 @@ public class RestaurantActivity extends Activity {
     private IMensaResultDelegate auslanderResultDelegate = new IMensaResultDelegate() {
         @Override
         public void mensaItemsList(HashMap<String, ArrayList<MensaItem>> daysDictionary) {
+            setMensaEntries(daysDictionary);
 
-            mensaItemsDictionary = daysDictionary;
-            Set set = mensaItemsDictionary.keySet();
-            keysList = new ArrayList<String>(mensaItemsDictionary.size());
-            Iterator<String> iter = set.iterator();
-            while (iter.hasNext()){
-                keysList.add(iter.next());
-            }
-
-            Collections.sort(keysList);
-            mensaNetworkHandler.invalidateRequest();
-            removeLoadingView();
         }
     };
+
+    private void setMensaEntries(HashMap<String,ArrayList<MensaItem>> daysDictionary){
+        mensaItemsDictionary = daysDictionary;
+        Set set = mensaItemsDictionary.keySet();
+        keysList = new ArrayList<String>(mensaItemsDictionary.size());
+        Iterator<String> iter = set.iterator();
+        while (iter.hasNext()){
+            keysList.add(iter.next());
+        }
+
+        Collections.sort(keysList);
+        mensaNetworkHandler.invalidateRequest();
+        removeLoadingView();
+
+    }
 
 
     // will remove the loading view and save the current maensa items in a file
@@ -214,6 +225,9 @@ public class RestaurantActivity extends Activity {
          * in case of success and failure
          */
         mensaNetworkHandler = new NetworkHandler(mensaDelegate);
+        SharedPreferences settings = getSharedPreferences(Util.PREFS_NAME, 0);
+        Boolean uni_saar = settings.getBoolean(Util.CAMPUS_SAAR,true);
+        String MENSA_URL = uni_saar ? MENSA_URL_SB : MENSA_URL_HOM;
         mensaNetworkHandler.connect(MENSA_URL, this);
     }
 

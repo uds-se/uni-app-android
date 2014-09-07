@@ -17,6 +17,7 @@ public class Util {
     public static final String NEWS_LOADED = "newsloaded";
     public static final String EVENTS_LOADED = "eventsloaded";
     public static final String MENSA_ITEMS_LOADED = "mensaItemsloaded";
+    public static final String CAMPUS_SAAR = "campusSaar";
     public static final String NEWS_FILE_NAME = "news.dat";
     public static final String TEMP_STAFF_SEARCH_FILE = "staff.dat";
 

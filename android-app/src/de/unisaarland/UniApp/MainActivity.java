@@ -5,6 +5,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
@@ -57,6 +60,41 @@ public class MainActivity extends Activity {
         setPreferences();
         super.onResume();
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu items for use in the action bar
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_activity_actions, menu);
+        SharedPreferences settings = getSharedPreferences(Util.PREFS_NAME, 0);
+        Boolean uni_saar = settings.getBoolean(Util.CAMPUS_SAAR,true);
+        String campus = uni_saar? getResources().getString(R.string.c_saarbruecken): getResources().getString(R.string.c_homburg);
+        menu.findItem(R.id.action_campus_chooser).setTitle(campus);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    // Handling the Action Bar Buttons
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+
+            case R.id.action_campus_chooser:
+                SharedPreferences settings = getSharedPreferences(Util.PREFS_NAME, 0);
+                SharedPreferences.Editor editor = settings.edit();
+                Boolean uni_saar = settings.getBoolean(Util.CAMPUS_SAAR,true);
+                if (uni_saar){
+                    item.setTitle(getResources().getString(R.string.c_homburg));
+                    editor.putBoolean(Util.CAMPUS_SAAR,false).apply();
+                }
+                else{
+                    item.setTitle(getResources().getString(R.string.c_saarbruecken));
+                    editor.putBoolean(Util.CAMPUS_SAAR,true).apply();
+                }
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 
     /*
     * set the preference for events, news and staff search so that in case if activity is

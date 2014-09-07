@@ -118,4 +118,7 @@
     <string name="label_20">Backtriebmittel</string>
     <string name="label_22">Veganes Essen</string>
     <string name="label_23">Fisch aus nachhaltigem Fang</string>
+    <!-- Campus -->
+    <string name="c_homburg">Campus Homburg</string>
+    <string name="c_saarbruecken">Campus Saarbrücken</string>
 </resources>
