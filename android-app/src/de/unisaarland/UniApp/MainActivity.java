@@ -2,13 +2,20 @@ package de.unisaarland.UniApp;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Point;
 import android.os.Bundle;
+import android.view.Display;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 
 import java.io.File;
@@ -51,6 +58,7 @@ public class MainActivity extends Activity {
     * */
     @Override
     protected void onResume() {
+
         // sets the custom navigation bar according to each activity.
         setActionBar();
         setContentView(R.layout.main);
@@ -66,10 +74,12 @@ public class MainActivity extends Activity {
         // Inflate the menu items for use in the action bar
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_activity_actions, menu);
+                /*
         SharedPreferences settings = getSharedPreferences(Util.PREFS_NAME, 0);
         Boolean uni_saar = settings.getBoolean(Util.CAMPUS_SAAR,true);
         String campus = uni_saar? getResources().getString(R.string.c_saarbruecken): getResources().getString(R.string.c_homburg);
         menu.findItem(R.id.action_campus_chooser).setTitle(campus);
+        */
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -79,20 +89,36 @@ public class MainActivity extends Activity {
         switch (item.getItemId()) {
 
             case R.id.action_campus_chooser:
-                SharedPreferences settings = getSharedPreferences(Util.PREFS_NAME, 0);
-                SharedPreferences.Editor editor = settings.edit();
-                Boolean uni_saar = settings.getBoolean(Util.CAMPUS_SAAR,true);
-                if (uni_saar){
-                    item.setTitle(getResources().getString(R.string.c_homburg));
-                    editor.putBoolean(Util.CAMPUS_SAAR,false).apply();
-                }
-                else{
-                    item.setTitle(getResources().getString(R.string.c_saarbruecken));
-                    editor.putBoolean(Util.CAMPUS_SAAR,true).apply();
-                }
+                showSettings();
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void showSettings(){
+        LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = layoutInflater.inflate(R.layout.settings_layout,null);
+        final Dialog optionMenuDialog = new Dialog(this, R.style.Transparent);
+        optionMenuDialog.requestWindowFeature(Window.FEATURE_ACTION_BAR);
+        optionMenuDialog.setContentView(view);
+        optionMenuDialog.setTitle(getResources().getString(R.string.settings));
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = (int) Math.round(size.x*0.9);
+        int height = (int) Math.round(size.y*0.9);
+        optionMenuDialog.getWindow().setLayout(width, height);
+        WindowManager.LayoutParams lp = optionMenuDialog.getWindow().getAttributes();
+        lp.dimAmount = 0.7f;
+        Button back = (Button) optionMenuDialog.findViewById(R.id.bt_back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                optionMenuDialog.dismiss();
+            }
+        });
+        optionMenuDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        optionMenuDialog.show();
     }
 
 
@@ -111,6 +137,12 @@ public class MainActivity extends Activity {
         File f = new File(getFilesDir().getAbsolutePath()+ Util.TEMP_STAFF_SEARCH_FILE);
         if(f.exists()) {
             f.delete();
+        }
+
+        //If App is used for the first time...
+        if (settings.getBoolean(Util.FIRST_TIME, true)) {
+            showSettings();
+            settings.edit().putBoolean(Util.FIRST_TIME, false).commit();
         }
     }
 

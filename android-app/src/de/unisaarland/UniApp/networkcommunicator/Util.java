@@ -20,6 +20,7 @@ public class Util {
     public static final String CAMPUS_SAAR = "campusSaar";
     public static final String NEWS_FILE_NAME = "news.dat";
     public static final String TEMP_STAFF_SEARCH_FILE = "staff.dat";
+    public static final String FIRST_TIME = "firstTime";
 
     //to encode the url and remove spaces if there are any
     public static String urlEncode(String url) {

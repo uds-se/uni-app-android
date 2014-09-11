@@ -118,4 +118,7 @@
     <string name="label_20">Raising agent</string>
     <string name="label_22">Vegan food</string>
     <string name="label_23">Fish from sustainable fishing</string>
+    <string name="choose_campus">Choose campus</string>
+    <string name="choose_campus_hint">This setting customizes the mensa menu, bus stations and the campus map</string>
+
 </resources>

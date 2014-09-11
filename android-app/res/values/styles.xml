@@ -37,7 +37,7 @@
 
         </item>
 
-        <item name="android:colorForeground">#111</item>
+        <item name="android:colorForeground">@color/white</item>
 
     </style>
     <style name="DialogAnimation" parent="android:Animation">

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="de.unisaarland.UniApp"
-          android:versionCode="4"
-          android:versionName="1.1.1">
+          android:versionCode="5"
+          android:versionName="1.1.2">
     <uses-sdk android:minSdkVersion="14"/>
     <application android:label="@string/app_name" android:icon="@drawable/ic_launcher"
                  android:hardwareAccelerated="true"
@@ -20,6 +20,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="de.unisaarland.UniApp.MainActivity" />
         </activity>
+
 
         <activity android:name=".bus.BusActivity" android:label="@string/busText" android:configChanges="orientation|screenSize">
             <meta-data

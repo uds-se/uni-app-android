@@ -1,10 +1,10 @@
 package de.unisaarland.UniApp.restaurant.uihelper;
 
 import android.app.ActionBar;
+import android.app.ActionBar.Tab;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
-import android.app.ActionBar.Tab;
 
 /**
  * Created by Janek on 14.08.2014.
