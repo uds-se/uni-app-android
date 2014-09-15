@@ -2,20 +2,14 @@ package de.unisaarland.UniApp;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Point;
 import android.os.Bundle;
-import android.view.Display;
-import android.view.LayoutInflater;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 
 import java.io.File;
@@ -49,6 +43,7 @@ public class MainActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
 
@@ -96,29 +91,9 @@ public class MainActivity extends Activity {
     }
 
     private void showSettings(){
-        LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = layoutInflater.inflate(R.layout.settings_layout,null);
-        final Dialog optionMenuDialog = new Dialog(this, R.style.Transparent);
-        optionMenuDialog.requestWindowFeature(Window.FEATURE_ACTION_BAR);
-        optionMenuDialog.setContentView(view);
-        optionMenuDialog.setTitle(getResources().getString(R.string.settings));
-        Display display = getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        int width = (int) Math.round(size.x*0.9);
-        int height = (int) Math.round(size.y*0.9);
-        optionMenuDialog.getWindow().setLayout(width, height);
-        WindowManager.LayoutParams lp = optionMenuDialog.getWindow().getAttributes();
-        lp.dimAmount = 0.7f;
-        Button back = (Button) optionMenuDialog.findViewById(R.id.bt_back);
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                optionMenuDialog.dismiss();
-            }
-        });
-        optionMenuDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-        optionMenuDialog.show();
+        Intent myIntent = new Intent(MainActivity.this, SettingsActivity.class);
+        MainActivity.this.startActivity(myIntent);
+
     }
 
 
@@ -141,6 +116,7 @@ public class MainActivity extends Activity {
 
         //If App is used for the first time...
         if (settings.getBoolean(Util.FIRST_TIME, true)) {
+            PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
             showSettings();
             settings.edit().putBoolean(Util.FIRST_TIME, false).commit();
         }

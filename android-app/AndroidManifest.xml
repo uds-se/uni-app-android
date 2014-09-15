@@ -15,6 +15,13 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".SettingsActivity"  android:configChanges="orientation|screenSize">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="de.unisaarland.UniApp.MainActivity" />
+        </activity>
+
+
         <activity android:name=".news.NewsActivity" android:label="@string/newsText" android:configChanges="orientation|screenSize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

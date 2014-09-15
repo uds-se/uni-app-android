@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.Menu;
@@ -32,6 +33,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 import de.unisaarland.UniApp.R;
+import de.unisaarland.UniApp.SettingsActivity;
 import de.unisaarland.UniApp.networkcommunicator.INetworkLoaderDelegate;
 import de.unisaarland.UniApp.networkcommunicator.NetworkHandler;
 import de.unisaarland.UniApp.networkcommunicator.Util;
@@ -119,9 +121,10 @@ public class RestaurantActivity extends Activity {
         // in the map with a specific list.
         @Override
         public void mensaItemsList(HashMap<String,ArrayList<MensaItem>> daysDictionary) {
-            SharedPreferences settings = getSharedPreferences(Util.PREFS_NAME, 0);
-            Boolean uni_saar = settings.getBoolean(Util.CAMPUS_SAAR,true);
-            if (uni_saar)
+
+            SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+            String uni_saar = settings.getString(SettingsActivity.KEY_CAMPUS_CHOOSER, "saar");
+            if (uni_saar.equals("saar"))
                 new AusLanderCafeParser(auslanderResultDelegate,AUS_CAFE_URL,daysDictionary).parse();
             else
                 setMensaEntries(daysDictionary);
@@ -225,9 +228,9 @@ public class RestaurantActivity extends Activity {
          * in case of success and failure
          */
         mensaNetworkHandler = new NetworkHandler(mensaDelegate);
-        SharedPreferences settings = getSharedPreferences(Util.PREFS_NAME, 0);
-        Boolean uni_saar = settings.getBoolean(Util.CAMPUS_SAAR,true);
-        String MENSA_URL = uni_saar ? MENSA_URL_SB : MENSA_URL_HOM;
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        String uni_saar = settings.getString(SettingsActivity.KEY_CAMPUS_CHOOSER, "saar");
+        String MENSA_URL = uni_saar.equals("saar") ? MENSA_URL_SB : MENSA_URL_HOM;
         mensaNetworkHandler.connect(MENSA_URL, this);
     }
 
@@ -309,41 +312,7 @@ public class RestaurantActivity extends Activity {
         //Enable Up-Navigation
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle(R.string.mensa_text);
-        /*
-        // add the custom view to the action bar
-        actionBar.setCustomView(R.layout.navigation_bar_layout);
-        actionBar.setBackgroundDrawable(new ColorDrawable(Color.LTGRAY));
 
-        TextView pageText = (TextView) actionBar.getCustomView().findViewById(R.id.page_heading);
-        pageText.setText(R.string.mensa_text);
-        pageText.setVisibility(View.VISIBLE);
-        pageText.setTextColor(Color.BLACK);
-
-       TextView backPageText = (TextView) actionBar.getCustomView().findViewById(R.id.page_back_text);
-        if(backText == null){
-            backPageText.setText(R.string.homeText);
-        }else{
-            backPageText.setText(backText);
-        }
-        backPageText.setVisibility(View.VISIBLE);
-        backPageText.setOnClickListener(new BackButtonClickListener(this));
-
-        TextView rightText = (TextView) actionBar.getCustomView().findViewById(R.id.page_right_heading);
-        rightText.setText(R.string.opening_hours);
-        rightText.setVisibility(View.VISIBLE);
-        rightText.setClickable(true);
-        rightText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent myIntent = new Intent(RestaurantActivity.this, OpeningHoursActivity.class);
-                RestaurantActivity.this.startActivity(myIntent);
-            }
-        });
-
-        ImageButton backButton = (ImageButton) actionBar.getCustomView().findViewById(R.id.back_icon);
-        backButton.setVisibility(View.VISIBLE);
-        backButton.setOnClickListener(new BackButtonClickListener(this));
-        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);*/
     }
 
     @Override
