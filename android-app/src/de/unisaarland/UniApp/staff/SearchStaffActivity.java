@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.view.KeyEvent;
@@ -87,14 +88,11 @@ public class SearchStaffActivity extends Activity implements OnCheckedChangeList
                     AlertDialog alert11 = builder1.create();
                     alert11.show();
                 } else if(Util.isConnectedToInternet(SearchStaffActivity.this)){
-                    String allQueryURL = String.format("https://www.lsf.uni-saarland.de/qisserver/rds?state=wsearchv&search=7&purge=y&moduleParameter=person/person&personal.vorname=%s&personal.nachname=%s&P_start=0&P_anzahl=40&_form=display",fstNam,lstNam);
-                    String profQueryURL = String.format("https://www.lsf.uni-saarland.de/qisserver/rds?state=wsearchv&search=7&purge=y&moduleParameter=person/person&choice.r_funktion.pfid=y&r_funktion.pfid=171&personal.vorname=%s&personal.nachname=%s&P_start=0&P_anzahl=50&_form=display",fstNam,lstNam);
-                    String queryURL = "";
-                    if(radioChooser.getCheckedRadioButtonId() == R.id.rb_only_prof){
-                        queryURL = profQueryURL;
-                    }else{
-                        queryURL = allQueryURL;
-                    }
+                    String allQueryURL  = "https://www.lsf.uni-saarland.de/qisserver/rds?state=wsearchv&search=7&purge=y&moduleParameter=person/person&personal.vorname=%s&personal.nachname=%s&P_start=0&P_anzahl=50&_form=display";
+                    String profQueryURL = "https://www.lsf.uni-saarland.de/qisserver/rds?state=wsearchv&search=7&purge=y&moduleParameter=person/person&choice.r_funktion.pfid=y&r_funktion.pfid=171&personal.vorname=%s&personal.nachname=%s&P_start=0&P_anzahl=50&_form=display";
+                    String queryURLRaw = radioChooser.getCheckedRadioButtonId() == R.id.rb_only_prof
+                        ? profQueryURL : allQueryURL;
+                    String queryURL = String.format(queryURLRaw, Uri.encode(fstNam), Uri.encode(lstNam));
                     Intent myIntent = new Intent(SearchStaffActivity.this, SearchResultActivity.class);
                     myIntent.putExtra("url", queryURL);
                     SearchStaffActivity.this.startActivity(myIntent);
