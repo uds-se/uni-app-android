@@ -120,13 +120,20 @@ public class SearchResultActivity extends Activity {
                                 Element nameElement = aElements.get(0);
                                 String rawName = nameElement.text();
                                 String[] nameArray = rawName.split(" ");
-                                String firstName = nameArray[nameArray.length-2];
-                                String name = nameArray[nameArray.length-1];
-                                name = String.format("%s %s",firstName,name);
+                                // filter out all leading "Prof.", "Dr.", "rer." ...
+                                StringBuilder name = new StringBuilder();
+                                boolean titlePart = true;
+                                for (String namePart : nameArray) {
+                                    if (!namePart.endsWith(".") &&
+                                            !namePart.endsWith(".-"))
+                                        titlePart = false;
+                                    if (!titlePart)
+                                        name.append(" ").append(namePart);
+                                }
                                 String url = nameElement.attr("href");
                                 //safety check in case user press the back button of device
-                                if(namesArray != null && linksArray != null){
-                                    namesArray.add(name);
+                                if (namesArray != null && linksArray != null) {
+                                    namesArray.add(name.substring(1));
                                     linksArray.add(url);
                                 }
                             }
