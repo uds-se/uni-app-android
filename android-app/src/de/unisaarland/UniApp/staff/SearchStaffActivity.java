@@ -127,26 +127,7 @@ public class SearchStaffActivity extends Activity implements OnCheckedChangeList
         //Enabling Up-Navigation
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle(R.string.search_for_staff_text);
-        /*
-        // add the custom view to the action bar
-        actionBar.setCustomView(R.layout.navigation_bar_layout);
-        actionBar.setBackgroundDrawable(new ColorDrawable(Color.LTGRAY));
 
-        TextView pageText = (TextView) actionBar.getCustomView().findViewById(R.id.page_heading);
-        pageText.setText(R.string.search_for_staff_text);
-        pageText.setVisibility(View.VISIBLE);
-        pageText.setTextColor(Color.BLACK);
-
-        TextView backPageText = (TextView) actionBar.getCustomView().findViewById(R.id.page_back_text);
-        backPageText.setText(R.string.homeText);
-        backPageText.setVisibility(View.VISIBLE);
-        backPageText.setOnClickListener(new BackButtonClickListener(this));
-
-        ImageButton backButton = (ImageButton) actionBar.getCustomView().findViewById(R.id.back_icon);
-        backButton.setVisibility(View.VISIBLE);
-        backButton.setOnClickListener(new BackButtonClickListener(this));
-        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        */
     }
 
     // Handling the Action Bar Buttons
