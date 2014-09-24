@@ -75,10 +75,10 @@
     <string name="route">Route</string>
     <string name="ok">OK</string>
     <string name="no_staff_member_title">Staff member not found</string>
-    <string name="no_staff_member_found_description">Unfortunately no staff member matches your search criteria</string>
+    <string name="no_staff_member_found_description">Unfortunately no staff member matches your search criteria.</string>
     <string name="empty_search_field">Empty search field</string>
-    <string name="fill_at_least_one">Please fill at least one search field</string>
-    <string name="check_internet_message">Please check your internet connection and try again</string>
+    <string name="fill_at_least_one">Please fill at least one search field.</string>
+    <string name="check_internet_message">Please check your internet connection and try again.</string>
     <string name="mon_to_fri_heroes_time">10:30 am - 4:30 pm</string>
     <string name="back">Back</string>
     <string name="at_station">At bus station</string>

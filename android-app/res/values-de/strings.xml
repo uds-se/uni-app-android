@@ -76,10 +76,10 @@
     <string name="ok">OK</string>
     <string name="mon_to_fri_heroes_time">10:30 Uhr - 16:30 Uhr</string>
     <string name="no_staff_member_title">Suche erfolglos</string>
-    <string name="no_staff_member_found_description">Leider konnte kein Personal gefunden werden, das Ihren Suchkriterien entspricht</string>
+    <string name="no_staff_member_found_description">Leider konnte kein Personal gefunden werden, das Ihren Suchkriterien entspricht.</string>
     <string name="empty_search_field">Leeres Suchfeld</string>
-    <string name="fill_at_least_one">Bitte geben Sie Name oder Vorname ein</string>
-    <string name="check_internet_message">Bitte überprüfen Sie ihre Internetverbindung und versuchen Sie es erneut</string>
+    <string name="fill_at_least_one">Bitte geben Sie Nachname oder Vorname ein.</string>
+    <string name="check_internet_message">Bitte überprüfen Sie ihre Internetverbindung und versuchen Sie es erneut.</string>
     <string name="back">Zurück</string>
     <string name="at_station">An Haltestelle</string>
     <string name="search_bus">Bus Suche</string>
