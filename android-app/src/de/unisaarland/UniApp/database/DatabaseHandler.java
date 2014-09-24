@@ -1,11 +1,13 @@
 package de.unisaarland.UniApp.database;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import java.io.FileOutputStream;
@@ -13,7 +15,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 
+import de.unisaarland.UniApp.SettingsActivity;
 import de.unisaarland.UniApp.bus.model.PointOfInterest;
 
 /**
@@ -35,9 +39,9 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         ArrayList<PointOfInterest> result = new ArrayList<PointOfInterest>();
         Cursor cursor = null ;
         try{
-            cursor =database.query("pointOfInterest",new String[]{"title","subtitle","canshowleftcallout",
-                    "canshowrightcallout","color","website","lat","longi","ID"},"categorieID = ?",
-                    new String[]{Integer.toString(ID)},null,null,null);
+            cursor =campusQuery("pointOfInterest", new String[]{"title", "subtitle", "canshowleftcallout",
+                            "canshowrightcallout", "color", "website", "lat", "longi", "ID"}, "categorieID = ?",
+                    new String[]{Integer.toString(ID)}, null, null, null);
             if(cursor!=null)
             {
                 while (cursor.moveToNext()) {
@@ -66,7 +70,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         ArrayList<String> result = new ArrayList<String>();
         Cursor cursor = null ;
         try{
-            cursor =database.query("categorie",new String[]{"title"},null,null,null,null,null);
+            cursor = campusQuery("categorie",new String[]{"title"},null,null,null,null,null);
             if(cursor!=null) {
                 while (cursor.moveToNext()) {
                     result.add(cursor.getString(0));
@@ -84,7 +88,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         ArrayList<PointOfInterest> result = new ArrayList<PointOfInterest>();
         Cursor cursor = null ;
         try{
-            cursor =database.query("pointOfInterest",new String[]{"title","subtitle","canshowleftcallout",
+            cursor =campusQuery("pointOfInterest",new String[]{"title","subtitle","canshowleftcallout",
                     "canshowrightcallout","color","website","lat","longi","ID","categorieID"},null,
                     null,null,null,null);
             if(cursor!=null) {
@@ -113,7 +117,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
 
     public Cursor getAllData(){
 
-        Cursor cursor =  database.query("pointOfInterest",new String[]{"title","subtitle","canshowleftcallout",
+        Cursor cursor =  campusQuery("pointOfInterest",new String[]{"title","subtitle","canshowleftcallout",
                         "canshowrightcallout","color","website","lat","longi","ID","categorieID"},null,
                 null,null,null,null);
         String[] columns = new String[] {"_id","title","subtitle","canshowleftcallout",
@@ -146,7 +150,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         ArrayList<String> result = new ArrayList<String>();
         Cursor cursor = null ;
         try{
-            cursor =database.query("pointOfInterest",new String[]{"title"},null,
+            cursor =campusQuery("pointOfInterest",new String[]{"title"},null,
                     null,null,null,null);
             if(cursor!=null) {
                 while (cursor.moveToNext()) {
@@ -168,7 +172,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
 
         String sKeyWithPerAtBegEnd = "% " + searchKey + "%";
 
-        cursor =database.query("pointOfInterest",new String[]{"title","subtitle","canshowleftcallout",
+        cursor =campusQuery("pointOfInterest",new String[]{"title","subtitle","canshowleftcallout",
                         "canshowrightcallout","color","website","lat","longi","ID","categorieID"},
                 "(title LIKE ?) OR (subtitle LIKE ?)  OR (searchkey LIKE ?) OR ( title LIKE ? ) OR (subtitle LIKE ?)" +
                         "  OR (searchkey LIKE ?)",
@@ -208,7 +212,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
 
         String sKeyWithPerAtBegEnd = "% " + searchKey + "%";
 
-        Cursor cursor =database.query("pointOfInterest",new String[]{"title","subtitle","canshowleftcallout",
+        Cursor cursor =campusQuery("pointOfInterest",new String[]{"title","subtitle","canshowleftcallout",
                         "canshowrightcallout","color","website","lat","longi","ID","categorieID"},
                 "(title LIKE ?) OR (subtitle LIKE ?)  OR (searchkey LIKE ?) OR ( title LIKE ? ) OR (subtitle LIKE ?)" +
                         "  OR (searchkey LIKE ?)",
@@ -246,7 +250,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
             for (int i = 0; i < ids.size(); i++) {
                 String idList = String.format("%d", ids.get(i));
                 try {
-                    cursor = database.query("pointOfInterest", new String[]{"title", "subtitle", "canshowleftcallout",
+                    cursor = campusQuery("pointOfInterest", new String[]{"title", "subtitle", "canshowleftcallout",
                             "canshowrightcallout", "color", "website", "lat", "longi", "ID"}, "ID = ?",
                             new String[]{idList}, null, null, null);
 
@@ -280,7 +284,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         ArrayList<PointOfInterest> result = new ArrayList<PointOfInterest>();
         Cursor cursor = null;
         try {
-            cursor = database.query("pointOfInterest", new String[]{"title", "subtitle", "canshowleftcallout",
+            cursor = campusQuery("pointOfInterest", new String[]{"title", "subtitle", "canshowleftcallout",
                     "canshowrightcallout", "color", "website", "lat", "longi", "ID"}, "title = ? ",new String[]{title}, null, null, null);
             if (cursor != null) {
                 while (cursor.moveToNext()) {
@@ -309,7 +313,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         ArrayList<Integer> result = new ArrayList<Integer>();
         Cursor cursor = null ;
         try{
-            cursor =database.query("categorie",new String[]{"ID"},null,null,null,null,null);
+            cursor =campusQuery("categorie",new String[]{"ID"},null,null,null,null,null);
             if(cursor!=null) {
                 while (cursor.moveToNext()) {
                     result.add(cursor.getInt(0));
@@ -425,5 +429,20 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+
+    // This method queries the database for entries regarding the campus which was selecten in the settings
+    public Cursor campusQuery(String table, String[] columns, String selection,
+                              String[] selectionArgs, String groupBy, String having,
+                              String orderBy){
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
+        String campus = settings.getString(SettingsActivity.KEY_CAMPUS_CHOOSER, "saar");
+        selection =  selection + " AND campus = ?" ;
+        //Appending search term
+        ArrayList<String> tempList= new ArrayList<String>(Arrays.asList(selectionArgs));
+        tempList.add(campus);
+        selectionArgs = tempList.toArray(new String[]{});
+        return database.query(table,columns,selection,selectionArgs,groupBy,having,orderBy);
     }
 }
