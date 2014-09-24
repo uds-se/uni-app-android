@@ -69,9 +69,9 @@ public class SearchStaffActivity extends Activity implements OnCheckedChangeList
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String lstNam = lastName.getText().toString();
+                String lstNam = cleanString(lastName.getText().toString());
                 lstNam = lstNam.trim();
-                String fstNam = firstName.getText().toString();
+                String fstNam = cleanString(firstName.getText().toString());
                 fstNam = fstNam.trim();
                 if(fstNam.length() ==0 && lstNam.length() == 0){
                     AlertDialog.Builder builder1 = new AlertDialog.Builder(SearchStaffActivity.this);
@@ -113,6 +113,13 @@ public class SearchStaffActivity extends Activity implements OnCheckedChangeList
                 }
             }
         });
+    }
+
+    private String cleanString(String s){
+        s = s.replace("ä","%C3%A4");
+        s = s.replace("ü","%C3%BC");
+        s = s.replace("ö","%C3%B6");
+        return s;
     }
 
     private void setActionBar() {
