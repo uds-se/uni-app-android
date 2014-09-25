@@ -70,9 +70,9 @@ public class SearchStaffActivity extends Activity implements OnCheckedChangeList
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String lstNam = cleanString(lastName.getText().toString());
+                String lstNam = lastName.getText().toString();
                 lstNam = lstNam.trim();
-                String fstNam = cleanString(firstName.getText().toString());
+                String fstNam = firstName.getText().toString();
                 fstNam = fstNam.trim();
                 if(fstNam.length() ==0 && lstNam.length() == 0){
                     AlertDialog.Builder builder1 = new AlertDialog.Builder(SearchStaffActivity.this);
@@ -91,7 +91,7 @@ public class SearchStaffActivity extends Activity implements OnCheckedChangeList
                     String allQueryURL  = "https://www.lsf.uni-saarland.de/qisserver/rds?state=wsearchv&search=7&purge=y&moduleParameter=person/person&personal.vorname=%s&personal.nachname=%s&P_start=0&P_anzahl=50&_form=display";
                     String profQueryURL = "https://www.lsf.uni-saarland.de/qisserver/rds?state=wsearchv&search=7&purge=y&moduleParameter=person/person&choice.r_funktion.pfid=y&r_funktion.pfid=171&personal.vorname=%s&personal.nachname=%s&P_start=0&P_anzahl=50&_form=display";
                     String queryURLRaw = radioChooser.getCheckedRadioButtonId() == R.id.rb_only_prof
-                        ? profQueryURL : allQueryURL;
+                            ? profQueryURL : allQueryURL;
                     String queryURL = String.format(queryURLRaw, Uri.encode(fstNam), Uri.encode(lstNam));
                     Intent myIntent = new Intent(SearchStaffActivity.this, SearchResultActivity.class);
                     myIntent.putExtra("url", queryURL);
@@ -113,19 +113,31 @@ public class SearchStaffActivity extends Activity implements OnCheckedChangeList
         });
     }
 
-    private String cleanString(String s){
-        s = s.replace("ä","%C3%A4");
-        s = s.replace("ü","%C3%BC");
-        s = s.replace("ö","%C3%B6");
-        return s;
-    }
-
     private void setActionBar() {
         ActionBar actionBar = getActionBar();
         //Enabling Up-Navigation
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle(R.string.search_for_staff_text);
+        /*
+        // add the custom view to the action bar
+        actionBar.setCustomView(R.layout.navigation_bar_layout);
+        actionBar.setBackgroundDrawable(new ColorDrawable(Color.LTGRAY));
 
+        TextView pageText = (TextView) actionBar.getCustomView().findViewById(R.id.page_heading);
+        pageText.setText(R.string.search_for_staff_text);
+        pageText.setVisibility(View.VISIBLE);
+        pageText.setTextColor(Color.BLACK);
+
+        TextView backPageText = (TextView) actionBar.getCustomView().findViewById(R.id.page_back_text);
+        backPageText.setText(R.string.homeText);
+        backPageText.setVisibility(View.VISIBLE);
+        backPageText.setOnClickListener(new BackButtonClickListener(this));
+
+        ImageButton backButton = (ImageButton) actionBar.getCustomView().findViewById(R.id.back_icon);
+        backButton.setVisibility(View.VISIBLE);
+        backButton.setOnClickListener(new BackButtonClickListener(this));
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        */
     }
 
     // Handling the Action Bar Buttons

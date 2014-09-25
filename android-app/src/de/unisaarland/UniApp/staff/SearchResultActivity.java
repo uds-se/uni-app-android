@@ -109,41 +109,41 @@ public class SearchResultActivity extends Activity {
                 Document doc = null;
                 try {
                     doc = Jsoup.connect(url).timeout(15*1000).get();
-                Elements divElements = doc.getElementsByTag("div");
-                for(Element divElement: divElements){
-                    if(divElement.className().equals("erg_list_entry")){
-                        Elements ergListLabelElements = divElement.getElementsByAttributeValueContaining("class", "erg_list_label");
-                        if(ergListLabelElements.size()>0){
-                            Element timeElement = ergListLabelElements.get(0);
-                            if(timeElement.ownText().equals("Name:")){
-                                Elements aElements = divElement.getElementsByTag("a");
-                                Element nameElement = aElements.get(0);
-                                String rawName = nameElement.text();
-                                String[] nameArray = rawName.split(" ");
-                                // filter out all leading "Prof.", "Dr.", "rer." ...
-                                StringBuilder name = new StringBuilder();
-                                boolean titlePart = true;
-                                for (String namePart : nameArray) {
-                                    if (!namePart.endsWith(".") &&
-                                            !namePart.endsWith(".-"))
-                                        titlePart = false;
-                                    if (!titlePart)
-                                        name.append(" ").append(namePart);
-                                }
-                                String url = nameElement.attr("href");
-                                //safety check in case user press the back button of device
-                                if (namesArray != null && linksArray != null) {
-                                    namesArray.add(name.substring(1));
-                                    linksArray.add(url);
+                    Elements divElements = doc.getElementsByTag("div");
+                    for(Element divElement: divElements){
+                        if(divElement.className().equals("erg_list_entry")){
+                            Elements ergListLabelElements = divElement.getElementsByAttributeValueContaining("class", "erg_list_label");
+                            if(ergListLabelElements.size()>0){
+                                Element timeElement = ergListLabelElements.get(0);
+                                if(timeElement.ownText().equals("Name:")){
+                                    Elements aElements = divElement.getElementsByTag("a");
+                                    Element nameElement = aElements.get(0);
+                                    String rawName = nameElement.text();
+                                    String[] nameArray = rawName.split(" ");
+                                    // filter out all leading "Prof.", "Dr.", "rer." ...
+                                    StringBuilder name = new StringBuilder();
+                                    boolean titlePart = true;
+                                    for (String namePart : nameArray) {
+                                        if (!namePart.endsWith(".") &&
+                                                !namePart.endsWith(".-"))
+                                            titlePart = false;
+                                        if (!titlePart)
+                                            name.append(" ").append(namePart);
+                                    }
+                                    String url = nameElement.attr("href");
+                                    //safety check in case user press the back button of device
+                                    if (namesArray != null && linksArray != null) {
+                                        namesArray.add(name.substring(1));
+                                        linksArray.add(url);
+                                    }
                                 }
                             }
-                        }
 
+                        }
                     }
-                }
-                return 1;
+                    return 1;
                 } catch (IOException e) {
-                   return 0;
+                    return 0;
                 }
             }
 
@@ -151,8 +151,8 @@ public class SearchResultActivity extends Activity {
             protected void onPostExecute(Integer i) {
                 //if data fetching was successfull
                 if (i == 1)
-                showSearchResults();
-                //else show error message and dismiss view
+                    showSearchResults();
+                    //else show error message and dismiss view
                 else{
                     AlertDialog.Builder builder1 = new AlertDialog.Builder(SearchResultActivity.this);
                     builder1.setMessage(getString(R.string.not_connected));
@@ -173,7 +173,7 @@ public class SearchResultActivity extends Activity {
 
     private void showSearchResults() {
         if(pBar != null) {
-        pBar.setVisibility(View.INVISIBLE);
+            pBar.setVisibility(View.INVISIBLE);
             if(namesArray.size() == 0){
                 AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
                 builder1.setTitle(getString(R.string.no_staff_member_title));
