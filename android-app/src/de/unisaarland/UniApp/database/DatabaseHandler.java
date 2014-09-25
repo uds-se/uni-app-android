@@ -70,7 +70,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         ArrayList<String> result = new ArrayList<String>();
         Cursor cursor = null ;
         try{
-            cursor = campusQuery("categorie",new String[]{"title"},null,null,null,null,null);
+            cursor = database.query("categorie",new String[]{"title"},null,null,null,null,null);
             if(cursor!=null) {
                 while (cursor.moveToNext()) {
                     result.add(cursor.getString(0));
@@ -313,7 +313,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         ArrayList<Integer> result = new ArrayList<Integer>();
         Cursor cursor = null ;
         try{
-            cursor =campusQuery("categorie",new String[]{"ID"},null,null,null,null,null);
+            cursor =database.query("categorie",new String[]{"ID"},null,null,null,null,null);
             if(cursor!=null) {
                 while (cursor.moveToNext()) {
                     result.add(cursor.getInt(0));
@@ -438,11 +438,17 @@ public class DatabaseHandler extends SQLiteOpenHelper{
                               String orderBy){
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
         String campus = settings.getString(SettingsActivity.KEY_CAMPUS_CHOOSER, "saar");
-        selection =  selection + " AND campus = ?" ;
+        if (selection != null)
+            selection =  "(" +selection + ") AND (campus = ?)" ;
+        else
+            selection  = "campus = ?" ;
+        ArrayList<String> tempList = new ArrayList<String>();
         //Appending search term
-        ArrayList<String> tempList= new ArrayList<String>(Arrays.asList(selectionArgs));
-        tempList.add(campus);
-        selectionArgs = tempList.toArray(new String[]{});
+        if (selectionArgs != null)
+            tempList = new ArrayList<String>(Arrays.asList(selectionArgs));
+            tempList.add(campus);
+            selectionArgs = tempList.toArray(new String[]{});
+
         return database.query(table,columns,selection,selectionArgs,groupBy,having,orderBy);
     }
 }

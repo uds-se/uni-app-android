@@ -7,10 +7,12 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
@@ -47,8 +49,10 @@ import com.google.android.gms.maps.model.TileOverlayOptions;
 import java.util.ArrayList;
 
 import de.unisaarland.UniApp.R;
+import de.unisaarland.UniApp.SettingsActivity;
 import de.unisaarland.UniApp.bus.BusDetailActivity;
 import de.unisaarland.UniApp.bus.model.PointOfInterest;
+import de.unisaarland.UniApp.campus.model.CustomMapHomProvider;
 import de.unisaarland.UniApp.campus.model.CustomMapTileProvider;
 import de.unisaarland.UniApp.campus.model.CustomMapTileSupportProvider;
 import de.unisaarland.UniApp.campus.uihelper.CustomInfoWindowAdapter;
@@ -225,12 +229,21 @@ public class CampusActivity extends FragmentActivity implements ConnectionCallba
                     }
                 });
                 map.setBuildingsEnabled(false);
+                map.setMapType(1);
                 map.getUiSettings().setZoomControlsEnabled(false);
                 map.setInfoWindowAdapter(new CustomInfoWindowAdapter(this,poisMap));
                 map.setOnInfoWindowClickListener(this);
+                //
                 map.addTileOverlay(new TileOverlayOptions().tileProvider(new CustomMapTileProvider(getResources().getAssets())));
                 map.addTileOverlay(new TileOverlayOptions().tileProvider(new CustomMapTileSupportProvider(getResources().getAssets())));
-                CameraUpdate upd = CameraUpdateFactory.newLatLngZoom(new LatLng(49.25419, 7.041324), 15);
+                map.addTileOverlay(new TileOverlayOptions().tileProvider(new CustomMapHomProvider(getResources().getAssets())));
+                SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                String uni_saar = settings.getString(SettingsActivity.KEY_CAMPUS_CHOOSER, "saar");
+                CameraUpdate upd;
+                if (uni_saar.equals("saar"))
+                    upd = CameraUpdateFactory.newLatLngZoom(new LatLng(49.25419, 7.041324), 15);
+                else
+                    upd = CameraUpdateFactory.newLatLngZoom(new LatLng(49.305582, 7.344296), 15);
                 map.moveCamera(upd);
                 // if info building != null means activity is called from search result details page
                 // so it will get the building position from the database and will set the marker there.

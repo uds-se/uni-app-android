@@ -12,50 +12,43 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * Created with IntelliJ IDEA.
- * User: Shahzad
- * Date: 12/14/13
- * Time: 2:05 AM
- * To change this template use File | Settings | File Templates.
+ * Created by Janek on 25.09.2014.
  */
-
-/*
-* provides custom tiles
-* */
-public class CustomMapTileSupportProvider implements TileProvider {
+public class CustomMapHomProvider implements TileProvider {
     private static final int TILE_WIDTH = 256;
     private static final int TILE_HEIGHT = 256;
     private static final int BUFFER_SIZE = 16 * 1024;
 
     private AssetManager mAssets;
 
-    public CustomMapTileSupportProvider(AssetManager assets) {
+    public CustomMapHomProvider(AssetManager assets) {
         mAssets = assets;
     }
 
     private static final SparseArray<Rect> TILE_ZOOMS = new SparseArray<Rect>() {{
-        put(14,  new Rect(135,  180,  135,  181 ));
-        put(15,  new Rect(270,  361,  271,  363 ));
-        put(16, new Rect(541,  723,  543,  726 ));
-        put(17, new Rect(1082, 1447, 1086, 1452));
-        put(18, new Rect(2165, 2894, 2172, 2905));
-        put(19, new Rect(2165, 2894, 2172, 2905));
+        put(14,  new Rect(8525,  5604,  8526,  5605 ));
+        put(15,  new Rect(17051,  11209,  17053,  11210 ));
+        put(16, new Rect(34103,  22419,  34106,  22421 ));
+        put(17, new Rect(68207, 44839, 68212, 44842));
+
     }};
 
     private boolean hasTile(int x, int y, int zoom) {
         Rect b = TILE_ZOOMS.get(zoom);
-        return b == null ? false : true;
-        //(b.left <= x && x <= b.right && b.top <= y && y <= b.bottom);
+        return b == null ? false : (b.left <= x && x <= b.right && b.top <= y && y <= b.bottom);
     }
 
     @Override
     public Tile getTile(int x, int y, int zoom) {
         y = fixYCoordinate(y, zoom);
-        if(hasTile(x,y,zoom)){
+    //    if(hasTile(x,y,zoom)){
             byte[] image = readTileImage(x, y, zoom);
-            return image == null ? null : new Tile(TILE_WIDTH, TILE_HEIGHT, image);
-        }
-        return NO_TILE;
+            if (image != null)
+                return new Tile(TILE_WIDTH, TILE_HEIGHT, image);
+            else
+                return null;
+     //   }
+    //    return NO_TILE;
     }
 
     private byte[] readTileImage(int x, int y, int zoom) {
@@ -88,7 +81,7 @@ public class CustomMapTileSupportProvider implements TileProvider {
     }
 
     private String getTileFilename(int x, int y, int zoom) {
-        return "tiles/saar/OverlayTilesSport/" + zoom + '/' + x + '/' + y + ".png";
+        return "tiles/hom/OverlayTiles/" + zoom + '/' + x + '/' + y + ".png";
     }
 
     /**
@@ -99,3 +92,5 @@ public class CustomMapTileSupportProvider implements TileProvider {
         return size - 1 - y;
     }
 }
+
+
