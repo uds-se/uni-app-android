@@ -46,7 +46,7 @@ public class AboutActicvity extends Activity {
                 versionName = packageInfo.versionName;
                 versionCode = packageInfo.versionCode;
                 TextView version = (TextView) findViewById(R.id.version_number);
-                version.setText("Version " + versionName + " Version Code " + versionCode);
+                version.setText("Version " + versionName + " (" + versionCode + ")");
             }else{
                 versionName = null;
                 versionCode = 0;
@@ -57,7 +57,7 @@ public class AboutActicvity extends Activity {
                 public void onClick(View v) {
                     try{
                         Intent sendIntent = new Intent(Intent.ACTION_SEND);
-                        sendIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.email_subject) + " Version " + versionName + " Version Code " + versionCode);
+                        sendIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.email_subject) + " Version " + versionName + " (" + versionCode + ")");
                         sendIntent.putExtra(Intent.EXTRA_EMAIL, new String[] { EMAIL_ID });
                         String emailBody = "";
                         sendIntent.putExtra(Intent.EXTRA_TEXT, emailBody);
@@ -101,7 +101,5 @@ public class AboutActicvity extends Activity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-
 
 }
