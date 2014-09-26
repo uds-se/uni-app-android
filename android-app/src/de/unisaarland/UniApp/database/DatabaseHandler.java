@@ -6,9 +6,10 @@ import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.preference.PreferenceManager;
 import android.util.Log;
+
+import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -27,11 +28,12 @@ import de.unisaarland.UniApp.bus.model.PointOfInterest;
  * Time: 3:06 PM
  * To change this template use File | Settings | File Templates.
  */
-public class DatabaseHandler extends SQLiteOpenHelper{
+public class DatabaseHandler extends SQLiteAssetHelper {
     private SQLiteDatabase database = null;
     private Context context = null;
     // path where the data base dhould be copied from the assets folder on first run and name of the database used in project
-    private final String DATABASE_NAME = "pointOfInterest.sqlite3";
+    private static final String DATABASE_NAME = "pointOfInterest.sqlite3";
+    private static final int DATABASE_VERSION = 6;
     private final String DB_PATH = "/data/data/de.unisaarland.UniApp/databases/";
 
 
@@ -391,8 +393,9 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         }
         else{
             try{
-                database =SQLiteDatabase.openDatabase(DB_PATH+DATABASE_NAME, null, SQLiteDatabase.NO_LOCALIZED_COLLATORS);
+               // database =SQLiteDatabase.openDatabase(DB_PATH+DATABASE_NAME, null, SQLiteDatabase.NO_LOCALIZED_COLLATORS);
                         //SQLiteDatabase.NO_LOCALIZED_COLLATORS
+                database = getReadableDatabase();
             }catch (Exception e){
                 Log.e("MyTag",e.getMessage());
                 return false;
@@ -402,14 +405,16 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     }
 
     public DatabaseHandler(Context context) {
-        super(context,"pointOfInterest.sqlite3",null,1);
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        setForcedUpgrade();
         this.context = context;
-        try {
+        database = getWritableDatabase();
+       /* try {
             crateDatabase();
             openDB();
         } catch (IOException e) {
             Log.e("MyTag",e.getMessage());
-        }
+        }*/
     }
 
     // close current instance of database.
@@ -421,10 +426,6 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         super.close();
     }
 
-    @Override
-    public void onCreate(SQLiteDatabase db) {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
