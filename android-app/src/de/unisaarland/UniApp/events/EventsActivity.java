@@ -259,7 +259,7 @@ public class EventsActivity extends Activity {
     * */
     private boolean saveCurrentEventItemsToFile() {
         try{
-            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File(getFilesDir().getAbsolutePath()+ EVENTS_FILE_NAME)));
+            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File(getCacheDir()+ EVENTS_FILE_NAME)));
             oos.writeObject(eventModelsArray);
             oos.flush();
             oos.close();
@@ -275,7 +275,7 @@ public class EventsActivity extends Activity {
     * */
     private void loadEventsFromSavedFile() {
         try{
-            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File(getFilesDir().getAbsolutePath()+ EVENTS_FILE_NAME)));
+            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File(getCacheDir()+ EVENTS_FILE_NAME)));
             eventModelsArray = (ArrayList<EventsModel>) ois.readObject();
             ois.close();
         } catch (Exception e) {
@@ -287,7 +287,7 @@ public class EventsActivity extends Activity {
     * Check if event file already exist.
     * */
     private boolean eventsFileExist() {
-        File f = new File(getFilesDir().getAbsolutePath()+ EVENTS_FILE_NAME);
+        File f = new File(getCacheDir()+ EVENTS_FILE_NAME);
         if(f.exists()) {
             return true;
         }

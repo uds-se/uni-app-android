@@ -137,7 +137,7 @@ public class NewsActivity extends Activity {
     * */
     private void loadNewsFromSavedFile() {
         try{
-            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File(getFilesDir().getAbsolutePath()+ Util.NEWS_FILE_NAME)));
+            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File(getCacheDir()+ Util.NEWS_FILE_NAME)));
             newsModelsArray = (ArrayList<NewsModel>) ois.readObject();
             ois.close();
         } catch (Exception e) {
@@ -149,7 +149,7 @@ public class NewsActivity extends Activity {
     * Check if news file already exist.
     * */
     private boolean newsFileExist() {
-        File f = new File(getFilesDir().getAbsolutePath()+ Util.NEWS_FILE_NAME);
+        File f = new File(getCacheDir()+ Util.NEWS_FILE_NAME);
         if(f.exists()) {
             return true;
         }
@@ -224,7 +224,7 @@ public class NewsActivity extends Activity {
     * */
     private boolean saveCurrentNewItemsToFile() {
         try{
-            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File(getFilesDir().getAbsolutePath()+ Util.NEWS_FILE_NAME)));
+            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File(getCacheDir()+ Util.NEWS_FILE_NAME)));
             oos.writeObject(newsModelsArray);
             oos.flush();
             oos.close();

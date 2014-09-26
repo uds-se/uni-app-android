@@ -239,7 +239,7 @@ public class RestaurantActivity extends Activity {
     * */
     private boolean savMensaItemsToFile(){
         try{
-            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File(getFilesDir().getAbsolutePath()+ RESTAURANT_FILE_NAME)));
+            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File(getCacheDir()+ RESTAURANT_FILE_NAME)));
             oos.writeObject(mensaItemsDictionary);
             oos.flush();
             oos.close();
@@ -251,7 +251,7 @@ public class RestaurantActivity extends Activity {
     }
 
     private boolean restaurantFileExist() {
-        File f = new File(getFilesDir().getAbsolutePath()+ RESTAURANT_FILE_NAME);
+        File f = new File(getCacheDir()+ RESTAURANT_FILE_NAME);
         if(f.exists()) {
             return true;
         }
@@ -289,7 +289,7 @@ public class RestaurantActivity extends Activity {
 
     private void loadMensaItemsFromSavedFile() {
         try{
-            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File(getFilesDir().getAbsolutePath()+ RESTAURANT_FILE_NAME)));
+            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File(getCacheDir()+ RESTAURANT_FILE_NAME)));
             mensaItemsDictionary = (HashMap<String, ArrayList<MensaItem>>) ois.readObject();
             ois.close();
             removeOldDataFromFile();
