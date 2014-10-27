@@ -4,7 +4,8 @@
     <color name="stacked_green">#118504</color>
     <color name="accent_green">#97e08f</color>
     <color name="white">#ffffff</color>
-    <color name="uni_blue">#034A78</color>
-    <color name="uni_blue_light">#d4e8ff</color>
+    <color name="uni_blue">#ff184c7c</color>
+    <color name="uni_blue_light">#69b5fc</color>
+    <color name="uni_blue_dark">#ff0d2841</color>
     <color name="black">#000000</color>
 </resources>

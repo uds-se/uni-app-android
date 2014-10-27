@@ -4,6 +4,6 @@
     <item android:id="@+id/action_facebook"
         android:icon="@drawable/ic_facebook"
         android:title=""
-        android:showAsAction="ifRoom" />
+        android:showAsAction="always" />
 
 </menu>
