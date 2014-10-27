@@ -24,6 +24,11 @@ public class NetworkHandler {
     }
 
     public void invalidateRequest() {
-        fetcher.invalidateRequest();
+        try {
+            fetcher.invalidateRequest();
+        }
+        catch (Exception e){
+
+        }
     }
 }
