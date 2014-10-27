@@ -139,6 +139,8 @@ public class CampusActivity extends FragmentActivity implements ConnectionCallba
 
 
     public void searchItemSelected(PointOfInterest model) {
+        map.clear();
+        poisMap.clear();
         ArrayList<PointOfInterest> pois = new ArrayList<PointOfInterest>();
         pois.add(model);
         pinPOIsInArray(pois);
