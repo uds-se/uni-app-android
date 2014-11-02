@@ -33,7 +33,7 @@ public class DatabaseHandler extends SQLiteAssetHelper {
     private Context context = null;
     // path where the data base dhould be copied from the assets folder on first run and name of the database used in project
     private static final String DATABASE_NAME = "pointOfInterest.sqlite3";
-    private static final int DATABASE_VERSION = 7;
+    private static final int DATABASE_VERSION = 11;
     private final String DB_PATH = "/data/data/de.unisaarland.UniApp/databases/";
 
 
@@ -72,7 +72,10 @@ public class DatabaseHandler extends SQLiteAssetHelper {
         ArrayList<String> result = new ArrayList<String>();
         Cursor cursor = null ;
         try{
-            cursor = database.query("categorie",new String[]{"title"},null,null,null,null,null);
+           // cursor = database.query("categorie",new String[]{"title"},null,null,null,null,null);
+            SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
+            String campus = settings.getString(SettingsActivity.KEY_CAMPUS_CHOOSER, "saar");
+            cursor = database.rawQuery("select categorie.title from categorie, pointOfInterest where categorie.iD = pointOfInterest.categorieID and pointOfInterest.campus = ? group by categorie.title",new String[]{campus});
             if(cursor!=null) {
                 while (cursor.moveToNext()) {
                     result.add(cursor.getString(0));
@@ -315,7 +318,9 @@ public class DatabaseHandler extends SQLiteAssetHelper {
         ArrayList<Integer> result = new ArrayList<Integer>();
         Cursor cursor = null ;
         try{
-            cursor =database.query("categorie",new String[]{"ID"},null,null,null,null,null);
+            SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
+            String campus = settings.getString(SettingsActivity.KEY_CAMPUS_CHOOSER, "saar");
+            cursor = database.rawQuery("select categorie.id from categorie, pointOfInterest where categorie.iD = pointOfInterest.categorieID and pointOfInterest.campus = ? group by categorie.title",new String[]{campus});
             if(cursor!=null) {
                 while (cursor.moveToNext()) {
                     result.add(cursor.getInt(0));
