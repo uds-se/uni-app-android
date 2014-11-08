@@ -166,7 +166,7 @@ public class CampusActivity extends FragmentActivity implements ConnectionCallba
     @Override
     public void onInfoWindowClick(final Marker marker) {
         final PointOfInterest p = poisMap.get(marker.getTitle());
-        if (p.isCanShowRightCallOut() == 1 && p.getWebsite().length() > 0) {
+        if (p.isCanShowRightCallOut() == 1 && p.getWebsite() != null && p.getWebsite().length() > 0) {
             AlertDialog.Builder builder1 = new AlertDialog.Builder(CampusActivity.this);
             builder1.setTitle(getString(R.string.action));
             builder1.setMessage(getString(R.string.web_or_route));

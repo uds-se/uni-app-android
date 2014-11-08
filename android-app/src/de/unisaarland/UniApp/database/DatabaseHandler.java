@@ -33,7 +33,7 @@ public class DatabaseHandler extends SQLiteAssetHelper {
     private Context context = null;
     // path where the data base dhould be copied from the assets folder on first run and name of the database used in project
     private static final String DATABASE_NAME = "pointOfInterest.sqlite3";
-    private static final int DATABASE_VERSION = 11;
+    private static final int DATABASE_VERSION = 13;
     private final String DB_PATH = "/data/data/de.unisaarland.UniApp/databases/";
 
 
@@ -454,7 +454,6 @@ public class DatabaseHandler extends SQLiteAssetHelper {
             tempList = new ArrayList<String>(Arrays.asList(selectionArgs));
             tempList.add(campus);
             selectionArgs = tempList.toArray(new String[]{});
-
-        return database.query(table,columns,selection,selectionArgs,groupBy,having,orderBy);
+        return database.query(table,columns,selection,selectionArgs,groupBy,having,"title");
     }
 }

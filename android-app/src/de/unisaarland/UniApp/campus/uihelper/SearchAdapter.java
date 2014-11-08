@@ -23,7 +23,6 @@ import de.unisaarland.UniApp.database.DatabaseHandler;
  * Created by Janek on 13.08.2014.
  */
 public class SearchAdapter extends CursorAdapter {
-    private ArrayList<PointOfInterest> searchBase;
     private TextView itemTitle;
     private TextView itemDescription;
     ImageView categoryIcon;
@@ -39,20 +38,24 @@ public class SearchAdapter extends CursorAdapter {
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
-        String title = cursor.getString(1);
-        String subtitle = cursor.getString(2);
-        String categoryid = cursor.getString(cursor.getColumnIndex("categorieID"));
-        Integer id = cursor.getInt(cursor.getColumnIndex("ID"));
-        itemTitle.setText(title);
-        itemDescription.setText(subtitle);
-        try {
-            Drawable d = Drawable.createFromStream(context.getAssets().open("cat" + categoryid + ".png"), null);
-            categoryIcon.setBackgroundDrawable(d);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        view.setOnClickListener(clickListener);
-        itemsMap.put(view,id);
+        itemTitle = (TextView) view.findViewById(R.id.title);
+            itemDescription = (TextView) view.findViewById(R.id.description);
+            categoryIcon = (ImageView) (ImageView) view.findViewById(R.id.category_icon);
+            String title = cursor.getString(1);
+            String subtitle = cursor.getString(2);
+            String categoryid = cursor.getString(cursor.getColumnIndex("categorieID"));
+            Integer id = cursor.getInt(cursor.getColumnIndex("ID"));
+            itemTitle.setText(title);
+            itemDescription.setText(subtitle);
+            try {
+                Drawable d = Drawable.createFromStream(context.getAssets().open("cat" + categoryid + ".png"), null);
+                categoryIcon.setBackgroundDrawable(d);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            view.setOnClickListener(clickListener);
+            itemsMap.put(view, id);
+
     }
 
     View.OnClickListener clickListener = new View.OnClickListener() {
@@ -75,9 +78,6 @@ public class SearchAdapter extends CursorAdapter {
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.campus_search_row_layout, parent, false);
-        itemTitle = (TextView) view.findViewById(R.id.title);
-        itemDescription = (TextView) view.findViewById(R.id.description);
-        categoryIcon = (ImageView) (ImageView) view.findViewById(R.id.category_icon);
         return view;
     }
 }

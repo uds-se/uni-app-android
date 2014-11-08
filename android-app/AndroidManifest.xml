@@ -127,11 +127,11 @@
 
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyBOr7tB7L5tKg6H62jpDo2CqAResD13AJg"/>
+            android:value="AIzaSyCuY1G1lqxKwqPhcoCdMV1CGr1LX8R_27Q"/>
 
-        <meta-data
+       <!-- <meta-data
                 android:name="com.google.android.maps.v2.API_KEY"
-                android:value="AIzaSyBURTOVSL3tecwvoHo7KaY_WBMbYXvfaeA"/>
+                android:value="AIzaSyBURTOVSL3tecwvoHo7KaY_WBMbYXvfaeA"/>-->
 
 
 

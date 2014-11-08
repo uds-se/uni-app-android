@@ -41,6 +41,12 @@
     <string name="mon_to_fri">Montag bis Freitag:</string>
     <string name="mon_to_fri_time">11:30 Uhr - 13:45 Uhr</string>
     <string name="during_break">Vorlesungsfreie Zeit:</string>
+    <string name="serving">Essensausgabe</string>
+    <string name="mon_to_fri_time_hom">11.00 - 14.30 Uhr</string>
+    <string name="mon_to_fri_time_hom_break"> 11.00 - 14.00 Uhr</string>
+    <string name="mon_to_fri_time_hom_eat">11.15 - 14.00 Uhr</string>
+    <string name="mon_to_fri_time_hom__eat_break"> 11.15 - 13.30 Uhr</string>
+
     <string name="mon_to_thur_time_break">11:30 Uhr - 14:15 Uhr</string>
     <string name="friday_time_break">11:30 Uhr - 14:00 Uhr</string>
     <string name="mon_to_fri_mensa_cafe_time">7:45 Uhr - 20:00 Uhr</string>

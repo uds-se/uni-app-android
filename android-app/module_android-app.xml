@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_android-app" default="compile.module.android-app">
+  <dirname property="module.android-app.basedir" file="${ant.file.module_android-app}"/>
+  
+  <property name="module.jdk.home.android-app" value="${jdk.home.android_api_21_platform_(2)}"/>
+  <property name="module.jdk.bin.android-app" value="${jdk.bin.android_api_21_platform_(2)}"/>
+  <property name="module.jdk.classpath.android-app" value="jdk.classpath.android_api_21_platform_(2)"/>
+  
+  <property name="compiler.args.android-app" value="-encoding UTF-8 -source 8 ${compiler.args}"/>
+  
+  <property name="android-app.output.dir" value="${module.android-app.basedir}/../production/android-app"/>
+  <property name="android-app.testoutput.dir" value="${module.android-app.basedir}/../test/android-app"/>
+  
+  <path id="android-app.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="android-app.module.production.classpath">
+    <path refid="${module.jdk.classpath.android-app}"/>
+    <path refid="library.libs.classpath"/>
+    <path refid="library.sqliteassethelper-2.0.1.classpath"/>
+    <pathelement location="${google-play-services_lib.output.dir}"/>
+  </path>
+  
+  <path id="android-app.runtime.production.module.classpath">
+    <pathelement location="${android-app.output.dir}"/>
+    <path refid="library.libs.classpath"/>
+    <path refid="library.sqliteassethelper-2.0.1.classpath"/>
+    <path refid="google-play-services_lib.runtime.production.module.classpath"/>
+  </path>
+  
+  <path id="android-app.module.classpath">
+    <path refid="${module.jdk.classpath.android-app}"/>
+    <pathelement location="${android-app.output.dir}"/>
+    <path refid="library.libs.classpath"/>
+    <path refid="library.sqliteassethelper-2.0.1.classpath"/>
+    <pathelement location="${google-play-services_lib.testoutput.dir}"/>
+    <pathelement location="${google-play-services_lib.output.dir}"/>
+  </path>
+  
+  <path id="android-app.runtime.module.classpath">
+    <pathelement location="${android-app.testoutput.dir}"/>
+    <pathelement location="${android-app.output.dir}"/>
+    <path refid="library.libs.classpath"/>
+    <path refid="library.sqliteassethelper-2.0.1.classpath"/>
+    <path refid="google-play-services_lib.runtime.module.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.android-app">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.android-app">
+    <patternset refid="excluded.from.module.android-app"/>
+  </patternset>
+  
+  <path id="android-app.module.sourcepath">
+    <dirset dir="${module.android-app.basedir}">
+      <include name="src"/>
+      <include name="gen"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.android-app" depends="compile.module.android-app.production,compile.module.android-app.tests" description="Compile module android-app"/>
+  
+  <target name="compile.module.android-app.production" depends="register.custom.compilers,compile.module.google-play-services_lib" description="Compile module android-app; production classes">
+    <mkdir dir="${android-app.output.dir}"/>
+    <javac2 destdir="${android-app.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.android-app}/javac">
+      <compilerarg line="${compiler.args.android-app}"/>
+      <bootclasspath refid="android-app.module.bootclasspath"/>
+      <classpath refid="android-app.module.production.classpath"/>
+      <src refid="android-app.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.android-app"/>
+    </javac2>
+    
+    <copy todir="${android-app.output.dir}">
+      <fileset dir="${module.android-app.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.android-app.basedir}/gen">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.android-app.tests" depends="register.custom.compilers,compile.module.android-app.production" description="compile module android-app; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.android-app" description="cleanup module">
+    <delete dir="${android-app.output.dir}"/>
+    <delete dir="${android-app.testoutput.dir}"/>
+  </target>
+</project>

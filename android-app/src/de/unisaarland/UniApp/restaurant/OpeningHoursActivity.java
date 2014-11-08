@@ -4,6 +4,7 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -11,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import de.unisaarland.UniApp.R;
+import de.unisaarland.UniApp.SettingsActivity;
 import de.unisaarland.UniApp.networkcommunicator.Util;
 import de.unisaarland.UniApp.restaurant.uihelper.AuslanderCafeFragment;
 import de.unisaarland.UniApp.restaurant.uihelper.HeroesCafeFragment;
@@ -37,7 +39,15 @@ public class OpeningHoursActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         setActionBar();
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.opening_layout);
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
+        String campus = settings.getString(SettingsActivity.KEY_CAMPUS_CHOOSER, "saar");
+        if (campus.equals("saar")) {
+            setContentView(R.layout.opening_layout);
+            setTabs();
+        }
+        else
+            setContentView(R.layout.campus_hom_opening_hours);
+
     }
 
     private void setActionBar() {
@@ -45,9 +55,10 @@ public class OpeningHoursActivity extends Activity {
         //Enabling Up-Navigation
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle(getResources().getString(R.string.opening_hours));
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
+    }
 
+    private  void setTabs(){
         actionBar.addTab(actionBar.newTab().setTabListener(new OpeningTabListener<MensaFragment>(
                 this, "mensa", MensaFragment.class)).setText(R.string.mensa));
         actionBar.addTab(actionBar.newTab().setTabListener(new OpeningTabListener<MensaCafeFragment>(
@@ -59,8 +70,6 @@ public class OpeningHoursActivity extends Activity {
         actionBar.addTab(actionBar.newTab().setTabListener(new OpeningTabListener<HeroesCafeFragment>(
                 this, "horoescafe", HeroesCafeFragment.class)).setText(R.string.heroes_cafe));
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-
-
     }
 
 

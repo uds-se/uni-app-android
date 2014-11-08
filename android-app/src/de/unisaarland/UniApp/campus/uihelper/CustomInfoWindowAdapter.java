@@ -43,7 +43,7 @@ public class CustomInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
         titleUi.setText(title);
         final PointOfInterest p = poisMap.get(title);
         ImageButton linkButton = (ImageButton)view.findViewById(R.id.web_button);
-        if(p.isCanShowRightCallOut() == 1 && p.getWebsite().length()>0){
+        if(p.isCanShowRightCallOut() == 1 && p.getWebsite() != null && p.getWebsite().length()>0){
 
         }else{
             linkButton.setVisibility(View.INVISIBLE);
