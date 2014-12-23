@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" xmlns:android="http://schemas.android.com/apk/res/android"
+        android:visibility="visible">
+    <ImageButton android:layout_height="20dp" android:layout_width="20dp"
+                 android:id="@+id/back_icon"
+                 android:layout_alignParentLeft="true" android:layout_centerVertical="true"
+                 android:visibility="gone" android:layout_marginLeft="10dp" android:clickable="true"
+                 android:background="@drawable/back"/>
+    <TextView android:layout_height="20dp" android:layout_width="100dp"
+                 android:id="@+id/page_back_text"
+                 android:layout_alignParentLeft="true" android:layout_centerVertical="true"
+                 android:visibility="gone" android:layout_marginLeft="30dp" android:clickable="true"
+                 android:textSize="14dp" android:textColor="#5269ff" android:singleLine="true"
+                 android:gravity="center_vertical|left"/>
+
+    <!--<TextView android:layout_width="120dp" android:layout_height="match_parent" android:text=""-->
+              <!--android:textStyle="bold" android:textSize="20dp" android:id="@+id/back_page_heading"-->
+
+            <!--/>-->
+    <TextView android:layout_width="190dp" android:layout_height="match_parent" android:text=""
+              android:textStyle="bold" android:textSize="18dp" android:id="@+id/page_heading"
+              android:gravity="center_vertical|center_horizontal" android:visibility="gone" android:textColor="#000000"
+              android:layout_centerInParent="true" android:singleLine="true"/>
+
+    <AutoCompleteTextView xmlns:android="http://schemas.android.com/apk/res/android"
+          android:id="@+id/search_field"
+          android:layout_width="190dp"
+          android:layout_height="25dp"
+          android:inputType="text" android:visibility="gone" android:gravity="center_horizontal|center_vertical"
+          android:layout_centerInParent="true" android:background="@drawable/search_field_shape" android:textColor="#000000"
+          android:textSize="12dp"/>
+
+    <ImageButton android:layout_height="30dp" android:layout_width="30dp"
+                 android:id="@+id/page_right_icon"
+                 android:layout_alignParentRight="true" android:layout_centerVertical="true"
+                 android:visibility="gone" android:layout_marginRight="15dp" android:clickable="true"
+                 />
+
+    <ImageButton android:layout_height="20dp" android:layout_width="20dp"
+                 android:id="@+id/small"
+                 android:layout_alignParentRight="true" android:layout_centerVertical="true"
+                 android:visibility="gone" android:layout_marginRight="50dp" android:clickable="true"
+                 android:background="@drawable/text_size_small_icon"/>
+
+    <ImageButton android:layout_height="30dp" android:layout_width="30dp"
+                 android:id="@+id/big"
+                 android:layout_alignParentRight="true" android:layout_centerVertical="true"
+                 android:visibility="gone" android:layout_marginRight="10dp" android:clickable="true"
+                 android:background="@drawable/text_size_big_icon"/>
+
+    <TextView android:layout_width="120dp" android:layout_height="match_parent" android:text=""
+              android:textStyle="bold" android:textSize="16dp" android:id="@+id/page_right_heading"
+              android:gravity="center_vertical|center_horizontal" android:visibility="gone"
+              android:textColor="#0095d6"
+              android:layout_alignParentRight="true"/>
+
+    </RelativeLayout><!-- From: file:/C:/Users/Janek/AndroidStudioProjects/uni-app-android/android-app/res/layout/navigation_bar_layout.xml -->

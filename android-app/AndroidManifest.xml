@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="de.unisaarland.UniApp"
-          android:versionCode="7"
-          android:versionName="1.1.3">
-    <uses-sdk android:minSdkVersion="14"/>
+          package="de.unisaarland.UniApp">
+
+
     <application android:label="@string/app_name" android:icon="@drawable/ic_launcher"
-                 android:hardwareAccelerated="true"
                  android:theme="@style/AppTheme">
         <activity android:name="de.unisaarland.UniApp.MainActivity"
                   android:label="@string/app_name" >
@@ -124,31 +122,30 @@
         <meta-data
                 android:name="com.google.android.gms.version"
                 android:value="4030500" />
-
+        <!-- Debugging Key -
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyCuY1G1lqxKwqPhcoCdMV1CGr1LX8R_27Q"/>
+            android:value="AIzaSyCuY1G1lqxKwqPhcoCdMV1CGr1LX8R_27Q"/>-->
+        <!-- Release Key Key -->
+    <meta-data
+             android:name="com.google.android.maps.v2.API_KEY"
+             android:value="AIzaSyBURTOVSL3tecwvoHo7KaY_WBMbYXvfaeA"/>
+     <uses-feature
+         android:glEsVersion="0x00020000"
+         android:required="true"/>
 
-       <!-- <meta-data
-                android:name="com.google.android.maps.v2.API_KEY"
-                android:value="AIzaSyBURTOVSL3tecwvoHo7KaY_WBMbYXvfaeA"/>-->
+
+ </application>
 
 
-
-    </application>
-
-
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <!-- The following two permissions are not required to use
-         Google Maps Android API v2, but are recommended. -->
+ <uses-permission android:name="android.permission.INTERNET"/>
+ <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+ <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+ <!-- The following two permissions are not required to use
+      Google Maps Android API v2, but are recommended. -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
-    <uses-feature
-            android:glEsVersion="0x00020000"
-            android:required="true"/>
 
 
 </manifest>

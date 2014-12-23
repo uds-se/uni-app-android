@@ -178,7 +178,7 @@ public class CampusSearchActivity extends Activity {
                     Button backIconButton = (Button) view.findViewById(R.id.bt_back);
                     backIconButton.setOnClickListener(new DialogBackButtonClickListener());
 
-                    optionMenuDialog = new Dialog(context, R.style.Transparent);
+                    optionMenuDialog = new Dialog(context);
                     optionMenuDialog.requestWindowFeature(Window.FEATURE_ACTION_BAR);
                     optionMenuDialog.setContentView(view);
                     optionMenuDialog.setTitle(title);

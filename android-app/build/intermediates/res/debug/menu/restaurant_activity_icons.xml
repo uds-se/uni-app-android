@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/action_opening_hours"
+        android:title="@string/opening_hours"
+        android:showAsAction="ifRoom" />
+</menu><!-- From: file:/C:/Users/Janek/AndroidStudioProjects/uni-app-android/android-app/res/menu/restaurant_activity_icons.xml -->

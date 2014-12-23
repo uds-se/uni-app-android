@@ -15,12 +15,22 @@
         <item name="android:background">@drawable/tab_bar_background</item>
     </style>
 
+    <style name="AppTheme" parent="AppTheme.Base"/>
 
-    <style name="AppTheme" parent="android:Theme.Holo.Light">
+    <style name="AppTheme.Base" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- ...and here we setting appcompat’s color theming attrs -->
+        <item name="colorPrimary">@color/uni_blue</item>
+        <item name="colorPrimaryDark">@color/uni_blue_dark</item>
+        <item name="colorAccent">@color/uni_blue_light</item>
+        <!-- The rest of your attributes -->
+    </style>
+
+
+  <!--  <style name="AppTheme" parent="android:Theme.Holo.Light">
         <item name="android:actionBarStyle">@style/ActionBar</item>
 
         <item name="android:actionBarTabStyle">@style/ActionbarTabTheme</item>
-    </style>
+    </style>-->
 
     <style name="TitleTextStyle" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
         <item name="android:textColor">@color/black</item>

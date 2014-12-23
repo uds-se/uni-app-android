@@ -1,0 +1,16 @@
+C:\Users\Janek\AndroidStudioProjects\uni-app-android\android-app\build\intermediates\classes\debug
+C:\Users\Janek\AndroidStudioProjects\uni-app-android\android-app\build\intermediates\pre-dexed\debug\internal_impl-21.0.0-e678ceb6374420b65ac7b32f69686b9ad472f823.jar
+C:\Users\Janek\AndroidStudioProjects\uni-app-android\android-app\build\intermediates\pre-dexed\debug\support-annotations-21.0.0-4c5fdeed5df75496bd62892ea8d5cbb3456a8d1b.jar
+C:\Users\Janek\AndroidStudioProjects\uni-app-android\android-app\build\intermediates\pre-dexed\debug\internal_impl-21.0.0-2e5a799ad3744af10897360ae277668ca68c23a9.jar
+C:\Users\Janek\AndroidStudioProjects\uni-app-android\android-app\build\intermediates\pre-dexed\debug\sqliteassethelper-2.0.1-09f0b8679c30bb2b459b960596be4c48d5c5923b.jar
+C:\Users\Janek\AndroidStudioProjects\uni-app-android\android-app\build\intermediates\pre-dexed\debug\classes-86394042c790796dde3b4bf76ac32ad943fd932e.jar
+C:\Users\Janek\AndroidStudioProjects\uni-app-android\android-app\build\intermediates\pre-dexed\debug\classes-65972bc5afb55691ae2aed7111e0ff521118a426.jar
+C:\Users\Janek\AndroidStudioProjects\uni-app-android\android-app\build\intermediates\pre-dexed\debug\classes-c12ad8b800e88056bbc11d8685593f99e2a988e8.jar
+C:\Users\Janek\AndroidStudioProjects\uni-app-android\android-app\build\intermediates\pre-dexed\debug\classes-e22f886c79e66c0376f117fae76ce7cf0496a6b2.jar
+C:\Users\Janek\AndroidStudioProjects\uni-app-android\android-app\build\intermediates\pre-dexed\debug\classes-6d6682d38afc4fef96f429cc4091f7163486d2cc.jar
+C:\Users\Janek\AndroidStudioProjects\uni-app-android\android-app\build\intermediates\pre-dexed\debug\internal_impl-21.0.0-39046fa3e6b687ab9fc143e67d573ba3214aaae0.jar
+C:\Users\Janek\AndroidStudioProjects\uni-app-android\android-app\build\intermediates\pre-dexed\debug\classes-bee341c00071169f995fe1186fd4275c8ef751e5.jar
+C:\Users\Janek\AndroidStudioProjects\uni-app-android\android-app\build\intermediates\pre-dexed\debug\jsoup-1.8.1-90fca1f0b5ce5e16b964588109ef188588136887.jar
+C:\Users\Janek\AndroidStudioProjects\uni-app-android\android-app\build\intermediates\pre-dexed\debug\classes-2acffe5ed5124c49456f2891400aef17631a1ba1.jar
+C:\Users\Janek\AndroidStudioProjects\uni-app-android\android-app\build\intermediates\pre-dexed\debug\classes-4725b4a9a702f1a8abeec4f94c182d65cb3bff11.jar
+C:\Users\Janek\AndroidStudioProjects\uni-app-android\android-app\build\intermediates\pre-dexed\debug\classes-8e6b633b73f218411bf87b99eb3082ace2e61fea.jar

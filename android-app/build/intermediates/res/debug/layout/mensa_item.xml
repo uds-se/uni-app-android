@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="fill_parent"
+              android:minHeight="87dp"
+              android:layout_height="match_parent" android:background="#eeeeeeee">
+
+    <TextView android:layout_width="fill_parent" android:layout_height="wrap_content" android:minHeight="45dp"
+              android:textStyle="normal" android:id="@+id/mensa_menu_detail_background"
+              android:gravity="center_vertical|center_horizontal" android:visibility="visible" android:textColor="#000000"
+              android:layout_alignParentTop="true" android:layout_alignParentLeft="true"
+        android:background="#ff5634"
+        android:layout_marginTop="25dp"
+        android:layout_alignBottom="@+id/content" />
+
+    <TextView android:layout_width="fill_parent" android:layout_height="25dp" android:text="dummy"
+              android:textStyle="bold" android:textSize="18dp" android:id="@+id/mensa_menu_category"
+              android:gravity="center_vertical|center_horizontal" android:visibility="visible" android:textColor="#000000"
+              android:layout_alignParentTop="true" android:layout_alignParentLeft="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="1dp"
+        android:layout_centerVertical="true" />
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="25dp"
+        android:id="@+id/content"
+        android:background="@color/white">
+
+        <TextView android:layout_width="fill_parent" android:layout_height="wrap_content" android:minHeight="45dp" android:text="dummy dummy dummy dummy dummy dummy dummy dummy dummy dummy dummy dummy dummy dummy dummy "
+                  android:textStyle="normal" android:textSize="14dp" android:id="@+id/mensa_menu_detail"
+                  android:gravity="center_vertical|center_horizontal" android:visibility="visible" android:textColor="#000000"
+                  android:layout_alignParentTop="true" android:layout_alignParentLeft="true"
+            android:background="#ffffff"
+            android:layout_toLeftOf="@+id/info" />
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:id="@+id/info"
+            android:background="@drawable/ic_info"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp" />
+    </RelativeLayout>
+
+    <TextView android:layout_width="fill_parent" android:layout_height="15dp"
+        android:minHeight="15dp"
+              android:textStyle="normal" android:textSize="10dp" android:id="@+id/mensa_menu_price"
+              android:gravity="center_vertical|center_horizontal" android:visibility="visible" android:textColor="#000000"
+              android:layout_alignParentBottom="false" android:layout_alignParentLeft="false"
+        android:layout_alignParentTop="false"
+        android:layout_below="@+id/content" />
+
+</RelativeLayout><!-- From: file:/C:/Users/Janek/AndroidStudioProjects/uni-app-android/android-app/res/layout/mensa_item.xml -->

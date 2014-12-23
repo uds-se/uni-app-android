@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:id="@+id/news_bg_panel"
+              android:background="#FFFFFF"
+        >
+    <ListView android:id="@+id/newsItemListView"
+              android:layout_width="fill_parent" android:layout_height="fill_parent" android:clickable="true"/>
+
+</RelativeLayout><!-- From: file:/C:/Users/Janek/AndroidStudioProjects/uni-app-android/android-app/res/layout/news_panel.xml -->

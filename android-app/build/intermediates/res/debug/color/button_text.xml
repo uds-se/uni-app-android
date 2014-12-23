@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true"
+        android:color="@color/black" /> <!-- pressed -->
+    <item android:color="@color/white" /> <!-- default -->
+</selector><!-- From: file:/C:/Users/Janek/AndroidStudioProjects/uni-app-android/android-app/res/color/button_text.xml -->

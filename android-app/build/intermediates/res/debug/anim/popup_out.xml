@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<translate xmlns:android="http://schemas.android.com/apk/res/android"
+           android:duration="@android:integer/config_longAnimTime"
+           android:fromXDelta="0%p"
+           android:toXDelta="-50%p" />
+
+<!-- From: file:/C:/Users/Janek/AndroidStudioProjects/uni-app-android/android-app/res/anim/popup_out.xml -->

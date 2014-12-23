@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+    android:id="@+id/test">
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:id="@+id/scrollView"
+        android:fadeScrollbars="false"
+        android:layout_above="@+id/searchBtn"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_gravity="center">
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <TextView android:layout_height="wrap_content" android:layout_width="120dp" android:text="@string/last_name"
+                      android:textColor="#000000" android:gravity="center_vertical|left" android:textSize="16dp"
+                      android:textStyle="bold"
+                android:id="@+id/label1"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true" />
+
+            <TextView android:layout_height="wrap_content" android:layout_width="120dp" android:text="@string/first_name"
+                      android:textColor="#000000" android:gravity="center_vertical|left" android:textSize="16dp"
+                      android:textStyle="bold"
+                android:id="@+id/label2"
+                android:layout_below="@+id/last_name"
+                android:layout_alignLeft="@+id/last_name"
+                android:layout_marginTop="5dp" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/last_name"
+                android:singleLine="true"
+                android:imeOptions="flagNoExtractUi"
+                android:layout_below="@+id/label1"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentRight="true"
+                android:textSize="16dp"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/first_name"
+                android:layout_below="@+id/label2"
+                android:layout_alignLeft="@+id/label2"
+                android:layout_alignRight="@+id/last_name"
+                android:textSize="16dp"
+                android:imeOptions="flagNoExtractUi"
+                android:singleLine="true"/>
+
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="120dp"
+                android:text="@string/filter"
+                android:textColor="#000000"
+                android:gravity="center_vertical|left"
+                android:textSize="16dp"
+                android:textStyle="bold"
+
+                android:id="@+id/ingredis"
+                android:layout_below="@+id/first_name"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="5dp" />
+
+            <RadioGroup
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/radioChooser"
+                android:layout_below="@+id/ingredis"
+                android:layout_alignParentLeft="true">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/professors_only"
+                    android:id="@+id/rb_only_prof"
+                    android:layout_below="@+id/ingredis"
+                    android:layout_alignLeft="@+id/ingredis"
+                    android:checked="true"
+                    android:enabled="true"
+                    android:textSize="16dp" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/all"
+                    android:id="@+id/rb_all"
+                    android:layout_below="@+id/rb_only_prof"
+                    android:layout_alignLeft="@+id/rb_only_prof"
+                    android:checked="false"
+                    android:enabled="true"
+                    android:textSize="16dp" />
+            </RadioGroup>
+        </RelativeLayout>
+    </ScrollView>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="@string/search"
+        android:id="@+id/searchBtn"
+        android:background="@drawable/button_item"
+        android:textColor="@color/button_text"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        android:clickable="true"
+
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp" />
+
+</RelativeLayout><!-- From: file:/C:/Users/Janek/AndroidStudioProjects/uni-app-android/android-app/res/layout-port/search_staff_layout.xml -->

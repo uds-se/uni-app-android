@@ -308,7 +308,7 @@ public class RestaurantActivity extends Activity {
 
     // set custom navigation bar
     private void setActionBar() {
-        ActionBar actionBar = getActionBar();
+        ActionBar actionBar = this.getActionBar();
         //Enable Up-Navigation
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle(R.string.mensa_text);

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/relativeid">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:weightSum="2">
+
+        <LinearLayout android:layout_height="wrap_content"
+                        android:id="@+id/first_row" android:layout_alignParentTop="true"
+                        android:layout_width="fill_parent" android:layout_marginTop="10dp"
+                        android:layout_centerHorizontal="true"
+            android:layout_marginRight="30dp"
+            android:layout_marginLeft="30dp"
+            android:weightSum="3"
+            android:gravity="center"
+            android:layout_weight="1">
+            <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="110dp"
+                android:layout_weight="1"
+                android:gravity="center">
+                <Button android:layout_width="90dp"
+                        android:layout_height="90dp" android:background="@drawable/news_button"
+                        android:id="@+id/newsBtn" android:clickable="true"
+                        android:gravity="left" android:layout_alignParentLeft="true" android:layout_alignParentTop="true"
+                        />
+                <TextView android:layout_width="90dp" android:layout_height="20dp" android:text="@string/newsText"
+                          android:textStyle="bold" android:textSize="12dp"
+                          android:gravity="center_vertical|center_horizontal"
+                          android:layout_below="@+id/newsBtn" android:textColor="#000000" android:id="@+id/newsTxt"/>
+            </RelativeLayout>
+            <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="110dp"
+                android:layout_weight="1"
+                android:gravity="center">
+                <Button android:layout_width="90dp"
+                        android:layout_height="90dp" android:background="@drawable/restaurant_button"
+                        android:id="@+id/restaurantBtn" android:clickable="true"
+                        android:layout_alignParentLeft="true"/>
+                <TextView android:layout_width="90dp" android:layout_height="20dp" android:text="@string/mensa_text"
+                          android:textStyle="bold" android:textSize="12dp"
+                          android:gravity="center_vertical|center_horizontal" android:layout_below="@+id/restaurantBtn"
+                          android:textColor="#000000" android:id="@+id/restaurantTxt"/>
+            </RelativeLayout>
+            <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="110dp"
+                android:layout_weight="1"
+                android:gravity="center">
+                <Button android:layout_width="90dp"
+                        android:layout_height="90dp" android:background="@drawable/campus_button"
+                        android:id="@+id/campusBtn" android:layout_alignParentLeft="true" android:clickable="true"/>
+                <TextView android:layout_width="90dp" android:layout_height="20dp" android:text="@string/campusText"
+                          android:textStyle="bold" android:textSize="12dp"
+                          android:gravity="center_vertical|center_horizontal" android:layout_below="@+id/campusBtn"
+                          android:textColor="#000000" android:id="@+id/campusTxt"/>
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout android:layout_height="wrap_content"
+                        android:id="@+id/second_row"
+            android:layout_width="match_parent"
+            android:layout_below="@+id/first_row"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:weightSum="3"
+            android:layout_above="@+id/about_btn"
+            android:gravity="center"
+            android:layout_weight="1">
+            <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="110dp"
+                android:gravity="center"
+                android:layout_weight="1">
+                <Button android:layout_width="90dp"
+                        android:layout_height="90dp" android:background="@drawable/events_button"
+                        android:id="@+id/eventsBtn" android:clickable="true"
+                        android:gravity="left" android:layout_alignParentLeft="true" android:layout_alignParentTop="true"/>
+                <TextView android:layout_width="90dp" android:layout_height="20dp" android:text="@string/eventsText"
+                          android:textStyle="bold" android:textSize="12dp"
+                          android:gravity="center_vertical|center_horizontal"
+                          android:layout_below="@+id/eventsBtn" android:textColor="#000000" android:id="@+id/eventsTxt"/>
+            </RelativeLayout>
+            <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="110dp"
+                android:gravity="center"
+                android:layout_weight="1">
+                <Button android:layout_width="90dp"
+                        android:layout_height="90dp" android:background="@drawable/bus_button"
+                        android:id="@+id/busBtn" android:clickable="true"
+                        android:layout_alignParentLeft="true"/>
+                <TextView android:layout_width="90dp" android:layout_height="20dp" android:text="@string/busText"
+                        android:textStyle="bold" android:textSize="12dp" android:gravity="center_vertical|center_horizontal"
+                        android:layout_below="@+id/busBtn" android:textColor="#000000" android:id="@+id/busTxt"/>
+            </RelativeLayout>
+            <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="110dp"
+                android:gravity="center"
+                android:layout_weight="1">
+                <Button android:layout_width="90dp"
+                        android:layout_height="90dp" android:background="@drawable/search_for_staff_button"
+                        android:id="@+id/staffBtn" android:layout_alignParentLeft="true" android:clickable="true"/>
+                <TextView android:layout_width="90dp" android:layout_height="20dp" android:text="@string/staff_searchText"
+                          android:textStyle="bold" android:textSize="12dp"
+                          android:gravity="center_vertical|center_horizontal"
+                          android:layout_below="@+id/staffBtn" android:textColor="#000000" android:id="@+id/staffTxt"/>
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout><!-- From: file:/C:/Users/Janek/AndroidStudioProjects/uni-app-android/android-app/res/layout-land/main.xml -->

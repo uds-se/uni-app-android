@@ -103,22 +103,40 @@
                       android:layout_below="@+id/staffBtn" android:textColor="#000000" android:id="@+id/staffTxt"/>
         </RelativeLayout>
     </LinearLayout>
-    <ImageView android:layout_width="285dp"
-               android:layout_height="120dp" android:background="@drawable/uds_logo"
-        android:adjustViewBounds="true"
-        android:layout_above="@+id/about_btn"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20dp"></ImageView>
-    <Button android:layout_width="160dp"
-            android:layout_height="25dp"
-            android:id="@+id/about_btn"
-        android:clickable="true"
-        android:text="@string/aboutText"
-            android:gravity="center_vertical|center_horizontal" android:textColor="@color/uni_blue" android:textSize="16dp"
-            android:textStyle="bold"
-        android:background="@android:color/transparent"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="10dp"
-        android:elevation="5dp"/>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/second_row"
+        android:id="@+id/text_campus">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:id="@+id/relativeLayout3">
+
+            <ImageView android:layout_width="285dp"
+                       android:layout_height="120dp" android:background="@drawable/uds_logo"
+                android:adjustViewBounds="true"
+                android:id="@+id/logo"
+                android:contentDescription="Owl"
+                android:layout_centerHorizontal="true"></ImageView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="28dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/c_saarbruecken"
+                android:id="@+id/campusText"
+                android:textColor="@color/uni_real"
+                android:textStyle="bold"
+                android:textSize="16dp"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/logo" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
 </RelativeLayout>

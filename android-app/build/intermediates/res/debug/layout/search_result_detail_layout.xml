@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_height="fill_parent" android:layout_width="fill_parent" android:gravity="center"
+                android:background="@drawable/home_screen_background">
+
+
+    <ProgressBar
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerVertical="true" android:layout_centerHorizontal="true"
+            android:id="@+id/web_view_progress_bar"
+            />
+    <ScrollView android:layout_height="fill_parent" android:layout_width="fill_parent">
+        <RelativeLayout android:layout_width="fill_parent" android:layout_height="fill_parent" android:id="@+id/scroll_view_layout">
+
+            <TextView android:layout_width="fill_parent" android:layout_height="20dp"
+                android:textSize="16dp" android:textStyle="normal" android:textColor="#b8000000" android:text="@string/gender"
+                      android:singleLine="true" android:gravity="center_vertical|left"
+                android:id="@+id/gendertext"
+                      android:visibility="invisible"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="2dp" />
+            <Button android:layout_width="fill_parent" android:layout_height="30dp" android:background="#FFFFFF"
+                android:textColor="@color/uni_blue" android:textSize="14dp"
+                    android:singleLine="true" android:gravity="center_vertical|center_horizontal|clip_vertical|left"
+                android:textStyle="bold" android:id="@+id/gender" android:visibility="invisible"
+                android:layout_below="@+id/gendertext"
+                android:paddingLeft="10dp" />
+            <TextView android:layout_width="fill_parent" android:layout_height="20dp"
+                android:textSize="16dp" android:textStyle="normal" android:textColor="#b8000000" android:text="@string/academic_degree"
+                      android:singleLine="true" android:gravity="center_vertical|left" android:layout_marginLeft="10dp" android:id="@+id/academicText"
+                      android:visibility="invisible"
+                android:layout_below="@+id/gender"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="2dp" />
+            <Button android:layout_width="fill_parent" android:layout_height="30dp" android:background="#FFFFFF"
+                android:textColor="@color/uni_blue" android:textSize="14dp"
+                    android:singleLine="true" android:gravity="center_vertical|center_horizontal|clip_vertical|left"
+                android:textStyle="bold" android:id="@+id/academic_degree" android:visibility="invisible"
+                android:layout_below="@+id/academicText"
+                android:paddingLeft="10dp" />
+
+            <TextView android:layout_width="fill_parent" android:layout_height="20dp" android:layout_marginTop="15dp"
+                      android:textSize="16dp" android:textStyle="normal" android:textColor="#b8000000" android:text="@string/building"
+                      android:singleLine="true" android:gravity="center_vertical|left" android:layout_marginLeft="10dp" android:id="@+id/buildingText"
+                      android:visibility="invisible"
+                android:layout_below="@+id/academic_degree"
+                android:layout_marginBottom="2dp" />
+            <Button android:layout_width="fill_parent" android:layout_height="30dp" android:background="@drawable/list_item_selector"
+                android:textColor="@color/uni_blue" android:textSize="14dp"
+                    android:singleLine="true" android:gravity="center_vertical|center_horizontal|clip_vertical|left"
+                android:id="@+id/building" android:visibility="invisible"
+                android:layout_below="@+id/buildingText"
+                android:paddingLeft="10dp"
+                android:textStyle="bold" />
+
+
+            <TextView android:layout_width="fill_parent" android:layout_height="25dp" android:layout_marginTop="15dp"
+                      android:textSize="16dp" android:textStyle="normal" android:textColor="#b8000000" android:text="@string/room"
+                      android:singleLine="true" android:gravity="center_vertical|left" android:layout_marginLeft="10dp" android:id="@+id/roomText"
+                      android:visibility="invisible"
+                android:layout_below="@+id/building"
+                android:layout_marginBottom="2dp" />
+            <Button android:layout_width="fill_parent" android:layout_height="30dp" android:background="#FFFFFF"
+                android:textColor="@color/uni_blue" android:textSize="14dp"
+                    android:singleLine="true" android:gravity="center_vertical|center_horizontal|clip_vertical|left"
+                android:id="@+id/room" android:visibility="invisible"
+                android:layout_below="@+id/roomText"
+                android:paddingLeft="10dp"
+                android:textStyle="bold" />
+
+            <TextView android:layout_width="fill_parent" android:layout_height="25dp" android:layout_marginTop="15dp"
+                      android:textSize="16dp" android:textStyle="normal" android:textColor="#b8000000" android:text="@string/phone"
+                      android:singleLine="true" android:gravity="center_vertical|left" android:layout_marginLeft="10dp" android:id="@+id/phoneText"
+                      android:visibility="invisible"
+                android:layout_below="@+id/room"
+                android:layout_marginBottom="2dp" />
+            <Button android:layout_width="fill_parent" android:layout_height="30dp" android:background="#FFFFFF"
+                android:textColor="@color/uni_blue" android:textSize="14dp"
+                    android:singleLine="true" android:gravity="center_vertical|center_horizontal|clip_vertical|left"
+                android:id="@+id/phone" android:visibility="invisible"
+                android:layout_below="@+id/phoneText"
+                android:paddingLeft="10dp"
+                android:textStyle="bold"
+                android:autoLink="phone"/>
+
+            <TextView android:layout_width="fill_parent" android:layout_height="25dp" android:layout_marginTop="15dp"
+                      android:textSize="16dp" android:textStyle="normal" android:textColor="#b8000000" android:text="@string/fax"
+                      android:singleLine="true" android:gravity="center_vertical|left" android:layout_marginLeft="10dp" android:id="@+id/faxText"
+                      android:visibility="invisible"
+                android:layout_below="@+id/phone"
+                android:layout_marginBottom="2dp" />
+            <Button android:layout_width="fill_parent" android:layout_height="30dp" android:background="#FFFFFF"
+                android:textColor="@color/uni_blue" android:textSize="14dp"
+                    android:singleLine="true" android:gravity="center_vertical|center_horizontal|clip_vertical|left"
+                android:id="@+id/fax" android:visibility="invisible"
+                android:layout_below="@+id/faxText"
+                android:paddingLeft="10dp"
+                android:textStyle="bold"
+                android:autoLink="phone"/>
+
+            <TextView android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="15dp"
+                      android:textSize="16dp" android:textStyle="normal" android:textColor="#b8000000" android:text="@string/email"
+                      android:singleLine="true" android:gravity="center_vertical|left" android:layout_marginLeft="10dp" android:id="@+id/emailText"
+                      android:visibility="invisible"
+                android:layout_below="@+id/fax"
+                android:layout_marginBottom="2dp" />
+            <Button android:layout_width="fill_parent" android:layout_height="30dp" android:background="#FFFFFF"
+                android:textColor="@color/uni_blue" android:textSize="14dp"
+                    android:singleLine="true" android:gravity="center_vertical|center_horizontal|clip_vertical|left"
+                android:id="@+id/email" android:visibility="invisible"
+                android:layout_below="@+id/emailText"
+                android:paddingLeft="10dp"
+                android:textStyle="bold"
+                android:autoLink="email"/>
+
+            <TextView android:layout_width="fill_parent" android:layout_height="25dp" android:layout_marginTop="5dp"
+                      android:textSize="16dp" android:textStyle="bold" android:textColor="@color/uni_blue"
+                android:singleLine="true" android:gravity="center_vertical|left" android:layout_marginLeft="5dp" android:id="@+id/moreText"
+                      android:visibility="invisible"
+                android:layout_below="@+id/email" />
+            <Button android:layout_width="fill_parent" android:layout_height="30dp" android:background="@drawable/list_item_selector"
+                android:textColor="#000000" android:textSize="14dp"
+                    android:singleLine="true" android:gravity="center_vertical|center_horizontal|clip_vertical|left"
+                android:textStyle="bold" android:id="@+id/more" android:text="@string/more_info"
+                    android:visibility="invisible"
+                android:layout_below="@+id/moreText"
+                android:paddingLeft="10dp" />
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/more_forward_icon"
+                android:background="@drawable/ic_ab_back_holo_light_am"
+                android:layout_alignParentBottom="false"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="7dp"
+                android:layout_alignTop="@+id/more"
+                android:visibility="invisible" />
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/building_forward_icon"
+                android:layout_alignParentRight="true"
+                android:layout_alignTop="@+id/building"
+                android:layout_marginTop="7dp"
+                android:background="@drawable/ic_ab_back_holo_light_am"
+                android:visibility="invisible" />
+
+        </RelativeLayout>
+    </ScrollView>
+
+</RelativeLayout><!-- From: file:/C:/Users/Janek/AndroidStudioProjects/uni-app-android/android-app/res/layout/search_result_detail_layout.xml -->

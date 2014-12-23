@@ -11,6 +11,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import java.io.File;
 
@@ -26,7 +27,7 @@ import de.unisaarland.UniApp.staff.SearchStaffActivity;
 /**
  * Launcher Activity of the application this Activity will be displayed when application is launched from the launcher
  * */
-public class MainActivity extends Activity {
+public class MainActivity extends Activity{
 
     //Buttons to perform actions
     private Button newsButton = null;
@@ -35,7 +36,7 @@ public class MainActivity extends Activity {
     private Button eventsButton = null;
     private Button busButton = null;
     private Button staffSearchButton = null;
-    private Button aboutButton = null;
+    private TextView campusText = null;
 
     /*
     * Will be called when activity created first time e.g. from scratch
@@ -43,6 +44,7 @@ public class MainActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
 
     }
 
@@ -53,13 +55,19 @@ public class MainActivity extends Activity {
     * */
     @Override
     protected void onResume() {
-
         // sets the custom navigation bar according to each activity.
         setActionBar();
         setContentView(R.layout.main);
         // set Listeners for the main screen to launch specific activity
         setButtonListeners();
-
+        // Set Text on the Mainscreen
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        String campus = settings.getString(SettingsActivity.KEY_CAMPUS_CHOOSER, "saar");
+        campusText = (TextView) findViewById(R.id.campusText);
+        if (campus.equals("saar"))
+            campusText.setText(getResources().getString(R.string.c_saarbruecken));
+        else
+            campusText.setText(getResources().getString(R.string.c_homburg));
         setPreferences();
         super.onResume();
     }
@@ -85,6 +93,10 @@ public class MainActivity extends Activity {
 
             case R.id.action_campus_chooser:
                 showSettings();
+                return true;
+            case R.id.action_about:
+                Intent myIntent = new Intent(MainActivity.this, AboutActicvity.class);
+                MainActivity.this.startActivity(myIntent);
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -130,14 +142,7 @@ public class MainActivity extends Activity {
     }
 
     private void setButtonListeners() {
-        aboutButton = (Button) findViewById(R.id.about_btn);
-        aboutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent myIntent = new Intent(MainActivity.this, AboutActicvity.class);
-                MainActivity.this.startActivity(myIntent);
-            }
-        });
+
         newsButton = (Button) findViewById(R.id.newsBtn);
         newsButton.setOnClickListener(new View.OnClickListener() {
             @Override

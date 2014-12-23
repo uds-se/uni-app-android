@@ -5,23 +5,10 @@
         android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/relativeid">
 
-    <Button android:layout_width="160dp"
-            android:layout_height="25dp"
-            android:id="@+id/about_btn"
-        android:clickable="true"
-        android:text="@string/aboutText"
-            android:gravity="center_vertical|center_horizontal" android:textColor="@color/uni_blue" android:textSize="16dp"
-            android:textStyle="bold"
-        android:background="@android:color/transparent"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="10dp" />
-
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_above="@+id/about_btn"
         android:weightSum="2">
 
         <LinearLayout android:layout_height="wrap_content"
