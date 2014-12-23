@@ -1,10 +1,10 @@
 package de.unisaarland.UniApp.bus;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
@@ -37,7 +37,7 @@ import de.unisaarland.UniApp.database.DatabaseHandler;
 /*
 * It implements Location listeners to show the distance of the bus stop from users current location.
 * */
-public class BusActivity extends Activity implements ConnectionCallbacks,LocationListener,OnConnectionFailedListener {
+public class BusActivity extends ActionBarActivity implements ConnectionCallbacks,LocationListener,OnConnectionFailedListener {
     private final int BUS_ID = 5;
     private ArrayList<PointOfInterest> busStationsArray = null;
     private Location currentLocation = null;
@@ -154,7 +154,7 @@ public class BusActivity extends Activity implements ConnectionCallbacks,Locatio
      * sets the custom navigation bar according to each activity.
      */
     private void setActionBar() {
-        ActionBar actionBar = getActionBar();
+        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         //Enabling Up-Navigation
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle(R.string.busText);
@@ -168,6 +168,7 @@ public class BusActivity extends Activity implements ConnectionCallbacks,Locatio
             case android.R.id.home:
                 onBackPressed();
                 NavUtils.navigateUpFromSameTask(this);
+
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -210,6 +211,7 @@ public class BusActivity extends Activity implements ConnectionCallbacks,Locatio
         @Override
         public void onClick(View v) {
             activity.onBackPressed();
+
         }
     }
 }

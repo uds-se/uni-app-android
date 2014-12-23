@@ -1,5 +1,6 @@
 package de.unisaarland.UniApp.events.uihelper;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -49,6 +50,9 @@ public class EventsAdapter extends BaseAdapter {
                 EventsModel model = eventModelsArray.get(index);
                 myIntent.putExtra("model", model);
                 context.startActivity(myIntent);
+                Activity activity = (Activity) context;
+
+
             }else{
                 AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
                 builder1.setMessage(context.getString(R.string.not_connected));

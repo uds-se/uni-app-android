@@ -1,6 +1,5 @@
 package de.unisaarland.UniApp.staff;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -9,6 +8,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.support.v7.app.ActionBarActivity;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,14 +29,14 @@ import de.unisaarland.UniApp.networkcommunicator.Util;
  * Time: 1:13 PM
  * To change this template use File | Settings | File Templates.
  */
-public class SearchStaffActivity extends Activity implements OnCheckedChangeListener {
+public class SearchStaffActivity extends ActionBarActivity implements OnCheckedChangeListener {
     private RadioGroup radioChooser;
     private TextView lastName;
     private TextView firstName;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setActionBar();
+
         int orientation = this.getResources().getConfiguration().orientation;
         if (orientation == 1){
             getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
@@ -47,6 +47,7 @@ public class SearchStaffActivity extends Activity implements OnCheckedChangeList
         InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
         setContentView(R.layout.search_staff_layout);
+        setActionBar();
         radioChooser = (RadioGroup) findViewById(R.id.radioChooser);
         lastName = (TextView) findViewById(R.id.last_name);
         firstName = (TextView) findViewById(R.id.first_name);
@@ -111,10 +112,11 @@ public class SearchStaffActivity extends Activity implements OnCheckedChangeList
                 }
             }
         });
+
     }
 
     private void setActionBar() {
-        ActionBar actionBar = getActionBar();
+        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         //Enabling Up-Navigation
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle(R.string.search_for_staff_text);

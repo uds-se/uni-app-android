@@ -34,11 +34,12 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Medium Text"
             android:id="@+id/label"
-            android:textSize="16sp"
+            android:textSize="15sp"
             android:layout_marginRight="30dp"
             android:gravity="center_vertical"
             android:layout_alignLeft="@+id/number"
-            android:layout_marginTop="25dp" />
+            android:layout_marginTop="25dp"
+            android:textColor="#ff303030" />
 
     </RelativeLayout>
 </RelativeLayout><!-- From: file:/C:/Users/Janek/AndroidStudioProjects/uni-app-android/android-app/res/layout/news_item.xml -->

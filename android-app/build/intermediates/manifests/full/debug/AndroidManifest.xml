@@ -36,6 +36,7 @@
             android:configChanges="orientation|screenSize" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
+                android:theme="@style/AppTheme"
                 android:value="de.unisaarland.UniApp.MainActivity" />
         </activity>
         <activity
@@ -160,7 +161,7 @@
 
         <meta-data
             android:name="com.google.android.gms.version"
-            android:value="4030500" />
+            android:value="6171000" />
         <!--
         Debugging Key -
         <meta-data

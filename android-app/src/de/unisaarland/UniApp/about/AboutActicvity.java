@@ -1,12 +1,11 @@
 package de.unisaarland.UniApp.about;
 
-import android.app.ActionBar;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,7 +21,7 @@ import de.unisaarland.UniApp.R;
  * Time: 5:11 PM
  * To change this template use File | Settings | File Templates.
  */
-public class AboutActicvity extends Activity {
+public class AboutActicvity extends ActionBarActivity {
     // email id on which the email is to be sent
     private final String EMAIL_ID = "uniapp@uni-saarland.de";
 
@@ -63,6 +62,7 @@ public class AboutActicvity extends Activity {
                         sendIntent.putExtra(Intent.EXTRA_TEXT, emailBody);
                         sendIntent.setType("message/rfc822");
                         AboutActicvity.this.startActivity(Intent.createChooser(sendIntent, "Send Email"));
+
                     }catch (Exception e){
                         Log.e("MyTag",e.getMessage());
                     }
@@ -76,7 +76,7 @@ public class AboutActicvity extends Activity {
      * sets the custom navigation bar according to each activity.
      */
     private void setActionBar() {
-        ActionBar actionBar = getActionBar();
+        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle(R.string.aboutText);
         /*

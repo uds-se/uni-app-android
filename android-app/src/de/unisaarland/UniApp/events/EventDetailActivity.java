@@ -1,6 +1,5 @@
 package de.unisaarland.UniApp.events;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -8,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
@@ -31,7 +31,7 @@ import de.unisaarland.UniApp.networkcommunicator.Util;
  * Time: 7:11 PM
  * To change this template use File | Settings | File Templates.
  */
-public class EventDetailActivity extends Activity {
+public class EventDetailActivity extends ActionBarActivity {
     private EventsModel model;
     private WebView body = null;
     private ProgressBar pBar = null;
@@ -175,7 +175,7 @@ public class EventDetailActivity extends Activity {
     * sets the custom navigation bar according to each activity.
     * */
     private void setActionBar() {
-        ActionBar actionBar = getActionBar();
+        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         //Enabling Up-Navigation
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle(R.string.event_article);
@@ -233,6 +233,7 @@ public class EventDetailActivity extends Activity {
             case android.R.id.home:
                 onBackPressed();
                 NavUtils.navigateUpFromSameTask(this);
+
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -249,6 +250,7 @@ public class EventDetailActivity extends Activity {
         @Override
         public void onClick(View v) {
             activity.onBackPressed();
+
         }
     }
 }

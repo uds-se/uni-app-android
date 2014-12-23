@@ -1,15 +1,17 @@
 package de.unisaarland.UniApp;
 
-import android.app.ActionBar;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.app.ActionBarActivity;
+import android.view.Display;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -27,7 +29,7 @@ import de.unisaarland.UniApp.staff.SearchStaffActivity;
 /**
  * Launcher Activity of the application this Activity will be displayed when application is launched from the launcher
  * */
-public class MainActivity extends Activity{
+public class MainActivity extends ActionBarActivity {
 
     //Buttons to perform actions
     private Button newsButton = null;
@@ -45,7 +47,6 @@ public class MainActivity extends Activity{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
     }
 
 
@@ -56,7 +57,7 @@ public class MainActivity extends Activity{
     @Override
     protected void onResume() {
         // sets the custom navigation bar according to each activity.
-        setActionBar();
+        //setActionBar();
         setContentView(R.layout.main);
         // set Listeners for the main screen to launch specific activity
         setButtonListeners();
@@ -64,10 +65,13 @@ public class MainActivity extends Activity{
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String campus = settings.getString(SettingsActivity.KEY_CAMPUS_CHOOSER, "saar");
         campusText = (TextView) findViewById(R.id.campusText);
-        if (campus.equals("saar"))
-            campusText.setText(getResources().getString(R.string.c_saarbruecken));
-        else
-            campusText.setText(getResources().getString(R.string.c_homburg));
+        Display display = ((WindowManager) getSystemService(WINDOW_SERVICE)).getDefaultDisplay();
+        if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) {
+            if (campus.equals("saar"))
+                campusText.setText(getResources().getString(R.string.c_saarbruecken));
+            else
+                campusText.setText(getResources().getString(R.string.c_homburg));
+        }
         setPreferences();
         super.onResume();
     }
@@ -97,6 +101,7 @@ public class MainActivity extends Activity{
             case R.id.action_about:
                 Intent myIntent = new Intent(MainActivity.this, AboutActicvity.class);
                 MainActivity.this.startActivity(myIntent);
+
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -105,6 +110,7 @@ public class MainActivity extends Activity{
     private void showSettings(){
         Intent myIntent = new Intent(MainActivity.this, SettingsActivity.class);
         MainActivity.this.startActivity(myIntent);
+
 
     }
 
@@ -134,13 +140,6 @@ public class MainActivity extends Activity{
         }
     }
 
-    /**
-     * sets the custom navigation bar according to each activity.
-     */
-    private void setActionBar() {
-        ActionBar actionBar = getActionBar();
-    }
-
     private void setButtonListeners() {
 
         newsButton = (Button) findViewById(R.id.newsBtn);
@@ -149,6 +148,7 @@ public class MainActivity extends Activity{
             public void onClick(View v) {
             Intent myIntent = new Intent(MainActivity.this, NewsActivity.class);
             MainActivity.this.startActivity(myIntent);
+
             }
         });
         restaurantButton = (Button) findViewById(R.id.restaurantBtn);
@@ -157,6 +157,7 @@ public class MainActivity extends Activity{
             public void onClick(View v) {
                 Intent myIntent = new Intent(MainActivity.this, RestaurantActivity.class);
                 MainActivity.this.startActivity(myIntent);
+
             }
         });
         campusButton = (Button) findViewById(R.id.campusBtn);
@@ -165,6 +166,7 @@ public class MainActivity extends Activity{
             public void onClick(View v) {
                 Intent myIntent = new Intent(MainActivity.this, CampusActivity.class);
                 MainActivity.this.startActivity(myIntent);
+
             }
         });
         eventsButton = (Button) findViewById(R.id.eventsBtn);
@@ -173,6 +175,7 @@ public class MainActivity extends Activity{
             public void onClick(View v) {
                 Intent myIntent = new Intent(MainActivity.this, EventsActivity.class);
                 MainActivity.this.startActivity(myIntent);
+
             }
         });
         busButton = (Button) findViewById(R.id.busBtn);
@@ -181,6 +184,7 @@ public class MainActivity extends Activity{
             public void onClick(View v) {
                 Intent myIntent = new Intent(MainActivity.this, BusActivity.class);
                 MainActivity.this.startActivity(myIntent);
+
             }
         });
         staffSearchButton = (Button) findViewById(R.id.staffBtn);
@@ -189,6 +193,7 @@ public class MainActivity extends Activity{
             public void onClick(View v) {
                 Intent myIntent = new Intent(MainActivity.this, SearchStaffActivity.class);
                 MainActivity.this.startActivity(myIntent);
+
             }
         });
     }

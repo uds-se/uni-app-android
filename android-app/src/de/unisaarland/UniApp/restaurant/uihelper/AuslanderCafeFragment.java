@@ -14,7 +14,7 @@ import de.unisaarland.UniApp.R;
  * Time: 2:41 PM
  * To change this template use File | Settings | File Templates.
  */
-public class AuslanderCafeFragment extends android.app.Fragment {
+public class AuslanderCafeFragment extends android.support.v4.app.Fragment {
 
     public AuslanderCafeFragment() {
 

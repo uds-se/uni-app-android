@@ -1,12 +1,12 @@
 package de.unisaarland.UniApp.events;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -41,7 +41,7 @@ import de.unisaarland.UniApp.networkcommunicator.Util;
  * Time: 11:56 PM
  * To change this template use File | Settings | File Templates.
  */
-public class EventsActivity extends Activity {
+public class EventsActivity extends ActionBarActivity {
 
     private ProgressBar bar;
     private ArrayList<EventsModel> eventModelsArray;
@@ -63,7 +63,7 @@ public class EventsActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-        setActionBar();
+        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
 
         SharedPreferences settings = getSharedPreferences(Util.PREFS_NAME, 0);
         boolean isCopied = settings.getBoolean(Util.EVENTS_LOADED,false);
@@ -74,6 +74,7 @@ public class EventsActivity extends Activity {
             setContentView(R.layout.news_panel);
             populateEventItems();
         }
+        setActionBar();
     }
 
     /*
@@ -92,7 +93,7 @@ public class EventsActivity extends Activity {
      * sets the custom navigation bar according to each activity.
      */
     private void setActionBar() {
-        ActionBar actionBar = getActionBar();
+        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle(R.string.eventsText);
         //Enable Up-Navigation
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -126,6 +127,7 @@ public class EventsActivity extends Activity {
             case android.R.id.home:
                 onBackPressed();
                 NavUtils.navigateUpFromSameTask(this);
+
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -158,6 +160,7 @@ public class EventsActivity extends Activity {
         @Override
         public void onClick(View v) {
             activity.onBackPressed();
+
         }
     }
 

@@ -19,13 +19,12 @@
 
         <Button
             style="?android:attr/buttonStyleSmall"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="37dp"
             android:text="@string/back"
             android:id="@+id/bt_back"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:layout_weight="1"
             android:layout_alignLeft="@+id/bt_back"
             android:background="@drawable/list_item_selector"
             android:textColor="@color/uni_blue"

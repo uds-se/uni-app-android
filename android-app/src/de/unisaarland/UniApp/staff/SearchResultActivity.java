@@ -1,12 +1,12 @@
 package de.unisaarland.UniApp.staff;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
@@ -34,7 +34,7 @@ import de.unisaarland.UniApp.staff.uihelper.SearchResultAdapter;
  * Time: 12:13 AM
  * To change this template use File | Settings | File Templates.
  */
-public class SearchResultActivity extends Activity {
+public class SearchResultActivity extends ActionBarActivity {
     private String url = null;
     private ArrayList<String> namesArray;
     private ArrayList<String> linksArray;
@@ -184,6 +184,7 @@ public class SearchResultActivity extends Activity {
                             public void onClick(DialogInterface dialog, int id) {
                                 dialog.cancel();
                                 onBackPressed();
+
                             }
                         });
                 AlertDialog alert11 = builder1.create();
@@ -199,28 +200,10 @@ public class SearchResultActivity extends Activity {
     }
 
     private void setActionBar() {
-        ActionBar actionBar = getActionBar();
+        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle(R.string.search_results);
-        // add the custom view to the action bar
-        /*
-        actionBar.setCustomView(R.layout.navigation_bar_layout);
-        actionBar.setBackgroundDrawable(new ColorDrawable(Color.LTGRAY));
 
-        TextView pageText = (TextView) actionBar.getCustomView().findViewById(R.id.page_heading);
-        pageText.setText(R.string.search_results);
-        pageText.setVisibility(View.VISIBLE);
-        pageText.setTextColor(Color.BLACK);
-
-        TextView backPageText = (TextView) actionBar.getCustomView().findViewById(R.id.page_back_text);
-        backPageText.setText(R.string.back);
-        backPageText.setVisibility(View.VISIBLE);
-        backPageText.setOnClickListener(new BackButtonClickListener(this));
-
-        ImageButton backButton = (ImageButton) actionBar.getCustomView().findViewById(R.id.back_icon);
-        backButton.setVisibility(View.VISIBLE);
-        backButton.setOnClickListener(new BackButtonClickListener(this));
-        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);*/
     }
 
     // Handling the Action Bar Buttons
@@ -231,6 +214,7 @@ public class SearchResultActivity extends Activity {
             case android.R.id.home:
                 onBackPressed();
                 NavUtils.navigateUpFromSameTask(this);
+
                 return true;
         }
         return super.onOptionsItemSelected(item);

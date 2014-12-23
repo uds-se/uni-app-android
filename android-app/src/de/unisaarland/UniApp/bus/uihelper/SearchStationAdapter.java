@@ -1,5 +1,6 @@
 package de.unisaarland.UniApp.bus.uihelper;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
@@ -76,6 +77,7 @@ public class SearchStationAdapter extends BaseAdapter {
                 Intent myIntent = new Intent(context, BusDetailActivity.class);
                 myIntent.putExtra("url", url);
                 context.startActivity(myIntent);
+                Activity activity = (Activity) context;
             }
         }
     };

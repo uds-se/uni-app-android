@@ -1,6 +1,5 @@
 package de.unisaarland.UniApp.campus;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.SearchManager;
@@ -14,8 +13,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -24,7 +24,6 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AutoCompleteTextView;
 import android.widget.SearchView;
-import android.widget.SearchView.OnQueryTextListener;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks;
@@ -72,7 +71,7 @@ import de.unisaarland.UniApp.restaurant.RestaurantActivity;
 /*
 * It implements Location listeners to show the distance of the bus stop from users current location.
 * */
-public class CampusActivity extends FragmentActivity implements ConnectionCallbacks,OnConnectionFailedListener,
+public class CampusActivity extends ActionBarActivity implements ConnectionCallbacks,OnConnectionFailedListener,
         LocationListener,
         GoogleMap.OnMyLocationButtonClickListener, OnMarkerClickListener,OnInfoWindowClickListener {
 
@@ -181,11 +180,13 @@ public class CampusActivity extends FragmentActivity implements ConnectionCallba
                                     Intent myIntent = new Intent(CampusActivity.this, RestaurantActivity.class);
                                     myIntent.putExtra("back",getString(R.string.campusText));
                                     CampusActivity.this.startActivity(myIntent);
+
                                 }else{
                                     Intent myIntent = new Intent(CampusActivity.this, BusDetailActivity.class);
                                     myIntent.putExtra("url", p.getWebsite());
                                     myIntent.putExtra("back", getString(R.string.campusText));
                                     CampusActivity.this.startActivity(myIntent);
+
                                 }
                             }
                             dialog.cancel();
@@ -273,6 +274,7 @@ public class CampusActivity extends FragmentActivity implements ConnectionCallba
                             "," + currentLocation.getLongitude() + "&daddr=" +
                             p.getLatitude() + "," + p.getLongitude()));
             startActivity(intent);
+
         }else{
             AlertDialog.Builder currentLocationOptionDialog = new AlertDialog.Builder(CampusActivity.this);
             currentLocationOptionDialog.setTitle(getString(R.string.current_location_not_set));
@@ -283,6 +285,7 @@ public class CampusActivity extends FragmentActivity implements ConnectionCallba
                 public void onClick(DialogInterface dialog, int which) {
                     Intent viewIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                     startActivity(viewIntent);
+
                 }
             });
             AlertDialog locationOption = currentLocationOptionDialog.create();
@@ -302,7 +305,8 @@ public class CampusActivity extends FragmentActivity implements ConnectionCallba
 
     //Creation Custom Actionbar
     public boolean onCreateOptionsMenu(Menu menu) {
-        ActionBar actionBar = getActionBar();
+
+        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         // Inflate the menu items for use in the action bar
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.campus_search_activity, menu);
@@ -316,10 +320,12 @@ public class CampusActivity extends FragmentActivity implements ConnectionCallba
         this.menu = menu;
 
         SearchManager manager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView search = (SearchView) menu.findItem(R.id.activity_search).getActionView();
+        android.support.v7.widget.SearchView search = (android.support.v7.widget.SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.activity_search));
         search.setSearchableInfo(manager.getSearchableInfo(getComponentName()));
         search.setSuggestionsAdapter(new SearchAdapter(this, cursor, this));
-        search.setOnQueryTextListener(new OnQueryTextListener() {
+
+
+        search.setOnQueryTextListener(new android.support.v7.widget.SearchView.OnQueryTextListener() {
 
             @Override
             public boolean onQueryTextChange(String query) {
@@ -344,7 +350,7 @@ public class CampusActivity extends FragmentActivity implements ConnectionCallba
             db.close();
 
             SearchManager manager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-            final SearchView search = (SearchView) menu.findItem(R.id.activity_search).getActionView();
+            final android.support.v7.widget.SearchView search = (android.support.v7.widget.SearchView) menu.findItem(R.id.activity_search).getActionView();
             search.setSearchableInfo(manager.getSearchableInfo(getComponentName()));
             search.setSuggestionsAdapter(new SearchAdapter(this, cursor, this));
     }
@@ -356,11 +362,13 @@ public class CampusActivity extends FragmentActivity implements ConnectionCallba
             // Respond to the action bar's Up/Home button
             case android.R.id.home:
                 onBackPressed();
+
                 NavUtils.navigateUpFromSameTask(this);
                 return true;
             case R.id.action_categories:
                 Intent myIntent = new Intent(CampusActivity.this, CampusSearchActivity.class);
                 CampusActivity.this.startActivityForResult(myIntent,REQUEST_CODE);
+
                 return true;
             case R.id.action_settings:
                 ( new PanelButtonListener(this,map,poisMap,markers)).onClick(null);

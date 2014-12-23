@@ -1,12 +1,12 @@
 package de.unisaarland.UniApp.bus;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
@@ -25,7 +25,7 @@ import de.unisaarland.UniApp.R;
  * Time: 9:33 PM
  * To change this template use File | Settings | File Templates.
  */
-public class BusDetailActivity extends Activity {
+public class BusDetailActivity extends ActionBarActivity {
     private String url;
     private ProgressBar pBar;
     private WebView webView;
@@ -128,7 +128,7 @@ public class BusDetailActivity extends Activity {
     * sets the custom navigation bar according to each activity.
     * */
     private void setActionBar() {
-        ActionBar actionBar = getActionBar();
+        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         //Enabling Up-Navigation
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle(R.string.busText);
@@ -141,6 +141,7 @@ public class BusDetailActivity extends Activity {
             case android.R.id.home:
                 onBackPressed();
                 NavUtils.navigateUpFromSameTask(this);
+
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -156,6 +157,7 @@ public class BusDetailActivity extends Activity {
         @Override
         public void onClick(View v) {
             activity.onBackPressed();
+
         }
     }
 }

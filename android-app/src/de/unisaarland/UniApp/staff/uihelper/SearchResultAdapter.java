@@ -1,5 +1,6 @@
 package de.unisaarland.UniApp.staff.uihelper;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -90,6 +91,7 @@ public class SearchResultAdapter extends BaseAdapter {
                 int index = resultItemsMap.get(v);
                 myIntent.putExtra("url", linksArray.get(index));
                 context.startActivity(myIntent);
+                Activity activity = (Activity) context;
             }else{
                 AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
                 builder1.setMessage(context.getString(R.string.not_connected));

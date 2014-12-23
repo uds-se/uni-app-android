@@ -16,7 +16,8 @@
         <activity android:name=".SettingsActivity"  android:configChanges="orientation|screenSize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="de.unisaarland.UniApp.MainActivity" />
+                android:value="de.unisaarland.UniApp.MainActivity"
+                android:theme="@style/AppTheme"/>
         </activity>
 
 
@@ -121,7 +122,7 @@
 
         <meta-data
                 android:name="com.google.android.gms.version"
-                android:value="4030500" />
+                android:value="6171000" />
         <!-- Debugging Key -
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"

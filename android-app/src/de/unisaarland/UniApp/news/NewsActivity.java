@@ -1,6 +1,5 @@
 package de.unisaarland.UniApp.news;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -11,6 +10,7 @@ import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -47,7 +47,7 @@ import de.unisaarland.UniApp.news.uihelper.NewsAdapter;
  * Time: 1:33 PM
  * To change this template use File | Settings | File Templates.
  */
-public class NewsActivity extends Activity {
+public class NewsActivity extends ActionBarActivity {
     private ProgressBar bar;
     private ArrayList<NewsModel> newsModelsArray;
     private final String URL = "http://www.uni-saarland.de/aktuelles/presse/pms.html?type=100&tx_ttnews[cat]=26";
@@ -266,8 +266,8 @@ public class NewsActivity extends Activity {
      */
 
     private void setActionBar() {
-        ActionBar actionBar = getActionBar();
         //Enable Up-Navigation
+        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
         actionBar.setTitle(R.string.newsText);
@@ -290,6 +290,7 @@ public class NewsActivity extends Activity {
             case android.R.id.home:
                 onBackPressed();
                 NavUtils.navigateUpFromSameTask(this);
+
                 return true;
             /**
              * clicking on the facebook-button will check if the facebook app is installed on the device then it will
@@ -307,6 +308,7 @@ public class NewsActivity extends Activity {
 
                 if (activities.size() > 0) {
                     startActivity(receiverIntent);
+
                 } else {
                     Uri webpage = Uri.parse("http://www.facebook.com/120807804649363");
                     Intent webIntent = new Intent(Intent.ACTION_VIEW, webpage);
@@ -334,6 +336,7 @@ public class NewsActivity extends Activity {
         @Override
         public void onClick(View v) {
             activity.onBackPressed();
+
         }
     }
 }

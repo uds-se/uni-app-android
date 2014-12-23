@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:UniApp="http://schemas.android.com/apk/res-auto">
     <item android:id="@+id/action_facebook"
-        android:icon="@drawable/ic_facebook"
+        android:icon="@drawable/ic_facebook_white"
         android:title=""
-        android:showAsAction="always" />
+        UniApp:showAsAction="always" />
 
 </menu>

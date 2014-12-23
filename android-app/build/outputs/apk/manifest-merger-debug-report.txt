@@ -60,164 +60,166 @@ ADDED from AndroidManifest.xml:16:9
 		ADDED from AndroidManifest.xml:16:19
 meta-data#android.support.PARENT_ACTIVITY
 ADDED from AndroidManifest.xml:17:13
+	android:theme
+		ADDED from AndroidManifest.xml:20:17
 	android:value
 		ADDED from AndroidManifest.xml:19:17
 	android:name
 		ADDED from AndroidManifest.xml:18:17
 activity#de.unisaarland.UniApp.news.NewsActivity
-ADDED from AndroidManifest.xml:23:9
+ADDED from AndroidManifest.xml:24:9
 	android:label
-		ADDED from AndroidManifest.xml:23:53
+		ADDED from AndroidManifest.xml:24:53
 	android:configChanges
-		ADDED from AndroidManifest.xml:23:86
+		ADDED from AndroidManifest.xml:24:86
 	android:name
-		ADDED from AndroidManifest.xml:23:19
+		ADDED from AndroidManifest.xml:24:19
 activity#de.unisaarland.UniApp.bus.BusActivity
-ADDED from AndroidManifest.xml:30:9
+ADDED from AndroidManifest.xml:31:9
 	android:label
-		ADDED from AndroidManifest.xml:30:51
+		ADDED from AndroidManifest.xml:31:51
 	android:configChanges
-		ADDED from AndroidManifest.xml:30:83
+		ADDED from AndroidManifest.xml:31:83
 	android:name
-		ADDED from AndroidManifest.xml:30:19
+		ADDED from AndroidManifest.xml:31:19
 activity#de.unisaarland.UniApp.events.EventsActivity
-ADDED from AndroidManifest.xml:36:9
+ADDED from AndroidManifest.xml:37:9
 	android:label
-		ADDED from AndroidManifest.xml:36:57
+		ADDED from AndroidManifest.xml:37:57
 	android:configChanges
-		ADDED from AndroidManifest.xml:36:92
+		ADDED from AndroidManifest.xml:37:92
 	android:name
-		ADDED from AndroidManifest.xml:36:19
+		ADDED from AndroidManifest.xml:37:19
 activity#de.unisaarland.UniApp.staff.SearchStaffActivity
-ADDED from AndroidManifest.xml:42:9
+ADDED from AndroidManifest.xml:43:9
 	android:label
-		ADDED from AndroidManifest.xml:42:61
+		ADDED from AndroidManifest.xml:43:61
 	android:name
-		ADDED from AndroidManifest.xml:42:19
+		ADDED from AndroidManifest.xml:43:19
 activity#de.unisaarland.UniApp.campus.CampusActivity
-ADDED from AndroidManifest.xml:48:9
+ADDED from AndroidManifest.xml:49:9
 	android:label
-		ADDED from AndroidManifest.xml:48:58
+		ADDED from AndroidManifest.xml:49:58
 	android:launchMode
-		ADDED from AndroidManifest.xml:48:83
+		ADDED from AndroidManifest.xml:49:83
 	android:name
-		ADDED from AndroidManifest.xml:48:19
+		ADDED from AndroidManifest.xml:49:19
 meta-data#android.app.searchable
-ADDED from AndroidManifest.xml:49:13
+ADDED from AndroidManifest.xml:50:13
 	android:resource
-		ADDED from AndroidManifest.xml:50:17
+		ADDED from AndroidManifest.xml:51:17
 	android:name
-		ADDED from AndroidManifest.xml:49:24
+		ADDED from AndroidManifest.xml:50:24
 intent-filter#android.intent.action.SEARCH
-ADDED from AndroidManifest.xml:51:13
+ADDED from AndroidManifest.xml:52:13
 action#android.intent.action.SEARCH
-ADDED from AndroidManifest.xml:52:17
+ADDED from AndroidManifest.xml:53:17
 	android:name
-		ADDED from AndroidManifest.xml:52:25
+		ADDED from AndroidManifest.xml:53:25
 activity#de.unisaarland.UniApp.restaurant.RestaurantActivity
-ADDED from AndroidManifest.xml:60:9
+ADDED from AndroidManifest.xml:61:9
 	android:label
-		ADDED from AndroidManifest.xml:60:65
+		ADDED from AndroidManifest.xml:61:65
 	android:configChanges
-		ADDED from AndroidManifest.xml:60:104
+		ADDED from AndroidManifest.xml:61:104
 	android:name
-		ADDED from AndroidManifest.xml:60:19
+		ADDED from AndroidManifest.xml:61:19
 activity#de.unisaarland.UniApp.restaurant.OpeningHoursActivity
-ADDED from AndroidManifest.xml:66:9
+ADDED from AndroidManifest.xml:67:9
 	android:configChanges
-		ADDED from AndroidManifest.xml:66:67
+		ADDED from AndroidManifest.xml:67:67
 	android:name
-		ADDED from AndroidManifest.xml:66:19
+		ADDED from AndroidManifest.xml:67:19
 activity#de.unisaarland.UniApp.campus.CampusSearchActivity
-ADDED from AndroidManifest.xml:73:9
+ADDED from AndroidManifest.xml:74:9
 	android:name
-		ADDED from AndroidManifest.xml:73:19
+		ADDED from AndroidManifest.xml:74:19
 activity#de.unisaarland.UniApp.about.AboutActicvity
-ADDED from AndroidManifest.xml:79:9
+ADDED from AndroidManifest.xml:80:9
 	android:label
-		ADDED from AndroidManifest.xml:79:56
+		ADDED from AndroidManifest.xml:80:56
 	android:name
-		ADDED from AndroidManifest.xml:79:19
+		ADDED from AndroidManifest.xml:80:19
 activity#de.unisaarland.UniApp.news.NewsArticleActivity
-ADDED from AndroidManifest.xml:85:9
+ADDED from AndroidManifest.xml:86:9
 	android:configChanges
-		ADDED from AndroidManifest.xml:85:60
+		ADDED from AndroidManifest.xml:86:60
 	android:name
-		ADDED from AndroidManifest.xml:85:19
+		ADDED from AndroidManifest.xml:86:19
 activity#de.unisaarland.UniApp.events.EventDetailActivity
-ADDED from AndroidManifest.xml:91:9
+ADDED from AndroidManifest.xml:92:9
 	android:configChanges
-		ADDED from AndroidManifest.xml:91:62
+		ADDED from AndroidManifest.xml:92:62
 	android:name
-		ADDED from AndroidManifest.xml:91:19
+		ADDED from AndroidManifest.xml:92:19
 activity#de.unisaarland.UniApp.staff.SearchResultActivity
-ADDED from AndroidManifest.xml:97:9
+ADDED from AndroidManifest.xml:98:9
 	android:launchMode
-		ADDED from AndroidManifest.xml:97:62
+		ADDED from AndroidManifest.xml:98:62
 	android:configChanges
-		ADDED from AndroidManifest.xml:97:93
+		ADDED from AndroidManifest.xml:98:93
 	android:name
-		ADDED from AndroidManifest.xml:97:19
+		ADDED from AndroidManifest.xml:98:19
 activity#de.unisaarland.UniApp.staff.SearchResultItemDetailActivity
-ADDED from AndroidManifest.xml:103:9
+ADDED from AndroidManifest.xml:104:9
 	android:launchMode
-		ADDED from AndroidManifest.xml:103:72
+		ADDED from AndroidManifest.xml:104:72
 	android:configChanges
-		ADDED from AndroidManifest.xml:103:103
+		ADDED from AndroidManifest.xml:104:103
 	android:name
-		ADDED from AndroidManifest.xml:103:19
+		ADDED from AndroidManifest.xml:104:19
 activity#de.unisaarland.UniApp.staff.PersonDetailWebActivity
-ADDED from AndroidManifest.xml:109:9
+ADDED from AndroidManifest.xml:110:9
 	android:launchMode
-		ADDED from AndroidManifest.xml:109:65
+		ADDED from AndroidManifest.xml:110:65
 	android:configChanges
-		ADDED from AndroidManifest.xml:109:96
+		ADDED from AndroidManifest.xml:110:96
 	android:name
-		ADDED from AndroidManifest.xml:109:19
+		ADDED from AndroidManifest.xml:110:19
 activity#de.unisaarland.UniApp.bus.BusDetailActivity
-ADDED from AndroidManifest.xml:116:9
+ADDED from AndroidManifest.xml:117:9
 	android:configChanges
-		ADDED from AndroidManifest.xml:116:57
+		ADDED from AndroidManifest.xml:117:57
 	android:name
-		ADDED from AndroidManifest.xml:116:19
+		ADDED from AndroidManifest.xml:117:19
 meta-data#com.google.android.gms.version
-ADDED from AndroidManifest.xml:122:9
+ADDED from AndroidManifest.xml:123:9
 	android:value
+		ADDED from AndroidManifest.xml:125:17
+	android:name
 		ADDED from AndroidManifest.xml:124:17
-	android:name
-		ADDED from AndroidManifest.xml:123:17
 meta-data#com.google.android.maps.v2.API_KEY
-ADDED from AndroidManifest.xml:130:5
+ADDED from AndroidManifest.xml:131:5
 	android:value
+		ADDED from AndroidManifest.xml:133:14
+	android:name
 		ADDED from AndroidManifest.xml:132:14
-	android:name
-		ADDED from AndroidManifest.xml:131:14
 uses-feature#0x00020000
-ADDED from AndroidManifest.xml:133:6
+ADDED from AndroidManifest.xml:134:6
 	android:glEsVersion
-		ADDED from AndroidManifest.xml:134:10
-	android:required
 		ADDED from AndroidManifest.xml:135:10
+	android:required
+		ADDED from AndroidManifest.xml:136:10
 uses-permission#android.permission.INTERNET
-ADDED from AndroidManifest.xml:141:2
-	android:name
-		ADDED from AndroidManifest.xml:141:19
-uses-permission#android.permission.ACCESS_NETWORK_STATE
 ADDED from AndroidManifest.xml:142:2
 	android:name
 		ADDED from AndroidManifest.xml:142:19
-uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
+uses-permission#android.permission.ACCESS_NETWORK_STATE
 ADDED from AndroidManifest.xml:143:2
 	android:name
 		ADDED from AndroidManifest.xml:143:19
-uses-permission#android.permission.ACCESS_COARSE_LOCATION
-ADDED from AndroidManifest.xml:146:5
+uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
+ADDED from AndroidManifest.xml:144:2
 	android:name
-		ADDED from AndroidManifest.xml:146:22
-uses-permission#android.permission.ACCESS_FINE_LOCATION
+		ADDED from AndroidManifest.xml:144:19
+uses-permission#android.permission.ACCESS_COARSE_LOCATION
 ADDED from AndroidManifest.xml:147:5
 	android:name
 		ADDED from AndroidManifest.xml:147:22
+uses-permission#android.permission.ACCESS_FINE_LOCATION
+ADDED from AndroidManifest.xml:148:5
+	android:name
+		ADDED from AndroidManifest.xml:148:22
 uses-sdk
 INJECTED from AndroidManifest.xml:0:0 reason: use-sdk injection requested
 MERGED from com.google.android.gms:play-services:6.1.71:15:5

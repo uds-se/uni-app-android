@@ -1,11 +1,11 @@
 package de.unisaarland.UniApp.staff;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,7 +31,7 @@ import de.unisaarland.UniApp.campus.CampusActivity;
  * Time: 12:16 AM
  * To change this template use File | Settings | File Templates.
  */
-public class SearchResultItemDetailActivity extends Activity {
+public class SearchResultItemDetailActivity extends ActionBarActivity {
     private String url = null;
     private ProgressBar pBar;
     private String name;
@@ -66,7 +66,7 @@ public class SearchResultItemDetailActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-        setActionBar();
+
         setContentView(R.layout.search_result_detail_layout);
         pBar = (ProgressBar) findViewById(R.id.web_view_progress_bar);
         if(name == null){
@@ -74,6 +74,7 @@ public class SearchResultItemDetailActivity extends Activity {
         }else{
             showResult(name, gender, academicDegree, building, room, phone, fax, email);
         }
+        setActionBar();
     }
 
     private AsyncTask<Void,Void,Integer> getTask(final String url){
@@ -128,8 +129,7 @@ public class SearchResultItemDetailActivity extends Activity {
     private void showResult(String name, String gender, String academicDegree, String building, String room, String phone, String fax, String email) {
         if(pBar!=null){
             pBar.setVisibility(View.INVISIBLE);
-            ActionBar actionBar = getActionBar();
-            actionBar.setTitle(name);
+            android.support.v7.app.ActionBar actionBar = getSupportActionBar();
             TextView genderText = (TextView) findViewById(R.id.gendertext);
             genderText.setVisibility(View.VISIBLE);
             Button genderButton = (Button) findViewById(R.id.gender);
@@ -152,6 +152,7 @@ public class SearchResultItemDetailActivity extends Activity {
                         Intent myIntent = new Intent(SearchResultItemDetailActivity.this, CampusActivity.class);
                         myIntent.putExtra("building", buildingButton.getText());
                         SearchResultItemDetailActivity.this.startActivity(myIntent);
+
                     }
                 });
             }
@@ -187,35 +188,18 @@ public class SearchResultItemDetailActivity extends Activity {
                     Intent myIntent = new Intent(SearchResultItemDetailActivity.this, PersonDetailWebActivity.class);
                     myIntent.putExtra("url", url);
                     SearchResultItemDetailActivity.this.startActivity(myIntent);
+
                 }
             });
         }
     }
 
     private void setActionBar() {
-        ActionBar actionBar = getActionBar();
+        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         //Enabling UP-Navigation
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle(R.string.info);
-        // add the custom view to the action bar
-        /*
-        actionBar.setCustomView(R.layout.navigation_bar_layout);
-        actionBar.setBackgroundDrawable(new ColorDrawable(Color.LTGRAY));
 
-        TextView pageText = (TextView) actionBar.getCustomView().findViewById(R.id.page_heading);
-        pageText.setText(R.string.info);
-        pageText.setVisibility(View.VISIBLE);
-        pageText.setTextColor(Color.BLACK);
-
-        TextView backPageText = (TextView) actionBar.getCustomView().findViewById(R.id.page_back_text);
-        backPageText.setText(R.string.search_results);
-        backPageText.setVisibility(View.VISIBLE);
-        backPageText.setOnClickListener(new BackButtonClickListener(this));
-
-        ImageButton backButton = (ImageButton) actionBar.getCustomView().findViewById(R.id.back_icon);
-        backButton.setVisibility(View.VISIBLE);
-        backButton.setOnClickListener(new BackButtonClickListener(this));
-        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);*/
     }
 
     // Handling the Action Bar Buttons
@@ -226,6 +210,7 @@ public class SearchResultItemDetailActivity extends Activity {
             case android.R.id.home:
                 this.onBackPressed();
                 NavUtils.navigateUpFromSameTask(this);
+
                 return true;
         }
         return super.onOptionsItemSelected(item);

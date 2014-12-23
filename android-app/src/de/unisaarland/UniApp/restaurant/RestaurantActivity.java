@@ -1,6 +1,5 @@
 package de.unisaarland.UniApp.restaurant;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -9,6 +8,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NavUtils;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -52,7 +52,7 @@ import de.unisaarland.UniApp.restaurant.uihelper.ViewFlowAdapter;
  * Time: 11:30 AM
  * To change this template use File | Settings | File Templates.
  */
-public class RestaurantActivity extends Activity {
+public class RestaurantActivity extends ActionBarActivity {
     private final String RESTAURANT_FILE_NAME = "restaurant_sb.dat";
     private ProgressBar bar;
     private NetworkHandler mensaNetworkHandler = null;
@@ -308,7 +308,7 @@ public class RestaurantActivity extends Activity {
 
     // set custom navigation bar
     private void setActionBar() {
-        ActionBar actionBar = this.getActionBar();
+        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         //Enable Up-Navigation
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle(R.string.mensa_text);
@@ -331,11 +331,13 @@ public class RestaurantActivity extends Activity {
             case android.R.id.home:
                 onBackPressed();
                 NavUtils.navigateUpFromSameTask(this);
+
                 return true;
             case R.id.action_opening_hours:
                 //Open opening hours actions when button is pressed
                 Intent myIntent = new Intent(RestaurantActivity.this, OpeningHoursActivity.class);
                 RestaurantActivity.this.startActivity(myIntent);
+
                 return true;
         }
         return super.onOptionsItemSelected(item);

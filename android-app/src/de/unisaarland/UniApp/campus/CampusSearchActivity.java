@@ -1,6 +1,5 @@
 package de.unisaarland.UniApp.campus;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -10,13 +9,13 @@ import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Display;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -39,7 +38,7 @@ import de.unisaarland.UniApp.database.DatabaseHandler;
  * Time: 1:50 PM
  * To change this template use File | Settings | File Templates.
  */
-public class CampusSearchActivity extends Activity {
+public class CampusSearchActivity extends ActionBarActivity {
     ArrayList<Integer> categoryIds;
     ArrayList<String> categoryTitles;
     private ListView categoriesList;
@@ -78,7 +77,8 @@ public class CampusSearchActivity extends Activity {
     }
     // set custom navigation bar
     private void setActionBar() {
-        ActionBar actionBar = getActionBar();
+        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+
         //Enabling Up-Navigation
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle(R.string.categories);
@@ -179,7 +179,6 @@ public class CampusSearchActivity extends Activity {
                     backIconButton.setOnClickListener(new DialogBackButtonClickListener());
 
                     optionMenuDialog = new Dialog(context);
-                    optionMenuDialog.requestWindowFeature(Window.FEATURE_ACTION_BAR);
                     optionMenuDialog.setContentView(view);
                     optionMenuDialog.setTitle(title);
                     optionMenuDialog.setOnKeyListener(menuOnKeyListener);

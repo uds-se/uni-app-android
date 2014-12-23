@@ -34,11 +34,6 @@
     <color name="abc_search_url_text_normal">#7fa87f</color>
     <color name="abc_search_url_text_pressed">@android:color/black</color>
     <color name="abc_search_url_text_selected">@android:color/black</color>
-    <!-- From: file:/C:/Users/Janek/AndroidStudioProjects/uni-app-android/android-app/res/values/colors.xml -->
-    <eat-comment/>
-    <color name="accent_green">#97e08f</color>
-    <!-- From: file:/C:/Users/Janek/AndroidStudioProjects/uni-app-android/android-app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.0/res/values/values.xml -->
-    <eat-comment/>
     <color name="accent_material_dark">@color/material_deep_teal_200</color>
     <color name="accent_material_light">@color/material_deep_teal_500</color>
     <color name="background_floating_material_dark">#ff424242</color>
@@ -103,20 +98,10 @@
     <color name="primary_text_disabled_material_light">#39000000</color>
     <color name="ripple_material_dark">#40ffffff</color>
     <color name="ripple_material_light">#40000000</color>
-    <!-- From: file:/C:/Users/Janek/AndroidStudioProjects/uni-app-android/android-app/res/values/colors.xml -->
-    <eat-comment/>
-    <color name="sa_green">#14a804</color>
-    <!-- From: file:/C:/Users/Janek/AndroidStudioProjects/uni-app-android/android-app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.0/res/values/values.xml -->
-    <eat-comment/>
     <color name="secondary_text_default_material_dark">#b3ffffff</color>
     <color name="secondary_text_default_material_light">#8a000000</color>
     <color name="secondary_text_disabled_material_dark">#36ffffff</color>
     <color name="secondary_text_disabled_material_light">#24000000</color>
-    <!-- From: file:/C:/Users/Janek/AndroidStudioProjects/uni-app-android/android-app/res/values/colors.xml -->
-    <eat-comment/>
-    <color name="stacked_green">#118504</color>
-    <!-- From: file:/C:/Users/Janek/AndroidStudioProjects/uni-app-android/android-app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.0/res/values/values.xml -->
-    <eat-comment/>
     <color name="switch_thumb_normal_material_dark">#ffbdbdbd</color>
     <color name="switch_thumb_normal_material_light">#fff1f1f1</color>
     <!-- From: file:/C:/Users/Janek/AndroidStudioProjects/uni-app-android/android-app/res/values/colors.xml -->
@@ -470,23 +455,15 @@
     <string name="website">Website</string>
     <!-- From: file:/C:/Users/Janek/AndroidStudioProjects/uni-app-android/android-app/res/values/styles.xml -->
     <eat-comment/>
-    <style name="ActionBar" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
-
-        <item name="android:background">@drawable/action_bar_background</item>
-        <item name="android:titleTextStyle">@style/TitleTextStyle</item>
-        <item name="android:backgroundStacked">@color/white</item>
-        <item name="android:backgroundSplit">@color/white</item>
-
+    <style name="AppTheme" parent="AppTheme.Base">
+        <item name="android:windowAnimationStyle">@style/YourAnimation.Activity</item>
     </style>
-    <style name="ActionbarTabTheme" parent="@android:style/Widget.Holo.ActionBar.TabView">
-        <item name="android:background">@drawable/tab_bar_background</item>
-    </style>
-    <style name="AppTheme" parent="AppTheme.Base"/>
     <style name="AppTheme.Base" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- ...and here we setting appcompat’s color theming attrs -->
         <item name="colorPrimary">@color/uni_blue</item>
         <item name="colorPrimaryDark">@color/uni_blue_dark</item>
         <item name="colorAccent">@color/uni_blue_light</item>
+
         <!-- The rest of your attributes -->
     </style>
     <!-- From: file:/C:/Users/Janek/AndroidStudioProjects/uni-app-android/android-app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.0/res/values/values.xml -->
@@ -1666,5 +1643,10 @@ m>        <item name="android:textColorLink">@color/link_text_material_dark</ite
         <item name="android:focusable">true</item>
         <item name="android:contentDescription">@string/mr_media_route_button_content_description</item>
         <item name="externalRouteEnabledDrawable">@drawable/mr_ic_media_route_holo_dark</item>
+    </style>
+    <!-- From: file:/C:/Users/Janek/AndroidStudioProjects/uni-app-android/android-app/res/values/styles.xml -->
+    <eat-comment/>
+    <style name="YourAnimation.Activity" parent="android:Animation.Activity">
+
     </style>
 </resources>

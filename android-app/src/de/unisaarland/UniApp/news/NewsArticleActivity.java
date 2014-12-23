@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
@@ -31,7 +32,7 @@ import de.unisaarland.UniApp.news.model.NewsModel;
  * Time: 4:57 PM
  * To change this template use File | Settings | File Templates.
  */
-public class NewsArticleActivity extends Activity {
+public class NewsArticleActivity extends ActionBarActivity {
     private NewsModel model;
     private WebView body = null;
     private ProgressBar pBar = null;
@@ -177,7 +178,7 @@ public class NewsArticleActivity extends Activity {
     * sets the custom navigation bar according to each activity.
     * */
     private void setActionBar() {
-        ActionBar actionBar = getActionBar();
+        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle(R.string.article_text);
         //Enable Up-Navigation
         actionBar.setDisplayHomeAsUpEnabled(true);

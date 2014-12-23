@@ -1,5 +1,6 @@
 package de.unisaarland.UniApp.news.uihelper;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -46,6 +47,7 @@ public class NewsAdapter extends BaseAdapter {
                 NewsModel model = newsModelsArray.get(index);
                 myIntent.putExtra("model", model);
                 context.startActivity(myIntent);
+                Activity activity = (Activity) context;
             }else{
                 AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
                 builder1.setMessage(context.getString(R.string.not_connected));

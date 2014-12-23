@@ -6,7 +6,6 @@ import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,7 +21,7 @@ import de.unisaarland.UniApp.database.DatabaseHandler;
 /**
  * Created by Janek on 13.08.2014.
  */
-public class SearchAdapter extends CursorAdapter {
+public class SearchAdapter extends android.support.v4.widget.CursorAdapter {
     private TextView itemTitle;
     private TextView itemDescription;
     ImageView categoryIcon;

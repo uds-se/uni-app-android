@@ -1,33 +1,40 @@
 package de.unisaarland.UniApp;
 
 import android.os.Bundle;
-import android.preference.PreferenceActivity;
-import android.support.v4.app.NavUtils;
-import android.view.MenuItem;
+import android.preference.PreferenceFragment;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 
 /**
  * Created by Janek on 15.09.2014.
  */
-public class SettingsActivity extends PreferenceActivity {
 
+
+    public class SettingsActivity extends ActionBarActivity {
     public static final String KEY_CAMPUS_CHOOSER= "pref_campus_chooser";
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        addPreferencesFromResource(R.xml.preferences);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-        setTitle(getResources().getString(R.string.settings));
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            // Respond to the action bar's Up/Home button
-            case android.R.id.home:
-                NavUtils.navigateUpFromSameTask(this);
-                return true;
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+
+            // Display the fragment as the main content.
+            getFragmentManager().beginTransaction()
+                    .replace(android.R.id.content, new SettingsFragment())
+                    .commit();
+
+            // use action bar here
+            ActionBar actionBar = getSupportActionBar();
+            actionBar.setDisplayHomeAsUpEnabled(true);
 
         }
-        return super.onOptionsItemSelected(item);
+
+        public static class SettingsFragment extends PreferenceFragment {
+            @Override
+            public void onCreate(Bundle paramBundle) {
+                super.onCreate(paramBundle);
+                addPreferencesFromResource(R.xml.preferences);
+                getActivity().setTheme(R.style.AppTheme);
+            }
+        }
+
     }
-}
