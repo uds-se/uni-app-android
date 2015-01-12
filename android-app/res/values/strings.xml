@@ -124,6 +124,8 @@
     <string name="label_22">vegan food</string>
     <string name="label_23">fish from sustainable fishing</string>
     <!-- Campus -->
+    <string name="c_hom">hom</string>
+    <string name="c_saar">saar</string>
     <string name="c_homburg">Campus Homburg</string>
     <string name="c_saarbruecken">Campus Saarbruecken</string>
     <string name="choose_campus">Choose your campus</string>

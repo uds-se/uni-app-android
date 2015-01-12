@@ -123,17 +123,15 @@
         <meta-data
                 android:name="com.google.android.gms.version"
                 android:value="6171000" />
-        <!-- Debugging Key -
+        <!-- Debugging Key
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyCuY1G1lqxKwqPhcoCdMV1CGr1LX8R_27Q"/>-->
-        <!-- Release Key Key -->
+        <!-- Release Key Key-->
     <meta-data
              android:name="com.google.android.maps.v2.API_KEY"
              android:value="AIzaSyBURTOVSL3tecwvoHo7KaY_WBMbYXvfaeA"/>
-     <uses-feature
-         android:glEsVersion="0x00020000"
-         android:required="true"/>
+
 
 
  </application>

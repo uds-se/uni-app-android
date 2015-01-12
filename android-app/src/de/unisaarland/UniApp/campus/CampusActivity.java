@@ -16,6 +16,7 @@ import android.provider.Settings;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -23,7 +24,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AutoCompleteTextView;
-import android.widget.SearchView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks;
@@ -240,6 +240,7 @@ public class CampusActivity extends ActionBarActivity implements ConnectionCallb
                 map.addTileOverlay(new TileOverlayOptions().tileProvider(new CustomMapTileProvider(getResources().getAssets())));
                 map.addTileOverlay(new TileOverlayOptions().tileProvider(new CustomMapTileSupportProvider(getResources().getAssets())));
                 map.addTileOverlay(new TileOverlayOptions().tileProvider(new CustomMapHomProvider(getResources().getAssets())));
+                //TODO: SupportTileProvider for Hom
                 SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                 String uni_saar = settings.getString(SettingsActivity.KEY_CAMPUS_CHOOSER, "saar");
                 CameraUpdate upd;

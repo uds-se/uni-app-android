@@ -1,10 +1,10 @@
 <resources>
     <string-array name="pref_campus_entries">
-        <item>Saarbrücken</item>
-        <item>Homburg</item>
+        <item>@string/c_saarbruecken</item>
+        <item>@string/c_homburg</item>
     </string-array>
     <string-array name="pref_campus_values">
-        <item>saar</item>
-        <item>hom</item>
+        <item>@string/c_saar</item>
+        <item>@string/c_hom</item>
     </string-array>
 </resources>
