@@ -31,6 +31,9 @@ import de.unisaarland.UniApp.staff.SearchStaffActivity;
  * */
 public class MainActivity extends ActionBarActivity {
 
+    //
+
+
     //Buttons to perform actions
     private Button newsButton = null;
     private Button restaurantButton = null;
@@ -197,4 +200,5 @@ public class MainActivity extends ActionBarActivity {
             }
         });
     }
+
 }

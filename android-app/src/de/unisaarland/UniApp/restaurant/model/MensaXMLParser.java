@@ -31,6 +31,7 @@ public class MensaXMLParser {
     private final String TITLE = "title";
     private final String CATEGORY = "category";
     private final String DESCRIPTION = "description";
+    private final String COMPONENTS = "components";
     private final String KENNZEICHNUNGEN = "kennzeichnungen";
     private final String BEILAGEN = "beilagen";
     private final String PREIS1 = "preis1";
@@ -110,23 +111,27 @@ public class MensaXMLParser {
         parser.require(XmlPullParser.START_TAG, null, TAG);
         ArrayList<MensaItem> mensaItems = new ArrayList<MensaItem>();
 //        String name = parser.getName();
-        while (parser.next() != XmlPullParser.END_TAG) {
-            if (parser.getEventType() != XmlPullParser.START_TAG) {
-                continue;
+            while (parser.next() != XmlPullParser.END_TAG) {
+                if (parser.getEventType() != XmlPullParser.START_TAG) {
+                    continue;
+                }
+                MensaItem item = parseMensaItem(parser);
+                mensaItems.add(item);
             }
-            MensaItem item = parseMensaItem(parser);
-            mensaItems.add(item);
-        }
         return mensaItems;
     }
+
 
     private MensaItem parseMensaItem(XmlPullParser parser) throws IOException, XmlPullParserException {
         parser.require(XmlPullParser.START_TAG, null, ITEM_TAG);
         MensaItem model = new MensaItem();
-
-        while (parser.next() != XmlPullParser.END_TAG) {
+        Boolean components_open = true;
+        while (parser.next() != XmlPullParser.END_TAG ) {
             if (parser.getEventType() != XmlPullParser.START_TAG) {
                 continue;
+            }
+            if (parser.getEventType() != XmlPullParser.END_TAG) {
+                components_open = false;
             }
             String name = parser.getName();
             if (name.equals(TITLE)) {
@@ -145,14 +150,31 @@ public class MensaXMLParser {
                 model.setPreis2(getElementValue(parser, PREIS2));
             } else if(name.equals(PREIS3)){
                 model.setPreis3(getElementValue(parser, PREIS3));
-            } else if(name.equals(COLOR)){
+            } else if(name.equals(COLOR)) {
                 model.setColor(getElementValue(parser, COLOR));
             } else {
-                readText(parser);
+                skip(parser);
             }
         }
         model.setTag(new Date(date));
         return model;
+    }
+
+    private void skip(XmlPullParser parser) throws XmlPullParserException, IOException {
+        if (parser.getEventType() != XmlPullParser.START_TAG) {
+            throw new IllegalStateException();
+        }
+        int depth = 1;
+        while (depth != 0) {
+            switch (parser.next()) {
+                case XmlPullParser.END_TAG:
+                    depth--;
+                    break;
+                case XmlPullParser.START_TAG:
+                    depth++;
+                    break;
+            }
+        }
     }
 
     private String getElementValue(XmlPullParser parser,String tag) throws IOException, XmlPullParserException {
