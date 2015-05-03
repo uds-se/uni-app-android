@@ -33,7 +33,7 @@ public class DatabaseHandler extends SQLiteAssetHelper {
     private Context context = null;
     // path where the data base dhould be copied from the assets folder on first run and name of the database used in project
     private static final String DATABASE_NAME = "pointOfInterest.sqlite3";
-    private static final int DATABASE_VERSION = 13;
+    private static final int DATABASE_VERSION = 20;
     private final String DB_PATH = "/data/data/de.unisaarland.UniApp/databases/";
 
 
@@ -337,7 +337,7 @@ public class DatabaseHandler extends SQLiteAssetHelper {
     /*
     * copy the database from assets folder to the path given above if not already copied.
     * */
-    public void crateDatabase() throws IOException {
+    public void createDatabase() throws IOException {
         boolean vtVarMi = isDatabaseExist();
 
         if (!vtVarMi) {
@@ -413,7 +413,7 @@ public class DatabaseHandler extends SQLiteAssetHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         setForcedUpgrade();
         this.context = context;
-        database = getWritableDatabase();
+        database = getReadableDatabase();
        /* try {
             crateDatabase();
             openDB();
