@@ -23,7 +23,6 @@ dependencies {
     compile 'com.android.support:support-v13:21.0.0'
     compile 'com.android.support:support-v4:21.0.0'
     //Other
-    compile 'com.readystatesoftware.sqliteasset:sqliteassethelper:2.0.1'
     compile 'org.jsoup:jsoup:1.8.1'
 }
 
