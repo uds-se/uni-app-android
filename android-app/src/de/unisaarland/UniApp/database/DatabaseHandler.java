@@ -17,6 +17,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.NoSuchElementException;
 
 import de.unisaarland.UniApp.SettingsActivity;
 import de.unisaarland.UniApp.bus.model.PointOfInterest;
@@ -191,27 +192,34 @@ public class DatabaseHandler {
 
     public ArrayList<PointOfInterest> getPointsOfInterestForIDs(ArrayList<Integer> ids) {
         ArrayList<PointOfInterest> result = new ArrayList<PointOfInterest>();
-        for (int i = 0; i < ids.size(); i++) {
-            String idList = Integer.toString(i);
-            Cursor cursor = campusQuery("pointOfInterest", new String[]{"title", "subtitle", "canshowleftcallout",
-                    "canshowrightcallout", "color", "website", "lat", "longi", "ID"}, "ID = ?",
-                    new String[]{idList}, null, null, null);
-
-            while (cursor.moveToNext()) {
-                PointOfInterest poi = new PointOfInterest();
-                poi.setTitle(cursor.getString(0));
-                poi.setSubtitle(cursor.getString(1));
-                poi.setCanShowLeftCallOut(cursor.getInt(2));
-                poi.setCanShowRightCallOut(cursor.getInt(3));
-                poi.setColor(cursor.getInt(4));
-                poi.setWebsite(cursor.getString(5));
-                poi.setLatitude(cursor.getFloat(6));
-                poi.setLongitude(cursor.getFloat(7));
-                poi.setID(cursor.getInt(8));
-                result.add(poi);
-            }
-            cursor.close();
+        if (ids.isEmpty()) {
+            Log.w(TAG, new NoSuchElementException("empty ids"));
+            return result;
         }
+
+        StringBuilder queryBuilder = new StringBuilder("ID IN (");
+        for (int i = 0; i < ids.size(); ++i)
+            queryBuilder.append(i == 0 ? "" : ", ").append(Integer.toString(ids.get(i)));
+        String query = queryBuilder.append(")").toString();
+        Cursor cursor = campusQuery("pointOfInterest", new String[]{"title", "subtitle", "canshowleftcallout",
+                "canshowrightcallout", "color", "website", "lat", "longi", "ID"}, query,
+                null, null, null, null);
+
+        while (cursor.moveToNext()) {
+            PointOfInterest poi = new PointOfInterest();
+            poi.setTitle(cursor.getString(0));
+            poi.setSubtitle(cursor.getString(1));
+            poi.setCanShowLeftCallOut(cursor.getInt(2));
+            poi.setCanShowRightCallOut(cursor.getInt(3));
+            poi.setColor(cursor.getInt(4));
+            poi.setWebsite(cursor.getString(5));
+            poi.setLatitude(cursor.getFloat(6));
+            poi.setLongitude(cursor.getFloat(7));
+            poi.setID(cursor.getInt(8));
+            result.add(poi);
+        }
+        cursor.close();
+
         return result;
     }
 

@@ -46,27 +46,18 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.TileOverlayOptions;
 
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 
 import de.unisaarland.UniApp.R;
 import de.unisaarland.UniApp.SettingsActivity;
 import de.unisaarland.UniApp.bus.BusDetailActivity;
 import de.unisaarland.UniApp.bus.model.PointOfInterest;
-import de.unisaarland.UniApp.campus.model.CustomMapHomProvider;
 import de.unisaarland.UniApp.campus.model.CustomMapTileProvider;
-import de.unisaarland.UniApp.campus.model.CustomMapTileSupportProvider;
 import de.unisaarland.UniApp.campus.uihelper.CustomInfoWindowAdapter;
 import de.unisaarland.UniApp.campus.uihelper.PanelButtonListener;
 import de.unisaarland.UniApp.campus.uihelper.SearchAdapter;
 import de.unisaarland.UniApp.database.DatabaseHandler;
 import de.unisaarland.UniApp.restaurant.RestaurantActivity;
-
-/**
- * Created with IntelliJ IDEA.
- * User: Shahzad
- * Date: 12/3/13
- * Time: 4:45 PM
- * To change this template use File | Settings | File Templates.
- */
 
 /*
 * It implements Location listeners to show the distance of the bus stop from users current location.
@@ -74,6 +65,8 @@ import de.unisaarland.UniApp.restaurant.RestaurantActivity;
 public class CampusActivity extends ActionBarActivity implements ConnectionCallbacks,OnConnectionFailedListener,
         LocationListener,
         GoogleMap.OnMyLocationButtonClickListener, OnMarkerClickListener,OnInfoWindowClickListener {
+
+    private static final String TAG = CampusActivity.class.getSimpleName();
 
     private GoogleMap map;
     private LocationClient locationClient;
@@ -94,6 +87,7 @@ public class CampusActivity extends ActionBarActivity implements ConnectionCallb
     private AutoCompleteTextView search;
     private ArrayList<PointOfInterest> searchBase;
     private Menu menu;
+    private DatabaseHandler db = null;
 
     /*
     * Will be called when activity created first time e.g. from scratch and check if intent has any extra information
@@ -106,6 +100,7 @@ public class CampusActivity extends ActionBarActivity implements ConnectionCallb
             infoBuilding = savedInstanceState.getString("building");
         }
         setContentView(R.layout.campus_layout);
+        db = new DatabaseHandler(this);
     }
 
 
@@ -234,27 +229,21 @@ public class CampusActivity extends ActionBarActivity implements ConnectionCallb
                 map.setBuildingsEnabled(false);
                 map.setMapType(1);
                 map.getUiSettings().setZoomControlsEnabled(false);
-                map.setInfoWindowAdapter(new CustomInfoWindowAdapter(this,poisMap));
+                map.setInfoWindowAdapter(new CustomInfoWindowAdapter(this, poisMap));
                 map.setOnInfoWindowClickListener(this);
                 for (CustomMapTileProvider prov : CustomMapTileProvider.allTileProviders(getResources().getAssets()))
                     map.addTileOverlay(new TileOverlayOptions().tileProvider(prov));
 
                 SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                 String uni_saar = settings.getString(SettingsActivity.KEY_CAMPUS_CHOOSER, "saar");
-                CameraUpdate upd;
-                if (uni_saar.equals("saar"))
-                    upd = CameraUpdateFactory.newLatLngZoom(new LatLng(49.25419, 7.041324), 15);
-                else
-                    upd = CameraUpdateFactory.newLatLngZoom(new LatLng(49.305582, 7.344296), 15);
+                LatLng latlng = uni_saar.equals("saar") ? new LatLng(49.25419, 7.041324)
+                        : new LatLng(49.305582, 7.344296);
+                CameraUpdate upd = CameraUpdateFactory.newLatLngZoom(latlng, 15);
                 map.moveCamera(upd);
                 // if info building != null means activity is called from search result details page
                 // so it will get the building position from the database and will set the marker there.
-                if(infoBuilding != null){
-                    DatabaseHandler db = new DatabaseHandler(CampusActivity.this);
-                    ArrayList<PointOfInterest> pois = db.getPointsOfInterestForTitle(infoBuilding);
-                    db.close();
-                    pinPOIsInArray(pois);
-                }
+                if (infoBuilding != null)
+                    pinPOIsInArray(db.getPointsOfInterestForTitle(infoBuilding));
             }
         }
      //   Button panelButton = (Button) findViewById(R.id.panel_button);
@@ -311,17 +300,13 @@ public class CampusActivity extends ActionBarActivity implements ConnectionCallb
         inflater.inflate(R.menu.campus_search_activity, menu);
         //Enabling Up-Navigation
         actionBar.setDisplayHomeAsUpEnabled(true);
-        //Get cursor for the searchbar
-        DatabaseHandler db = new DatabaseHandler(this);
-        Cursor cursor = db.getAllData();
-        db.close();
         //Setting up the search widget
         this.menu = menu;
 
         SearchManager manager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         android.support.v7.widget.SearchView search = (android.support.v7.widget.SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.activity_search));
         search.setSearchableInfo(manager.getSearchableInfo(getComponentName()));
-        search.setSuggestionsAdapter(new SearchAdapter(this, cursor, this));
+        search.setSuggestionsAdapter(new SearchAdapter(this, db.getAllData(), this));
 
 
         search.setOnQueryTextListener(new android.support.v7.widget.SearchView.OnQueryTextListener() {
@@ -331,6 +316,7 @@ public class CampusActivity extends ActionBarActivity implements ConnectionCallb
                 loadData(query);
                 return true;
             }
+
             @Override
             public boolean onQueryTextSubmit(String query) {
                 loadData(query);
@@ -343,15 +329,13 @@ public class CampusActivity extends ActionBarActivity implements ConnectionCallb
 
 
     private void loadData(String query) {
-            //When the user input changes, the search results have to be adjusted
-            DatabaseHandler db = new DatabaseHandler(this);
-            Cursor cursor = db.getCursorPointsOfInterestPartialMatchedForSearchKey(query);
-            db.close();
+        //When the user input changes, the search results have to be adjusted
+        Cursor cursor = db.getCursorPointsOfInterestPartialMatchedForSearchKey(query);
 
-            SearchManager manager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-            final android.support.v7.widget.SearchView search = (android.support.v7.widget.SearchView) menu.findItem(R.id.activity_search).getActionView();
-            search.setSearchableInfo(manager.getSearchableInfo(getComponentName()));
-            search.setSuggestionsAdapter(new SearchAdapter(this, cursor, this));
+        SearchManager manager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        final android.support.v7.widget.SearchView search = (android.support.v7.widget.SearchView) menu.findItem(R.id.activity_search).getActionView();
+        search.setSearchableInfo(manager.getSearchableInfo(getComponentName()));
+        search.setSuggestionsAdapter(new SearchAdapter(this, cursor, this));
     }
 
     // Handling the Action Bar Buttons
@@ -383,9 +367,7 @@ public class CampusActivity extends ActionBarActivity implements ConnectionCallb
         super.onActivityResult(requestCode, resultCode, data);
         if (REQUEST_CODE == requestCode && resultCode == RESULT_OK && data.getExtras() != null) {
             ArrayList<Integer> ids = (ArrayList<Integer>) data.getExtras().get("idsArray");
-            DatabaseHandler db = new DatabaseHandler(this);
             ArrayList<PointOfInterest> pois = db.getPointsOfInterestForIDs(ids);
-            db.close();
             pinPOIsInArray(pois);
         }
     }
@@ -395,32 +377,32 @@ public class CampusActivity extends ActionBarActivity implements ConnectionCallb
     * all point of interests are displayed on the screen.
     * */
     private boolean pinPOIsInArray(ArrayList<PointOfInterest> POIs){
-        boolean res = false;
-        float lati = 0.0f;
-        float longi = 0.0f;
-        if (POIs.size() > 0) {
-            for(PointOfInterest poi : POIs){
-                int tempColor = poi.getColor();
-                float color = BitmapDescriptorFactory.HUE_RED;
-
-                if(tempColor == 1){
-                    color = BitmapDescriptorFactory.HUE_CYAN;
-                }else if(tempColor == 2){
-                    color = BitmapDescriptorFactory.HUE_GREEN;
-                }
-                poisMap.put(poi.getTitle(),poi);
-               Marker m =map.addMarker(new MarkerOptions()
-                       .position(new LatLng(poi.getLatitude(), poi.getLongitude()))
-                       .title(poi.getTitle())
-                       .snippet(poi.getSubtitle())
-                       .icon(BitmapDescriptorFactory.defaultMarker(color)));
-                lati = poi.getLatitude();
-                longi = poi.getLongitude();
-                markers.add(m);
-            }
-            res = true;
+        if (POIs.isEmpty()) {
+            Log.w(TAG, new NoSuchElementException("empty POI list"));
+            return false;
         }
 
+        float lati = 0.0f;
+        float longi = 0.0f;
+        for(PointOfInterest poi : POIs){
+            int tempColor = poi.getColor();
+            float color = BitmapDescriptorFactory.HUE_RED;
+
+            if(tempColor == 1){
+                color = BitmapDescriptorFactory.HUE_CYAN;
+            }else if(tempColor == 2){
+                color = BitmapDescriptorFactory.HUE_GREEN;
+            }
+            poisMap.put(poi.getTitle(),poi);
+            Marker m =map.addMarker(new MarkerOptions()
+                   .position(new LatLng(poi.getLatitude(), poi.getLongitude()))
+                   .title(poi.getTitle())
+                   .snippet(poi.getSubtitle())
+                   .icon(BitmapDescriptorFactory.defaultMarker(color)));
+            lati = poi.getLatitude();
+            longi = poi.getLongitude();
+            markers.add(m);
+        }
 
         LatLngBounds.Builder builder = LatLngBounds.builder();
         for(Marker m : markers){
@@ -437,8 +419,8 @@ public class CampusActivity extends ActionBarActivity implements ConnectionCallb
         }
             Log.e("MyTag",e.getMessage());
         }
-        return res;
 
+        return true;
     }
 
     // will adjust the bounds to include markers
