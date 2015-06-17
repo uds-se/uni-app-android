@@ -236,11 +236,9 @@ public class CampusActivity extends ActionBarActivity implements ConnectionCallb
                 map.getUiSettings().setZoomControlsEnabled(false);
                 map.setInfoWindowAdapter(new CustomInfoWindowAdapter(this,poisMap));
                 map.setOnInfoWindowClickListener(this);
-                //
-                map.addTileOverlay(new TileOverlayOptions().tileProvider(new CustomMapTileProvider(getResources().getAssets())));
-                map.addTileOverlay(new TileOverlayOptions().tileProvider(new CustomMapTileSupportProvider(getResources().getAssets())));
-                map.addTileOverlay(new TileOverlayOptions().tileProvider(new CustomMapHomProvider(getResources().getAssets())));
-                //TODO: SupportTileProvider for Hom
+                for (CustomMapTileProvider prov : CustomMapTileProvider.allTileProviders(getResources().getAssets()))
+                    map.addTileOverlay(new TileOverlayOptions().tileProvider(prov));
+
                 SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                 String uni_saar = settings.getString(SettingsActivity.KEY_CAMPUS_CHOOSER, "saar");
                 CameraUpdate upd;

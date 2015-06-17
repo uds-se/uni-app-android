@@ -22,11 +22,8 @@ import de.unisaarland.UniApp.R;
 import de.unisaarland.UniApp.bus.model.PointOfInterest;
 import de.unisaarland.UniApp.campus.CampusActivity;
 import de.unisaarland.UniApp.campus.model.CustomMapTileProvider;
-import de.unisaarland.UniApp.campus.model.CustomMapTileSupportProvider;
 
-/**
- * Created by Shahzad on 1/6/14.
- */
+
 public class PanelButtonListener implements View.OnClickListener{
     private final GoogleMap map;
     private final CampusActivity campusActivity;
@@ -106,8 +103,8 @@ public class PanelButtonListener implements View.OnClickListener{
                 map.getUiSettings().setZoomControlsEnabled(false);
                 map.setInfoWindowAdapter(new CustomInfoWindowAdapter(campusActivity, poisMap));
                 map.setOnInfoWindowClickListener(campusActivity);
-                map.addTileOverlay(new TileOverlayOptions().tileProvider(new CustomMapTileProvider(campusActivity.getResources().getAssets())));
-                map.addTileOverlay(new TileOverlayOptions().tileProvider(new CustomMapTileSupportProvider(campusActivity.getResources().getAssets())));
+                for (CustomMapTileProvider prov : CustomMapTileProvider.allTileProviders(campusActivity.getResources().getAssets()))
+                    map.addTileOverlay(new TileOverlayOptions().tileProvider(prov));
                 CameraUpdate upd = CameraUpdateFactory.newLatLngZoom(new LatLng(49.25419, 7.041324), 15);
                 map.moveCamera(upd);
                 optionMenuDialog.dismiss();

@@ -8,52 +8,105 @@ import com.google.android.gms.maps.model.Tile;
 import com.google.android.gms.maps.model.TileProvider;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Shahzad
- * Date: 12/14/13
- * Time: 2:05 AM
- * To change this template use File | Settings | File Templates.
- */
-/*
-* provides custom tiles
-* */
-public class CustomMapTileProvider implements TileProvider {
+public abstract class CustomMapTileProvider implements TileProvider {
+
+    public static class Hom extends CustomMapTileProvider {
+
+        public Hom(AssetManager assets) {
+            super(assets, "tiles/hom/OverlayTiles");
+        }
+
+        @Override
+        public final SparseArray<Rect> getTileZooms() {
+            return new SparseArray<Rect>() {{
+                put(14,  new Rect(8525,  5604,  8526,  5605 ));
+                put(15,  new Rect(17051,  11209,  17053,  11210 ));
+                put(16, new Rect(34103,  22419,  34106,  22421 ));
+                put(17, new Rect(68207, 44839, 68212, 44842));
+            }};
+        }
+
+    }
+
+    public static class Saar extends CustomMapTileProvider {
+
+        public Saar(AssetManager assets) {
+            super(assets, "tiles/saar/OverlayTiles");
+        }
+
+        @Override
+        public final SparseArray<Rect> getTileZooms() {
+            return new SparseArray<Rect>() {{
+                put(14,  new Rect(8512,  10774,  8512,  10775 ));
+                put(15,  new Rect(107024,  21549,  107025,  21550 ));
+                put(16, new Rect(34048,  43099,  34051,  43101 ));
+                put(17, new Rect(68097, 86198, 68102, 86203));
+                put(18, new Rect(136194, 172396, 136205, 172406));
+            }};
+        }
+
+    }
+
+    public static class SaarSport extends CustomMapTileProvider {
+
+        public SaarSport(AssetManager assets) {
+            super(assets, "tiles/saar/OverlayTilesSport");
+        }
+
+        @Override
+        public final SparseArray<Rect> getTileZooms() {
+            return new SparseArray<Rect>() {{
+                put(14,  new Rect(135,  180,  135,  181 ));
+                put(15,  new Rect(270,  361,  271,  363 ));
+                put(16, new Rect(541,  723,  543,  726 ));
+                put(17, new Rect(1082, 1447, 1086, 1452));
+                put(18, new Rect(2165, 2894, 2172, 2905));
+                put(19, new Rect(2165, 2894, 2172, 2905));
+            }};
+        }
+
+    }
+
+    public static CustomMapTileProvider[] allTileProviders(AssetManager assets) {
+        return new CustomMapTileProvider[] {
+            new Saar(assets),
+            new SaarSport(assets),
+            new Hom(assets)
+        };
+    }
+
     private static final int TILE_WIDTH = 256;
     private static final int TILE_HEIGHT = 256;
     private static final int BUFFER_SIZE = 16 * 1024;
 
-    private AssetManager mAssets;
+    private final String tilesFolder;
 
-    public CustomMapTileProvider(AssetManager assets) {
+    private final AssetManager mAssets;
+
+    public CustomMapTileProvider(AssetManager assets, String tilesFolder) {
         mAssets = assets;
+        this.tilesFolder = tilesFolder;
     }
 
-    private static final SparseArray<Rect> TILE_ZOOMS = new SparseArray<Rect>() {{
-        put(14,  new Rect(8512,  10774,  8512,  10775 ));
-        put(15,  new Rect(107024,  21549,  107025,  21550 ));
-        put(16, new Rect(34048,  43099,  34051,  43101 ));
-        put(17, new Rect(68097, 86198, 68102, 86203));
-        put(18, new Rect(136194, 172396, 136205, 172406));
-    }};
+    protected abstract SparseArray<Rect> getTileZooms();
 
     private boolean hasTile(int x, int y, int zoom) {
-        Rect b = TILE_ZOOMS.get(zoom);
-        return b == null ? false : true;
+        Rect b = getTileZooms().get(zoom);
+        return b != null;
 //        (b.left <= x && x <= b.right && b.top <= y && y <= b.bottom);
     }
 
     @Override
     public Tile getTile(int x, int y, int zoom) {
         y = fixYCoordinate(y, zoom);
-        if(hasTile(x,y,zoom)){
-            byte[] image = readTileImage(x, y, zoom);
-            return image == null ? null : new Tile(TILE_WIDTH, TILE_HEIGHT, image);
-        }
-        return NO_TILE;
+        if (!hasTile(x,y,zoom))
+            return NO_TILE;
+        byte[] image = readTileImage(x, y, zoom);
+        return image == null ? null : new Tile(TILE_WIDTH, TILE_HEIGHT, image);
     }
 
     private byte[] readTileImage(int x, int y, int zoom) {
@@ -61,7 +114,11 @@ public class CustomMapTileProvider implements TileProvider {
         ByteArrayOutputStream buffer = null;
 
         try {
-            in = mAssets.open(getTileFilename(x, y, zoom));
+            try {
+                in = mAssets.open(getTileFilename(x, y, zoom));
+            } catch (FileNotFoundException e) {
+                return null;
+            }
             buffer = new ByteArrayOutputStream();
 
             int nRead;
@@ -74,19 +131,14 @@ public class CustomMapTileProvider implements TileProvider {
 
             return buffer.toByteArray();
         } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        } catch (OutOfMemoryError e) {
-            e.printStackTrace();
-            return null;
-        } finally {
-            if (in != null) try { in.close(); } catch (Exception ignored) {}
-            if (buffer != null) try { buffer.close(); } catch (Exception ignored) {}
+            AssertionError err = new AssertionError("error reading tile: " + e);
+            err.setStackTrace(e.getStackTrace());
+            throw err;
         }
     }
 
     private String getTileFilename(int x, int y, int zoom) {
-        return "tiles/saar/OverlayTiles/" + zoom + '/' + x + '/' + y + ".png";
+        return tilesFolder + '/' + zoom + '/' + x + '/' + y + ".png";
     }
 
     /**
