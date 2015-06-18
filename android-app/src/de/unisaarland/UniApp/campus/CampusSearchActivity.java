@@ -152,7 +152,7 @@ public class CampusSearchActivity extends ActionBarActivity {
             categoryTitle.setVisibility(View.VISIBLE);
 
             try {
-                Drawable d = Drawable.createFromStream(context.getAssets().open("cat" + categoryIds.get(position) + ".png"), null);
+                Drawable d = Drawable.createFromStream(context.getAssets().open("cat" + categoryIds.get(position) + ".webp"), null);
                 ImageView categoryIcon = (ImageView) convertView.findViewById(R.id.category_icon);
                 categoryIcon.setBackgroundDrawable(d);
 

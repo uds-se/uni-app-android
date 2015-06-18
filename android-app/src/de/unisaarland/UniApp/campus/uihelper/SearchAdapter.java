@@ -47,7 +47,7 @@ public class SearchAdapter extends android.support.v4.widget.CursorAdapter {
             itemTitle.setText(title);
             itemDescription.setText(subtitle);
             try {
-                Drawable d = Drawable.createFromStream(context.getAssets().open("cat" + categoryid + ".png"), null);
+                Drawable d = Drawable.createFromStream(context.getAssets().open("cat" + categoryid + ".webp"), null);
                 categoryIcon.setBackgroundDrawable(d);
             } catch (IOException e) {
                 e.printStackTrace();
