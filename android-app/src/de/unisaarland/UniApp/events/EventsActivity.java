@@ -291,10 +291,7 @@ public class EventsActivity extends ActionBarActivity {
     * */
     private boolean eventsFileExist() {
         File f = new File(getCacheDir()+ EVENTS_FILE_NAME);
-        if(f.exists()) {
-            return true;
-        }
-        return false;
+        return f.exists();
     }
 
     // release the resources.

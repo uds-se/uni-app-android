@@ -90,7 +90,7 @@ public class ViewFlow extends AdapterView<Adapter> {
 	/**
 	 * Receives call backs when a new {@link android.view.View} has been scrolled to.
 	 */
-	public static interface ViewSwitchListener {
+	public interface ViewSwitchListener {
 
 		/**
 		 * This method is called when a new View has been scrolled to.
@@ -104,7 +104,7 @@ public class ViewFlow extends AdapterView<Adapter> {
 
 	}
 
-	public static interface ViewLazyInitializeListener {
+	public interface ViewLazyInitializeListener {
 		void onViewLazyInitialize(View view, int position);
 	}
 

@@ -150,10 +150,7 @@ public class NewsActivity extends ActionBarActivity {
     * */
     private boolean newsFileExist() {
         File f = new File(getCacheDir()+ Util.NEWS_FILE_NAME);
-        if(f.exists()) {
-            return true;
-        }
-        return false;
+        return f.exists();
     }
 
     /*

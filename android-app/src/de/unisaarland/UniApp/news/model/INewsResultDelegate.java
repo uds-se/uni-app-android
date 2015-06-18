@@ -14,5 +14,5 @@ public interface INewsResultDelegate {
     * call back method of class who implement this interface will be called when
     * news model list will be populated after parsing the news xml file.
     * */
-    public void newsList(ArrayList<NewsModel> newsList);
+    void newsList(ArrayList<NewsModel> newsList);
 }

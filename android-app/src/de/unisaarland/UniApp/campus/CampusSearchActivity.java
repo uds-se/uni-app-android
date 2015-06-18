@@ -227,6 +227,5 @@ public class CampusSearchActivity extends ActionBarActivity {
             return true;
         }
 
-        ;
     };
 }

@@ -12,11 +12,11 @@ import org.xmlpull.v1.XmlPullParser;
  */
 public interface INetworkLoaderDelegate {
 
-    public void onFailure(String message);
+    void onFailure(String message);
 
     /**
      * Automatically called when connect succeeds.
      *
      */
-    public void onSuccess(XmlPullParser parser);
+    void onSuccess(XmlPullParser parser);
 }

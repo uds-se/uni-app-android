@@ -39,7 +39,7 @@ public class SearchAdapter extends android.support.v4.widget.CursorAdapter {
     public void bindView(View view, Context context, Cursor cursor) {
         itemTitle = (TextView) view.findViewById(R.id.title);
             itemDescription = (TextView) view.findViewById(R.id.description);
-            categoryIcon = (ImageView) (ImageView) view.findViewById(R.id.category_icon);
+            categoryIcon = (ImageView) view.findViewById(R.id.category_icon);
             String title = cursor.getString(1);
             String subtitle = cursor.getString(2);
             String categoryid = cursor.getString(cursor.getColumnIndex("categorieID"));

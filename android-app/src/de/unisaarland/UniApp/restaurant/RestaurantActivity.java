@@ -252,10 +252,7 @@ public class RestaurantActivity extends ActionBarActivity {
 
     private boolean restaurantFileExist() {
         File f = new File(getCacheDir()+ RESTAURANT_FILE_NAME);
-        if(f.exists()) {
-            return true;
-        }
-        return false;
+        return f.exists();
     }
     private void removeOldDataFromFile() {
             boolean changed = false;

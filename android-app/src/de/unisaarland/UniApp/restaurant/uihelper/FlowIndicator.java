@@ -31,7 +31,7 @@ public interface FlowIndicator extends ViewFlow.ViewSwitchListener {
 	 * 
 	 * @param view
 	 */
-	public void setViewFlow(ViewFlow view);
+	void setViewFlow(ViewFlow view);
 
 	/**
 	 * The scroll position has been changed. A FlowIndicator may implement this
@@ -42,5 +42,5 @@ public interface FlowIndicator extends ViewFlow.ViewSwitchListener {
 	 * @param oldh
 	 * @param oldv
 	 */
-	public void onScrolled(int h, int v, int oldh, int oldv);
+	void onScrolled(int h, int v, int oldh, int oldv);
 }

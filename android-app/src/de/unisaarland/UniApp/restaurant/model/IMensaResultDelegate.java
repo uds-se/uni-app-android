@@ -11,5 +11,5 @@ import java.util.HashMap;
  * To change this template use File | Settings | File Templates.
  */
 public interface IMensaResultDelegate {
-    public void mensaItemsList(HashMap<String,ArrayList<MensaItem>> daysDictionary);
+    void mensaItemsList(HashMap<String, ArrayList<MensaItem>> daysDictionary);
 }

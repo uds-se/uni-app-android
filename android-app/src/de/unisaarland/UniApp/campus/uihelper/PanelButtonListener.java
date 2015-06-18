@@ -42,7 +42,7 @@ public class PanelButtonListener implements View.OnClickListener{
         View view = layoutInflater.inflate(R.layout.map_options_layout, null);
         final Dialog optionMenuDialog = new Dialog(campusActivity);
         optionMenuDialog.setTitle(R.string.settings);
-        Context context = (Context) campusActivity;
+        Context context = campusActivity;
         final float scale = context.getResources().getDisplayMetrics().density;
         int width = (int) (200 * scale + 0.5f);
         int height = (int) (220 * scale + 0.5f);

@@ -14,5 +14,5 @@ public interface IEventsResultDelegate {
     * call back method of class who implement this interface will be called when
     * event model list will be populated after parsing the event xml file.
     * */
-    public void eventsList(ArrayList<EventsModel> newsList);
+    void eventsList(ArrayList<EventsModel> newsList);
 }

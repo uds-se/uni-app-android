@@ -96,10 +96,7 @@ public class SearchResultActivity extends ActionBarActivity {
 
     private boolean tempSearchFileExist() {
         File f = new File(getFilesDir().getAbsolutePath()+ Util.TEMP_STAFF_SEARCH_FILE);
-        if(f.exists()) {
-            return true;
-        }
-        return false;
+        return f.exists();
     }
 
     private AsyncTask<Void,Void,Integer> getTask(final String url){
