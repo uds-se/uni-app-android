@@ -138,7 +138,7 @@ public abstract class CustomMapTileProvider implements TileProvider {
     }
 
     private String getTileFilename(int x, int y, int zoom) {
-        return tilesFolder + '/' + zoom + '/' + x + '/' + y + ".png";
+        return tilesFolder + '/' + zoom + '/' + x + '/' + y + ".webp";
     }
 
     /**
