@@ -12,7 +12,6 @@
     <string name="search_for_staff_text">Search for staff</string>
     <string name="search_results">Search Results</string>
     <string name="info">Info</string>
-    <string name="homeText">Home</string>
     <string name="aboutText">About</string>
     <string name="empty_string">""</string>
     <string name="bus_stations_text">Bus Stations</string>
@@ -26,7 +25,6 @@
     <string name="mensa">Mensa</string>
     <string name="mensa_cafe">Mensacafé</string>
     <string name="heroes_cafe">Heroes café</string>
-    <string name="heroes_cafe_full_name">Fast Food Heroes</string>
     <string name="auslander_cafe">Ausländercafé</string>
     <string name="juristen_cafe">Juristencafé</string>
     <string name="during_semester">During the semester:</string>
@@ -43,8 +41,6 @@
     <string name="during_break">During semester break:</string>
     <string name="mon_to_fri_time_hom">11.00 am - 14.30 pm</string>
     <string name="mon_to_fri_time_hom_break"> 11.00 am - 14.00 pm</string>
-    <string name="mon_to_fri_time_hom_eat">11.15 am - 14.00 pm</string>
-    <string name="mon_to_fri_time_hom__eat_break"> 11.15 am - 13.30 pm</string>
     <string name="mon_to_thur_time_break">11:30 am - 2:15 pm</string>
     <string name="serving">Serving counter</string>
     <string name="friday_time_break">11:30 am - 2:00 pm</string>
@@ -58,7 +54,6 @@
     <string name="mon_to_thur_auslander_cafe_time_break">9:00 am - 6:00 pm</string>
     <string name="fri_and_bank_holidayas">Friday and before bank holidays:</string>
     <string name="fri_and_bank_holi_time">9:00 am - 5:00 pm</string>
-    <string name="fri_and_bank_holi_time_break">9:00 am - 4:00 pm</string>
     <string name="friday_time_juristen">7:00 am - 3:00 pm</string>
     <string name="mon_to_fri_juristen_cafe_time_break">7:00 am - 3:00 pm</string>
     <string name="article_text">Article</string>
@@ -97,32 +92,7 @@
     <string name="special_thanks">Special Thanks to:</string>
     <string name="search">Search</string>
     <string name="settings">Settings</string>
-    <string name="cooperation_se_team">In cooperation with the project team of the Software Engineering lecture:</string>
-    <string name="label">Label</string>
     <string name="labels">Labels</string>
-    <!-- Food labels -->
-    <string name="label_1">with dye</string>
-    <string name="label_2">with preservatives</string>
-    <string name="label_3">with antioxidants</string>
-    <string name="label_4">with flavor enhancer</string>
-    <string name="label_5">with sulfurized</string>
-    <string name="label_6">blackened</string>
-    <string name="label_7">waxed</string>
-    <string name="label_8">with phosphate</string>
-    <string name="label_9">with sweeteners</string>
-    <string name="label_10">contains a source of phenylalanine</string>
-    <string name="label_11">with lactoprotein</string>
-    <string name="label_12">with parts of poultry</string>
-    <string name="label_13">with pork</string>
-    <string name="label_14">with alcohol</string>
-    <string name="label_15">way contain traces of nuts</string>
-    <string name="label_16">without pork</string>
-    <string name="label_17">with garlic</string>
-    <string name="label_18">vegetarian</string>
-    <string name="label_19">organic food</string>
-    <string name="label_20">raising agent</string>
-    <string name="label_22">vegan food</string>
-    <string name="label_23">fish from sustainable fishing</string>
     <!-- Campus -->
     <string name="c_hom">hom</string>
     <string name="c_saar">saar</string>

@@ -12,7 +12,6 @@
     <string name="search_for_staff_text">Suche nach Personal</string>
     <string name="search_results">Ergebnisse</string>
     <string name="info">Info</string>
-    <string name="homeText">Start</string>
     <string name="aboutText">Über diese App</string>
     <string name="empty_string">""</string>
     <string name="bus_stations_text">Haltestellen</string>
@@ -25,7 +24,6 @@
     <string name="opening_hours">Öffnungszeiten</string>
     <string name="mensa">Mensa</string>
     <string name="heroes_cafe">Heroes café</string>
-    <string name="heroes_cafe_full_name">Fast Food Heroes</string>
     <string name="mensa_cafe">Mensacafé</string>
     <string name="auslander_cafe">Ausländercafé</string>
     <string name="juristen_cafe">Juristencafé</string>
@@ -44,8 +42,6 @@
     <string name="serving">Essensausgabe</string>
     <string name="mon_to_fri_time_hom">11.00 - 14.30 Uhr</string>
     <string name="mon_to_fri_time_hom_break"> 11.00 - 14.00 Uhr</string>
-    <string name="mon_to_fri_time_hom_eat">11.15 - 14.00 Uhr</string>
-    <string name="mon_to_fri_time_hom__eat_break"> 11.15 - 13.30 Uhr</string>
 
     <string name="mon_to_thur_time_break">11:30 Uhr - 14:15 Uhr</string>
     <string name="friday_time_break">11:30 Uhr - 14:00 Uhr</string>
@@ -59,7 +55,6 @@
     <string name="mon_to_thur_auslander_cafe_time_break">9:00 Uhr - 18:00 Uhr</string>
     <string name="fri_and_bank_holidayas">Freitags und vor Feiertagen:</string>
     <string name="fri_and_bank_holi_time">9:00 Uhr - 17:00 Uhr</string>
-    <string name="fri_and_bank_holi_time_break">9:00 Uhr - 16:00 Uhr</string>
     <string name="friday_time_juristen">7:00 Uhr - 15:00 Uhr</string>
     <string name="mon_to_fri_juristen_cafe_time_break">7:00 Uhr - 15:00 Uhr</string>
     <string name="article_text">Artikel</string>
@@ -98,32 +93,7 @@
     <string name="special_thanks">Besonderen Dank an:</string>
     <string name="search">Suche</string>
     <string name="settings">Einstellungen</string>
-    <string name="cooperation_se_team">In Zusammenarbeit mit dem Projektteam der Software Engineering Vorlesung:</string>
-    <string name="label">Kennzeichnung</string>
     <string name="labels">Kennzeichnungen</string>
-    <!-- Essenskennszeichnungen -->
-    <string name="label_1">mit Farbstoff</string>
-    <string name="label_2">mit Konservierungsstoffen</string>
-    <string name="label_3">mit Antioxidationsmittel</string>
-    <string name="label_4">mit Geschmacksverstärker</string>
-    <string name="label_5">geschwefelt</string>
-    <string name="label_6">geschwärzt</string>
-    <string name="label_7">gewachst</string>
-    <string name="label_8">mit Phosphat</string>
-    <string name="label_9">mit Süßungsmittel</string>
-    <string name="label_10">enthält eine Phenylalaninquelle</string>
-    <string name="label_11">mit Milcheiweiß</string>
-    <string name="label_12">mit Geflügelanteil</string>
-    <string name="label_13">mit Schweinefleisch</string>
-    <string name="label_14">mit Alkohol</string>
-    <string name="label_15">kann Spuren von Nüssen enthalten</string>
-    <string name="label_16">ohne Schweinefleisch</string>
-    <string name="label_17">mit Knoblauch</string>
-    <string name="label_18">vegetarisch</string>
-    <string name="label_19">biologisches Essen</string>
-    <string name="label_20">Backtriebmittel</string>
-    <string name="label_22">veganes Essen</string>
-    <string name="label_23">Fisch aus nachhaltigem Fang</string>
     <!-- Campus -->
     <string name="c_homburg">Campus Homburg</string>
     <string name="c_saarbruecken">Campus Saarbrücken</string>
