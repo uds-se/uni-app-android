@@ -162,26 +162,25 @@ public class DatabaseHandler {
     }
 
 
-
     public Cursor getCursorPointsOfInterestPartialMatchedForSearchKey(String searchKey){
         String sKeyWithPercAtEnd = searchKey + "%";
 
         String sKeyWithPerAtBegEnd = "% " + searchKey + "%";
 
-        Cursor cursor =campusQuery("pointOfInterest",new String[]{"title","subtitle","canshowleftcallout",
-                        "canshowrightcallout","color","website","lat","longi","ID","categorieID"},
+        String[] columns = new String[] {"_id","title","subtitle","canshowleftcallout",
+                "canshowrightcallout","color","website","lat","longi","ID","categorieID"};
+        Cursor cursor = campusQuery("pointOfInterest", Arrays.copyOfRange(columns, 1, columns.length),
                 "(title LIKE ?) OR (subtitle LIKE ?)  OR (searchkey LIKE ?) OR ( title LIKE ? ) OR (subtitle LIKE ?)" +
                         "  OR (searchkey LIKE ?)",
                 new String[]{sKeyWithPercAtEnd,sKeyWithPercAtEnd,sKeyWithPercAtEnd,sKeyWithPerAtBegEnd,sKeyWithPerAtBegEnd,sKeyWithPerAtBegEnd},null,null,"title ASC");
-        String[] columns = new String[] {"_id","title","subtitle","canshowleftcallout",
-                "canshowrightcallout","color","website","lat","longi","ID","categorieID"};
+
         Object[] temp = new Object[11];
         MatrixCursor mcursor = new MatrixCursor(columns);
         while (cursor.moveToNext()) {
             temp[0] = "0";
-            for (int i = 0; i < 9; ++i)
+            for (int i = 0; i < 8; ++i)
                 temp[i+1] = cursor.getString(i);
-            for (int i = 9; i < 11; ++i)
+            for (int i = 8; i < 10; ++i)
                 temp[i+1] = cursor.getInt(i);
             mcursor.addRow(temp);
         }
