@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import de.unisaarland.UniApp.R;
+import de.unisaarland.UniApp.campus.uihelper.CategoryIconCache;
 import de.unisaarland.UniApp.campus.uihelper.DetailedPOIView;
 import de.unisaarland.UniApp.database.DatabaseHandler;
 
@@ -43,7 +44,8 @@ public class CampusSearchActivity extends ActionBarActivity {
     private CampusCategoriesAdapter campusCategoriesadapter;
     private Dialog optionMenuDialog;
     private ArrayList<Integer> result = new ArrayList<Integer>();
-    private Context context;
+
+    private CategoryIconCache catIconCache;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -58,6 +60,7 @@ public class CampusSearchActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.campus_search_layout);
         setActionBar();
+        catIconCache = new CategoryIconCache(getAssets());
         DatabaseHandler db = new DatabaseHandler(this);
         categoryIds = db.getAllCategoryIDs();
         categoryTitles = db.getAllCategoryTitles();
@@ -148,14 +151,10 @@ public class CampusSearchActivity extends ActionBarActivity {
             categoryTitle.setText(titles.get(position));
             categoryTitle.setVisibility(View.VISIBLE);
 
-            try {
-                Drawable d = Drawable.createFromStream(context.getAssets().open("cat" + categoryIds.get(position) + ".webp"), null);
-                ImageView categoryIcon = (ImageView) convertView.findViewById(R.id.category_icon);
-                categoryIcon.setBackgroundDrawable(d);
+            ImageView categoryIcon = (ImageView) convertView.findViewById(R.id.category_icon);
+            int catId = categoryIds.get(position);
+            categoryIcon.setBackgroundDrawable(catIconCache.getIconForCategory(catId));
 
-            } catch (IOException e) {
-                Log.e(TAG, "Cannot open asset '" + imageFile + "'", e);
-            }
             convertView.setOnClickListener(clickListener);
             categoriesMap.put(convertView, position);
             return convertView;

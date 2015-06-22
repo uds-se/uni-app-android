@@ -3,6 +3,7 @@ package de.unisaarland.UniApp.campus.uihelper;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +12,9 @@ import android.widget.TextView;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
 
 import de.unisaarland.UniApp.R;
 import de.unisaarland.UniApp.bus.model.PointOfInterest;
@@ -22,37 +25,33 @@ import de.unisaarland.UniApp.database.DatabaseHandler;
 public class SearchAdapter extends android.support.v4.widget.CursorAdapter {
     private TextView itemTitle;
     private TextView itemDescription;
-    ImageView categoryIcon;
-    private HashMap<View, Integer> itemsMap;
-    CampusActivity parent;
+    private ImageView categoryIcon;
+    private Map<View, Integer> itemsMap = new HashMap<View,Integer>();
+    private final CampusActivity parent;
+
+    private final CategoryIconCache catIconCache;
 
 
     public SearchAdapter(Context context, Cursor cursor, CampusActivity parent) {
         super(context, cursor, false);
         this.parent = parent;
-        itemsMap = new HashMap<View,Integer>();
+        this.catIconCache = new CategoryIconCache(context.getAssets());
     }
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
         itemTitle = (TextView) view.findViewById(R.id.title);
-            itemDescription = (TextView) view.findViewById(R.id.description);
-            categoryIcon = (ImageView) view.findViewById(R.id.category_icon);
-            String title = cursor.getString(1);
-            String subtitle = cursor.getString(2);
-            String categoryid = cursor.getString(cursor.getColumnIndex("categorieID"));
-            Integer id = cursor.getInt(cursor.getColumnIndex("ID"));
-            itemTitle.setText(title);
-            itemDescription.setText(subtitle);
-            try {
-                Drawable d = Drawable.createFromStream(context.getAssets().open("cat" + categoryid + ".webp"), null);
-                categoryIcon.setBackgroundDrawable(d);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            view.setOnClickListener(clickListener);
-            itemsMap.put(view, id);
-
+        itemDescription = (TextView) view.findViewById(R.id.description);
+        categoryIcon = (ImageView) view.findViewById(R.id.category_icon);
+        String title = cursor.getString(1);
+        String subtitle = cursor.getString(2);
+        int categoryId = cursor.getInt(cursor.getColumnIndex("categorieID"));
+        int id = cursor.getInt(cursor.getColumnIndex("ID"));
+        itemTitle.setText(title);
+        itemDescription.setText(subtitle);
+        categoryIcon.setBackgroundDrawable(catIconCache.getIconForCategory(categoryId));
+        view.setOnClickListener(clickListener);
+        itemsMap.put(view, id);
     }
 
     View.OnClickListener clickListener = new View.OnClickListener() {
