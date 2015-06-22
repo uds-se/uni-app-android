@@ -17,6 +17,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import de.unisaarland.UniApp.SettingsActivity;
@@ -189,11 +191,10 @@ public class DatabaseHandler {
         return mcursor;
     }
 
-    public ArrayList<PointOfInterest> getPointsOfInterestForIDs(ArrayList<Integer> ids) {
-        ArrayList<PointOfInterest> result = new ArrayList<PointOfInterest>();
+    public List<PointOfInterest> getPointsOfInterestForIDs(List<Integer> ids) {
         if (ids.isEmpty()) {
             Log.w(TAG, new NoSuchElementException("empty ids"));
-            return result;
+            return Collections.emptyList();
         }
 
         StringBuilder queryBuilder = new StringBuilder("ID IN (");
@@ -201,9 +202,10 @@ public class DatabaseHandler {
             queryBuilder.append(i == 0 ? "" : ", ").append(Integer.toString(ids.get(i)));
         String query = queryBuilder.append(")").toString();
         Cursor cursor = campusQuery("pointOfInterest", new String[]{"title", "subtitle", "canshowleftcallout",
-                "canshowrightcallout", "color", "website", "lat", "longi", "ID"}, query,
+                        "canshowrightcallout", "color", "website", "lat", "longi", "ID"}, query,
                 null, null, null, null);
 
+        List<PointOfInterest> result = new ArrayList<PointOfInterest>();
         while (cursor.moveToNext()) {
             PointOfInterest poi = new PointOfInterest();
             poi.setTitle(cursor.getString(0));

@@ -16,13 +16,7 @@ import de.unisaarland.UniApp.R;
 import de.unisaarland.UniApp.bus.model.PointOfInterest;
 import de.unisaarland.UniApp.database.DatabaseHandler;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Shahzad
- * Date: 12/9/13
- * Time: 4:10 PM
- * To change this template use File | Settings | File Templates.
- */
+
 public class DetailedPOIView {
     private final ArrayList<Integer> result;
     private final int categoryId;

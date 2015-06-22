@@ -9,7 +9,9 @@ import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Display;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -31,16 +33,12 @@ import de.unisaarland.UniApp.R;
 import de.unisaarland.UniApp.campus.uihelper.DetailedPOIView;
 import de.unisaarland.UniApp.database.DatabaseHandler;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Shahzad
- * Date: 12/9/13
- * Time: 1:50 PM
- * To change this template use File | Settings | File Templates.
- */
 public class CampusSearchActivity extends ActionBarActivity {
-    ArrayList<Integer> categoryIds;
-    ArrayList<String> categoryTitles;
+
+    private static final String TAG = CampusActivity.class.getSimpleName();
+
+    private ArrayList<Integer> categoryIds;
+    private ArrayList<String> categoryTitles;
     private ListView categoriesList;
     private CampusCategoriesAdapter campusCategoriesadapter;
     private Dialog optionMenuDialog;
@@ -77,7 +75,7 @@ public class CampusSearchActivity extends ActionBarActivity {
     }
     // set custom navigation bar
     private void setActionBar() {
-        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        ActionBar actionBar = getSupportActionBar();
 
         //Enabling Up-Navigation
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -143,9 +141,8 @@ public class CampusSearchActivity extends ActionBarActivity {
         // set categories view i.e buildings, restaurants etc
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            if (convertView == null) {
+            if (convertView == null)
                 convertView = View.inflate(context, R.layout.campus_categories_row, null);
-            }
 
             TextView categoryTitle = (TextView) convertView.findViewById(R.id.category_title);
             categoryTitle.setText(titles.get(position));
@@ -157,7 +154,7 @@ public class CampusSearchActivity extends ActionBarActivity {
                 categoryIcon.setBackgroundDrawable(d);
 
             } catch (IOException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                Log.e(TAG, "Cannot open asset '" + imageFile + "'", e);
             }
             convertView.setOnClickListener(clickListener);
             categoriesMap.put(convertView, position);

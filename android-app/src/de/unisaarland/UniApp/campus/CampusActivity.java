@@ -15,6 +15,7 @@ import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
@@ -46,6 +47,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.TileOverlayOptions;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import de.unisaarland.UniApp.R;
@@ -138,9 +141,7 @@ public class CampusActivity extends ActionBarActivity implements ConnectionCallb
             m.remove();
         markers.clear();
         poisMap.clear();
-        ArrayList<PointOfInterest> pois = new ArrayList<PointOfInterest>();
-        pois.add(model);
-        pinPOIsInArray(pois);
+        pinPOIsInArray(Arrays.asList(model));
         final SearchView search = (SearchView) menu.findItem(R.id.activity_search).getActionView();
         search.setQuery("",false);
         search.setIconified(false);
@@ -208,49 +209,48 @@ public class CampusActivity extends ActionBarActivity implements ConnectionCallb
     // also set the panel listener for changing map type and remove all pins
     private void setUpMapIfNeeded() {
         // Do a null check to confirm that we have not already instantiated the map.
-        if (map == null) {
-            // Try to obtain the map from the SupportMapFragment.
-            map = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
-                    .getMap();
-            markers = new ArrayList<Marker>();
-            // Check if we were successful in obtaining the map.
-            if (map != null) {
-                // set default options of a map which are loaded with the activity
-                // like default zoom level and campera position
-                map.setMyLocationEnabled(true);
-                map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-                map.setOnMyLocationButtonClickListener(this);
-                map.setOnMarkerClickListener(this);
-                map.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
-                    @Override
-                    public void onCameraChange(CameraPosition cameraPosition) {
-                        float maxZoom = 18.0f;
-                        if (cameraPosition.zoom > maxZoom)
-                            map.animateCamera(CameraUpdateFactory.zoomTo(maxZoom));
-                    }
-                });
-                map.setBuildingsEnabled(false);
-                map.setMapType(1);
-                map.getUiSettings().setZoomControlsEnabled(false);
-                map.setInfoWindowAdapter(new CustomInfoWindowAdapter(this, poisMap));
-                map.setOnInfoWindowClickListener(this);
-                for (CustomMapTileProvider prov : CustomMapTileProvider.allTileProviders(getResources().getAssets()))
-                    map.addTileOverlay(new TileOverlayOptions().tileProvider(prov));
+        if (map != null)
+            return;
 
-                SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                String uni_saar = settings.getString(SettingsActivity.KEY_CAMPUS_CHOOSER, "saar");
-                LatLng latlng = uni_saar.equals("saar") ? new LatLng(49.25419, 7.041324)
-                        : new LatLng(49.305582, 7.344296);
-                CameraUpdate upd = CameraUpdateFactory.newLatLngZoom(latlng, 15);
-                map.moveCamera(upd);
-                // if info building != null means activity is called from search result details page
-                // so it will get the building position from the database and will set the marker there.
-                if (infoBuilding != null)
-                    pinPOIsInArray(db.getPointsOfInterestForTitle(infoBuilding));
-            }
+        // Try to obtain the map from the SupportMapFragment.
+        map = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
+                .getMap();
+        markers = new ArrayList<Marker>();
+        // Check if we were successful in obtaining the map.
+        if (map != null) {
+            // set default options of a map which are loaded with the activity
+            // like default zoom level and campera position
+            map.setMyLocationEnabled(true);
+            map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+            map.setOnMyLocationButtonClickListener(this);
+            map.setOnMarkerClickListener(this);
+            map.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
+                @Override
+                public void onCameraChange(CameraPosition cameraPosition) {
+                    float maxZoom = 18.0f;
+                    if (cameraPosition.zoom > maxZoom)
+                        map.animateCamera(CameraUpdateFactory.zoomTo(maxZoom));
+                }
+            });
+            map.setBuildingsEnabled(false);
+            map.setMapType(1);
+            map.getUiSettings().setZoomControlsEnabled(false);
+            map.setInfoWindowAdapter(new CustomInfoWindowAdapter(this, poisMap));
+            map.setOnInfoWindowClickListener(this);
+            for (CustomMapTileProvider prov : CustomMapTileProvider.allTileProviders(getResources().getAssets()))
+                map.addTileOverlay(new TileOverlayOptions().tileProvider(prov));
+
+            SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+            String uni_saar = settings.getString(SettingsActivity.KEY_CAMPUS_CHOOSER, "saar");
+            LatLng latlng = uni_saar.equals("saar") ? new LatLng(49.25419, 7.041324)
+                    : new LatLng(49.305582, 7.344296);
+            CameraUpdate upd = CameraUpdateFactory.newLatLngZoom(latlng, 15);
+            map.moveCamera(upd);
+            // if info building != null means activity is called from search result details page
+            // so it will get the building position from the database and will set the marker there.
+            if (infoBuilding != null)
+                pinPOIsInArray(db.getPointsOfInterestForTitle(infoBuilding));
         }
-     //   Button panelButton = (Button) findViewById(R.id.panel_button);
-       // panelButton.setOnClickListener(new PanelButtonListener(this,map,poisMap,markers));
     }
 
     /*
@@ -297,7 +297,7 @@ public class CampusActivity extends ActionBarActivity implements ConnectionCallb
     //Creation Custom Actionbar
     public boolean onCreateOptionsMenu(Menu menu) {
 
-        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        ActionBar actionBar = getSupportActionBar();
         // Inflate the menu items for use in the action bar
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.campus_search_activity, menu);
@@ -307,12 +307,12 @@ public class CampusActivity extends ActionBarActivity implements ConnectionCallb
         this.menu = menu;
 
         SearchManager manager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        android.support.v7.widget.SearchView search = (android.support.v7.widget.SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.activity_search));
+        SearchView search = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.activity_search));
         search.setSearchableInfo(manager.getSearchableInfo(getComponentName()));
         search.setSuggestionsAdapter(new SearchAdapter(this, db.getAllData(), this));
 
 
-        search.setOnQueryTextListener(new android.support.v7.widget.SearchView.OnQueryTextListener() {
+        search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
             @Override
             public boolean onQueryTextChange(String query) {
@@ -336,7 +336,7 @@ public class CampusActivity extends ActionBarActivity implements ConnectionCallb
         Cursor cursor = db.getCursorPointsOfInterestPartialMatchedForSearchKey(query);
 
         SearchManager manager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        final android.support.v7.widget.SearchView search = (android.support.v7.widget.SearchView) menu.findItem(R.id.activity_search).getActionView();
+        final SearchView search = (SearchView) menu.findItem(R.id.activity_search).getActionView();
         search.setSearchableInfo(manager.getSearchableInfo(getComponentName()));
         search.setSuggestionsAdapter(new SearchAdapter(this, cursor, this));
     }
@@ -369,9 +369,8 @@ public class CampusActivity extends ActionBarActivity implements ConnectionCallb
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (REQUEST_CODE == requestCode && resultCode == RESULT_OK && data.getExtras() != null) {
-            ArrayList<Integer> ids = (ArrayList<Integer>) data.getExtras().get("idsArray");
-            ArrayList<PointOfInterest> pois = db.getPointsOfInterestForIDs(ids);
-            pinPOIsInArray(pois);
+            List<Integer> ids = (List<Integer>) data.getExtras().get("idsArray");
+            pinPOIsInArray(db.getPointsOfInterestForIDs(ids));
         }
     }
 
@@ -379,7 +378,7 @@ public class CampusActivity extends ActionBarActivity implements ConnectionCallb
     * add pins to all pointOfInterests in the list and will compute the visible rectangle so that
     * all point of interests are displayed on the screen.
     * */
-    private boolean pinPOIsInArray(ArrayList<PointOfInterest> POIs){
+    private boolean pinPOIsInArray(List<PointOfInterest> POIs){
         if (POIs.isEmpty()) {
             Log.w(TAG, new NoSuchElementException("empty POI list"));
             return false;
@@ -387,17 +386,14 @@ public class CampusActivity extends ActionBarActivity implements ConnectionCallb
 
         float lati = 0.0f;
         float longi = 0.0f;
-        for(PointOfInterest poi : POIs){
+        for (PointOfInterest poi : POIs) {
             int tempColor = poi.getColor();
-            float color = BitmapDescriptorFactory.HUE_RED;
+            float color = tempColor == 1 ? BitmapDescriptorFactory.HUE_CYAN
+                    : tempColor == 2 ?  BitmapDescriptorFactory.HUE_GREEN
+                    : BitmapDescriptorFactory.HUE_RED;
 
-            if(tempColor == 1){
-                color = BitmapDescriptorFactory.HUE_CYAN;
-            }else if(tempColor == 2){
-                color = BitmapDescriptorFactory.HUE_GREEN;
-            }
-            poisMap.put(poi.getTitle(),poi);
-            Marker m =map.addMarker(new MarkerOptions()
+            poisMap.put(poi.getTitle(), poi);
+            Marker m = map.addMarker(new MarkerOptions()
                    .position(new LatLng(poi.getLatitude(), poi.getLongitude()))
                    .title(poi.getTitle())
                    .snippet(poi.getSubtitle())
@@ -408,9 +404,9 @@ public class CampusActivity extends ActionBarActivity implements ConnectionCallb
         }
 
         LatLngBounds.Builder builder = LatLngBounds.builder();
-        for(Marker m : markers){
+        for (Marker m : markers)
             builder.include(m.getPosition());
-        }
+
         LatLngBounds bounds = builder.build();
         bounds = adjustBoundsForMaxZoomLevel(bounds);
         try{

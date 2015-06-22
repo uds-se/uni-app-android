@@ -18,9 +18,7 @@ import de.unisaarland.UniApp.bus.model.PointOfInterest;
 import de.unisaarland.UniApp.campus.CampusActivity;
 import de.unisaarland.UniApp.database.DatabaseHandler;
 
-/**
- * Created by Janek on 13.08.2014.
- */
+
 public class SearchAdapter extends android.support.v4.widget.CursorAdapter {
     private TextView itemTitle;
     private TextView itemDescription;
@@ -29,7 +27,7 @@ public class SearchAdapter extends android.support.v4.widget.CursorAdapter {
     CampusActivity parent;
 
 
-    public SearchAdapter(Context context, Cursor cursor,CampusActivity parent) {
+    public SearchAdapter(Context context, Cursor cursor, CampusActivity parent) {
         super(context, cursor, false);
         this.parent = parent;
         itemsMap = new HashMap<View,Integer>();
@@ -60,16 +58,14 @@ public class SearchAdapter extends android.support.v4.widget.CursorAdapter {
     View.OnClickListener clickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if(itemsMap.containsKey(v)){
-                Integer id = itemsMap.get(v);
-                ArrayList<Integer> point = new ArrayList<Integer>();
-                point.add(id);
-                DatabaseHandler db = new DatabaseHandler(parent);
-                PointOfInterest model = db.getPointsOfInterestForIDs(point).get(0);
-                db.close();
-                if (model != null)
-                     parent.searchItemSelected(model);
-            }
+            Integer id = itemsMap.get(v);
+            if (id == null)
+                return;
+            DatabaseHandler db = new DatabaseHandler(parent);
+            PointOfInterest model = db.getPointsOfInterestForIDs(Arrays.asList(id)).get(0);
+            db.close();
+            if (model != null)
+                 parent.searchItemSelected(model);
         }
     };
 
