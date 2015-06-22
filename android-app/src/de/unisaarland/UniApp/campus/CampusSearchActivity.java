@@ -188,8 +188,6 @@ public class CampusSearchActivity extends ActionBarActivity {
                     lp.dimAmount = 0.7f;
                     optionMenuDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
 
-
-
                     optionMenuDialog.show();
                 }
             }
