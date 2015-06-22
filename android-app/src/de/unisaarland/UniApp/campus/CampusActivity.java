@@ -409,15 +409,16 @@ public class CampusActivity extends ActionBarActivity implements ConnectionCallb
 
         LatLngBounds bounds = builder.build();
         bounds = adjustBoundsForMaxZoomLevel(bounds);
-        try{
-            map.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 10));
-        }catch (Exception e){
-            if(lati != 0.0 && longi != 0.0){
-            CameraUpdate upd = CameraUpdateFactory.newLatLngZoom(new LatLng(lati, longi),15 );
-            map.moveCamera(upd);
-        }
-            Log.e("MyTag",e.getMessage());
-        }
+        //try{
+            map.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 20));
+        // TODO if this throws an exception, document why, and add proper handling again
+        //}catch (Exception e){
+        //    if(lati != 0.0 && longi != 0.0){
+        //    CameraUpdate upd = CameraUpdateFactory.newLatLngZoom(new LatLng(lati, longi),15 );
+        //    map.moveCamera(upd);
+        //}
+        //    Log.e("MyTag",e.getMessage());
+        //}
 
         return true;
     }
