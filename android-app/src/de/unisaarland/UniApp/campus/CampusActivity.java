@@ -133,7 +133,10 @@ public class CampusActivity extends ActionBarActivity implements ConnectionCallb
 
 
     public void searchItemSelected(PointOfInterest model) {
-        map.clear();
+        assert markers.size() == poisMap.size();
+        for (Marker m : markers)
+            m.remove();
+        markers.clear();
         poisMap.clear();
         ArrayList<PointOfInterest> pois = new ArrayList<PointOfInterest>();
         pois.add(model);
