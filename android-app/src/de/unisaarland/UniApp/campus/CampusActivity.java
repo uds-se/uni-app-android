@@ -136,7 +136,9 @@ public class CampusActivity extends ActionBarActivity implements ConnectionCallb
 
 
     public void searchItemSelected(PointOfInterest model) {
-        assert markers.size() == poisMap.size();
+        if (markers.size() != poisMap.size())
+            Log.w(TAG, new AssertionError("mismatch in markers.size() and poisMap.size(). "+
+                markers.size() + " != " + poisMap.size()));
         for (Marker m : markers)
             m.remove();
         markers.clear();
