@@ -97,7 +97,7 @@
     <string name="c_hom">hom</string>
     <string name="c_saar">saar</string>
     <string name="c_homburg">Campus Homburg</string>
-    <string name="c_saarbruecken">Campus Saarbruecken</string>
+    <string name="c_saarbruecken">Campus Saarbrücken</string>
     <string name="choose_campus">Choose your campus</string>
     <string name="choose_campus_hint">This setting customizes the mensa menu, bus stations and the map</string>
 </resources>
