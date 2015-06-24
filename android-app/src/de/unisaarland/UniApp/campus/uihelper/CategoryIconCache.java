@@ -26,7 +26,7 @@ public class CategoryIconCache {
         Drawable d = cachedIcons.get(categoryID);
 
         if (d == null) {
-            String imageFile = "cat" + categoryID + ".webp";
+            String imageFile = "cat" + categoryID + ".png";
             try {
                 d = Drawable.createFromStream(assets.open(imageFile), imageFile);
             } catch (IOException e) {
