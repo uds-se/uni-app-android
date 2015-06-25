@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.database.MatrixCursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.preference.PreferenceManager;
@@ -101,23 +100,9 @@ public class DatabaseHandler {
     }
 
     public Cursor getAllData() {
-        Cursor cursor =  campusQuery("pointOfInterest",new String[]{"title","subtitle","canshowleftcallout",
-                        "canshowrightcallout","color","website","lat","longi","ID","categorieID"},null,
-                null,null,null,null);
-        String[] columns = new String[] {"_id","title","subtitle","canshowleftcallout",
+        String[] columns = new String[]{"ID as _id","title","subtitle","canshowleftcallout",
                 "canshowrightcallout","color","website","lat","longi","ID","categorieID"};
-        String[] temp = new String[11];
-        MatrixCursor mcursor = new MatrixCursor(columns);
-
-        while (cursor.moveToNext()) {
-            temp[0] = "0";
-            for (int i = 0; i < 10; ++i)
-                temp[i+1] = cursor.getString(i);
-            mcursor.addRow(temp);
-        }
-        cursor.close();
-
-        return mcursor;
+        return campusQuery("pointOfInterest", columns, null, null, null, null, null);
     }
 
     public ArrayList<String> getPointsOfInterestPartialMatchedTitles(){
@@ -169,26 +154,15 @@ public class DatabaseHandler {
 
         String sKeyWithPerAtBegEnd = "% " + searchKey + "%";
 
-        String[] columns = new String[] {"_id","title","subtitle","canshowleftcallout",
+        String[] columns = new String[] {"ID as _id","title","subtitle","canshowleftcallout",
                 "canshowrightcallout","color","website","lat","longi","ID","categorieID"};
-        Cursor cursor = campusQuery("pointOfInterest", Arrays.copyOfRange(columns, 1, columns.length),
-                "(title LIKE ?) OR (subtitle LIKE ?)  OR (searchkey LIKE ?) OR ( title LIKE ? ) OR (subtitle LIKE ?)" +
-                        "  OR (searchkey LIKE ?)",
-                new String[]{sKeyWithPercAtEnd,sKeyWithPercAtEnd,sKeyWithPercAtEnd,sKeyWithPerAtBegEnd,sKeyWithPerAtBegEnd,sKeyWithPerAtBegEnd},null,null,"title ASC");
+        String query = "(title LIKE ?) OR (subtitle LIKE ?)  OR (searchkey LIKE ?) OR (title LIKE ?)" +
+                " OR (subtitle LIKE ?) OR (searchkey LIKE ?)";
+        String[] args = new String[] {sKeyWithPercAtEnd, sKeyWithPercAtEnd, sKeyWithPercAtEnd,
+                sKeyWithPerAtBegEnd, sKeyWithPerAtBegEnd, sKeyWithPerAtBegEnd};
+        Cursor cursor = campusQuery("pointOfInterest", columns, query, args, null, null, "title ASC");
 
-        Object[] temp = new Object[11];
-        MatrixCursor mcursor = new MatrixCursor(columns);
-        while (cursor.moveToNext()) {
-            temp[0] = "0";
-            for (int i = 0; i < 8; ++i)
-                temp[i+1] = cursor.getString(i);
-            for (int i = 8; i < 10; ++i)
-                temp[i+1] = cursor.getInt(i);
-            mcursor.addRow(temp);
-        }
-        cursor.close();
-
-        return mcursor;
+        return cursor;
     }
 
     public List<PointOfInterest> getPointsOfInterestForIDs(List<Integer> ids) {

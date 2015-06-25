@@ -45,8 +45,8 @@ public class SearchAdapter extends android.support.v4.widget.CursorAdapter {
         categoryIcon = (ImageView) view.findViewById(R.id.category_icon);
         String title = cursor.getString(1);
         String subtitle = cursor.getString(2);
-        int categoryId = cursor.getInt(cursor.getColumnIndex("categorieID"));
-        int id = cursor.getInt(cursor.getColumnIndex("ID"));
+        int categoryId = cursor.getInt(cursor.getColumnIndexOrThrow("categorieID"));
+        int id = cursor.getInt(cursor.getColumnIndexOrThrow("ID"));
         itemTitle.setText(title);
         itemDescription.setText(subtitle);
         categoryIcon.setBackgroundDrawable(catIconCache.getIconForCategory(categoryId));
