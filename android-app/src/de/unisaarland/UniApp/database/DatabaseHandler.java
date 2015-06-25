@@ -10,11 +10,11 @@ import android.database.sqlite.SQLiteException;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -31,8 +31,8 @@ public class DatabaseHandler {
     private SQLiteDatabase database = null;
     private final Context context;
     // path where the data base should be copied from the assets folder on first run and name of the database used in project
-    private static final String DATABASE_NAME = "pointOfInterest.sqlite3";
-    private static final String ASSET_DB_PATH = "databases/";
+    private static final String DATABASE_NAME = "pointOfInterest.sqlite";
+    private static final String ASSET_DB_PATH = "databases/pointOfInterest.sql";
     private final File DB_PATH;
 
     public DatabaseHandler(Context context) {
@@ -273,7 +273,7 @@ public class DatabaseHandler {
 
         if (!versionName.equals(dbVersion)) {
             Log.w(TAG, "Database version (" + dbVersion + ") does not match app version (" + versionName + ")");
-            copyDatabaseToDataDir();
+            recreateDatabaseFile();
             SharedPreferences.Editor e = PreferenceManager.getDefaultSharedPreferences(context).edit();
             e.putString("db-version", versionName);
             e.commit();
@@ -282,7 +282,7 @@ public class DatabaseHandler {
         File dbPath = new File(DB_PATH, DATABASE_NAME);
         if (!dbPath.exists()) {
             Log.w(TAG, "Database file does not exist.");
-            copyDatabaseToDataDir();
+            recreateDatabaseFile();
         }
 
         try {
@@ -290,43 +290,55 @@ public class DatabaseHandler {
             database = SQLiteDatabase.openDatabase(dbPath.getAbsolutePath(), null, SQLiteDatabase.OPEN_READONLY);
         } catch (SQLiteException e) {
             Log.w(TAG, "Error opening database", e);
-            copyDatabaseToDataDir();
-            try {
-                database = SQLiteDatabase.openDatabase(dbPath.getAbsolutePath(), null, SQLiteDatabase.OPEN_READONLY);
-            } catch (SQLiteException e2) {
-                Log.e(TAG, "Still cannot open database after a fresh copy!!", e2);
-            }
+            recreateDatabaseFile();
+            // if this throws an exception (on the newly created DB), just pass it on.
+            // then something is really broken.
+            database = SQLiteDatabase.openDatabase(dbPath.getAbsolutePath(), null, SQLiteDatabase.OPEN_READONLY);
         }
 
         return database;
     }
 
-    private void copyDatabaseToDataDir() {
-        Log.w(TAG, "Copying database from assets to data dir");
+    private void recreateDatabaseFile() {
         close();
+        Log.w(TAG, "Recreating database from asset SQL");
+
+        File outFile = new File(DB_PATH, DATABASE_NAME);
+        if (!outFile.getParentFile().exists())
+            outFile.getParentFile().mkdirs();
+        outFile.delete();
+        if (outFile.exists())
+            throw new AssertionError("Cannot remote old DB file.");
+
+        SQLiteDatabase db = SQLiteDatabase.openOrCreateDatabase(outFile, null);
         try {
-            InputStream myInput = context.getAssets().open(ASSET_DB_PATH + DATABASE_NAME);
-
-            File outFile = new File(DB_PATH, DATABASE_NAME);
-            if (!outFile.getParentFile().exists())
-                outFile.getParentFile().mkdirs();
-            OutputStream outFileStr = new FileOutputStream(outFile);
-
-            byte[] buffer = new byte[4096];
-            int length;
-            while ((length = myInput.read(buffer)) > 0) {
-                outFileStr.write(buffer, 0, length);
+            InputStream sqlInput = context.getAssets().open(ASSET_DB_PATH);
+            BufferedReader sqlReader = new BufferedReader(new InputStreamReader(sqlInput));
+            // statements need to be separated in individual lines, and end in a semicolon.
+            // they can, however, spread several lines. they are joined here.
+            StringBuilder statement = new StringBuilder();
+            String line;
+            while ((line = sqlReader.readLine()) != null) {
+                if (!line.endsWith(";")) {
+                    statement.append(line).append(" ");
+                    continue;
+                }
+                if (statement.length() != 0) {
+                    line = statement.append(line).toString();
+                    statement.setLength(0);
+                }
+                db.execSQL(line);
             }
-
-            outFileStr.close();
-            myInput.close();
-            close();
+            sqlReader.close();
         } catch (IOException e) {
-            Log.e(TAG, "IOException when trying to copy the database to data dir.");
-            AssertionError err = new AssertionError("Error copying database to data dir: " + e);
+            Log.e(TAG, "IOException when trying to read the database", e);
+            AssertionError err = new AssertionError("Error reading the database: " + e);
             err.setStackTrace(e.getStackTrace());
             throw err;
         }
+        db.close();
+
+        Log.w(TAG, "Finished creating database from asset SQL.");
     }
 
     // close current instance of database.
@@ -355,7 +367,7 @@ public class DatabaseHandler {
             return getDatabase().query(table, columns, selection, selectionArgs, groupBy, having, "title");
         } catch (SQLiteException e) {
             Log.e(TAG, "Error on query", e);
-            copyDatabaseToDataDir();
+            recreateDatabaseFile();
             // now retry without catching any sqlite errors
             return getDatabase().query(table, columns, selection, selectionArgs, groupBy, having, "title");
         }
@@ -366,7 +378,7 @@ public class DatabaseHandler {
             return getDatabase().rawQuery(sql, selectionArgs);
         } catch (SQLiteException e) {
             Log.e(TAG, "Error on query", e);
-            copyDatabaseToDataDir();
+            recreateDatabaseFile();
             // now retry without catching any sqlite errors
             return getDatabase().rawQuery(sql, selectionArgs);
         }
