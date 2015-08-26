@@ -28,11 +28,8 @@ import de.unisaarland.UniApp.staff.SearchStaffActivity;
 
 /**
  * Launcher Activity of the application this Activity will be displayed when application is launched from the launcher
- * */
+ */
 public class MainActivity extends ActionBarActivity {
-
-    //
-
 
     //Buttons to perform actions
     private Button newsButton = null;
@@ -49,9 +46,7 @@ public class MainActivity extends ActionBarActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
-
 
     /*
     * Will be called when activity created first time after onCreate or when activity comes to the front again or in a pausing state
@@ -69,11 +64,11 @@ public class MainActivity extends ActionBarActivity {
         String campus = settings.getString(SettingsActivity.KEY_CAMPUS_CHOOSER, "saar");
         campusText = (TextView) findViewById(R.id.campusText);
         Display display = ((WindowManager) getSystemService(WINDOW_SERVICE)).getDefaultDisplay();
-        if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) {
-            if (campus.equals("saar"))
-                campusText.setText(getResources().getString(R.string.c_saarbruecken));
-            else
-                campusText.setText(getResources().getString(R.string.c_homburg));
+        // unfortunately, campusText happens to be null sometimes.
+        if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE
+                && campusText != null) {
+            String text = campus.equals("saar") ? "Campus Saarbrücken" : "Campus Homburg";
+            campusText.setText(text);
         }
         setPreferences();
         super.onResume();
@@ -113,8 +108,6 @@ public class MainActivity extends ActionBarActivity {
     private void showSettings(){
         Intent myIntent = new Intent(MainActivity.this, SettingsActivity.class);
         MainActivity.this.startActivity(myIntent);
-
-
     }
 
 
