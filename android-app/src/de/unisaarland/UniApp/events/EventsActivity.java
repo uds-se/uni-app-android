@@ -41,7 +41,7 @@ public class EventsActivity extends ActionBarActivity {
 
     private final String TAG = EventsActivity.class.getSimpleName();
 
-    private final String URL = "http://www.uni-saarland.de/aktuelles/veranstaltungen.html?type=100&tx_ttnews[cat]=30";
+    private final String URL = "http://www.uni-saarland.de/aktuelles/veranstaltungen/alle-veranstaltungen/rss.xml";
     private volatile WebFetcher lastWebFetcher = null;
 
     /*
