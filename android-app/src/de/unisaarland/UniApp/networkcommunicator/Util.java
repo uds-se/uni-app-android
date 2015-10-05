@@ -14,6 +14,7 @@ public class Util {
     public static final String EVENTS_FILE_NAME = "events.dat";
     public static final String TEMP_STAFF_SEARCH_FILE = "staff.dat";
     public static final String FIRST_TIME = "firstTime";
+    public static final String STAFF_LAST_SELECTION = "staffLastSel";
 
     //to encode the url and remove spaces if there are any
     public static String urlEncode(String url) {

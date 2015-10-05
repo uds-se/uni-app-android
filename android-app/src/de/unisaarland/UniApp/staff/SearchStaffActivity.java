@@ -5,10 +5,12 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,13 +24,7 @@ import android.widget.TextView;
 import de.unisaarland.UniApp.R;
 import de.unisaarland.UniApp.networkcommunicator.Util;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Shahzad
- * Date: 12/3/13
- * Time: 1:13 PM
- * To change this template use File | Settings | File Templates.
- */
+
 public class SearchStaffActivity extends ActionBarActivity implements OnCheckedChangeListener {
     private RadioGroup radioChooser;
     private TextView lastName;
@@ -69,9 +65,17 @@ public class SearchStaffActivity extends ActionBarActivity implements OnCheckedC
             }
         });
 
+        SharedPreferences prefs = getSharedPreferences(Util.PREFS_NAME, 0);
+        int lastChecked = prefs.getInt(Util.STAFF_LAST_SELECTION, R.id.rb_only_prof);
+        radioChooser.check(lastChecked);
+
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SharedPreferences.Editor editor = getSharedPreferences(Util.PREFS_NAME, 0).edit();
+                editor.putInt(Util.STAFF_LAST_SELECTION, radioChooser.getCheckedRadioButtonId());
+                editor.commit();
+
                 String lstNam = lastName.getText().toString();
                 lstNam = lstNam.trim();
                 String fstNam = firstName.getText().toString();
@@ -121,26 +125,6 @@ public class SearchStaffActivity extends ActionBarActivity implements OnCheckedC
         //Enabling Up-Navigation
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle(R.string.search_for_staff_text);
-        /*
-        // add the custom view to the action bar
-        actionBar.setCustomView(R.layout.navigation_bar_layout);
-        actionBar.setBackgroundDrawable(new ColorDrawable(Color.LTGRAY));
-
-        TextView pageText = (TextView) actionBar.getCustomView().findViewById(R.id.page_heading);
-        pageText.setText(R.string.search_for_staff_text);
-        pageText.setVisibility(View.VISIBLE);
-        pageText.setTextColor(Color.BLACK);
-
-        TextView backPageText = (TextView) actionBar.getCustomView().findViewById(R.id.page_back_text);
-        backPageText.setText(R.string.homeText);
-        backPageText.setVisibility(View.VISIBLE);
-        backPageText.setOnClickListener(new BackButtonClickListener(this));
-
-        ImageButton backButton = (ImageButton) actionBar.getCustomView().findViewById(R.id.back_icon);
-        backButton.setVisibility(View.VISIBLE);
-        backButton.setOnClickListener(new BackButtonClickListener(this));
-        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        */
     }
 
     // Handling the Action Bar Buttons
