@@ -10,6 +10,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.util.Xml;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -23,6 +24,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
@@ -35,8 +37,8 @@ import java.util.Set;
 import de.unisaarland.UniApp.R;
 import de.unisaarland.UniApp.SettingsActivity;
 import de.unisaarland.UniApp.networkcommunicator.INetworkLoaderDelegate;
-import de.unisaarland.UniApp.networkcommunicator.NetworkHandler;
 import de.unisaarland.UniApp.networkcommunicator.Util;
+import de.unisaarland.UniApp.networkcommunicator.WebFetcher;
 import de.unisaarland.UniApp.restaurant.model.AusLanderCafeParser;
 import de.unisaarland.UniApp.restaurant.model.IMensaResultDelegate;
 import de.unisaarland.UniApp.restaurant.model.MensaItem;
@@ -45,17 +47,13 @@ import de.unisaarland.UniApp.restaurant.uihelper.CircleFlowIndicator;
 import de.unisaarland.UniApp.restaurant.uihelper.ViewFlow;
 import de.unisaarland.UniApp.restaurant.uihelper.ViewFlowAdapter;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Shahzad
- * Date: 12/6/13
- * Time: 11:30 AM
- * To change this template use File | Settings | File Templates.
- */
 public class RestaurantActivity extends ActionBarActivity {
+
+    private final String TAG = RestaurantActivity.class.getSimpleName();
+
     private final String RESTAURANT_FILE_NAME = "restaurant_sb.dat";
     private ProgressBar bar;
-    private NetworkHandler mensaNetworkHandler = null;
+    private WebFetcher mensaFetcher = null;
     private String backText = null;
 
     private final String MENSA_URL_SB = "http://studentenwerk-saarland.de/_menu/actual/speiseplan-saarbruecken.xml";
@@ -77,7 +75,7 @@ public class RestaurantActivity extends ActionBarActivity {
                 loadMensaItemsFromSavedFile();
                 bar.clearAnimation();
                 bar.setVisibility(View.INVISIBLE);
-                mensaNetworkHandler.invalidateRequest();
+                mensaFetcher.invalidateRequest();
                 setContentView(R.layout.restaurant_layout);
                 populateMensaItems();
             } else{
@@ -89,7 +87,7 @@ public class RestaurantActivity extends ActionBarActivity {
                             public void onClick(DialogInterface dialog, int id) {
                                 bar.clearAnimation();
                                 bar.setVisibility(View.INVISIBLE);
-                                mensaNetworkHandler.invalidateRequest();
+                                mensaFetcher.invalidateRequest();
                                 dialog.cancel();
                                 onBackPressed();
                             }
@@ -104,10 +102,10 @@ public class RestaurantActivity extends ActionBarActivity {
         * call the Mensa parser to parse the resultant file and return the map of mensa models to specified call back method.
         * */
         @Override
-        public void onSuccess(XmlPullParser parser) {
+        public void onSuccess(InputStream data) {
             MensaXMLParser mensaParser = new MensaXMLParser(mensaResultDelegate);
             try {
-                mensaParser.parse(parser);
+                mensaParser.parse(data);
             } catch (XmlPullParserException e) {
                 Log.e("MyTag,", e.getMessage());
             } catch (IOException e) {
@@ -150,7 +148,7 @@ public class RestaurantActivity extends ActionBarActivity {
         }
 
         Collections.sort(keysList);
-        mensaNetworkHandler.invalidateRequest();
+        mensaFetcher.invalidateRequest();
         removeLoadingView();
 
     }
@@ -227,11 +225,11 @@ public class RestaurantActivity extends ActionBarActivity {
          * Calls the custom class to connect and download the specific XML and pass the delegate method which will be called
          * in case of success and failure
          */
-        mensaNetworkHandler = new NetworkHandler(mensaDelegate);
+        mensaFetcher = new WebFetcher(mensaDelegate);
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String uni_saar = settings.getString(SettingsActivity.KEY_CAMPUS_CHOOSER, "saar");
         String MENSA_URL = uni_saar.equals("saar") ? MENSA_URL_SB : MENSA_URL_HOM;
-        mensaNetworkHandler.connect(MENSA_URL, this);
+        mensaFetcher.startFetchingAsynchronously(MENSA_URL, this);
     }
 
     /*

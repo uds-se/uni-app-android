@@ -4,21 +4,14 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Shahzad
- * Date: 11/28/13
- * Time: 11:20 PM
- * To change this template use File | Settings | File Templates.
- */
 public class Util {
 
     public static String PREFS_NAME = "myPreferences";
-    public static final String NEWS_LOADED = "newsloaded";
-    public static final String EVENTS_LOADED = "eventsloaded";
+    public static final String NEWS_LOAD_MILLIS = "newsLoadedMillis";
+    public static final String EVENTS_LOAD_MILLIS = "eventsLoadMillis";
     public static final String MENSA_ITEMS_LOADED = "mensaItemsloaded";
-    public static final String CAMPUS_SAAR = "campusSaar";
     public static final String NEWS_FILE_NAME = "news.dat";
+    public static final String EVENTS_FILE_NAME = "events.dat";
     public static final String TEMP_STAFF_SEARCH_FILE = "staff.dat";
     public static final String FIRST_TIME = "firstTime";
 

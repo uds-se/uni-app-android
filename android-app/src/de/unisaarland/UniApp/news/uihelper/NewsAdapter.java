@@ -15,6 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 import de.unisaarland.UniApp.R;
 import de.unisaarland.UniApp.networkcommunicator.Util;
@@ -31,7 +32,7 @@ import de.unisaarland.UniApp.news.model.NewsModel;
 public class NewsAdapter extends BaseAdapter {
 
     private final Context context;
-    private final ArrayList<NewsModel> newsModelsArray;
+    private final List<NewsModel> newsModelsArray;
     private final HashMap<View,Integer> newsItemsMap = new HashMap<View,Integer>();
 
     /*
@@ -64,7 +65,7 @@ public class NewsAdapter extends BaseAdapter {
         }
     };
 
-    public NewsAdapter(Context context, ArrayList<NewsModel> newsModelsArray) {
+    public NewsAdapter(Context context, List<NewsModel> newsModelsArray) {
         this.context = context;
         this.newsModelsArray = newsModelsArray;
     }
@@ -76,7 +77,7 @@ public class NewsAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return newsModelsArray.get(position);
     }
 
     @Override

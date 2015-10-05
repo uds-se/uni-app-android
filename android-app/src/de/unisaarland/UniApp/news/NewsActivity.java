@@ -19,13 +19,11 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
@@ -33,25 +31,20 @@ import java.util.List;
 
 import de.unisaarland.UniApp.R;
 import de.unisaarland.UniApp.networkcommunicator.INetworkLoaderDelegate;
-import de.unisaarland.UniApp.networkcommunicator.NetworkHandler;
 import de.unisaarland.UniApp.networkcommunicator.Util;
+import de.unisaarland.UniApp.networkcommunicator.WebFetcher;
 import de.unisaarland.UniApp.news.model.INewsResultDelegate;
 import de.unisaarland.UniApp.news.model.NewsModel;
 import de.unisaarland.UniApp.news.model.NewsXMLParser;
 import de.unisaarland.UniApp.news.uihelper.NewsAdapter;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Shahzad
- * Date: 11/28/13
- * Time: 1:33 PM
- * To change this template use File | Settings | File Templates.
- */
+
 public class NewsActivity extends ActionBarActivity {
-    private ProgressBar bar;
-    private ArrayList<NewsModel> newsModelsArray;
+
+    private final String TAG = NewsActivity.class.getSimpleName();
+
     private final String URL = "http://www.uni-saarland.de/aktuelles/presse/pms.html?type=100&tx_ttnews[cat]=26";
-    private NetworkHandler networkHandler = null;
+    private WebFetcher lastWebFetcher = null;
 
     /*
     * Called when back button is pressed either from device or navigation bar.
@@ -59,50 +52,35 @@ public class NewsActivity extends ActionBarActivity {
     @Override
     public void onBackPressed() {
         // will invalidate the connection establishment request if it is not being completed yet and free the resources
-        if(networkHandler!=null){
-            networkHandler.invalidateRequest();
-        }
+        WebFetcher fetcher = lastWebFetcher;
+        if (fetcher != null)
+            fetcher.invalidateRequest();
         super.onBackPressed();
     }
 
     @Override
     protected void onStop() {
-        // release the resources.
-        if(newsModelsArray != null){
-            newsModelsArray.clear();
-        }
-        bar = null;
-        networkHandler = null;
-        newsModelsArray = null;
+        lastWebFetcher = null;
         super.onStop();
     }
 
 
+    private class NetworkDelegate implements INetworkLoaderDelegate {
 
-    INetworkLoaderDelegate delegate = new INetworkLoaderDelegate() {
-
-        /*
-        * Will be called in case of failure e.g internet connection problem
-        * Will try to load news from already stored model or in case if that model is not present will show the
-        * error dialog
-        * */
+        /**
+         * Will be called in case of failure e.g internet connection problem
+         * Will try to load news from already stored model or in case if that model is not present will show the
+         * error dialog
+         */
         @Override
         public void onFailure(String message) {
-            if (newsFileExist()){
-                loadNewsFromSavedFile();
-                if(bar!=null){
-                    bar.clearAnimation();
-                    bar.setVisibility(View.INVISIBLE);
-                }
-                setContentView(R.layout.news_panel);
-                populateNewsItems();
-            } else{
                 AlertDialog.Builder builder1 = new AlertDialog.Builder(NewsActivity.this);
                 builder1.setMessage(message);
                 builder1.setCancelable(true);
                 builder1.setPositiveButton("OK",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
+                                ProgressBar bar = (ProgressBar) findViewById(R.id.progress_bar);
                                 if(bar!=null){
                                     bar.clearAnimation();
                                     bar.setVisibility(View.INVISIBLE);
@@ -113,54 +91,83 @@ public class NewsActivity extends ActionBarActivity {
                         });
                 AlertDialog alert11 = builder1.create();
                 alert11.show();
-            }
         }
         /*
-        * Will be called in case of success if connection is successfully established and parser is ready
-        * call the News parser to parse the resultant file and return the list of news models to specified call back method.
+        * Will be called in case of success if connection is successfully established.
+        * Call the News parser to parse the resultant file and return the list of news models to specified call back method.
         * */
         @Override
-        public void onSuccess(XmlPullParser parser) {
-            NewsXMLParser newsParser = new NewsXMLParser(newsResultDelegate);
-            try {
-               newsParser.parse(parser);
-            } catch (XmlPullParserException e) {
-                Log.e("MyTag,", e.getMessage());
-            } catch (IOException e) {
-                Log.e("MyTag,", e.getMessage());
-            }
+        public void onSuccess(InputStream data) {
+            new NewsXMLParser().startParsing(data, new NewsResultDelegate());
         }
     };
 
     /*
     * Load news from already saved model if internet is not available or coming back from news detail
     * */
-    private void loadNewsFromSavedFile() {
-        try{
-            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File(getCacheDir()+ Util.NEWS_FILE_NAME)));
-            newsModelsArray = (ArrayList<NewsModel>) ois.readObject();
+    private List<NewsModel> loadNewsFromCache() {
+        File file = new File(getCacheDir() + Util.NEWS_FILE_NAME);
+        if (!file.exists()) {
+            Log.w(TAG, "News cache does not exist");
+            return null;
+        }
+        try {
+            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file));
+            int numNews = ois.readInt();
+            List<NewsModel> news = new ArrayList<NewsModel>();
+            for (int i = 0; i < numNews; ++i)
+                news.add((NewsModel) ois.readObject());
             ois.close();
-        } catch (Exception e) {
-            e.printStackTrace();
+            return news;
+        } catch (IOException e) {
+            Log.w(TAG, "Cannot load news from cache file", e);
+            return null;
+        } catch (ClassNotFoundException | ClassCastException e) {
+            Log.e(TAG, "Weird class error when loading news from cache file", e);
+            return null;
         }
     }
 
     /*
-    * Check if news file already exist.
-    * */
-    private boolean newsFileExist() {
-        File f = new File(getCacheDir()+ Util.NEWS_FILE_NAME);
-        return f.exists();
-    }
-
-    /*
-    * Call back method of NewsResult will be called when all news are parsed and Model list is generated
-    * */
-    private INewsResultDelegate newsResultDelegate = new INewsResultDelegate() {
+     * Call back method of NewsResult will be called when all news are parsed and Model list is generated
+     */
+    private class NewsResultDelegate implements INewsResultDelegate {
         @Override
-        public void newsList(ArrayList<NewsModel> newsModels) {
-            newsModelsArray = newsModels;
-            removeLoadingView();
+        public void newsList(List<NewsModel> news) {
+            ProgressBar bar = (ProgressBar) findViewById(R.id.progress_bar);
+            if (bar != null) {
+                bar.clearAnimation();
+                bar.setVisibility(View.INVISIBLE);
+            }
+            setContentView(R.layout.news_panel);
+            populateNewsItems(news);
+
+            boolean itemsSaved = saveNewItemsToCache(news);
+            if (itemsSaved)
+                Log.i(TAG, "Saved news to cache");
+            SharedPreferences.Editor editor = getSharedPreferences(Util.PREFS_NAME, 0).edit();
+            editor.putLong(Util.NEWS_LOAD_MILLIS, System.currentTimeMillis());
+            editor.commit();
+        }
+
+        @Override
+        public void onFailure(String message) {
+            new AlertDialog.Builder(NewsActivity.this).
+                    setMessage(message).
+                    setCancelable(true).
+                    setPositiveButton(getString(R.string.ok),
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    ProgressBar bar = (ProgressBar) findViewById(R.id.progress_bar);
+                                    if (bar != null) {
+                                        bar.clearAnimation();
+                                        bar.setVisibility(View.INVISIBLE);
+                                    }
+                                    dialog.cancel();
+                                    onBackPressed();
+                                }
+                            }).
+                    create().show();
         }
     };
 
@@ -180,64 +187,46 @@ public class NewsActivity extends ActionBarActivity {
         super.onResume();
         // sets the custom navigation bar according to each activity.
         setActionBar();
-        /*
-        * Checks if news are already loaded and models are built then no need to download the from internet again
-        * e.g. if activity is just changed to see the details of any specific news and comes back to the news list
-        * otherwise if it is being loaded from main activity page and internet is available it will be downloaded from internet
-        * again.
-        * */
+
         SharedPreferences settings = getSharedPreferences(Util.PREFS_NAME, 0);
-        boolean isCopied = settings.getBoolean(Util.NEWS_LOADED,false);
-        if(!isCopied){
-            addLoadingView();
-        }else{
-            loadNewsFromSavedFile();
+        long lastLoadMillis = settings.getLong(Util.NEWS_LOAD_MILLIS, 0);
+        // We first load the cached news (and show then), then update the list asynchronously if
+        // last fetch was more than 15 minutes ago
+        List<NewsModel> cachedNews = loadNewsFromCache();
+        if (cachedNews != null) {
             setContentView(R.layout.news_panel);
-            populateNewsItems();
+            populateNewsItems(cachedNews);
+        }
+        // Reload after 15 minutes
+        if (Math.abs(lastLoadMillis - System.currentTimeMillis()) >= 1000*60*15) {
+            startLoading();
         }
     }
 
-    /*
-    * Will remove the loading view as news are being downloaded and parsed also the models are built
-    * Will save the current news model
-    * and show the news list.
-    * */
-    private void removeLoadingView() {
-        if(bar!=null){
-            bar.clearAnimation();
-            bar.setVisibility(View.INVISIBLE);
-        }
-        setContentView(R.layout.news_panel);
-        boolean itemsSaved = saveCurrentNewItemsToFile();
-        if(itemsSaved){
-            Log.i("MyTag","News are saved");
-        }
-        populateNewsItems();
-    }
-
-    /*
-    * Save current news model to file (temporary) so that these will be used later in case if user don't have internet connection
-    * and also if user is coming back from seeing a detailed news.
-    * */
-    private boolean saveCurrentNewItemsToFile() {
+    /**
+     * Save current news model to file (temporary) so that these will be used later in case if user don't have internet connection
+     * and also if user is coming back from seeing a detailed news.
+     */
+    private boolean saveNewItemsToCache(List<NewsModel> news) {
         try{
             ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File(getCacheDir()+ Util.NEWS_FILE_NAME)));
-            oos.writeObject(newsModelsArray);
-            oos.flush();
+            oos.writeInt(news.size());
+            for (NewsModel n : news)
+                oos.writeObject(n);
             oos.close();
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (IOException e) {
+            Log.w(TAG, "Cannot save news to cache file", e);
             return false;
         }
         return true;
     }
 
-    private void addLoadingView() {
+    private void startLoading() {
         //displays the loading view and download and parse the news items from internet
         setContentView(R.layout.loading_layout);
-        bar = (ProgressBar) findViewById(R.id.progress_bar);
+        ProgressBar bar = (ProgressBar) findViewById(R.id.progress_bar);
         // safety check in case user press the back button then bar will be null
-        if(bar!=null){
+        if (bar!=null) {
             bar.animate();
         }
         /**
@@ -245,17 +234,18 @@ public class NewsActivity extends ActionBarActivity {
          * in case of success and failure
          */
 
-        networkHandler = new NetworkHandler(delegate);
-        networkHandler.connect(URL, this);
+        WebFetcher fetcher = new WebFetcher(new NetworkDelegate());
+        fetcher.startFetchingAsynchronously(URL, this);
+        lastWebFetcher = fetcher;
     }
 
     /*
     * after downloading and parsing the news when models are built it will call the adapter and pass the
     * specified model to it so that it will display list of news items.
     * */
-    private void populateNewsItems() {
+    private void populateNewsItems(List<NewsModel> news) {
         ListView newsList = (ListView) findViewById(R.id.newsItemListView);
-        newsList.setAdapter(new NewsAdapter(this,newsModelsArray));
+        newsList.setAdapter(new NewsAdapter(this, news));
     }
 
     /**
@@ -294,9 +284,10 @@ public class NewsActivity extends ActionBarActivity {
              * open the specific page on that app otherwise it will open the page on browser.
              */
             case R.id.action_facebook: {
-                if (networkHandler != null) {
-                    networkHandler.invalidateRequest();
-                }
+                WebFetcher fetcher = lastWebFetcher;
+                if (fetcher != null)
+                    fetcher.invalidateRequest();
+
                 Uri dataUri = Uri.parse("fb://profile/120807804649363");
                 Intent receiverIntent = new Intent(Intent.ACTION_VIEW, dataUri);
 

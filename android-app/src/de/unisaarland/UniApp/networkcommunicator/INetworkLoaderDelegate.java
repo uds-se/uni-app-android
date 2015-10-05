@@ -1,22 +1,14 @@
 package de.unisaarland.UniApp.networkcommunicator;
 
 
-import org.xmlpull.v1.XmlPullParser;
+import java.io.InputStream;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Shahzad
- * Date: 11/29/13
- * Time: 3:42 PM
- * To change this template use File | Settings | File Templates.
- */
 public interface INetworkLoaderDelegate {
 
     void onFailure(String message);
 
     /**
      * Automatically called when connect succeeds.
-     *
      */
-    void onSuccess(XmlPullParser parser);
+    void onSuccess(InputStream data);
 }

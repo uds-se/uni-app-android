@@ -14,40 +14,35 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 import de.unisaarland.UniApp.R;
 import de.unisaarland.UniApp.events.EventDetailActivity;
-import de.unisaarland.UniApp.events.model.EventsModel;
+import de.unisaarland.UniApp.events.model.EventModel;
 import de.unisaarland.UniApp.networkcommunicator.Util;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Shahzad
- * Date: 12/2/13
- * Time: 1:04 AM
- * To change this template use File | Settings | File Templates.
- */
+
 public class EventsAdapter extends BaseAdapter {
     private final Context context;
-    private final ArrayList<EventsModel> eventModelsArray;
+    private final List<EventModel> eventModelsArray;
     private final HashMap<View,Integer> eventItemsMap = new HashMap<View,Integer>();
 
-    public EventsAdapter(Context context, ArrayList<EventsModel> eventModelsArray) {
+    public EventsAdapter(Context context, List<EventModel> eventModelsArray) {
         this.context = context;
         this.eventModelsArray = eventModelsArray;
     }
 
     /*
-        * Will be called when user clicks on a event
-        * Will try to load event detail from the internet if internet is connected otherwise error will be displayed
-        * */
+     * Will be called when user clicks on a event
+     * Will try to load event detail from the internet if internet is connected otherwise error will be displayed
+     */
     View.OnClickListener clickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             if (Util.isConnectedToInternet(context)) {
                 Intent myIntent = new Intent(context, EventDetailActivity.class);
                 int index = eventItemsMap.get(v);
-                EventsModel model = eventModelsArray.get(index);
+                EventModel model = eventModelsArray.get(index);
                 myIntent.putExtra("model", model);
                 context.startActivity(myIntent);
                 Activity activity = (Activity) context;
@@ -71,26 +66,26 @@ public class EventsAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return eventModelsArray.size();  //To change body of implemented methods use File | Settings | File Templates.
+        return eventModelsArray.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return eventModelsArray.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return 0;  //To change body of implemented methods use File | Settings | File Templates.
+        return 0;
     }
 
     // sets the view of event item row
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        if(convertView == null){
+        if (convertView == null) {
             convertView = View.inflate(context, R.layout.event_item, null);
         }
-        EventsModel model = eventModelsArray.get(position);
+        EventModel model = eventModelsArray.get(position);
         Date date = model.getPublicationDate();
         //Set month in locale language
         SimpleDateFormat SDF = new SimpleDateFormat("MMM");

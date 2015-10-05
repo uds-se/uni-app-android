@@ -119,8 +119,6 @@ public class MainActivity extends ActionBarActivity {
     private void setPreferences() {
         SharedPreferences settings = getSharedPreferences(Util.PREFS_NAME, 0);
         SharedPreferences.Editor editor = settings.edit();
-        editor.putBoolean(Util.NEWS_LOADED, false);
-        editor.putBoolean(Util.EVENTS_LOADED, false);
         editor.putBoolean(Util.MENSA_ITEMS_LOADED, false);
         editor.commit();
         File f = new File(getFilesDir().getAbsolutePath()+ Util.TEMP_STAFF_SEARCH_FILE);

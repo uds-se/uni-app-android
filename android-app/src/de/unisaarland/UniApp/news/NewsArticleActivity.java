@@ -60,13 +60,6 @@ public class NewsArticleActivity extends ActionBarActivity {
     * */
     @Override
     public void onBackPressed() {
-        SharedPreferences settings = getSharedPreferences(Util.PREFS_NAME, 0);
-        boolean isCopied = settings.getBoolean(Util.NEWS_LOADED,false);
-        if(!isCopied){
-            SharedPreferences.Editor editor = settings.edit();
-            editor.putBoolean(Util.NEWS_LOADED, true);
-            editor.commit();
-        }
         model = null;
         pBar = null;
         body = null;

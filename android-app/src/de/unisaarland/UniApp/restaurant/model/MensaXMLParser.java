@@ -2,11 +2,13 @@ package de.unisaarland.UniApp.restaurant.model;
 
 import android.os.AsyncTask;
 import android.util.Log;
+import android.util.Xml;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -45,7 +47,15 @@ public class MensaXMLParser {
         this.mensaResultDelegate = mensaResultDelegate;
     }
 
-    public List<MensaItem> parse(XmlPullParser parser) throws XmlPullParserException, IOException {
+    public List<MensaItem> parse(InputStream data) throws XmlPullParserException, IOException {
+        XmlPullParser parser = Xml.newPullParser();
+        try {
+            parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
+            parser.setInput(data, null);
+        } catch (XmlPullParserException e) {
+            throw new AssertionError(e);
+        }
+
         try {
             readFeed(parser);
         }catch(Exception e){
