@@ -100,4 +100,6 @@
     <string name="c_saarbruecken">Campus Saarbrücken</string>
     <string name="choose_campus">Choose your campus</string>
     <string name="choose_campus_hint">This setting customizes the mensa menu, bus stations and the map</string>
+    <string name="noEventsText">No events found.</string>
+    <string name="noNewsText">No news found.</string>
 </resources>

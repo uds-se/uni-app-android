@@ -98,7 +98,8 @@ public class NewsActivity extends ActionBarActivity {
         * */
         @Override
         public void onSuccess(InputStream data) {
-            new NewsXMLParser().startParsing(data, new NewsResultDelegate());
+            new NewsXMLParser().startParsing(data, new NewsResultDelegate(),
+                    NewsActivity.this);
         }
     };
 

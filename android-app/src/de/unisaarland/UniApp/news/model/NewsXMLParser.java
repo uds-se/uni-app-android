@@ -1,5 +1,6 @@
 package de.unisaarland.UniApp.news.model;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.util.Xml;
@@ -16,6 +17,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import de.unisaarland.UniApp.R;
+
 public class NewsXMLParser {
 
     private final String TAG = NewsXMLParser.class.getSimpleName();
@@ -27,7 +30,9 @@ public class NewsXMLParser {
     private final String START_TAG = "rss";
     private final String ITEM_TAG = "item";
 
-    public void startParsing(final InputStream data, final INewsResultDelegate delegate) {
+    public void startParsing(final InputStream data,
+                             final INewsResultDelegate delegate,
+                             final Context context) {
         new AsyncTask<Void, Void, List<NewsModel>>() {
             private String errorMessage = null;
             @Override
@@ -45,7 +50,6 @@ public class NewsXMLParser {
                 try {
                     parser.require(XmlPullParser.START_DOCUMENT, null, null);
                     parser.next();
-                    parser.require(XmlPullParser.START_TAG, null, START_TAG);
                     while (parser.next() != XmlPullParser.END_DOCUMENT) {
                         if (parser.getEventType() != XmlPullParser.START_TAG) {
                             continue;
@@ -77,6 +81,9 @@ public class NewsXMLParser {
                     if (errorMessage == null)
                         errorMessage = "Unkown error retrieving news";
                     delegate.onFailure(errorMessage);
+                } else if (news.isEmpty()) {
+                    delegate.onFailure(
+                            context.getResources().getString(R.string.noNewsText));
                 } else {
                     delegate.newsList(news);
                 }

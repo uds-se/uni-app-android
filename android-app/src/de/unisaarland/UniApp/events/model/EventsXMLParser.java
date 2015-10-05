@@ -1,5 +1,6 @@
 package de.unisaarland.UniApp.events.model;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.util.Xml;
@@ -16,6 +17,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import de.unisaarland.UniApp.R;
+
 
 public class EventsXMLParser {
 
@@ -28,7 +31,9 @@ public class EventsXMLParser {
     private final String START_TAG = "rss";
     private final String ITEM_TAG = "item";
 
-    public void startParsing(final InputStream data, final IEventsResultDelegate eventsResultDelegate) {
+    public void startParsing(final InputStream data,
+                             final IEventsResultDelegate eventsResultDelegate,
+                             final Context context) {
         new AsyncTask<Void, Void, List<EventModel>>() {
             private String errorMessage = null;
             @Override
@@ -46,7 +51,6 @@ public class EventsXMLParser {
                 try {
                     parser.require(XmlPullParser.START_DOCUMENT, null, null);
                     parser.next();
-                    parser.require(XmlPullParser.START_TAG, null, START_TAG);
                     while (parser.next() != XmlPullParser.END_DOCUMENT) {
                         if (parser.getEventType() != XmlPullParser.START_TAG) {
                             continue;
@@ -78,6 +82,9 @@ public class EventsXMLParser {
                     if (errorMessage == null)
                         errorMessage = "Unknown error retrieving events";
                     eventsResultDelegate.onFailure(errorMessage);
+                } else if (events.isEmpty()) {
+                    eventsResultDelegate.onFailure(
+                            context.getResources().getString(R.string.noEventsText));
                 } else {
                     eventsResultDelegate.eventsList(events);
                 }

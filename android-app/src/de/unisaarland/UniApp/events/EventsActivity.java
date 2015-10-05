@@ -172,7 +172,8 @@ public class EventsActivity extends ActionBarActivity {
         * */
         @Override
         public void onSuccess(InputStream data) {
-            new EventsXMLParser().startParsing(data, new EventsResultDelegate());
+            new EventsXMLParser().startParsing(data, new EventsResultDelegate(),
+                    EventsActivity.this);
         }
     };
 
