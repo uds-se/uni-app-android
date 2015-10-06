@@ -125,9 +125,11 @@ public class EventsActivity extends ActionBarActivity {
         if (!hasCached) {
             //displays the loading view and download and parse the event items from internet
             setContentView(R.layout.loading_layout);
-            ProgressBar bar = (ProgressBar) findViewById(R.id.progress_bar);
-            bar.animate();
         }
+        ProgressBar bar = (ProgressBar) findViewById(R.id.progress_bar);
+        bar.setVisibility(View.VISIBLE);
+        bar.animate();
+
         /**
          * Calls the custom class to connect and download the specific XML and pass the delegate method which will be called
          * in case of success and failure
@@ -202,7 +204,7 @@ public class EventsActivity extends ActionBarActivity {
         @Override
         public void eventsList(List<EventModel> events) {
             ProgressBar bar = (ProgressBar) findViewById(R.id.progress_bar);
-            if (bar!=null) {
+            if (bar != null) {
                 bar.clearAnimation();
                 bar.setVisibility(View.INVISIBLE);
             }

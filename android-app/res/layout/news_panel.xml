@@ -5,9 +5,16 @@
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"
               android:id="@+id/news_bg_panel"
-              android:background="#FFFFFF"
-        >
+              android:background="#FFFFFF">
     <ListView android:id="@+id/newsItemListView"
               android:layout_width="fill_parent" android:layout_height="fill_parent" android:clickable="true"/>
+
+    <include
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        layout="@layout/progress_bar"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"/>
+
 
 </RelativeLayout>

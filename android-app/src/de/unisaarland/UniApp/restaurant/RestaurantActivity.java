@@ -52,7 +52,6 @@ public class RestaurantActivity extends ActionBarActivity {
     private final String TAG = RestaurantActivity.class.getSimpleName();
 
     private final String RESTAURANT_FILE_NAME = "restaurant_sb.dat";
-    private ProgressBar bar;
     private WebFetcher mensaFetcher = null;
     private String backText = null;
 
@@ -73,8 +72,6 @@ public class RestaurantActivity extends ActionBarActivity {
         public void onFailure(String message) {
             if (restaurantFileExist()){
                 loadMensaItemsFromSavedFile();
-                bar.clearAnimation();
-                bar.setVisibility(View.INVISIBLE);
                 mensaFetcher.invalidateRequest();
                 setContentView(R.layout.restaurant_layout);
                 populateMensaItems();
@@ -85,8 +82,6 @@ public class RestaurantActivity extends ActionBarActivity {
                 builder1.setPositiveButton("OK",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                bar.clearAnimation();
-                                bar.setVisibility(View.INVISIBLE);
                                 mensaFetcher.invalidateRequest();
                                 dialog.cancel();
                                 onBackPressed();
@@ -156,7 +151,8 @@ public class RestaurantActivity extends ActionBarActivity {
 
     // will remove the loading view and save the current maensa items in a file
     private void removeLoadingView() {
-        if(bar!=null){
+        ProgressBar bar = (ProgressBar) findViewById(R.id.progress_bar);
+        if (bar!=null) {
             bar.clearAnimation();
             bar.setVisibility(View.INVISIBLE);
         }
@@ -173,7 +169,6 @@ public class RestaurantActivity extends ActionBarActivity {
     * specified model to it so that it will display list of mensa items.
     * */
     private void populateMensaItems() {
-
         ViewFlow viewFlow = (ViewFlow) findViewById(R.id.viewflow);
         viewFlow.setAdapter(new ViewFlowAdapter(this,mensaItemsDictionary,keysList), 0);
         CircleFlowIndicator indic = (CircleFlowIndicator) findViewById(R.id.viewflowindic);
@@ -216,11 +211,10 @@ public class RestaurantActivity extends ActionBarActivity {
     //displays the loading view and download and parse the mensa items from internet
     private void addLoadingView() {
         setContentView(R.layout.loading_layout);
-        bar = (ProgressBar) findViewById(R.id.progress_bar);
-        // safety check in case user press the back button then bar will be null
-        if(bar!=null){
-            bar.animate();
-        }
+        ProgressBar bar = (ProgressBar) findViewById(R.id.progress_bar);
+        bar.setVisibility(View.VISIBLE);
+        bar.animate();
+
         /**
          * Calls the custom class to connect and download the specific XML and pass the delegate method which will be called
          * in case of success and failure
@@ -351,13 +345,12 @@ public class RestaurantActivity extends ActionBarActivity {
         }
     }
 
-    /*
-   * Called when back button is pressed either from device or navigation bar.
-   * */
+    /**
+     * Called when back button is pressed either from device or navigation bar.
+     */
     @Override
     public void onBackPressed() {
         backText = null;
-        bar = null;
         super.onBackPressed();
     }
 }

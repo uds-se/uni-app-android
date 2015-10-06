@@ -41,7 +41,7 @@
         </RelativeLayout>
 
         <TextView android:layout_width="match_parent" android:layout_height="match_parent"
-                  android:text="dummy jdfhshdashjljas jasdkfhasdjlfhsda jasdjsdhf"
+                  android:text="Lorem ipsum dolor sit amet, consectetur, ..."
                   android:textStyle="normal" android:textSize="15dp" android:id="@+id/event_description"
                   android:gravity="center_vertical|left" android:visibility="visible" android:textColor="#FF303030"
                   android:layout_alignParentBottom="false" android:layout_alignParentLeft="true"

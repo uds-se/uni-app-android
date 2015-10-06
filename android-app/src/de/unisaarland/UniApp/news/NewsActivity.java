@@ -235,9 +235,11 @@ public class NewsActivity extends ActionBarActivity {
         if (!hasCached) {
             //displays the loading view and download and parse the news items from internet
             setContentView(R.layout.loading_layout);
-            ProgressBar bar = (ProgressBar) findViewById(R.id.progress_bar);
-            bar.animate();
         }
+        ProgressBar bar = (ProgressBar) findViewById(R.id.progress_bar);
+        bar.setVisibility(View.VISIBLE);
+        bar.animate();
+
         /**
          * Calls the custom class to connect and download the specific XML and pass the delegate method which will be called
          * in case of success and failure

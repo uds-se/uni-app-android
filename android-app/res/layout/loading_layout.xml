@@ -7,10 +7,5 @@
               android:layout_height="fill_parent"
         android:background="#ededed">
 
-    <ProgressBar
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_centerVertical="true" android:layout_centerHorizontal="true"
-            android:id="@+id/progress_bar"
-            />
+    <include layout="@layout/progress_bar"/>
 </RelativeLayout>
