@@ -44,14 +44,14 @@ public class EventsActivity extends ActionBarActivity {
     private final String URL = "http://www.uni-saarland.de/aktuelles/veranstaltungen/alle-veranstaltungen/rss.xml";
     private volatile WebFetcher lastWebFetcher = null;
 
-    /*
+    /**
      * Will be called when activity created first time e.g. from scratch
      */
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
-    /*
+    /**
      * Will be called when activity created first time after onCreate or when activity comes to the front again or in a pausing state
      * So its better to set all the things needed to use in the activity here if in case anything is released in onPause method
      */
@@ -70,13 +70,16 @@ public class EventsActivity extends ActionBarActivity {
             setContentView(R.layout.news_panel);
             populateEventItems(cachedEvents);
         }
+        long cachedEventAgeMillis = Math.abs(lastLoadMillis - System.currentTimeMillis());
         // Reload after 15 minutes
-        if (cachedEvents == null || Math.abs(lastLoadMillis - System.currentTimeMillis()) >= 1000*60*15) {
-            startLoading();
+        if (cachedEvents == null || cachedEventAgeMillis >= 1000*60*15) {
+            // only use cached data if it is younger than 3 days
+            boolean hasCached = cachedEvents != null && cachedEventAgeMillis < 1000*60*60*24*3;
+            startLoading(hasCached);
         }
     }
 
-    /*
+    /**
      * Called when back button is pressed either from device or navigation bar.
      */
     @Override
@@ -86,6 +89,12 @@ public class EventsActivity extends ActionBarActivity {
         if (webFetcher != null)
             webFetcher.invalidateRequest();
         super.onBackPressed();
+    }
+
+    @Override
+    protected void onStop() {
+        lastWebFetcher = null;
+        super.onStop();
     }
 
     /**
@@ -112,18 +121,20 @@ public class EventsActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void startLoading() {
-        //displays the loading view and download and parse the event items from internet
-        setContentView(R.layout.loading_layout);
-        // safety check in case user press the back button then bar will be null
-        ProgressBar bar = (ProgressBar) findViewById(R.id.progress_bar);
-        bar.animate();
+    private void startLoading(boolean hasCached) {
+        if (!hasCached) {
+            //displays the loading view and download and parse the event items from internet
+            setContentView(R.layout.loading_layout);
+            ProgressBar bar = (ProgressBar) findViewById(R.id.progress_bar);
+            bar.animate();
+        }
         /**
          * Calls the custom class to connect and download the specific XML and pass the delegate method which will be called
          * in case of success and failure
          */
-        WebFetcher fetcher = new WebFetcher(new NetworkDelegate());
+        WebFetcher fetcher = new WebFetcher(new NetworkDelegate(hasCached));
         fetcher.startFetchingAsynchronously(URL, this);
+        lastWebFetcher = fetcher;
     }
 
     // custom class to show the back button action using navigation bar and will call the onBack method of activity
@@ -141,11 +152,17 @@ public class EventsActivity extends ActionBarActivity {
     }
 
     private final class NetworkDelegate implements INetworkLoaderDelegate {
-        /*
-        * Will be called in case of failure e.g internet connection problem
-        * Will try to load events from already stored model or in case if that model is not present will show the
-        * error dialog
-        */
+        private final boolean hasCached;
+
+        public NetworkDelegate(boolean hasCached) {
+            this.hasCached = hasCached;
+        }
+
+        /**
+         * Will be called in case of failure e.g internet connection problem
+         * Will try to load events from already stored model or in case if that model is not present will show the
+         * error dialog
+         */
         @Override
         public void onFailure(String message) {
             new AlertDialog.Builder(EventsActivity.this).
@@ -160,7 +177,8 @@ public class EventsActivity extends ActionBarActivity {
                                         bar.setVisibility(View.INVISIBLE);
                                     }
                                     dialog.cancel();
-                                    onBackPressed();
+                                    if (!hasCached)
+                                        onBackPressed();
                                 }
                             }).
                     create().show();
@@ -290,12 +308,5 @@ public class EventsActivity extends ActionBarActivity {
             Log.e(TAG, "Weird class error when loading events from cache file", e);
             return null;
         }
-    }
-
-    // release the resources.
-    @Override
-    protected void onStop() {
-        lastWebFetcher = null;
-        super.onStop();
     }
 }

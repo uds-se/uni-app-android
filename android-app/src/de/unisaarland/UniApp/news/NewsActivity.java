@@ -44,11 +44,46 @@ public class NewsActivity extends ActionBarActivity {
     private final String TAG = NewsActivity.class.getSimpleName();
 
     private final String URL = "http://www.uni-saarland.de/aktuelles/presse/pms.html?type=100&tx_ttnews[cat]=26";
-    private WebFetcher lastWebFetcher = null;
+    private volatile WebFetcher lastWebFetcher = null;
 
-    /*
-    * Called when back button is pressed either from device or navigation bar.
-    * */
+    /**
+     * Will be called when activity created first time e.g. from scratch
+     */
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    /**
+     * Will be called when activity created first time after onCreate or when activity comes to the front again or in a pausing state
+     * So its better to set all the things needed to use in the activity here if in case anything is released in onPause method
+     */
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        setActionBar();
+
+        SharedPreferences settings = getSharedPreferences(Util.PREFS_NAME, 0);
+        long lastLoadMillis = settings.getLong(Util.NEWS_LOAD_MILLIS, 0);
+        // We first load the cached news (and show then), then update the list asynchronously if
+        // last fetch was more than 15 minutes ago
+        List<NewsModel> cachedNews = loadNewsFromCache();
+        if (cachedNews != null) {
+            setContentView(R.layout.news_panel);
+            populateNewsItems(cachedNews);
+        }
+        long cachedNewsAgeMillis = Math.abs(lastLoadMillis - System.currentTimeMillis());
+        // Reload after 15 minutes
+        if (cachedNews == null || cachedNewsAgeMillis >= 1000*60*15) {
+            // only use cached data if it is younger than 3 days
+            boolean hasCached = cachedNews != null && cachedNewsAgeMillis < 1000*60*60*24*3;
+            startLoading(hasCached);
+        }
+    }
+
+    /**
+     * Called when back button is pressed either from device or navigation bar.
+     */
     @Override
     public void onBackPressed() {
         // will invalidate the connection establishment request if it is not being completed yet and free the resources
@@ -67,6 +102,12 @@ public class NewsActivity extends ActionBarActivity {
 
     private class NetworkDelegate implements INetworkLoaderDelegate {
 
+        private final boolean hasCached;
+
+        public NetworkDelegate(boolean hasCached) {
+            this.hasCached = hasCached;
+        }
+
         /**
          * Will be called in case of failure e.g internet connection problem
          * Will try to load news from already stored model or in case if that model is not present will show the
@@ -74,23 +115,23 @@ public class NewsActivity extends ActionBarActivity {
          */
         @Override
         public void onFailure(String message) {
-                AlertDialog.Builder builder1 = new AlertDialog.Builder(NewsActivity.this);
-                builder1.setMessage(message);
-                builder1.setCancelable(true);
-                builder1.setPositiveButton("OK",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                ProgressBar bar = (ProgressBar) findViewById(R.id.progress_bar);
-                                if(bar!=null){
-                                    bar.clearAnimation();
-                                    bar.setVisibility(View.INVISIBLE);
+            new AlertDialog.Builder(NewsActivity.this).
+                    setMessage(message).
+                    setCancelable(true).
+                    setPositiveButton(getString(R.string.ok),
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    ProgressBar bar = (ProgressBar) findViewById(R.id.progress_bar);
+                                    if (bar != null) {
+                                        bar.clearAnimation();
+                                        bar.setVisibility(View.INVISIBLE);
+                                    }
+                                    dialog.cancel();
+                                    if (!hasCached)
+                                        onBackPressed();
                                 }
-                                dialog.cancel();
-                                onBackPressed();
-                            }
-                        });
-                AlertDialog alert11 = builder1.create();
-                alert11.show();
+                            }).
+                    create().show();
         }
         /*
         * Will be called in case of success if connection is successfully established.
@@ -172,38 +213,6 @@ public class NewsActivity extends ActionBarActivity {
         }
     };
 
-    /*
-    * Will be called when activity created first time e.g. from scratch
-    * */
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    /*
-    * Will be called when activity created first time after onCreate or when activity comes to the front again or in a pausing state
-    * So its better to set all the things needed to use in the activity here if in case anything is released in onPause method
-    * */
-    @Override
-    protected void onResume() {
-        super.onResume();
-        // sets the custom navigation bar according to each activity.
-        setActionBar();
-
-        SharedPreferences settings = getSharedPreferences(Util.PREFS_NAME, 0);
-        long lastLoadMillis = settings.getLong(Util.NEWS_LOAD_MILLIS, 0);
-        // We first load the cached news (and show then), then update the list asynchronously if
-        // last fetch was more than 15 minutes ago
-        List<NewsModel> cachedNews = loadNewsFromCache();
-        if (cachedNews != null) {
-            setContentView(R.layout.news_panel);
-            populateNewsItems(cachedNews);
-        }
-        // Reload after 15 minutes
-        if (Math.abs(lastLoadMillis - System.currentTimeMillis()) >= 1000*60*15) {
-            startLoading();
-        }
-    }
-
     /**
      * Save current news model to file (temporary) so that these will be used later in case if user don't have internet connection
      * and also if user is coming back from seeing a detailed news.
@@ -222,12 +231,11 @@ public class NewsActivity extends ActionBarActivity {
         return true;
     }
 
-    private void startLoading() {
-        //displays the loading view and download and parse the news items from internet
-        setContentView(R.layout.loading_layout);
-        ProgressBar bar = (ProgressBar) findViewById(R.id.progress_bar);
-        // safety check in case user press the back button then bar will be null
-        if (bar!=null) {
+    private void startLoading(boolean hasCached) {
+        if (!hasCached) {
+            //displays the loading view and download and parse the news items from internet
+            setContentView(R.layout.loading_layout);
+            ProgressBar bar = (ProgressBar) findViewById(R.id.progress_bar);
             bar.animate();
         }
         /**
@@ -235,7 +243,7 @@ public class NewsActivity extends ActionBarActivity {
          * in case of success and failure
          */
 
-        WebFetcher fetcher = new WebFetcher(new NetworkDelegate());
+        WebFetcher fetcher = new WebFetcher(new NetworkDelegate(hasCached));
         fetcher.startFetchingAsynchronously(URL, this);
         lastWebFetcher = fetcher;
     }
