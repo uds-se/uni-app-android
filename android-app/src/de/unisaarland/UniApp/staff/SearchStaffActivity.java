@@ -93,16 +93,18 @@ public class SearchStaffActivity extends ActionBarActivity implements OnCheckedC
                             });
                     AlertDialog alert11 = builder1.create();
                     alert11.show();
-                } else if(Util.isConnectedToInternet(SearchStaffActivity.this)){
-                    String allQueryURL  = "https://www.lsf.uni-saarland.de/qisserver/rds?state=wsearchv&search=7&purge=y&moduleParameter=person/person&personal.vorname=%s&personal.nachname=%s&P_start=0&P_anzahl=50&_form=display";
-                    String profQueryURL = "https://www.lsf.uni-saarland.de/qisserver/rds?state=wsearchv&search=7&purge=y&moduleParameter=person/person&choice.r_funktion.pfid=y&r_funktion.pfid=171&personal.vorname=%s&personal.nachname=%s&P_start=0&P_anzahl=50&_form=display";
-                    String queryURLRaw = radioChooser.getCheckedRadioButtonId() == R.id.rb_only_prof
-                            ? profQueryURL : allQueryURL;
-                    String queryURL = String.format(queryURLRaw, Uri.encode(fstNam), Uri.encode(lstNam));
+                } else if (Util.isConnectedToInternet(SearchStaffActivity.this)) {
+                    String profPart = "";
+                    if (radioChooser.getCheckedRadioButtonId() == R.id.rb_only_prof)
+                        profPart = "choice.r_funktion.pfid=y&r_funktion.pfid=171&";
+                    String searchURL  = "https://www.lsf.uni-saarland.de/qisserver/rds?"+
+                            profPart+"state=wsearchv&search=7&purge=y&moduleParameter=person/person"+
+                            "&personal.vorname="+Uri.encode(fstNam)+"&personal.nachname="+
+                            Uri.encode(lstNam)+"&P_start=0&P_anzahl=50&_form=display";
                     Intent myIntent = new Intent(SearchStaffActivity.this, SearchResultActivity.class);
-                    myIntent.putExtra("url", queryURL);
+                    myIntent.putExtra("url", searchURL);
                     SearchStaffActivity.this.startActivity(myIntent);
-                } else{
+                } else {
                     AlertDialog.Builder builder1 = new AlertDialog.Builder(SearchStaffActivity.this);
                     builder1.setMessage(getString(R.string.check_internet_message));
                     builder1.setCancelable(true);
