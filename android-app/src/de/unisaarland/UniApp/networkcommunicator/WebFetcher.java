@@ -19,7 +19,7 @@ public class WebFetcher {
 
     private final INetworkLoaderDelegate delegate;
     private volatile HttpURLConnection lastConnection;
-    private final int CONNECTION_TIME = 20000;
+    private static final int CONNECTION_TIME = 20000;
 
 
     public WebFetcher(INetworkLoaderDelegate delegate) {

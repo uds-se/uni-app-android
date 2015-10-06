@@ -39,9 +39,9 @@ import de.unisaarland.UniApp.networkcommunicator.WebFetcher;
 
 public class EventsActivity extends ActionBarActivity {
 
-    private final String TAG = EventsActivity.class.getSimpleName();
+    private static final String TAG = EventsActivity.class.getSimpleName();
 
-    private final String URL = "http://www.uni-saarland.de/aktuelles/veranstaltungen/alle-veranstaltungen/rss.xml";
+    private static final String URL = "http://www.uni-saarland.de/aktuelles/veranstaltungen/alle-veranstaltungen/rss.xml";
     private volatile WebFetcher lastWebFetcher = null;
 
     /**
@@ -195,7 +195,7 @@ public class EventsActivity extends ActionBarActivity {
             new EventsXMLParser().startParsing(data, new EventsResultDelegate(),
                     EventsActivity.this);
         }
-    };
+    }
 
     /*
     * Call back method of EventResultDelegate will be called when all events are parsed and Model list is generated
@@ -238,7 +238,7 @@ public class EventsActivity extends ActionBarActivity {
                             }).
                     create().show();
         }
-    };
+    }
 
     /*
     * after downloading and parsing the events when models are built it will call the adapter and pass the

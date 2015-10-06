@@ -138,7 +138,8 @@ public class EventsXMLParser {
     }
 
     private void skipTag(XmlPullParser parser) throws XmlPullParserException, IOException {
-        assert (parser.getEventType() == XmlPullParser.START_TAG);
+        if (parser.getEventType() != XmlPullParser.START_TAG)
+            throw new IllegalStateException("Should be at start of a tag, is "+parser.getEventType());
         int depth = 1;
         while (depth != 0) {
             switch (parser.next()) {

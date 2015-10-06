@@ -41,9 +41,9 @@ import de.unisaarland.UniApp.news.uihelper.NewsAdapter;
 
 public class NewsActivity extends ActionBarActivity {
 
-    private final String TAG = NewsActivity.class.getSimpleName();
+    private static final String TAG = NewsActivity.class.getSimpleName();
 
-    private final String URL = "http://www.uni-saarland.de/aktuelles/presse/pms.html?type=100&tx_ttnews[cat]=26";
+    private static final String URL = "http://www.uni-saarland.de/aktuelles/presse/pms.html?type=100&tx_ttnews[cat]=26";
     private volatile WebFetcher lastWebFetcher = null;
 
     /**
@@ -142,7 +142,7 @@ public class NewsActivity extends ActionBarActivity {
             new NewsXMLParser().startParsing(data, new NewsResultDelegate(),
                     NewsActivity.this);
         }
-    };
+    }
 
     /*
     * Load news from already saved model if internet is not available or coming back from news detail
@@ -211,7 +211,7 @@ public class NewsActivity extends ActionBarActivity {
                             }).
                     create().show();
         }
-    };
+    }
 
     /**
      * Save current news model to file (temporary) so that these will be used later in case if user don't have internet connection

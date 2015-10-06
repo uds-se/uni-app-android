@@ -23,12 +23,12 @@ public class NewsXMLParser {
 
     private final String TAG = NewsXMLParser.class.getSimpleName();
 
-    private final String TITLE = "title";
-    private final String PUBLICATION_DATE = "pubDate";
-    private final String LINK = "link";
-    private final String DESCRIPTION = "content:encoded";
-    private final String START_TAG = "rss";
-    private final String ITEM_TAG = "item";
+    private static final String TITLE = "title";
+    private static final String PUBLICATION_DATE = "pubDate";
+    private static final String LINK = "link";
+    private static final String DESCRIPTION = "content:encoded";
+    private static final String START_TAG = "rss";
+    private static final String ITEM_TAG = "item";
 
     public void startParsing(final InputStream data,
                              final INewsResultDelegate delegate,
@@ -139,7 +139,8 @@ public class NewsXMLParser {
     }
 
     private void skipTag(XmlPullParser parser) throws XmlPullParserException, IOException {
-        assert (parser.getEventType() == XmlPullParser.START_TAG);
+        if (parser.getEventType() != XmlPullParser.START_TAG)
+            throw new IllegalStateException("Should be at start of a tag, is "+parser.getEventType());
         int depth = 1;
         while (depth != 0) {
             switch (parser.next()) {

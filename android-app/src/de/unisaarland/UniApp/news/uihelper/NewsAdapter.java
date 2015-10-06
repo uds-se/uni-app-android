@@ -12,7 +12,6 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -22,13 +21,7 @@ import de.unisaarland.UniApp.networkcommunicator.Util;
 import de.unisaarland.UniApp.news.NewsArticleActivity;
 import de.unisaarland.UniApp.news.model.NewsModel;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Shahzad
- * Date: 11/28/13
- * Time: 10:40 PM
- * To change this template use File | Settings | File Templates.
- */
+
 public class NewsAdapter extends BaseAdapter {
 
     private final Context context;
