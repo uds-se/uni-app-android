@@ -48,7 +48,9 @@ import com.google.android.gms.maps.model.TileOverlayOptions;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 import de.unisaarland.UniApp.R;
@@ -74,7 +76,7 @@ public class CampusActivity extends ActionBarActivity implements ConnectionCallb
     private GoogleMap map;
     private LocationClient locationClient;
     private final int REQUEST_CODE = 5;
-    private java.util.HashMap<String,PointOfInterest> poisMap = new java.util.HashMap<String,PointOfInterest>();
+    private final Map<String, PointOfInterest> poisMap = new HashMap<>();
     private Location currentLocation;
     private final LatLngBounds UNIVERSITY = new LatLngBounds(
             new LatLng(7.03466212,49.25030771), new LatLng(7.05128056,49.25946299));
@@ -86,7 +88,7 @@ public class CampusActivity extends ActionBarActivity implements ConnectionCallb
             .setFastestInterval(16)    // 16ms = 60fps
             .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
     private String infoBuilding = null;
-    private ArrayList<Marker> markers;
+    private final List<Marker> markers = new ArrayList<>();
     private AutoCompleteTextView search;
     private ArrayList<PointOfInterest> searchBase;
     private Menu menu;
@@ -217,42 +219,44 @@ public class CampusActivity extends ActionBarActivity implements ConnectionCallb
         // Try to obtain the map from the SupportMapFragment.
         map = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
                 .getMap();
-        markers = new ArrayList<Marker>();
-        // Check if we were successful in obtaining the map.
-        if (map != null) {
-            // set default options of a map which are loaded with the activity
-            // like default zoom level and campera position
-            map.setMyLocationEnabled(true);
-            map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-            map.setOnMyLocationButtonClickListener(this);
-            map.setOnMarkerClickListener(this);
-            map.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
-                @Override
-                public void onCameraChange(CameraPosition cameraPosition) {
-                    float maxZoom = 18.0f;
-                    if (cameraPosition.zoom > maxZoom)
-                        map.animateCamera(CameraUpdateFactory.zoomTo(maxZoom));
-                }
-            });
-            map.setBuildingsEnabled(false);
-            map.setMapType(1);
-            map.getUiSettings().setZoomControlsEnabled(false);
-            map.setInfoWindowAdapter(new CustomInfoWindowAdapter(this, poisMap));
-            map.setOnInfoWindowClickListener(this);
-            for (CustomMapTileProvider prov : CustomMapTileProvider.allTileProviders(getResources().getAssets()))
-                map.addTileOverlay(new TileOverlayOptions().tileProvider(prov));
 
-            SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-            String uni_saar = settings.getString(SettingsActivity.KEY_CAMPUS_CHOOSER, "saar");
-            LatLng latlng = uni_saar.equals("saar") ? new LatLng(49.25419, 7.041324)
-                    : new LatLng(49.305582, 7.344296);
-            CameraUpdate upd = CameraUpdateFactory.newLatLngZoom(latlng, 15);
-            map.moveCamera(upd);
-            // if info building != null means activity is called from search result details page
-            // so it will get the building position from the database and will set the marker there.
-            if (infoBuilding != null)
-                pinPOIsInArray(db.getPointsOfInterestForTitle(infoBuilding));
-        }
+        // Check if we were successful in obtaining the map.
+        if (map == null)
+            return;
+
+        markers.clear();
+        // set default options of a map which are loaded with the activity
+        // like default zoom level and campera position
+        map.setMyLocationEnabled(true);
+        map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        map.setOnMyLocationButtonClickListener(this);
+        map.setOnMarkerClickListener(this);
+        map.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
+            @Override
+            public void onCameraChange(CameraPosition cameraPosition) {
+                float maxZoom = 18.0f;
+                if (cameraPosition.zoom > maxZoom)
+                    map.animateCamera(CameraUpdateFactory.zoomTo(maxZoom));
+            }
+        });
+        map.setBuildingsEnabled(false);
+        map.setMapType(1);
+        map.getUiSettings().setZoomControlsEnabled(false);
+        map.setInfoWindowAdapter(new CustomInfoWindowAdapter(this, poisMap));
+        map.setOnInfoWindowClickListener(this);
+        for (CustomMapTileProvider prov : CustomMapTileProvider.allTileProviders(getResources().getAssets()))
+            map.addTileOverlay(new TileOverlayOptions().tileProvider(prov));
+
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        String uni_saar = settings.getString(SettingsActivity.KEY_CAMPUS_CHOOSER, "saar");
+        LatLng latlng = uni_saar.equals("saar") ? new LatLng(49.25419, 7.041324)
+                : new LatLng(49.305582, 7.344296);
+        CameraUpdate upd = CameraUpdateFactory.newLatLngZoom(latlng, 15);
+        map.moveCamera(upd);
+        // if info building != null means activity is called from search result details page
+        // so it will get the building position from the database and will set the marker there.
+        if (infoBuilding != null)
+            pinPOIsInArray(db.getPointsOfInterestForTitle(infoBuilding));
     }
 
     /*
@@ -376,13 +380,19 @@ public class CampusActivity extends ActionBarActivity implements ConnectionCallb
         }
     }
 
-    /*
-    * add pins to all pointOfInterests in the list and will compute the visible rectangle so that
-    * all point of interests are displayed on the screen.
-    * */
+    /**
+     * add pins to all pointOfInterests in the list and will compute the visible rectangle so that
+     * all point of interests are displayed on the screen.
+     */
     private boolean pinPOIsInArray(List<PointOfInterest> POIs){
         if (POIs.isEmpty()) {
-            Log.w(TAG, new NoSuchElementException("empty POI list"));
+            // use exception to get stack trace
+            Log.w(TAG, new IllegalStateException("empty POI list"));
+            return false;
+        }
+        // map is null if Google Play services are not installed on the device
+        if (map == null) {
+            Log.w(TAG, new IllegalStateException("map not initiated"));
             return false;
         }
 

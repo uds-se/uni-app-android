@@ -9,6 +9,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import de.unisaarland.UniApp.R;
 import de.unisaarland.UniApp.bus.model.PointOfInterest;
@@ -19,9 +20,9 @@ import de.unisaarland.UniApp.bus.model.PointOfInterest;
 public class CustomInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
 
     private final View mWindow;
-    private final HashMap<String, PointOfInterest> poisMap;
+    private final Map<String, PointOfInterest> poisMap;
 
-    public CustomInfoWindowAdapter(Activity activity, HashMap<String, PointOfInterest> poisMap) {
+    public CustomInfoWindowAdapter(Activity activity, Map<String, PointOfInterest> poisMap) {
         mWindow = activity.getLayoutInflater().inflate(R.layout.custom_info_window, null);
         this.poisMap = poisMap;
     }
