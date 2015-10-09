@@ -1,15 +1,9 @@
 package de.unisaarland.UniApp.events.model;
 
-import android.content.Context;
-import android.os.AsyncTask;
-import android.util.Log;
-import android.util.Xml;
-
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -17,7 +11,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import de.unisaarland.UniApp.R;
 import de.unisaarland.UniApp.utils.XMLExtractor;
 
 
@@ -35,17 +28,17 @@ public class EventsXMLParser implements XMLExtractor<List<EventModel>> {
     @Override
     public List<EventModel> extractFromXML(XmlPullParser parser)
             throws IOException, XmlPullParserException, ParseException {
-        List<EventModel> events = new ArrayList<EventModel>();
+        List<EventModel> events = new ArrayList<>();
 
         parser.require(XmlPullParser.START_DOCUMENT, null, null);
         parser.next();
+        parser.require(XmlPullParser.START_TAG, null, START_TAG);
+
         while (parser.next() != XmlPullParser.END_DOCUMENT) {
-            if (parser.getEventType() != XmlPullParser.START_TAG) {
+            if (parser.getEventType() != XmlPullParser.START_TAG)
                 continue;
-            }
-            if (parser.getName().equals(ITEM_TAG)) {
+            if (parser.getName().equals(ITEM_TAG))
                 events.add(readEntry(parser));
-            }
         }
         return events;
     }

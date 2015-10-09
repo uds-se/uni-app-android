@@ -18,8 +18,10 @@ import java.util.List;
 import java.util.Locale;
 
 import de.unisaarland.UniApp.R;
+import de.unisaarland.UniApp.events.model.EventModel;
+import de.unisaarland.UniApp.utils.XMLExtractor;
 
-public class NewsXMLParser {
+public class NewsXMLParser implements XMLExtractor<List<NewsModel>> {
 
     private final String TAG = NewsXMLParser.class.getSimpleName();
 
@@ -30,68 +32,26 @@ public class NewsXMLParser {
     private static final String START_TAG = "rss";
     private static final String ITEM_TAG = "item";
 
-    public void startParsing(final InputStream data,
-                             final INewsResultDelegate delegate,
-                             final Context context) {
-        new AsyncTask<Void, Void, List<NewsModel>>() {
-            private String errorMessage = null;
-            @Override
-            protected List<NewsModel> doInBackground(Void... params) {
-                List<NewsModel> news = new ArrayList<NewsModel>();
+    @Override
+    public List<NewsModel> extractFromXML(XmlPullParser parser)
+            throws IOException, XmlPullParserException, ParseException {
+        List<NewsModel> news = new ArrayList<>();
 
-                XmlPullParser parser = Xml.newPullParser();
-                try {
-                    parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
-                    parser.setInput(data, null);
-                } catch (XmlPullParserException e) {
-                    throw new AssertionError(e);
-                }
+        parser.require(XmlPullParser.START_DOCUMENT, null, null);
+        parser.next();
+        parser.require(XmlPullParser.START_TAG, null, START_TAG);
 
-                try {
-                    parser.require(XmlPullParser.START_DOCUMENT, null, null);
-                    parser.next();
-                    while (parser.next() != XmlPullParser.END_DOCUMENT) {
-                        if (parser.getEventType() != XmlPullParser.START_TAG) {
-                            continue;
-                        }
-                        if (parser.getName().equals(ITEM_TAG)) {
-                            news.add(readEntry(parser));
-                        }
-                    }
-                } catch (XmlPullParserException | ParseException e) {
-                    errorMessage = "Error parsing events: " + e.getLocalizedMessage();
-                    Log.w(TAG, "event parse error", e);
-                    return null;
-                } catch (IOException e) {
-                    errorMessage = "Error retrieving events: " + e.getLocalizedMessage();
-                    Log.w(TAG, "event retrieve error", e);
-                    return null;
-                }
-                return news;
-            }
-
-            @Override
-            protected void onCancelled() {
-                super.onCancelled();
-            }
-
-            @Override
-            protected void onPostExecute(List<NewsModel> news) {
-                if (news == null) {
-                    if (errorMessage == null)
-                        errorMessage = "Unkown error retrieving news";
-                    delegate.onFailure(errorMessage);
-                } else if (news.isEmpty()) {
-                    delegate.onFailure(
-                            context.getResources().getString(R.string.noNewsText));
-                } else {
-                    delegate.newsList(news);
-                }
-            }
-        }.execute();
+        while (parser.next() != XmlPullParser.END_DOCUMENT) {
+            if (parser.getEventType() != XmlPullParser.START_TAG)
+                continue;
+            if (parser.getName().equals(ITEM_TAG))
+                news.add(readEntry(parser));
+        }
+        return news;
     }
 
-    private NewsModel readEntry(XmlPullParser parser) throws XmlPullParserException, IOException, ParseException {
+    private NewsModel readEntry(XmlPullParser parser)
+            throws XmlPullParserException, IOException, ParseException {
         parser.require(XmlPullParser.START_TAG, null, ITEM_TAG);
         String title = null;
         String description = null;
@@ -122,14 +82,16 @@ public class NewsXMLParser {
         return new NewsModel(title, description, date, link);
     }
 
-    private String getElementValue(XmlPullParser parser,String tag) throws IOException, XmlPullParserException {
+    private String getElementValue(XmlPullParser parser,String tag)
+            throws IOException, XmlPullParserException {
         parser.require(XmlPullParser.START_TAG, null, tag);
         String title = readText(parser);
         parser.require(XmlPullParser.END_TAG, null, tag);
         return title;
     }
 
-    private String readText(XmlPullParser parser) throws IOException, XmlPullParserException {
+    private String readText(XmlPullParser parser)
+            throws IOException, XmlPullParserException {
         String result = "";
         if (parser.next() == XmlPullParser.TEXT) {
             result = parser.getText();
@@ -138,7 +100,8 @@ public class NewsXMLParser {
         return result;
     }
 
-    private void skipTag(XmlPullParser parser) throws XmlPullParserException, IOException {
+    private void skipTag(XmlPullParser parser)
+            throws XmlPullParserException, IOException {
         if (parser.getEventType() != XmlPullParser.START_TAG)
             throw new IllegalStateException("Should be at start of a tag, is "+parser.getEventType());
         int depth = 1;

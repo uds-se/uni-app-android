@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.MenuItem;
@@ -31,6 +32,7 @@ import de.unisaarland.UniApp.R;
 import de.unisaarland.UniApp.events.model.EventModel;
 import de.unisaarland.UniApp.events.model.EventsXMLParser;
 import de.unisaarland.UniApp.events.uihelper.EventsAdapter;
+import de.unisaarland.UniApp.utils.NetworkXMLRetrieveAndCache;
 import de.unisaarland.UniApp.utils.Util;
 import de.unisaarland.UniApp.utils.WebXMLFetcher;
 import de.unisaarland.UniApp.utils.XMLFetcherDelegate;
@@ -40,7 +42,8 @@ public class EventsActivity extends ActionBarActivity {
     private static final String TAG = EventsActivity.class.getSimpleName();
 
     private static final String URL = "http://www.uni-saarland.de/aktuelles/veranstaltungen/alle-veranstaltungen/rss.xml";
-    private volatile WebXMLFetcher lastWebFetcher = null;
+
+    private NetworkXMLRetrieveAndCache<List<EventModel>> networkFetcher;
 
     /**
      * Will be called when activity created first time e.g. from scratch
@@ -57,24 +60,18 @@ public class EventsActivity extends ActionBarActivity {
     protected void onResume() {
         super.onResume();
 
-        setActionBar();
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle(R.string.eventsText);
+        //Enable Up-Navigation
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
-        SharedPreferences settings = getSharedPreferences(Util.PREFS_NAME, 0);
-        long lastLoadMillis = settings.getLong(Util.EVENTS_LOAD_MILLIS, 0);
-        // We first load the cached events (and show then), then update the list asynchronously if
-        // last fetch was more than 15 minutes ago
-        List<EventModel> cachedEvents = loadEventsFromCache();
-        if (cachedEvents != null) {
-            setContentView(R.layout.news_panel);
-            populateEventItems(cachedEvents);
+        setContentView(R.layout.news_panel);
+
+        if (networkFetcher == null) {
+            networkFetcher = new NetworkXMLRetrieveAndCache<>(URL, "events", 15*60,
+                    new EventsXMLParser(), new NetworkDelegate(), this);
         }
-        long cachedEventAgeMillis = Math.abs(lastLoadMillis - System.currentTimeMillis());
-        // Reload after 15 minutes
-        if (cachedEvents == null || cachedEventAgeMillis >= 1000*60*15) {
-            // only use cached data if it is younger than 3 days
-            boolean hasCached = cachedEvents != null && cachedEventAgeMillis < 1000*60*60*24*3;
-            startLoading(hasCached);
-        }
+        networkFetcher.load();
     }
 
     /**
@@ -82,27 +79,18 @@ public class EventsActivity extends ActionBarActivity {
      */
     @Override
     public void onBackPressed() {
-        // will invalidate the connection establishment request if it is not being completed yet and free the resources
-        WebXMLFetcher webFetcher = lastWebFetcher;
-        if (webFetcher != null)
-            webFetcher.cancel();
+        if (networkFetcher != null)
+            networkFetcher.cancel();
         super.onBackPressed();
     }
 
     @Override
     protected void onStop() {
-        lastWebFetcher = null;
+        if (networkFetcher != null) {
+            networkFetcher.cancel();
+            networkFetcher = null;
+        }
         super.onStop();
-    }
-
-    /**
-     * sets the custom navigation bar according to each activity.
-     */
-    private void setActionBar() {
-        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle(R.string.eventsText);
-        //Enable Up-Navigation
-        actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
     // Handling the Action Bar Buttons
@@ -119,40 +107,28 @@ public class EventsActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void startLoading(boolean hasCached) {
-        if (!hasCached) {
-            //displays the loading view and download and parse the event items from internet
-            setContentView(R.layout.loading_layout);
-        }
-        ProgressBar bar = (ProgressBar) findViewById(R.id.progress_bar);
-        bar.setVisibility(View.VISIBLE);
-        bar.animate();
+    private final class NetworkDelegate extends NetworkXMLRetrieveAndCache.Delegate<List<EventModel>> {
+        private boolean hasEvents = false;
 
-        WebXMLFetcher fetcher = new WebXMLFetcher(new EventsXMLParser(),
-                new XMLListener(hasCached));
-        fetcher.startFetchingAsynchronously(URL, this);
-        lastWebFetcher = fetcher;
-    }
+        @Override
+        public void onUpdate(List<EventModel> events) {
+            if (events.isEmpty()) {
+                onFailure(getString(R.string.noEventsText));
+                return;
+            }
+            hasEvents = true;
 
-    // custom class to show the back button action using navigation bar and will call the onBack method of activity
-    class BackButtonClickListener implements View.OnClickListener{
-        final Activity activity;
-        public BackButtonClickListener(Activity activity) {
-            this.activity = activity;
+            ProgressBar bar = (ProgressBar) findViewById(R.id.progress_bar);
+            bar.clearAnimation();
+            bar.setVisibility(View.INVISIBLE);
+            populateEventItems(events);
         }
 
         @Override
-        public void onClick(View v) {
-            activity.onBackPressed();
-
-        }
-    }
-
-    private final class XMLListener implements XMLFetcherDelegate<List<EventModel>> {
-        private final boolean hasCached;
-
-        public XMLListener(boolean hasCached) {
-            this.hasCached = hasCached;
+        public void onStartLoading() {
+            ProgressBar bar = (ProgressBar) findViewById(R.id.progress_bar);
+            bar.setVisibility(View.VISIBLE);
+            bar.animate();
         }
 
         @Override
@@ -164,39 +140,14 @@ public class EventsActivity extends ActionBarActivity {
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
                                     ProgressBar bar = (ProgressBar) findViewById(R.id.progress_bar);
-                                    if (bar != null) {
-                                        bar.clearAnimation();
-                                        bar.setVisibility(View.INVISIBLE);
-                                    }
+                                    bar.clearAnimation();
+                                    bar.setVisibility(View.INVISIBLE);
                                     dialog.cancel();
-                                    if (!hasCached)
+                                    if (!hasEvents)
                                         onBackPressed();
                                 }
-                            }).
-                    create().show();
-        }
-
-        @Override
-        public void onSuccess(List<EventModel> events) {
-            if (events.isEmpty()) {
-                onFailure(getString(R.string.noEventsText));
-                return;
-            }
-
-            ProgressBar bar = (ProgressBar) findViewById(R.id.progress_bar);
-            if (bar != null) {
-                bar.clearAnimation();
-                bar.setVisibility(View.INVISIBLE);
-            }
-            setContentView(R.layout.news_panel);
-            populateEventItems(events);
-
-            boolean itemsSaved = saveEventItemsToCache(events);
-            if (itemsSaved)
-                Log.i(TAG, "Saved events to cache");
-            SharedPreferences.Editor editor = getSharedPreferences(Util.PREFS_NAME, 0).edit();
-            editor.putLong(Util.EVENTS_LOAD_MILLIS, System.currentTimeMillis());
-            editor.commit();
+                            })
+                    .create().show();
         }
     }
 
@@ -212,9 +163,7 @@ public class EventsActivity extends ActionBarActivity {
 
     private List<EventModel> sortAndFilterEvents(List<EventModel> events) {
         List<EventModel> filtered = new ArrayList<EventModel>();
-        GregorianCalendar now = new GregorianCalendar();
-        Date today = new GregorianCalendar(now.get(Calendar.YEAR),
-                now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH)).getTime();
+        Date today = Util.getStartOfDay();
         for (EventModel m : events)
             if (!m.getPublicationDate().before(today))
                 filtered.add(m);
@@ -227,48 +176,4 @@ public class EventsActivity extends ActionBarActivity {
         return filtered;
     }
 
-    /**
-     * Save current event model to file (temporary) so that these will be used later in case if user don't have internet connection
-     * and also if user is coming back from seeing a detailed event.
-     */
-    private boolean saveEventItemsToCache(List<EventModel> events) {
-        try {
-            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(
-                    new File(getCacheDir()+ Util.EVENTS_FILE_NAME)));
-            oos.writeInt(events.size());
-            for (EventModel m : events)
-                oos.writeObject(m);
-            oos.close();
-        } catch (IOException e) {
-            Log.w(TAG, "Cannot save events to cache file", e);
-            return false;
-        }
-        return true;
-    }
-
-    /*
-    * Load events from already saved model if internet is not available or coming back from event detail
-    * */
-    private List<EventModel> loadEventsFromCache() {
-        File file = new File(getCacheDir()+ Util.EVENTS_FILE_NAME);
-        if (!file.exists()) {
-            Log.w(TAG, "Event cache does not exist");
-            return null;
-        }
-        try {
-            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file));
-            int numEvents = ois.readInt();
-            List<EventModel> events = new ArrayList<EventModel>();
-            for (int i = 0; i < numEvents; ++i)
-                events.add((EventModel) ois.readObject());
-            ois.close();
-            return events;
-        } catch (IOException e) {
-            Log.w(TAG, "Cannot load events from cache file", e);
-            return null;
-        } catch (ClassNotFoundException | ClassCastException e) {
-            Log.e(TAG, "Weird class error when loading events from cache file", e);
-            return null;
-        }
-    }
 }

@@ -4,14 +4,14 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+
 public class Util {
 
-    public static String PREFS_NAME = "myPreferences";
-    public static final String NEWS_LOAD_MILLIS = "newsLoadedMillis";
-    public static final String EVENTS_LOAD_MILLIS = "eventsLoadMillis";
+    public static String PREFS_NAME = "SaarUni-Prefs";
     public static final String MENSA_ITEMS_LOADED = "mensaItemsloaded";
-    public static final String NEWS_FILE_NAME = "news.dat";
-    public static final String EVENTS_FILE_NAME = "events.dat";
     public static final String TEMP_STAFF_SEARCH_FILE = "staff.dat";
     public static final String FIRST_TIME = "firstTime";
     public static final String STAFF_LAST_SELECTION = "staffLastSel";
@@ -55,5 +55,12 @@ public class Util {
         ConnectivityManager cm = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+    }
+
+    public static Date getStartOfDay() {
+        GregorianCalendar now = new GregorianCalendar();
+        Date today = new GregorianCalendar(now.get(Calendar.YEAR),
+                now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH)).getTime();
+        return today;
     }
 }
