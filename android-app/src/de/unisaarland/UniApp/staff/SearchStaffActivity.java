@@ -10,7 +10,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,7 +21,7 @@ import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TextView;
 
 import de.unisaarland.UniApp.R;
-import de.unisaarland.UniApp.networkcommunicator.Util;
+import de.unisaarland.UniApp.utils.Util;
 
 
 public class SearchStaffActivity extends ActionBarActivity implements OnCheckedChangeListener {

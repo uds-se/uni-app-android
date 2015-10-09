@@ -36,9 +36,9 @@ import java.util.Set;
 
 import de.unisaarland.UniApp.R;
 import de.unisaarland.UniApp.SettingsActivity;
-import de.unisaarland.UniApp.networkcommunicator.INetworkLoaderDelegate;
-import de.unisaarland.UniApp.networkcommunicator.Util;
-import de.unisaarland.UniApp.networkcommunicator.WebFetcher;
+import de.unisaarland.UniApp.utils.INetworkLoaderDelegate;
+import de.unisaarland.UniApp.utils.Util;
+import de.unisaarland.UniApp.utils.WebFetcher;
 import de.unisaarland.UniApp.restaurant.model.AusLanderCafeParser;
 import de.unisaarland.UniApp.restaurant.model.IMensaResultDelegate;
 import de.unisaarland.UniApp.restaurant.model.MensaItem;

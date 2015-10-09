@@ -24,7 +24,7 @@ import java.io.ObjectInputStream;
 import java.util.ArrayList;
 
 import de.unisaarland.UniApp.R;
-import de.unisaarland.UniApp.networkcommunicator.Util;
+import de.unisaarland.UniApp.utils.Util;
 import de.unisaarland.UniApp.staff.uihelper.SearchResultAdapter;
 
 /**

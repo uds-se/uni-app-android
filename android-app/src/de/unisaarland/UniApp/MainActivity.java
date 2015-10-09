@@ -21,7 +21,7 @@ import de.unisaarland.UniApp.about.AboutActicvity;
 import de.unisaarland.UniApp.bus.BusActivity;
 import de.unisaarland.UniApp.campus.CampusActivity;
 import de.unisaarland.UniApp.events.EventsActivity;
-import de.unisaarland.UniApp.networkcommunicator.Util;
+import de.unisaarland.UniApp.utils.Util;
 import de.unisaarland.UniApp.news.NewsActivity;
 import de.unisaarland.UniApp.restaurant.RestaurantActivity;
 import de.unisaarland.UniApp.staff.SearchStaffActivity;

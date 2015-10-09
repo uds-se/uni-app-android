@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import de.unisaarland.UniApp.R;
-import de.unisaarland.UniApp.networkcommunicator.Util;
+import de.unisaarland.UniApp.utils.Util;
 import de.unisaarland.UniApp.staff.SearchResultItemDetailActivity;
 
 /**

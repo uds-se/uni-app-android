@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import de.unisaarland.UniApp.R;
-import de.unisaarland.UniApp.networkcommunicator.Util;
+import de.unisaarland.UniApp.utils.Util;
 import de.unisaarland.UniApp.news.NewsArticleActivity;
 import de.unisaarland.UniApp.news.model.NewsModel;
 

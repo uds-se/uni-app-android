@@ -33,9 +33,9 @@ import de.unisaarland.UniApp.events.model.EventModel;
 import de.unisaarland.UniApp.events.model.EventsXMLParser;
 import de.unisaarland.UniApp.events.model.IEventsResultDelegate;
 import de.unisaarland.UniApp.events.uihelper.EventsAdapter;
-import de.unisaarland.UniApp.networkcommunicator.INetworkLoaderDelegate;
-import de.unisaarland.UniApp.networkcommunicator.Util;
-import de.unisaarland.UniApp.networkcommunicator.WebFetcher;
+import de.unisaarland.UniApp.utils.INetworkLoaderDelegate;
+import de.unisaarland.UniApp.utils.Util;
+import de.unisaarland.UniApp.utils.WebFetcher;
 
 public class EventsActivity extends ActionBarActivity {
 

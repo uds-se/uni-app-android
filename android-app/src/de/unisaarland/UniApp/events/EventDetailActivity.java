@@ -3,7 +3,6 @@ package de.unisaarland.UniApp.events;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
@@ -23,7 +22,7 @@ import java.io.IOException;
 
 import de.unisaarland.UniApp.R;
 import de.unisaarland.UniApp.events.model.EventModel;
-import de.unisaarland.UniApp.networkcommunicator.Util;
+import de.unisaarland.UniApp.utils.Util;
 
 /**
  * Created with IntelliJ IDEA.

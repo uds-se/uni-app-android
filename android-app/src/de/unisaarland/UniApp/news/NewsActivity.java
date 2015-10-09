@@ -30,9 +30,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.unisaarland.UniApp.R;
-import de.unisaarland.UniApp.networkcommunicator.INetworkLoaderDelegate;
-import de.unisaarland.UniApp.networkcommunicator.Util;
-import de.unisaarland.UniApp.networkcommunicator.WebFetcher;
+import de.unisaarland.UniApp.utils.INetworkLoaderDelegate;
+import de.unisaarland.UniApp.utils.Util;
+import de.unisaarland.UniApp.utils.WebFetcher;
 import de.unisaarland.UniApp.news.model.INewsResultDelegate;
 import de.unisaarland.UniApp.news.model.NewsModel;
 import de.unisaarland.UniApp.news.model.NewsXMLParser;

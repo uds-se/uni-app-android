@@ -1,10 +1,8 @@
 package de.unisaarland.UniApp.news;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
@@ -22,7 +20,7 @@ import org.jsoup.select.Elements;
 import java.io.IOException;
 
 import de.unisaarland.UniApp.R;
-import de.unisaarland.UniApp.networkcommunicator.Util;
+import de.unisaarland.UniApp.utils.Util;
 import de.unisaarland.UniApp.news.model.NewsModel;
 
 /**

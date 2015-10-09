@@ -1,4 +1,4 @@
-package de.unisaarland.UniApp.networkcommunicator;
+package de.unisaarland.UniApp.utils;
 
 import android.content.Context;
 import android.os.AsyncTask;

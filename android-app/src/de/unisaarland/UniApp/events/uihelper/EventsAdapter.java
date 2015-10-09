@@ -18,7 +18,7 @@ import java.util.List;
 import de.unisaarland.UniApp.R;
 import de.unisaarland.UniApp.events.EventDetailActivity;
 import de.unisaarland.UniApp.events.model.EventModel;
-import de.unisaarland.UniApp.networkcommunicator.Util;
+import de.unisaarland.UniApp.utils.Util;
 
 
 public class EventsAdapter extends BaseAdapter {

@@ -13,7 +13,7 @@ import android.view.View;
 
 import de.unisaarland.UniApp.R;
 import de.unisaarland.UniApp.SettingsActivity;
-import de.unisaarland.UniApp.networkcommunicator.Util;
+import de.unisaarland.UniApp.utils.Util;
 import de.unisaarland.UniApp.restaurant.uihelper.AuslanderCafeFragment;
 import de.unisaarland.UniApp.restaurant.uihelper.HeroesCafeFragment;
 import de.unisaarland.UniApp.restaurant.uihelper.JuristenCafeFragment;
