@@ -7,8 +7,10 @@ import android.util.Xml;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringBufferInputStream;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -16,30 +18,24 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Shahzad
- * Date: 12/6/13
- * Time: 12:44 PM
- * To change this template use File | Settings | File Templates.
- */
+
 public class MensaXMLParser {
     private final IMensaResultDelegate mensaResultDelegate;
     private HashMap<String,ArrayList<MensaItem>> entries = null;
-    private final String START_TAG = "speiseplan";
-    private final String TAG = "tag";
-    private final String ITEM_TAG = "item";
+    private static final String START_TAG = "speiseplan";
+    private static final String TAG = "tag";
+    private static final String ITEM_TAG = "item";
 
-    private final String TITLE = "title";
-    private final String CATEGORY = "category";
-    private final String DESCRIPTION = "description";
-    private final String COMPONENTS = "components";
-    private final String KENNZEICHNUNGEN = "kennzeichnungen";
-    private final String BEILAGEN = "beilagen";
-    private final String PREIS1 = "preis1";
-    private final String PREIS2 = "preis2";
-    private final String PREIS3 = "preis3";
-    private final String COLOR = "color";
+    private static final String TITLE = "title";
+    private static final String CATEGORY = "category";
+    private static final String DESCRIPTION = "description";
+    private static final String COMPONENTS = "components";
+    private static final String KENNZEICHNUNGEN = "kennzeichnungen";
+    private static final String BEILAGEN = "beilagen";
+    private static final String PREIS1 = "preis1";
+    private static final String PREIS2 = "preis2";
+    private static final String PREIS3 = "preis3";
+    private static final String COLOR = "color";
 
     private Long date;
 
@@ -49,6 +45,7 @@ public class MensaXMLParser {
 
     public List<MensaItem> parse(InputStream data) throws XmlPullParserException, IOException {
         XmlPullParser parser = Xml.newPullParser();
+
         try {
             parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
             parser.setInput(data, null);

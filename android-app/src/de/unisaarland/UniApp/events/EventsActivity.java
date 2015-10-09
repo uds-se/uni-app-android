@@ -17,7 +17,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
@@ -31,18 +30,17 @@ import java.util.List;
 import de.unisaarland.UniApp.R;
 import de.unisaarland.UniApp.events.model.EventModel;
 import de.unisaarland.UniApp.events.model.EventsXMLParser;
-import de.unisaarland.UniApp.events.model.IEventsResultDelegate;
 import de.unisaarland.UniApp.events.uihelper.EventsAdapter;
-import de.unisaarland.UniApp.utils.INetworkLoaderDelegate;
 import de.unisaarland.UniApp.utils.Util;
-import de.unisaarland.UniApp.utils.WebFetcher;
+import de.unisaarland.UniApp.utils.WebXMLFetcher;
+import de.unisaarland.UniApp.utils.XMLFetcherDelegate;
 
 public class EventsActivity extends ActionBarActivity {
 
     private static final String TAG = EventsActivity.class.getSimpleName();
 
     private static final String URL = "http://www.uni-saarland.de/aktuelles/veranstaltungen/alle-veranstaltungen/rss.xml";
-    private volatile WebFetcher lastWebFetcher = null;
+    private volatile WebXMLFetcher lastWebFetcher = null;
 
     /**
      * Will be called when activity created first time e.g. from scratch
@@ -85,9 +83,9 @@ public class EventsActivity extends ActionBarActivity {
     @Override
     public void onBackPressed() {
         // will invalidate the connection establishment request if it is not being completed yet and free the resources
-        WebFetcher webFetcher = lastWebFetcher;
+        WebXMLFetcher webFetcher = lastWebFetcher;
         if (webFetcher != null)
-            webFetcher.invalidateRequest();
+            webFetcher.cancel();
         super.onBackPressed();
     }
 
@@ -130,11 +128,8 @@ public class EventsActivity extends ActionBarActivity {
         bar.setVisibility(View.VISIBLE);
         bar.animate();
 
-        /**
-         * Calls the custom class to connect and download the specific XML and pass the delegate method which will be called
-         * in case of success and failure
-         */
-        WebFetcher fetcher = new WebFetcher(new NetworkDelegate(hasCached));
+        WebXMLFetcher fetcher = new WebXMLFetcher(new EventsXMLParser(),
+                new XMLListener(hasCached));
         fetcher.startFetchingAsynchronously(URL, this);
         lastWebFetcher = fetcher;
     }
@@ -153,18 +148,13 @@ public class EventsActivity extends ActionBarActivity {
         }
     }
 
-    private final class NetworkDelegate implements INetworkLoaderDelegate {
+    private final class XMLListener implements XMLFetcherDelegate<List<EventModel>> {
         private final boolean hasCached;
 
-        public NetworkDelegate(boolean hasCached) {
+        public XMLListener(boolean hasCached) {
             this.hasCached = hasCached;
         }
 
-        /**
-         * Will be called in case of failure e.g internet connection problem
-         * Will try to load events from already stored model or in case if that model is not present will show the
-         * error dialog
-         */
         @Override
         public void onFailure(String message) {
             new AlertDialog.Builder(EventsActivity.this).
@@ -186,23 +176,13 @@ public class EventsActivity extends ActionBarActivity {
                     create().show();
         }
 
-        /*
-        * Will be called in case of success if connection is successfully established and parser is ready
-        * call the Events parser to parse the resultant file and return the list of event models to specified call back method.
-        * */
         @Override
-        public void onSuccess(InputStream data) {
-            new EventsXMLParser().startParsing(data, new EventsResultDelegate(),
-                    EventsActivity.this);
-        }
-    }
+        public void onSuccess(List<EventModel> events) {
+            if (events.isEmpty()) {
+                onFailure(getString(R.string.noEventsText));
+                return;
+            }
 
-    /*
-    * Call back method of EventResultDelegate will be called when all events are parsed and Model list is generated
-    * */
-    private final class EventsResultDelegate implements IEventsResultDelegate {
-        @Override
-        public void eventsList(List<EventModel> events) {
             ProgressBar bar = (ProgressBar) findViewById(R.id.progress_bar);
             if (bar != null) {
                 bar.clearAnimation();
@@ -218,32 +198,12 @@ public class EventsActivity extends ActionBarActivity {
             editor.putLong(Util.EVENTS_LOAD_MILLIS, System.currentTimeMillis());
             editor.commit();
         }
-
-        @Override
-        public void onFailure(String message) {
-            new AlertDialog.Builder(EventsActivity.this).
-                    setMessage(message).
-                    setCancelable(true).
-                    setPositiveButton(getString(R.string.ok),
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    ProgressBar bar = (ProgressBar) findViewById(R.id.progress_bar);
-                                    if (bar != null) {
-                                        bar.clearAnimation();
-                                        bar.setVisibility(View.INVISIBLE);
-                                    }
-                                    dialog.cancel();
-                                    onBackPressed();
-                                }
-                            }).
-                    create().show();
-        }
     }
 
-    /*
-    * after downloading and parsing the events when models are built it will call the adapter and pass the
-    * specified model to it so that it will display list of event items.
-    * */
+    /**
+     * after downloading and parsing the events when models are built it will call the adapter and pass the
+     * specified model to it so that it will display list of event items.
+     */
     private void populateEventItems(List<EventModel> events) {
         ListView eventsList = (ListView) findViewById(R.id.newsItemListView);
         List<EventModel> filtered = sortAndFilterEvents(events);
@@ -267,10 +227,10 @@ public class EventsActivity extends ActionBarActivity {
         return filtered;
     }
 
-    /*
-    * Save current event model to file (temporary) so that these will be used later in case if user don't have internet connection
-    * and also if user is coming back from seeing a detailed event.
-    * */
+    /**
+     * Save current event model to file (temporary) so that these will be used later in case if user don't have internet connection
+     * and also if user is coming back from seeing a detailed event.
+     */
     private boolean saveEventItemsToCache(List<EventModel> events) {
         try {
             ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(
