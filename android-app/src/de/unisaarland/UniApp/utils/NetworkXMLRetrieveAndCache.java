@@ -96,9 +96,6 @@ public class NetworkXMLRetrieveAndCache<ResultType> {
         @Override
         public void onSuccess(ResultType data) {
             saveToCache(data);
-            SharedPreferences.Editor editor = context.getSharedPreferences(Util.PREFS_NAME, 0).edit();
-            editor.putLong("last-xml-fetch-"+contentTag, System.currentTimeMillis());
-            editor.commit();
             delegate.onUpdate(data);
         }
     }
