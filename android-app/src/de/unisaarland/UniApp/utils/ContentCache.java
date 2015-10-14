@@ -64,7 +64,9 @@ public class ContentCache {
     }
 
     public void clearDatabase() {
-        clearDatabase(getWritableDB());
+        SQLiteDatabase db = getWritableDB();
+        clearDatabase(db);
+        db.close();
     }
 
     private void clearDatabase(SQLiteDatabase db) {
@@ -115,7 +117,10 @@ public class ContentCache {
             removeOldContent(db);
             return null;
         }
-        return new Pair<>(new Date(time), res.getBlob(1));
+        byte[] data = res.getBlob(1);
+        res.close();
+        db.close();
+        return new Pair<>(new Date(time), data);
     }
 
     public void storeContent(String name, byte[] data) {
@@ -134,6 +139,7 @@ public class ContentCache {
         long time = age == null ? System.currentTimeMillis() : age.getTime();
         insertValues.put("time", time);
         db.replaceOrThrow("cache", null, insertValues);
+        db.close();
     }
 
 }
