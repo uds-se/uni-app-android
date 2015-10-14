@@ -63,6 +63,10 @@ public class ContentCache {
         this.discardContentAfterSeconds = discardContentAfterSeconds;
     }
 
+    public String getName() {
+        return openHelper.getDatabaseName();
+    }
+
     public void clearDatabase() {
         SQLiteDatabase db = getWritableDB();
         clearDatabase(db);

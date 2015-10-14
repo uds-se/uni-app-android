@@ -112,12 +112,13 @@ public class NetworkXMLRetrieveAndCache<ResultType> {
             ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(cached.second));
             ResultType data = (ResultType)ois.readObject();
             ois.close();
+            Log.i(TAG, "Using cached content '"+contentTag+"' from cache '"+cache.getName()+"'");
             return new Pair<>(cached.first, data);
         } catch (IOException e) {
-            Log.w(TAG, "Cannot load data '"+contentTag+"' from cache", e);
+            Log.w(TAG, "Cannot load data '"+contentTag+"' from cache '"+cache.getName()+"'", e);
             return null;
         } catch (ClassNotFoundException | ClassCastException e) {
-            Log.e(TAG, "Weird class error when loading data '"+contentTag+"' from cache", e);
+            Log.e(TAG, "Weird class error when loading data '"+contentTag+"' from cache '"+cache.getName()+"'", e);
             return null;
         }
     }
@@ -130,12 +131,12 @@ public class NetworkXMLRetrieveAndCache<ResultType> {
             oos.writeObject(data);
             oos.close();
         } catch (IOException e) {
-            Log.w(TAG, "Cannot serialize data '"+contentTag+"'", e);
+            Log.w(TAG, "Cannot serialize data '"+contentTag+"' for cache '"+cache.getName()+"'", e);
             return;
         }
 
         cache.storeContent(contentTag, bos.toByteArray());
 
-        Log.i(TAG, "Saved '"+contentTag+"' to cache");
+        Log.i(TAG, "Saved '"+contentTag+"' to cache '"+cache.getName()+"'");
     }
 }
