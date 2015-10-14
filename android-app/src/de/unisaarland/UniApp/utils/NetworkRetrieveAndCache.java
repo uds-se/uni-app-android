@@ -1,27 +1,27 @@
 package de.unisaarland.UniApp.utils;
 
 import android.content.Context;
-import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.util.Log;
 import android.util.Pair;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.text.ParseException;
 import java.util.Date;
 
 
 /**
- * This class implements the common behaviour of loading content from a remote XML,
+ * This class implements the common behaviour of loading content from a remote URL,
  * parsing it, and caching it's content to avoid frequent reloading.
  */
-public class NetworkXMLRetrieveAndCache<ResultType> {
+public class NetworkRetrieveAndCache<ResultType> {
 
-    private static final String TAG = NetworkXMLRetrieveAndCache.class.getSimpleName();
+    private static final String TAG = NetworkRetrieveAndCache.class.getSimpleName();
 
     // URL to retrieve fresh content
     private final String URL;
@@ -34,23 +34,23 @@ public class NetworkXMLRetrieveAndCache<ResultType> {
     // Reload document it cached content is older than this number of seconds
     private final int reloadIfOlderSeconds;
 
-    private final XMLExtractor<ResultType> xmlExtractor;
+    private final ContentExtractor<ResultType> extractor;
 
-    private volatile WebXMLFetcher lastWebFetcher = null;
+    private volatile WebFetcher lastWebFetcher = null;
 
     private final Delegate<ResultType> delegate;
 
     private final Context context;
 
-    public NetworkXMLRetrieveAndCache(String URL, String contentTag, int reloadIfOlderSeconds,
-                                      ContentCache cache,
-                                      XMLExtractor<ResultType> xmlExtractor,
-                                      Delegate<ResultType> delegate, Context context) {
+    public NetworkRetrieveAndCache(String URL, String contentTag, int reloadIfOlderSeconds,
+                                   ContentCache cache,
+                                   ContentExtractor<ResultType> extractor,
+                                   Delegate<ResultType> delegate, Context context) {
         this.URL = URL;
         this.contentTag = contentTag;
         this.cache = cache;
         this.reloadIfOlderSeconds = reloadIfOlderSeconds;
-        this.xmlExtractor = xmlExtractor;
+        this.extractor = extractor;
         this.delegate = delegate;
         this.context = context;
     }
@@ -75,29 +75,57 @@ public class NetworkXMLRetrieveAndCache<ResultType> {
         if (reloadContentFromWeb) {
             delegate.onStartLoading();
 
-            WebXMLFetcher fetcher = new WebXMLFetcher(xmlExtractor, new XMLListener());
+            Log.i(TAG, "Start loading '"+contentTag+"' for cache '"+cache.getName()+"' from URL '"+URL+"'");
+            WebFetcher fetcher = new WebFetcher(new NetworkDelegate());
             fetcher.startFetchingAsynchronously(URL, context);
             lastWebFetcher = fetcher;
         }
     }
 
-    public void cancel() {
-        WebXMLFetcher fetcher = lastWebFetcher;
-        if (fetcher != null)
-            fetcher.cancel();
-    }
-
-    private final class XMLListener implements XMLFetcherDelegate<ResultType> {
+    private class NetworkDelegate implements INetworkLoaderDelegate {
         @Override
         public void onFailure(String message) {
             delegate.onFailure(message);
         }
 
         @Override
-        public void onSuccess(ResultType data) {
-            saveToCache(data);
-            delegate.onUpdate(data);
+        public void onSuccess(final InputStream data) {
+            new ParseInBackgroundTask().execute(data);
         }
+    }
+
+    private class ParseInBackgroundTask
+            extends AsyncTask<InputStream, Void, ResultType> {
+        private String errorMessage = null;
+
+        @Override
+        protected ResultType doInBackground(InputStream... params) {
+            InputStream data = params[0];
+            try {
+                ResultType result = extractor.extract(data);
+                saveToCache(result);
+                return result;
+            } catch (ParseException e) {
+                errorMessage = "Error parsing remote content: " + e.getLocalizedMessage();
+                Log.w(TAG, "parse error from URL '"+URL+"'", e);
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(ResultType result) {
+            if (errorMessage != null) {
+                delegate.onFailure(errorMessage);
+            } else {
+                delegate.onUpdate(result);
+            }
+        }
+    }
+
+    public void cancel() {
+        WebFetcher fetcher = lastWebFetcher;
+        if (fetcher != null)
+            fetcher.invalidateRequest();
     }
 
     private Pair<Date, ResultType> loadFromCache() {

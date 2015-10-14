@@ -1,31 +1,20 @@
 package de.unisaarland.UniApp.events;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import de.unisaarland.UniApp.R;
@@ -33,10 +22,8 @@ import de.unisaarland.UniApp.events.model.EventModel;
 import de.unisaarland.UniApp.events.model.EventsXMLParser;
 import de.unisaarland.UniApp.events.uihelper.EventsAdapter;
 import de.unisaarland.UniApp.utils.ContentCache;
-import de.unisaarland.UniApp.utils.NetworkXMLRetrieveAndCache;
+import de.unisaarland.UniApp.utils.NetworkRetrieveAndCache;
 import de.unisaarland.UniApp.utils.Util;
-import de.unisaarland.UniApp.utils.WebXMLFetcher;
-import de.unisaarland.UniApp.utils.XMLFetcherDelegate;
 
 public class EventsActivity extends ActionBarActivity {
 
@@ -44,7 +31,7 @@ public class EventsActivity extends ActionBarActivity {
 
     private static final String URL = "http://www.uni-saarland.de/aktuelles/veranstaltungen/alle-veranstaltungen/rss.xml";
 
-    private NetworkXMLRetrieveAndCache<List<EventModel>> networkFetcher;
+    private NetworkRetrieveAndCache<List<EventModel>> networkFetcher;
 
     /**
      * Will be called when activity created first time e.g. from scratch
@@ -70,7 +57,7 @@ public class EventsActivity extends ActionBarActivity {
 
         if (networkFetcher == null) {
             ContentCache cache = new ContentCache(this, "events", 60 * 60 * 24 * 14);
-            networkFetcher = new NetworkXMLRetrieveAndCache<>(URL, "events", 15*60, cache,
+            networkFetcher = new NetworkRetrieveAndCache<>(URL, "events", 15*60, cache,
                     new EventsXMLParser(), new NetworkDelegate(), this);
         }
         networkFetcher.loadAsynchronously();
@@ -109,7 +96,7 @@ public class EventsActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private final class NetworkDelegate extends NetworkXMLRetrieveAndCache.Delegate<List<EventModel>> {
+    private final class NetworkDelegate extends NetworkRetrieveAndCache.Delegate<List<EventModel>> {
         private boolean hasEvents = false;
 
         @Override

@@ -1,15 +1,9 @@
 package de.unisaarland.UniApp.news.model;
 
-import android.content.Context;
-import android.os.AsyncTask;
-import android.util.Log;
-import android.util.Xml;
-
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -17,11 +11,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import de.unisaarland.UniApp.R;
-import de.unisaarland.UniApp.events.model.EventModel;
 import de.unisaarland.UniApp.utils.XMLExtractor;
 
-public class NewsXMLParser implements XMLExtractor<List<NewsModel>> {
+public class NewsXMLParser extends XMLExtractor<List<NewsModel>> {
 
     private final String TAG = NewsXMLParser.class.getSimpleName();
 

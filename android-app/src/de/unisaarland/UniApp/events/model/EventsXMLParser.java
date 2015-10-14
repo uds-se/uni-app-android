@@ -4,6 +4,7 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ import java.util.Locale;
 import de.unisaarland.UniApp.utils.XMLExtractor;
 
 
-public class EventsXMLParser implements XMLExtractor<List<EventModel>> {
+public class EventsXMLParser extends XMLExtractor<List<EventModel>> {
 
     private final String TAG = EventsXMLParser.class.getSimpleName();
 

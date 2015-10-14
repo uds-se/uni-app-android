@@ -1,10 +1,8 @@
 package de.unisaarland.UniApp.news;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
@@ -12,7 +10,6 @@ import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -20,28 +17,14 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.util.ArrayList;
 import java.util.List;
 
 import de.unisaarland.UniApp.R;
-import de.unisaarland.UniApp.events.model.EventModel;
-import de.unisaarland.UniApp.events.model.EventsXMLParser;
-import de.unisaarland.UniApp.utils.ContentCache;
-import de.unisaarland.UniApp.utils.INetworkLoaderDelegate;
-import de.unisaarland.UniApp.utils.NetworkXMLRetrieveAndCache;
-import de.unisaarland.UniApp.utils.Util;
-import de.unisaarland.UniApp.utils.WebFetcher;
-import de.unisaarland.UniApp.news.model.INewsResultDelegate;
 import de.unisaarland.UniApp.news.model.NewsModel;
 import de.unisaarland.UniApp.news.model.NewsXMLParser;
 import de.unisaarland.UniApp.news.uihelper.NewsAdapter;
+import de.unisaarland.UniApp.utils.ContentCache;
+import de.unisaarland.UniApp.utils.NetworkRetrieveAndCache;
 
 
 public class NewsActivity extends ActionBarActivity {
@@ -50,7 +33,7 @@ public class NewsActivity extends ActionBarActivity {
 
     private static final String URL = "http://www.uni-saarland.de/aktuelles/presse/pms.html?type=100&tx_ttnews[cat]=26";
 
-    private NetworkXMLRetrieveAndCache<List<NewsModel>> networkFetcher;
+    private NetworkRetrieveAndCache<List<NewsModel>> networkFetcher;
 
     /**
      * Will be called when activity created first time e.g. from scratch
@@ -76,7 +59,7 @@ public class NewsActivity extends ActionBarActivity {
 
         if (networkFetcher == null) {
             ContentCache cache = new ContentCache(this, "news", 60 * 60 * 24 * 14);
-            networkFetcher = new NetworkXMLRetrieveAndCache<>(URL, "news", 15*60, cache,
+            networkFetcher = new NetworkRetrieveAndCache<>(URL, "news", 15*60, cache,
                     new NewsXMLParser(), new NetworkDelegate(), this);
         }
         networkFetcher.loadAsynchronously();
@@ -145,7 +128,7 @@ public class NewsActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private final class NetworkDelegate extends NetworkXMLRetrieveAndCache.Delegate<List<NewsModel>> {
+    private final class NetworkDelegate extends NetworkRetrieveAndCache.Delegate<List<NewsModel>> {
         private boolean hasNews = false;
 
         @Override

@@ -1,14 +1,41 @@
 package de.unisaarland.UniApp.utils;
 
 
+import android.util.Xml;
+
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.ParseException;
 
-public interface XMLExtractor<ResultType> {
+public abstract class XMLExtractor<ResultType> implements ContentExtractor<ResultType> {
 
-    ResultType extractFromXML(XmlPullParser parser) throws IOException, XmlPullParserException, ParseException;
+    @Override
+    public ResultType extract(InputStream data) throws ParseException {
+        XmlPullParser parser = Xml.newPullParser();
+        try {
+            parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
+            parser.setInput(data, null);
+        } catch (XmlPullParserException e) {
+            throw new AssertionError(e);
+        }
+
+        try {
+            return extractFromXML(parser);
+        } catch (XmlPullParserException e) {
+            ParseException pe = new ParseException(e.getMessage(), e.getLineNumber());
+            pe.setStackTrace(e.getStackTrace());
+            throw pe;
+        } catch (IOException e) {
+            ParseException pe = new ParseException(e.toString(), 0);
+            pe.setStackTrace(e.getStackTrace());
+            throw pe;
+        }
+    }
+
+    public abstract ResultType extractFromXML(XmlPullParser parser)
+            throws IOException, XmlPullParserException, ParseException;
 
 }
