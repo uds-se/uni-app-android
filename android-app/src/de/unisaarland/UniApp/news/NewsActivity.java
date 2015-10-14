@@ -33,6 +33,7 @@ import java.util.List;
 import de.unisaarland.UniApp.R;
 import de.unisaarland.UniApp.events.model.EventModel;
 import de.unisaarland.UniApp.events.model.EventsXMLParser;
+import de.unisaarland.UniApp.utils.ContentCache;
 import de.unisaarland.UniApp.utils.INetworkLoaderDelegate;
 import de.unisaarland.UniApp.utils.NetworkXMLRetrieveAndCache;
 import de.unisaarland.UniApp.utils.Util;
@@ -74,10 +75,11 @@ public class NewsActivity extends ActionBarActivity {
         setContentView(R.layout.news_panel);
 
         if (networkFetcher == null) {
-            networkFetcher = new NetworkXMLRetrieveAndCache<>(URL, "news", 15*60,
+            ContentCache cache = new ContentCache(this, "news", 60 * 60 * 24 * 14);
+            networkFetcher = new NetworkXMLRetrieveAndCache<>(URL, "news", 15*60, cache,
                     new NewsXMLParser(), new NetworkDelegate(), this);
         }
-        networkFetcher.load();
+        networkFetcher.loadAsynchronously();
     }
 
     /**

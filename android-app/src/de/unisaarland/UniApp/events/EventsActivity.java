@@ -32,6 +32,7 @@ import de.unisaarland.UniApp.R;
 import de.unisaarland.UniApp.events.model.EventModel;
 import de.unisaarland.UniApp.events.model.EventsXMLParser;
 import de.unisaarland.UniApp.events.uihelper.EventsAdapter;
+import de.unisaarland.UniApp.utils.ContentCache;
 import de.unisaarland.UniApp.utils.NetworkXMLRetrieveAndCache;
 import de.unisaarland.UniApp.utils.Util;
 import de.unisaarland.UniApp.utils.WebXMLFetcher;
@@ -68,10 +69,11 @@ public class EventsActivity extends ActionBarActivity {
         setContentView(R.layout.news_panel);
 
         if (networkFetcher == null) {
-            networkFetcher = new NetworkXMLRetrieveAndCache<>(URL, "events", 15*60,
+            ContentCache cache = new ContentCache(this, "news", 60 * 60 * 24 * 14);
+            networkFetcher = new NetworkXMLRetrieveAndCache<>(URL, "events", 15*60, cache,
                     new EventsXMLParser(), new NetworkDelegate(), this);
         }
-        networkFetcher.load();
+        networkFetcher.loadAsynchronously();
     }
 
     /**

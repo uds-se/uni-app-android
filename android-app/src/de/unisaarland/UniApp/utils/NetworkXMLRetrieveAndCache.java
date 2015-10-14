@@ -3,13 +3,16 @@ package de.unisaarland.UniApp.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
+import android.util.Pair;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.Date;
 
 
 /**
@@ -26,8 +29,10 @@ public class NetworkXMLRetrieveAndCache<ResultType> {
     // Tag used for cache file and for preference key of last fetch time
     private final String contentTag;
 
+    private final ContentCache cache;
+
     // Reload document it cached content is older than this number of seconds
-    private final long reloadIfOlderSeconds;
+    private final int reloadIfOlderSeconds;
 
     private final XMLExtractor<ResultType> xmlExtractor;
 
@@ -37,11 +42,13 @@ public class NetworkXMLRetrieveAndCache<ResultType> {
 
     private final Context context;
 
-    public NetworkXMLRetrieveAndCache(String URL, String contentTag, long reloadIfOlderSeconds,
+    public NetworkXMLRetrieveAndCache(String URL, String contentTag, int reloadIfOlderSeconds,
+                                      ContentCache cache,
                                       XMLExtractor<ResultType> xmlExtractor,
                                       Delegate<ResultType> delegate, Context context) {
         this.URL = URL;
         this.contentTag = contentTag;
+        this.cache = cache;
         this.reloadIfOlderSeconds = reloadIfOlderSeconds;
         this.xmlExtractor = xmlExtractor;
         this.delegate = delegate;
@@ -57,17 +64,15 @@ public class NetworkXMLRetrieveAndCache<ResultType> {
     /**
      * load old content from cache file and start fetching new content if it is too old.
      */
-    public void load() {
-        SharedPreferences settings = context.getSharedPreferences(Util.PREFS_NAME, 0);
-        long lastLoadMillis = settings.getLong("last-xml-fetch-"+contentTag, 0);
+    public void loadAsynchronously() {
         // We first load the cached data (and show it), then update the
         // document asynchronously if last fetch is too old
-        ResultType cachedStuff = loadFromCache();
-        if (cachedStuff != null)
-            delegate.onUpdate(cachedStuff);
-        long cachedNewsAgeMillis = Math.abs(lastLoadMillis - System.currentTimeMillis());
-        // Reload after `reloadIfOlderSeconds` minutes
-        if (cachedStuff == null || cachedNewsAgeMillis >= 1000*reloadIfOlderSeconds) {
+        Pair<Date, ResultType> cached = loadFromCache();
+        if (cached != null)
+            delegate.onUpdate(cached.second);
+        boolean reloadContentFromWeb = cached == null
+                || Math.abs(cached.first.getTime() - System.currentTimeMillis()) > 1000*reloadIfOlderSeconds;
+        if (reloadContentFromWeb) {
             delegate.onStartLoading();
 
             WebXMLFetcher fetcher = new WebXMLFetcher(xmlExtractor, new XMLListener());
@@ -98,37 +103,39 @@ public class NetworkXMLRetrieveAndCache<ResultType> {
         }
     }
 
-    private ResultType loadFromCache() {
-        File file = new File(context.getCacheDir(), "cached-xml-"+contentTag);
-        if (!file.exists()) {
-            Log.w(TAG, "Cache file does not exist: "+file);
+    private Pair<Date, ResultType> loadFromCache() {
+        Pair<Date, byte[]> cached = cache.getContentWithAge(contentTag);
+        if (cached == null)
             return null;
-        }
+
         try {
-            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file));
-            ResultType cached = (ResultType)ois.readObject();
+            ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(cached.second));
+            ResultType data = (ResultType)ois.readObject();
             ois.close();
-            return cached;
+            return new Pair<>(cached.first, data);
         } catch (IOException e) {
-            Log.w(TAG, "Cannot load data from cache file '"+file+"'", e);
+            Log.w(TAG, "Cannot load data '"+contentTag+"' from cache", e);
             return null;
         } catch (ClassNotFoundException | ClassCastException e) {
-            Log.e(TAG, "Weird class error when loading data from cache file '"+file+"'", e);
+            Log.e(TAG, "Weird class error when loading data '"+contentTag+"' from cache", e);
             return null;
         }
     }
 
     private void saveToCache(ResultType data) {
-        File file = new File(context.getCacheDir(), "cached-xml-"+contentTag);
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+
         try {
-            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file));
+            ObjectOutputStream oos = new ObjectOutputStream(bos);
             oos.writeObject(data);
             oos.close();
         } catch (IOException e) {
-            Log.w(TAG, "Cannot save data to cache file '"+file+"'", e);
+            Log.w(TAG, "Cannot serialize data '"+contentTag+"'", e);
             return;
         }
 
-        Log.i(TAG, "Saved events to cache");
+        cache.storeContent(contentTag, bos.toByteArray());
+
+        Log.i(TAG, "Saved '"+contentTag+"' to cache");
     }
 }
