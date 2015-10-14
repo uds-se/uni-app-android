@@ -69,7 +69,7 @@ public class EventsActivity extends ActionBarActivity {
         setContentView(R.layout.news_panel);
 
         if (networkFetcher == null) {
-            ContentCache cache = new ContentCache(this, "news", 60 * 60 * 24 * 14);
+            ContentCache cache = new ContentCache(this, "events", 60 * 60 * 24 * 14);
             networkFetcher = new NetworkXMLRetrieveAndCache<>(URL, "events", 15*60, cache,
                     new EventsXMLParser(), new NetworkDelegate(), this);
         }
