@@ -58,7 +58,7 @@ public class MainActivity extends ActionBarActivity {
         setButtonListeners();
         // Set Text on the Mainscreen
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        String campus = settings.getString(SettingsActivity.KEY_CAMPUS_CHOOSER, "saar");
+        String campus = settings.getString(Util.KEY_CAMPUS_CHOOSER, "saar");
         campusText = (TextView) findViewById(R.id.campusText);
         // unfortunately, campusText happens to be null sometimes.
         if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE

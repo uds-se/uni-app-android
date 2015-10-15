@@ -12,14 +12,13 @@ import android.view.MenuItem;
 import android.view.View;
 
 import de.unisaarland.UniApp.R;
-import de.unisaarland.UniApp.SettingsActivity;
-import de.unisaarland.UniApp.utils.Util;
 import de.unisaarland.UniApp.restaurant.uihelper.AuslanderCafeFragment;
 import de.unisaarland.UniApp.restaurant.uihelper.HeroesCafeFragment;
 import de.unisaarland.UniApp.restaurant.uihelper.JuristenCafeFragment;
 import de.unisaarland.UniApp.restaurant.uihelper.MensaCafeFragment;
 import de.unisaarland.UniApp.restaurant.uihelper.MensaFragment;
 import de.unisaarland.UniApp.restaurant.uihelper.SupportFragmentTabListener;
+import de.unisaarland.UniApp.utils.Util;
 
 /**
  * Created with IntelliJ IDEA.
@@ -39,7 +38,7 @@ public class OpeningHoursActivity extends ActionBarActivity {
 
         super.onCreate(savedInstanceState);
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
-        String campus = settings.getString(SettingsActivity.KEY_CAMPUS_CHOOSER, "saar");
+        String campus = settings.getString(Util.KEY_CAMPUS_CHOOSER, "saar");
         setActionBar();
         if (campus.equals("saar")) {
             //setContentView(R.layout.opening_layout);

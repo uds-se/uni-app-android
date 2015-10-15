@@ -33,10 +33,6 @@ import java.util.Iterator;
 import java.util.Set;
 
 import de.unisaarland.UniApp.R;
-import de.unisaarland.UniApp.SettingsActivity;
-import de.unisaarland.UniApp.utils.INetworkLoaderDelegate;
-import de.unisaarland.UniApp.utils.Util;
-import de.unisaarland.UniApp.utils.WebFetcher;
 import de.unisaarland.UniApp.restaurant.model.AusLanderCafeParser;
 import de.unisaarland.UniApp.restaurant.model.IMensaResultDelegate;
 import de.unisaarland.UniApp.restaurant.model.MensaItem;
@@ -44,6 +40,9 @@ import de.unisaarland.UniApp.restaurant.model.MensaXMLParser;
 import de.unisaarland.UniApp.restaurant.uihelper.CircleFlowIndicator;
 import de.unisaarland.UniApp.restaurant.uihelper.ViewFlow;
 import de.unisaarland.UniApp.restaurant.uihelper.ViewFlowAdapter;
+import de.unisaarland.UniApp.utils.INetworkLoaderDelegate;
+import de.unisaarland.UniApp.utils.Util;
+import de.unisaarland.UniApp.utils.WebFetcher;
 
 public class RestaurantActivity extends ActionBarActivity {
 
@@ -114,7 +113,7 @@ public class RestaurantActivity extends ActionBarActivity {
         public void mensaItemsList(HashMap<String,ArrayList<MensaItem>> daysDictionary) {
 
             SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-            String uni_saar = settings.getString(SettingsActivity.KEY_CAMPUS_CHOOSER, "saar");
+            String uni_saar = settings.getString(Util.KEY_CAMPUS_CHOOSER, "saar");
             if (uni_saar.equals("saar"))
                 new AusLanderCafeParser(auslanderResultDelegate,AUS_CAFE_URL,daysDictionary).parse();
             else
@@ -219,7 +218,7 @@ public class RestaurantActivity extends ActionBarActivity {
          */
         mensaFetcher = new WebFetcher(mensaDelegate);
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        String uni_saar = settings.getString(SettingsActivity.KEY_CAMPUS_CHOOSER, "saar");
+        String uni_saar = settings.getString(Util.KEY_CAMPUS_CHOOSER, "saar");
         String MENSA_URL = uni_saar.equals("saar") ? MENSA_URL_SB : MENSA_URL_HOM;
         mensaFetcher.startFetchingAsynchronously(MENSA_URL, this);
     }

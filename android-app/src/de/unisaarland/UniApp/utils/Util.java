@@ -15,6 +15,7 @@ public class Util {
     public static final String TEMP_STAFF_SEARCH_FILE = "staff.dat";
     public static final String FIRST_TIME = "firstTime";
     public static final String STAFF_LAST_SELECTION = "staffLastSel";
+    public static final String KEY_CAMPUS_CHOOSER= "pref_campus_chooser";
 
     public static final String EVENTS_URL =
             "http://www.uni-saarland.de/aktuelles/veranstaltungen/alle-veranstaltungen/rss.xml";

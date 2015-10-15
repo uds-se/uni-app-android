@@ -20,8 +20,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import de.unisaarland.UniApp.SettingsActivity;
 import de.unisaarland.UniApp.bus.model.PointOfInterest;
+import de.unisaarland.UniApp.utils.Util;
 
 
 public class DatabaseHandler {
@@ -67,7 +67,7 @@ public class DatabaseHandler {
         ArrayList<String> result = new ArrayList<String>();
         // cursor = database.query("categorie",new String[]{"title"},null,null,null,null,null);
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
-        String campus = settings.getString(SettingsActivity.KEY_CAMPUS_CHOOSER, "saar");
+        String campus = settings.getString(Util.KEY_CAMPUS_CHOOSER, "saar");
         Cursor cursor = rawQuery("select categorie.title from categorie, pointOfInterest where categorie.iD = pointOfInterest.categorieID and pointOfInterest.campus = ? group by categorie.title", new String[]{campus});
         while (cursor.moveToNext())
             result.add(cursor.getString(0));
@@ -222,7 +222,7 @@ public class DatabaseHandler {
     public ArrayList<Integer> getAllCategoryIDs(){
         ArrayList<Integer> result = new ArrayList<Integer>();
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
-        String campus = settings.getString(SettingsActivity.KEY_CAMPUS_CHOOSER, "saar");
+        String campus = settings.getString(Util.KEY_CAMPUS_CHOOSER, "saar");
         Cursor cursor = rawQuery("select categorie.id from categorie, pointOfInterest where categorie.iD = pointOfInterest.categorieID and pointOfInterest.campus = ? group by categorie.title", new String[]{campus});
         while (cursor.moveToNext())
             result.add(cursor.getInt(0));
@@ -331,7 +331,7 @@ public class DatabaseHandler {
                               String[] selectionArgs, String groupBy, String having,
                               String orderBy) {
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
-        String campus = settings.getString(SettingsActivity.KEY_CAMPUS_CHOOSER, "saar");
+        String campus = settings.getString(Util.KEY_CAMPUS_CHOOSER, "saar");
         selection = selection == null ? "campus = ?" : "(" +selection + ") AND (campus = ?)";
         selectionArgs = selectionArgs == null ? new String[1]
                 : Arrays.copyOf(selectionArgs, selectionArgs.length + 1);

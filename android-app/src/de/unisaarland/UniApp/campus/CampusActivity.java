@@ -62,6 +62,7 @@ import de.unisaarland.UniApp.campus.uihelper.PanelButtonListener;
 import de.unisaarland.UniApp.campus.uihelper.SearchAdapter;
 import de.unisaarland.UniApp.database.DatabaseHandler;
 import de.unisaarland.UniApp.restaurant.RestaurantActivity;
+import de.unisaarland.UniApp.utils.Util;
 
 /*
 * It implements Location listeners to show the distance of the bus stop from users current location.
@@ -247,7 +248,7 @@ public class CampusActivity extends ActionBarActivity implements ConnectionCallb
             map.addTileOverlay(new TileOverlayOptions().tileProvider(prov));
 
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        String uni_saar = settings.getString(SettingsActivity.KEY_CAMPUS_CHOOSER, "saar");
+        String uni_saar = settings.getString(Util.KEY_CAMPUS_CHOOSER, "saar");
         LatLng latlng = uni_saar.equals("saar") ? new LatLng(49.25419, 7.041324)
                 : new LatLng(49.305582, 7.344296);
         CameraUpdate upd = CameraUpdateFactory.newLatLngZoom(latlng, 15);
