@@ -102,4 +102,5 @@
     <string name="choose_campus_hint">This setting customizes the mensa menu, bus stations and the map</string>
     <string name="noEventsText">No events found.</string>
     <string name="noNewsText">No news found.</string>
+    <string name="networkError">Network error</string>
 </resources>

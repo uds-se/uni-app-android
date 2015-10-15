@@ -36,11 +36,12 @@ public class NetworkRetrieveAndCache<ResultType> {
 
     private final ContentExtractor<ResultType> extractor;
 
-    private volatile WebFetcher lastWebFetcher = null;
-
     private final Delegate<ResultType> delegate;
 
     private final Context context;
+
+    private volatile WebFetcher lastWebFetcher = null;
+
 
     public NetworkRetrieveAndCache(String URL, String contentTag, int reloadIfOlderSeconds,
                                    ContentCache cache,
@@ -55,10 +56,10 @@ public class NetworkRetrieveAndCache<ResultType> {
         this.context = context;
     }
 
-    public static abstract class Delegate<ResultType> {
-        public abstract void onUpdate(ResultType result);
-        public abstract void onStartLoading();
-        public abstract void onFailure(String message);
+    public interface Delegate<ResultType> {
+        void onUpdate(ResultType result);
+        void onStartLoading();
+        void onFailure(String message);
     }
 
     /**
@@ -109,6 +110,10 @@ public class NetworkRetrieveAndCache<ResultType> {
                 errorMessage = "Error parsing remote content: " + e.getLocalizedMessage();
                 Log.w(TAG, "parse error from URL '"+URL+"'", e);
                 return null;
+            } catch (IOException e) {
+                errorMessage = "Error receiving remote content: " + e.getLocalizedMessage();
+                Log.w(TAG, "I/O error from URL '" + URL + "'", e);
+                return null;
             }
         }
 
@@ -133,19 +138,28 @@ public class NetworkRetrieveAndCache<ResultType> {
         if (cached == null)
             return null;
 
+        ResultType data = null;
+        ObjectInputStream ois = null;
         try {
-            ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(cached.second));
-            ResultType data = (ResultType)ois.readObject();
+            ois = new ObjectInputStream(new ByteArrayInputStream(cached.second));
+            data = (ResultType)ois.readObject();
             ois.close();
-            Log.i(TAG, "Using cached content '"+contentTag+"' from cache '"+cache.getName()+"'");
-            return new Pair<>(cached.first, data);
         } catch (IOException e) {
-            Log.w(TAG, "Cannot load data '"+contentTag+"' from cache '"+cache.getName()+"'", e);
-            return null;
+            throw Util.makeAssertionError(e);
         } catch (ClassNotFoundException | ClassCastException e) {
-            Log.e(TAG, "Weird class error when loading data '"+contentTag+"' from cache '"+cache.getName()+"'", e);
-            return null;
+            throw Util.makeRuntimeException("Weird class error when deserializing", e);
+        } finally {
+            try {
+                if (ois != null)
+                    ois.close();
+            } catch (IOException e) {
+                // ignore
+            }
         }
+
+        long ageSeconds = (System.currentTimeMillis() - cached.first.getTime())/1000;
+        Log.i(TAG, "Using cached content '"+contentTag+"' (age: "+ageSeconds+" seconds) from cache '"+cache.getName()+"'");
+        return new Pair<>(cached.first, data);
     }
 
     private void saveToCache(ResultType data) {
@@ -156,8 +170,7 @@ public class NetworkRetrieveAndCache<ResultType> {
             oos.writeObject(data);
             oos.close();
         } catch (IOException e) {
-            Log.w(TAG, "Cannot serialize data '"+contentTag+"' for cache '"+cache.getName()+"'", e);
-            return;
+            throw Util.makeAssertionError(e);
         }
 
         cache.storeContent(contentTag, bos.toByteArray());

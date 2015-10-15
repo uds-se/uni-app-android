@@ -103,4 +103,5 @@
     <string name="choose_campus_hint">Diese Einstellung passt den Speiseplan, die Bushaltestellen und die Karte dem ausgewählten Campus an</string>
     <string name="noEventsText">Keine Veranstaltungen gefunden.</string>
     <string name="noNewsText">Keine Neuigkeiten gefunden.</string>
+    <string name="networkError">Netzwerkfehler</string>
 </resources>

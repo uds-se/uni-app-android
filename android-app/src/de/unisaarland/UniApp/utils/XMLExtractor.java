@@ -13,7 +13,7 @@ import java.text.ParseException;
 public abstract class XMLExtractor<ResultType> implements ContentExtractor<ResultType> {
 
     @Override
-    public ResultType extract(InputStream data) throws ParseException {
+    public ResultType extract(InputStream data) throws ParseException, IOException {
         XmlPullParser parser = Xml.newPullParser();
         try {
             parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
@@ -26,10 +26,6 @@ public abstract class XMLExtractor<ResultType> implements ContentExtractor<Resul
             return extractFromXML(parser);
         } catch (XmlPullParserException e) {
             ParseException pe = new ParseException(e.getMessage(), e.getLineNumber());
-            pe.setStackTrace(e.getStackTrace());
-            throw pe;
-        } catch (IOException e) {
-            ParseException pe = new ParseException(e.toString(), 0);
             pe.setStackTrace(e.getStackTrace());
             throw pe;
         }

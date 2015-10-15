@@ -34,7 +34,7 @@
                 android:value="de.unisaarland.UniApp.MainActivity" />
             </activity>
 
-        <activity android:name=".events.EventsActivity" android:label="@string/eventsText" android:configChanges="orientation|screenSize">
+        <activity android:name=".rssViews.RSSActivity" android:label="@string/eventsText" android:configChanges="orientation|screenSize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
             android:value="de.unisaarland.UniApp.MainActivity" />
@@ -83,17 +83,11 @@
                 android:value="de.unisaarland.UniApp.MainActivity" />
             </activity>
 
-        <activity android:name=".news.NewsArticleActivity" android:configChanges="orientation|screenSize">
+        <activity android:name=".rssViews.RSSDetailActivity" android:configChanges="orientation|screenSize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".news.NewsActivity" />
+                android:value=".rssViews.RSSDetailActivity" />
             </activity>
-
-        <activity android:name=".events.EventDetailActivity" android:configChanges="orientation|screenSize">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".events.EventsActivity" />
-        </activity>
 
         <activity android:name=".staff.SearchResultActivity" android:launchMode="singleTop" android:configChanges="orientation|screenSize">
             <meta-data
@@ -139,6 +133,7 @@
 
  <uses-permission android:name="android.permission.INTERNET"/>
  <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+ <!-- WRITE_EXTERNAL_STORAGE is also required by Google Maps if api < 23 or Google Play SDK < 8.1 -->
  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
  <!-- The following two permissions are not required to use
       Google Maps Android API v2, but are recommended. -->

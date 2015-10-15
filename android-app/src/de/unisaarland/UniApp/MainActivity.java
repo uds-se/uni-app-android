@@ -6,12 +6,10 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
-import android.view.Display;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -20,11 +18,10 @@ import java.io.File;
 import de.unisaarland.UniApp.about.AboutActicvity;
 import de.unisaarland.UniApp.bus.BusActivity;
 import de.unisaarland.UniApp.campus.CampusActivity;
-import de.unisaarland.UniApp.events.EventsActivity;
-import de.unisaarland.UniApp.utils.Util;
-import de.unisaarland.UniApp.news.NewsActivity;
 import de.unisaarland.UniApp.restaurant.RestaurantActivity;
+import de.unisaarland.UniApp.rssViews.RSSActivity;
 import de.unisaarland.UniApp.staff.SearchStaffActivity;
+import de.unisaarland.UniApp.utils.Util;
 
 /**
  * Launcher Activity of the application this Activity will be displayed when application is launched from the launcher
@@ -63,7 +60,6 @@ public class MainActivity extends ActionBarActivity {
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String campus = settings.getString(SettingsActivity.KEY_CAMPUS_CHOOSER, "saar");
         campusText = (TextView) findViewById(R.id.campusText);
-        Display display = ((WindowManager) getSystemService(WINDOW_SERVICE)).getDefaultDisplay();
         // unfortunately, campusText happens to be null sometimes.
         if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE
                 && campusText != null) {
@@ -140,9 +136,9 @@ public class MainActivity extends ActionBarActivity {
         newsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            Intent myIntent = new Intent(MainActivity.this, NewsActivity.class);
-            MainActivity.this.startActivity(myIntent);
-
+                Intent myIntent = new Intent(MainActivity.this, RSSActivity.class);
+                myIntent.putExtra("category", RSSActivity.Category.News);
+                MainActivity.this.startActivity(myIntent);
             }
         });
         restaurantButton = (Button) findViewById(R.id.restaurantBtn);
@@ -151,7 +147,6 @@ public class MainActivity extends ActionBarActivity {
             public void onClick(View v) {
                 Intent myIntent = new Intent(MainActivity.this, RestaurantActivity.class);
                 MainActivity.this.startActivity(myIntent);
-
             }
         });
         campusButton = (Button) findViewById(R.id.campusBtn);
@@ -160,16 +155,15 @@ public class MainActivity extends ActionBarActivity {
             public void onClick(View v) {
                 Intent myIntent = new Intent(MainActivity.this, CampusActivity.class);
                 MainActivity.this.startActivity(myIntent);
-
             }
         });
         eventsButton = (Button) findViewById(R.id.eventsBtn);
         eventsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent myIntent = new Intent(MainActivity.this, EventsActivity.class);
+                Intent myIntent = new Intent(MainActivity.this, RSSActivity.class);
+                myIntent.putExtra("category", RSSActivity.Category.Events);
                 MainActivity.this.startActivity(myIntent);
-
             }
         });
         busButton = (Button) findViewById(R.id.busBtn);
@@ -178,7 +172,6 @@ public class MainActivity extends ActionBarActivity {
             public void onClick(View v) {
                 Intent myIntent = new Intent(MainActivity.this, BusActivity.class);
                 MainActivity.this.startActivity(myIntent);
-
             }
         });
         staffSearchButton = (Button) findViewById(R.id.staffBtn);
@@ -187,7 +180,6 @@ public class MainActivity extends ActionBarActivity {
             public void onClick(View v) {
                 Intent myIntent = new Intent(MainActivity.this, SearchStaffActivity.class);
                 MainActivity.this.startActivity(myIntent);
-
             }
         });
     }

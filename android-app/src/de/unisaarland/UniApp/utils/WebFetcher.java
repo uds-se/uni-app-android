@@ -19,7 +19,7 @@ public class WebFetcher {
 
     private final INetworkLoaderDelegate delegate;
     private volatile HttpURLConnection lastConnection;
-    private static final int CONNECTION_TIME = 20000;
+    private static final int CONNECTION_TIME = 30000;
 
 
     public WebFetcher(INetworkLoaderDelegate delegate) {
@@ -27,13 +27,15 @@ public class WebFetcher {
         this.delegate = delegate;
     }
 
-    public void startFetchingAsynchronously(String urlStr, Context context) {
+    public void startFetchingAsynchronously(String urlStr, final Context context) {
         final URL url;
         try {
-            url = new URL(Util.urlEncode(urlStr));
+            url = new URL(urlStr);
         } catch (MalformedURLException e) {
             // URLs are always provided by the app itself, they should never be malformed...
-            throw new AssertionError(e);
+            AssertionError ae = new AssertionError(e.toString());
+            ae.setStackTrace(e.getStackTrace());
+            throw ae;
         }
         if (!Util.isConnectedToInternet(context)) {
             delegate.onFailure(context.getString(R.string.not_connected));
@@ -47,17 +49,10 @@ public class WebFetcher {
                 HttpURLConnection connection = null;
                 try {
                     connection = startFetching(url);
-                } catch (IOException e) {
-                    Log.w(TAG, "error connecting to '"+url+"'", e);
-                    errorMessage = "Error loading document: " + e.getLocalizedMessage();
-                    return null;
-                }
-
-                try {
                     return connection.getInputStream();
                 } catch (IOException e) {
-                    errorMessage = "Error getting input stream from connection";
-                    Log.w(TAG, errorMessage, e);
+                    Log.w(TAG, "error loading document: "+url, e);
+                    errorMessage = context.getString(R.string.networkError);
                     return null;
                 }
             }
@@ -73,8 +68,6 @@ public class WebFetcher {
                 if (data != null) {
                     delegate.onSuccess(data);
                 } else {
-                    if (errorMessage == null)
-                        errorMessage = "Unknown error";
                     delegate.onFailure(errorMessage);
                 }
             }

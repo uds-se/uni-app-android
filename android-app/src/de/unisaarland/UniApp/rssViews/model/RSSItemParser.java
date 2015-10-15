@@ -1,4 +1,4 @@
-package de.unisaarland.UniApp.news.model;
+package de.unisaarland.UniApp.rssViews.model;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -13,21 +13,20 @@ import java.util.Locale;
 
 import de.unisaarland.UniApp.utils.XMLExtractor;
 
-public class NewsXMLParser extends XMLExtractor<List<NewsModel>> {
 
-    private final String TAG = NewsXMLParser.class.getSimpleName();
+public class RSSItemParser extends XMLExtractor<List<RSSItem>> {
 
-    private static final String TITLE = "title";
-    private static final String PUBLICATION_DATE = "pubDate";
-    private static final String LINK = "link";
-    private static final String DESCRIPTION = "content:encoded";
-    private static final String START_TAG = "rss";
-    private static final String ITEM_TAG = "item";
+    private final String TITLE = "title";
+    private final String PUBLICATION_DATE = "pubDate";
+    private final String LINK = "link";
+    private final String DESCRIPTION = "content:encoded";
+    private final String START_TAG = "rss";
+    private final String ITEM_TAG = "item";
 
     @Override
-    public List<NewsModel> extractFromXML(XmlPullParser parser)
+    public List<RSSItem> extractFromXML(XmlPullParser parser)
             throws IOException, XmlPullParserException, ParseException {
-        List<NewsModel> news = new ArrayList<>();
+        List<RSSItem> events = new ArrayList<>();
 
         parser.require(XmlPullParser.START_DOCUMENT, null, null);
         parser.next();
@@ -37,12 +36,12 @@ public class NewsXMLParser extends XMLExtractor<List<NewsModel>> {
             if (parser.getEventType() != XmlPullParser.START_TAG)
                 continue;
             if (parser.getName().equals(ITEM_TAG))
-                news.add(readEntry(parser));
+                events.add(readEntry(parser));
         }
-        return news;
+        return events;
     }
 
-    private NewsModel readEntry(XmlPullParser parser)
+    private RSSItem readEntry(XmlPullParser parser)
             throws XmlPullParserException, IOException, ParseException {
         parser.require(XmlPullParser.START_TAG, null, ITEM_TAG);
         String title = null;
@@ -55,41 +54,39 @@ public class NewsXMLParser extends XMLExtractor<List<NewsModel>> {
             }
             String name = parser.getName();
             if (name.equals(TITLE)) {
-                title = getElementValue(parser,TITLE);
+                title = getElementValue(parser, TITLE);
             } else if (name.equals(PUBLICATION_DATE)) {
                 String input = getElementValue(parser, PUBLICATION_DATE);
-                String datestring = input.toString();
                 SimpleDateFormat parserSDF = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z", Locale.ENGLISH);
-                date = parserSDF.parse(datestring);
+                date = parserSDF.parse(input);
             } else if (name.equals(LINK)) {
-                link = getElementValue(parser,LINK);
-            } else if(name.equals(DESCRIPTION)){
-                description = getElementValue(parser,DESCRIPTION);
+                link = getElementValue(parser, LINK);
+            } else if (name.equals(DESCRIPTION)) {
+                description = getElementValue(parser, DESCRIPTION);
             } else {
                 skipTag(parser);
             }
         }
         if (title == null || description == null || date == null || link == null)
             throw new ParseException("Incomplete event", parser.getLineNumber());
-        return new NewsModel(title, description, date, link);
+        return new RSSItem(title, description, date, link);
     }
 
-    private String getElementValue(XmlPullParser parser,String tag)
+    private String getElementValue(XmlPullParser parser, String tag)
             throws IOException, XmlPullParserException {
         parser.require(XmlPullParser.START_TAG, null, tag);
         String title = readText(parser);
         parser.require(XmlPullParser.END_TAG, null, tag);
+        parser.next();
         return title;
     }
 
     private String readText(XmlPullParser parser)
             throws IOException, XmlPullParserException {
-        String result = "";
-        if (parser.next() == XmlPullParser.TEXT) {
-            result = parser.getText();
-            parser.nextTag();
-        }
-        return result;
+        StringBuilder res = new StringBuilder();
+        while (parser.next() == XmlPullParser.TEXT)
+            res.append(parser.getText());
+        return res.toString();
     }
 
     private void skipTag(XmlPullParser parser)

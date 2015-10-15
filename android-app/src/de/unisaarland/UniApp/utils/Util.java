@@ -16,39 +16,10 @@ public class Util {
     public static final String FIRST_TIME = "firstTime";
     public static final String STAFF_LAST_SELECTION = "staffLastSel";
 
-    //to encode the url and remove spaces if there are any
-    public static String urlEncode(String url) {
-        String[] parts = url.split(" ");
-        StringBuffer strBuf = new StringBuffer(parts.length + 1);
-        for (int i = 0; i < parts.length; i++) {
-            strBuf.append(parts[i]);
-            if ((i + 1) != (parts.length)) {
-                strBuf.append("%20");
-            }
-        }
-        String result = strBuf.toString();
-        return result;
-    }
-
-    // remove html tags from the string
-    public static String cleanHtmlCodeInString(String str){
-        String result = str;
-        result = result.replace("<b>","");
-        result = result.replace("</b>","");
-        result = result.replace("(at)","@");
-//        result = result.replace("</p>","\n");
-//        //result = result.replaceAll("<[^>]+>","") ;
-//        String[] temp = result.split("<[^>]+>");
-//        String tempR = "";
-//        for (int i =0;i<temp.length;i++){
-//            tempR = tempR+temp[i];//.replaceFirst("<[^>]+>","");
-//        }
-////        result=result.replace("\r","").replace("\n","");
-////        result = result.trim();
-//        result = tempR;
-//        result = result.replace("\n\n\n","\n\n");
-        return result ;
-    }
+    public static final String EVENTS_URL =
+            "http://www.uni-saarland.de/aktuelles/veranstaltungen/alle-veranstaltungen/rss.xml";
+    public static final String NEWS_URL =
+            "http://www.uni-saarland.de/aktuelles/presse/pms.html?type=100&tx_ttnews[cat]=26";
 
     // check if internet is connected
     public static boolean isConnectedToInternet(Context context) {
@@ -62,5 +33,35 @@ public class Util {
         Date today = new GregorianCalendar(now.get(Calendar.YEAR),
                 now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH)).getTime();
         return today;
+    }
+
+    /**
+     * Return the general remote content cache for stuff like news, events, mensa plan, ....
+     * Old elements are discarded after 30 days.
+     */
+    private static ContentCache cache = null;
+    public static synchronized ContentCache getContentCache(Context context) {
+        if (cache == null)
+            cache = new ContentCache(context, "content", 60*60*24*30);
+        return cache;
+    }
+
+    public static AssertionError makeAssertionError(Exception e) {
+        AssertionError ae = new AssertionError(e.toString());
+        ae.setStackTrace(e.getStackTrace());
+        return ae;
+    }
+
+    public static RuntimeException makeRuntimeException(String msg, Exception e) {
+        String fullMsg = e.toString();
+        if (msg != null && !msg.isEmpty())
+            fullMsg = msg + ": " + fullMsg;
+        RuntimeException re = new RuntimeException(fullMsg);
+        re.setStackTrace(e.getStackTrace());
+        return re;
+    }
+
+    public static RuntimeException makeRuntimeException(Exception e) {
+        return makeRuntimeException(null, e);
     }
 }

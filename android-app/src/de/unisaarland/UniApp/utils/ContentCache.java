@@ -31,7 +31,7 @@ public class ContentCache {
     private class OpenHelper extends SQLiteOpenHelper {
 
         public OpenHelper(Context context, String name) {
-            super(context, name, null, 1, new DatabaseErrorHandler() {
+            super(context, name, null, version, new DatabaseErrorHandler() {
                 @Override
                 public void onCorruption(SQLiteDatabase db) {
                     clearDatabase(db);
@@ -63,6 +63,10 @@ public class ContentCache {
         this.discardContentAfterSeconds = discardContentAfterSeconds;
     }
 
+    public void close() {
+        openHelper.close();
+    }
+
     public String getName() {
         return openHelper.getDatabaseName();
     }
@@ -70,7 +74,6 @@ public class ContentCache {
     public void clearDatabase() {
         SQLiteDatabase db = getWritableDB();
         clearDatabase(db);
-        db.close();
     }
 
     private void clearDatabase(SQLiteDatabase db) {
@@ -84,12 +87,13 @@ public class ContentCache {
 
     private void removeOldContent(SQLiteDatabase db) {
         long now = System.currentTimeMillis();
-        long removeIfOlderThan = now - 1000 * discardContentAfterSeconds;
-        long removeIfNewerThan = now + 1000 * discardContentAfterSeconds;
+        long removeIfOlderThan = now - 1000L * discardContentAfterSeconds;
+        long removeIfNewerThan = now + 1000L * discardContentAfterSeconds;
         int deleted = db.delete("cache", "time<? OR time>?", new String[] {
                 Long.toString(removeIfOlderThan), Long.toString(removeIfNewerThan)
         });
-        Log.w(TAG, "removed "+deleted+" old entries from database '" + openHelper.getDatabaseName() + "'");
+        if (deleted != 0)
+            Log.w(TAG, "removed "+deleted+" old entries from database '" + openHelper.getDatabaseName() + "'");
     }
 
     private void execQueries(SQLiteDatabase db, String queries) {
@@ -111,19 +115,18 @@ public class ContentCache {
         return cont == null ? null : cont.second;
     }
 
-    public Pair<Date, byte[]> getContentWithAge(String name) {
+    public synchronized Pair<Date, byte[]> getContentWithAge(String name) {
         SQLiteDatabase db = getReadableDB();
         Cursor res = db.query("cache", new String[]{"time", "data"}, "key=?", new String[]{name}, null, null, null, "1");
         if (!res.moveToNext())
             return null;
         long time = res.getLong(0);
-        if (Math.abs(System.currentTimeMillis() - time) > 1000*discardContentAfterSeconds) {
+        if (Math.abs(System.currentTimeMillis() - time) >= 1000L * discardContentAfterSeconds) {
             removeOldContent(db);
             return null;
         }
         byte[] data = res.getBlob(1);
         res.close();
-        db.close();
         return new Pair<>(new Date(time), data);
     }
 
@@ -143,7 +146,6 @@ public class ContentCache {
         long time = age == null ? System.currentTimeMillis() : age.getTime();
         insertValues.put("time", time);
         db.replaceOrThrow("cache", null, insertValues);
-        db.close();
     }
 
 }
