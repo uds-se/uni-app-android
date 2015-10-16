@@ -21,8 +21,13 @@
             android:id="@+id/viewflow" android:layout_width="fill_parent"
             android:layout_height="fill_parent" android:layout_alignParentTop="true"
         android:layout_marginBottom="0dp"
-        android:layout_above="@+id/bottom_image">
+        android:layout_above="@+id/bottom_image" />
 
-            </de.unisaarland.UniApp.restaurant.uihelper.ViewFlow>
+    <include
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        layout="@layout/progress_bar"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"/>
 
 </RelativeLayout>

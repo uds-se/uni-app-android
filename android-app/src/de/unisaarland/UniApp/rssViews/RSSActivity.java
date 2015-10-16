@@ -115,13 +115,6 @@ public class RSSActivity extends ActionBarActivity {
 
     private NetworkRetrieveAndCache<List<RSSItem>> networkFetcher;
 
-    /**
-     * Will be called when activity created first time e.g. from scratch
-     */
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
     // store scroll position on leave and restore on return (on first content load)
     private Parcelable listState = null;
     @Override
@@ -131,10 +124,6 @@ public class RSSActivity extends ActionBarActivity {
         listState = listView.onSaveInstanceState();
     }
 
-    /**
-     * Will be called when activity created first time after onCreate or when activity comes to the front again or in a pausing state
-     * So its better to set all the things needed to use in the activity here if in case anything is released in onPause method
-     */
     @Override
     protected void onResume() {
         super.onResume();

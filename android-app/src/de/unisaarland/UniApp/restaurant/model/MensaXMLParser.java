@@ -1,27 +1,24 @@
 package de.unisaarland.UniApp.restaurant.model;
 
-import android.os.AsyncTask;
-import android.util.Log;
-import android.util.Xml;
+import android.graphics.Color;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.StringBufferInputStream;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import de.unisaarland.UniApp.utils.Util;
+import de.unisaarland.UniApp.utils.XMLExtractor;
 
 
-public class MensaXMLParser {
-    private final IMensaResultDelegate mensaResultDelegate;
-    private HashMap<String,ArrayList<MensaItem>> entries = null;
+public class MensaXMLParser extends XMLExtractor<Map<Long, List<MensaItem>>> {
+
     private static final String START_TAG = "speiseplan";
     private static final String TAG = "tag";
     private static final String ITEM_TAG = "item";
@@ -36,141 +33,154 @@ public class MensaXMLParser {
     private static final String PREIS2 = "preis2";
     private static final String PREIS3 = "preis3";
     private static final String COLOR = "color";
+    private static final String TIMESTAMP = "timestamp";
 
-    private Long date;
+    @Override
+    public Map<Long, List<MensaItem>> extractFromXML(XmlPullParser parser)
+            throws IOException, XmlPullParserException, ParseException {
+        Map<Long, List<MensaItem>> items = new HashMap<>();
 
-    public MensaXMLParser(IMensaResultDelegate mensaResultDelegate) {
-        this.mensaResultDelegate = mensaResultDelegate;
-    }
+        parser.require(XmlPullParser.START_DOCUMENT, null, null);
+        parser.next();
+        parser.require(XmlPullParser.START_TAG, null, START_TAG);
 
-    public List<MensaItem> parse(InputStream data) throws XmlPullParserException, IOException {
-        XmlPullParser parser = Xml.newPullParser();
+        while (parser.next() != XmlPullParser.END_DOCUMENT) {
+            if (parser.getEventType() != XmlPullParser.START_TAG)
+                continue;
+            if (parser.getName().equals(TAG)) {
+                String tempDate = parser.getAttributeValue(null, TIMESTAMP);
+                long date = Long.parseLong(tempDate) * 1000;
 
-        try {
-            parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
-            parser.setInput(data, null);
-        } catch (XmlPullParserException e) {
-            throw new AssertionError(e);
+                Date tagDate = Util.getStartOfDay(date);
+
+                List<MensaItem> tagItems = readItems(parser);
+                items.put(tagDate.getTime(), tagItems);
+            }
         }
 
-        try {
-            readFeed(parser);
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-        return null;
+        return items;
     }
 
-    private void readFeed(XmlPullParser parser) throws XmlPullParserException, IOException {
-        entries = new HashMap<String,ArrayList<MensaItem>>(5);
-        getTask(parser).execute();
-    }
-
-    private AsyncTask<Void, Void, Integer> getTask(final XmlPullParser parser) {
-        return new AsyncTask<Void, Void, Integer>() {
-            @Override
-            protected Integer doInBackground(Void... params) {
-                try {
-                    parser.require(XmlPullParser.START_TAG, null, START_TAG);
-                    while (parser.next()!=XmlPullParser.END_DOCUMENT) {
-                        if (parser.getEventType() != XmlPullParser.START_TAG) {
-                            continue;
-                        }
-                        if(parser.getName().equals(TAG)){
-                            String tempDate = parser.getAttributeValue(0);
-                            date = Long.parseLong(tempDate)*1000;
-                            Calendar cal = Calendar.getInstance();
-                            cal.set(Calendar.HOUR_OF_DAY,0);
-                            cal.set(Calendar.MINUTE,0);
-                            cal.set(Calendar.SECOND,0);
-
-                            Date now = cal.getTime();
-                            Date tagDate = new Date(date);
-
-                            if(now.before(tagDate) ||
-                                    (cal.get(Calendar.DATE) == tagDate.getDate() && cal.get(Calendar.MONTH) == tagDate.getMonth())) {
-                                ArrayList<MensaItem> items = readEntry(parser);
-                                entries.put(tempDate, items);
-                            }
-                        }
-                    }
-                    return 1;
-                }
-                catch (Exception e){
-                    Log.e("MyTag", e.getMessage());
-                }
-                return 1;
-            }
-
-            @Override
-            protected void onCancelled() {
-                super.onCancelled();
-            }
-
-            @Override
-            protected void onPostExecute(Integer i) {
-                mensaResultDelegate.mensaItemsList(entries);
-            }
-        };
-    }
-
-    private ArrayList<MensaItem> readEntry(XmlPullParser parser) throws XmlPullParserException, IOException, ParseException {
+    private List<MensaItem> readItems(XmlPullParser parser)
+            throws XmlPullParserException, IOException, ParseException {
         parser.require(XmlPullParser.START_TAG, null, TAG);
-        ArrayList<MensaItem> mensaItems = new ArrayList<MensaItem>();
-//        String name = parser.getName();
-            while (parser.next() != XmlPullParser.END_TAG) {
-                if (parser.getEventType() != XmlPullParser.START_TAG) {
-                    continue;
-                }
-                MensaItem item = parseMensaItem(parser);
-                mensaItems.add(item);
-            }
+        List<MensaItem> mensaItems = new ArrayList<>();
+
+        while (parser.next() != XmlPullParser.END_TAG) {
+            if (parser.getEventType() != XmlPullParser.START_TAG)
+                continue;
+            if (parser.getName().equals(ITEM_TAG))
+                mensaItems.add(parseMensaItem(parser));
+            else
+                skipTag(parser);
+        }
         return mensaItems;
     }
 
 
-    private MensaItem parseMensaItem(XmlPullParser parser) throws IOException, XmlPullParserException {
+    private MensaItem parseMensaItem(XmlPullParser parser)
+            throws IOException, XmlPullParserException {
         parser.require(XmlPullParser.START_TAG, null, ITEM_TAG);
-        MensaItem model = new MensaItem();
-        Boolean components_open = true;
+
+        String category = null;
+        String desc = null;
+        String title = null;
+        Date tag = null;
+        String kennzeichnungen = null;
+        String beilagen = null;
+        int preis1 = 0;
+        int preis2 = 0;
+        int preis3 = 0;
+        int color = 0;
+
         while (parser.next() != XmlPullParser.END_TAG ) {
-            if (parser.getEventType() != XmlPullParser.START_TAG) {
+            if (parser.getEventType() != XmlPullParser.START_TAG)
                 continue;
-            }
-            if (parser.getEventType() != XmlPullParser.END_TAG) {
-                components_open = false;
-            }
             String name = parser.getName();
             if (name.equals(TITLE)) {
-                model.setTitle(getElementValue(parser, TITLE));
+                title = getElementValue(parser, TITLE);
             } else if (name.equals(CATEGORY)) {
-                model.setCategory(getElementValue(parser, CATEGORY));
+                category = getElementValue(parser, CATEGORY);
             } else if (name.equals(DESCRIPTION)) {
-                model.setDesc(getElementValue(parser, DESCRIPTION));
+                desc = getElementValue(parser, DESCRIPTION);
             } else if (name.equals(KENNZEICHNUNGEN)) {
-                model.setKennzeichnungen(getElementValue(parser,KENNZEICHNUNGEN));
-            } else if(name.equals(BEILAGEN)){
-                model.setBeilagen(getElementValue(parser, BEILAGEN));
-            } else if(name.equals(PREIS1)){
-                model.setPreis1(getElementValue(parser,PREIS1));
-            } else if(name.equals(PREIS2)){
-                model.setPreis2(getElementValue(parser, PREIS2));
-            } else if(name.equals(PREIS3)){
-                model.setPreis3(getElementValue(parser, PREIS3));
-            } else if(name.equals(COLOR)) {
-                model.setColor(getElementValue(parser, COLOR));
+                kennzeichnungen = getElementValue(parser,KENNZEICHNUNGEN);
+            } else if (name.equals(BEILAGEN)) {
+                beilagen = getElementValue(parser, BEILAGEN);
+            } else if (name.equals(PREIS1)) {
+                preis1 = parsePreis(getElementValue(parser, PREIS1));
+            } else if (name.equals(PREIS2)) {
+                preis2 = parsePreis(getElementValue(parser, PREIS2));
+            } else if (name.equals(PREIS3)) {
+                preis3 = parsePreis(getElementValue(parser, PREIS3));
+            } else if (name.equals(COLOR)) {
+                color = parseColor(getElementValue(parser, COLOR));
             } else {
-                skip(parser);
+                skipTag(parser);
             }
         }
-        model.setTag(new Date(date));
-        return model;
+
+        return new MensaItem(category, desc, title, tag, kennzeichnungen, beilagen, preis1, preis2,
+                preis3, color);
     }
 
-    private void skip(XmlPullParser parser) throws XmlPullParserException, IOException {
-        if (parser.getEventType() != XmlPullParser.START_TAG) {
-            throw new IllegalStateException();
+    /**
+     * Parses strings like "2,07" into 207.
+     */
+    private int parsePreis(String str) {
+        int commaPos = str.indexOf(',');
+        if (commaPos < 1 || commaPos+1 >= str.length())
+            return 0;
+        try {
+            int euro = Integer.parseInt(str.substring(0, commaPos));
+            int cent = Integer.parseInt(str.substring(commaPos+1));
+            return 100 * euro + cent;
+        } catch (NumberFormatException e) {
+            return 0;
         }
+    }
+
+    private int parseColor(String str) {
+        String[] parts = str.split(",");
+        if (parts.length != 3)
+            return 0;
+        int red = 0;
+        int green = 0;
+        int blue = 0;
+        try {
+            red = Integer.parseInt(parts[0]);
+            green = Integer.parseInt(parts[0]);
+            blue = Integer.parseInt(parts[0]);
+        } catch (NumberFormatException e) {
+            return 0;
+        }
+        if (red < 0 || red > 255 || green < 0 || green > 255 || blue < 0 || blue > 255)
+            return 0;
+        if (red == 0 && green == 0 && blue == 0)
+            red = green = blue = 1;
+        return Color.rgb(red, green, blue);
+    }
+
+    private String getElementValue(XmlPullParser parser, String tag)
+            throws IOException, XmlPullParserException {
+        parser.require(XmlPullParser.START_TAG, null, tag);
+        String title = readText(parser);
+        parser.require(XmlPullParser.END_TAG, null, tag);
+        return title;
+    }
+
+    private String readText(XmlPullParser parser)
+            throws IOException, XmlPullParserException {
+        StringBuilder res = new StringBuilder();
+        while (parser.next() == XmlPullParser.TEXT)
+            res.append(parser.getText());
+        return res.toString().trim();
+    }
+
+    private void skipTag(XmlPullParser parser)
+            throws XmlPullParserException, IOException {
+        if (parser.getEventType() != XmlPullParser.START_TAG)
+            throw new IllegalStateException("Should be at start of a tag, is "+parser.getEventType());
         int depth = 1;
         while (depth != 0) {
             switch (parser.next()) {
@@ -184,20 +194,4 @@ public class MensaXMLParser {
         }
     }
 
-    private String getElementValue(XmlPullParser parser,String tag) throws IOException, XmlPullParserException {
-        parser.require(XmlPullParser.START_TAG, null, tag);
-        String title = readText(parser);
-        parser.require(XmlPullParser.END_TAG, null, tag);
-        return title;
-    }
-
-    private String readText(XmlPullParser parser) throws IOException, XmlPullParserException {
-        String result = "";
-        if (parser.next() == XmlPullParser.TEXT) {
-            result = parser.getText();
-            parser.nextTag();
-        }
-        result = result.replace("&quot;","\"") ;
-        return result;
-    }
 }

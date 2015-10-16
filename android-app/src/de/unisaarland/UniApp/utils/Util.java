@@ -29,6 +29,14 @@ public class Util {
         return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
     }
 
+    public static Date getStartOfDay(long time) {
+        GregorianCalendar cal = new GregorianCalendar();
+        cal.setTimeInMillis(time);
+        Date start = new GregorianCalendar(cal.get(Calendar.YEAR),
+                cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH)).getTime();
+        return start;
+    }
+
     public static Date getStartOfDay() {
         GregorianCalendar now = new GregorianCalendar();
         Date today = new GregorianCalendar(now.get(Calendar.YEAR),

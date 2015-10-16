@@ -53,7 +53,6 @@ import java.util.List;
 import java.util.Map;
 
 import de.unisaarland.UniApp.R;
-import de.unisaarland.UniApp.SettingsActivity;
 import de.unisaarland.UniApp.bus.BusDetailActivity;
 import de.unisaarland.UniApp.bus.model.PointOfInterest;
 import de.unisaarland.UniApp.campus.model.CustomMapTileProvider;
@@ -181,7 +180,6 @@ public class CampusActivity extends ActionBarActivity implements ConnectionCallb
                                 if((marker.getTitle().equals("Mensa") && marker.getSnippet().equals("Restaurant")) ||
                                         marker.getTitle().equals("Mensacafé")){
                                     Intent myIntent = new Intent(CampusActivity.this, RestaurantActivity.class);
-                                    myIntent.putExtra("back",getString(R.string.campusText));
                                     CampusActivity.this.startActivity(myIntent);
 
                                 }else{

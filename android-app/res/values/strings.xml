@@ -101,4 +101,6 @@
     <string name="noEventsText">No events found.</string>
     <string name="noNewsText">No news found.</string>
     <string name="networkError">Network error</string>
+    <string name="emptyDocumentError">Error: empty document</string>
+    <string name="mensaPriceFormat">students: %1$.2f€; staff: %2$.2f€; guests: %3$.2f€</string>
 </resources>

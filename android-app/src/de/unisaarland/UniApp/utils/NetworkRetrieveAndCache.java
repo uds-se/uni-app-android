@@ -41,6 +41,7 @@ public class NetworkRetrieveAndCache<ResultType> {
     private final Context context;
 
     private volatile WebFetcher lastWebFetcher = null;
+    private String url;
 
 
     public NetworkRetrieveAndCache(String URL, String contentTag, int reloadIfOlderSeconds,
@@ -54,6 +55,10 @@ public class NetworkRetrieveAndCache<ResultType> {
         this.extractor = extractor;
         this.delegate = delegate;
         this.context = context;
+    }
+
+    public String getUrl() {
+        return url;
     }
 
     public interface Delegate<ResultType> {

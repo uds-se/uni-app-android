@@ -3,102 +3,70 @@ package de.unisaarland.UniApp.restaurant.model;
 import java.io.Serializable;
 import java.util.Date;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Shahzad
- * Date: 12/6/13
- * Time: 12:50 PM
- * To change this template use File | Settings | File Templates.
- */
 public class MensaItem implements Serializable {
-    private String category;
-    private String desc;
-    private String title;
-    private Date tag;
-    private String kennzeichnungen;
-    private String beilagen;
-    private String preis1;
-    private String preis2;
-    private String preis3;
-    private String color;
+
+    private final String category;
+    private final String desc;
+    private final String title;
+    private final Date tag;
+    private final String kennzeichnungen;
+    private final String beilagen;
+    private final int preis1;
+    private final int preis2;
+    private final int preis3;
+    private final int color;
+
+    public MensaItem(String category, String desc, String title, Date tag, String kennzeichnungen,
+                     String beilagen, int preis1, int preis2, int preis3, int color) {
+        this.category = category;
+        this.desc = desc;
+        this.title = title;
+        this.tag = tag;
+        this.kennzeichnungen = kennzeichnungen;
+        this.beilagen = beilagen;
+        this.preis1 = preis1;
+        this.preis2 = preis2;
+        this.preis3 = preis3;
+        this.color = color;
+    }
 
     public String getCategory() {
         return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
     }
 
     public String getDesc() {
         return desc;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
-    }
-
     public String getTitle() {
         return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public Date getTag() {
         return tag;
     }
 
-    public void setTag(Date tag) {
-        this.tag = tag;
-    }
-
     public String getKennzeichnungen() {
         return kennzeichnungen;
-    }
-
-    public void setKennzeichnungen(String kennzeichnungen) {
-        this.kennzeichnungen = kennzeichnungen;
     }
 
     public String getBeilagen() {
         return beilagen;
     }
 
-    public void setBeilagen(String beilagen) {
-        this.beilagen = beilagen;
-    }
-
-    public String getPreis1() {
+    public int getPreis1() {
         return preis1;
     }
 
-    public void setPreis1(String preis1) {
-        this.preis1 = preis1;
-    }
-
-    public String getPreis2() {
+    public int getPreis2() {
         return preis2;
     }
 
-    public void setPreis2(String preis2) {
-        this.preis2 = preis2;
-    }
-
-    public String getPreis3() {
+    public int getPreis3() {
         return preis3;
     }
 
-    public void setPreis3(String preis3) {
-        this.preis3 = preis3;
-    }
-
-    public String getColor() {
+    public int getColor() {
         return color;
-    }
-
-    public void setColor(String color) {
-        this.color = color;
     }
 }

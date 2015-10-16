@@ -3,7 +3,6 @@ package de.unisaarland.UniApp.restaurant.uihelper;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.Point;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -16,40 +15,34 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import de.unisaarland.UniApp.R;
 import de.unisaarland.UniApp.restaurant.model.MensaItem;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Shahzad
- * Date: 12/6/13
- * Time: 5:41 PM
- * To change this template use File | Settings | File Templates.
- */
+
 public class RestaurantAdapter extends BaseAdapter {
     private final Context context;
-    private final ArrayList<MensaItem> mensaItems;
+    private final List<MensaItem> mensaItems;
 
-    public RestaurantAdapter(Context context, ArrayList<MensaItem> mensaItems) {
+    public RestaurantAdapter(Context context, List<MensaItem> mensaItems) {
         this.context = context;
         this.mensaItems = mensaItems;
     }
 
     @Override
     public int getCount() {
-        return mensaItems.size();  //To change body of implemented methods use File | Settings | File Templates.
+        return mensaItems.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return mensaItems.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return 0;  //To change body of implemented methods use File | Settings | File Templates.
+        return 0;
     }
 
     @Override
@@ -81,14 +74,17 @@ public class RestaurantAdapter extends BaseAdapter {
         TextView descriptionBackgroundColor = (TextView) convertView.findViewById(R.id.mensa_menu_detail_background);
         descriptionBackgroundColor.setVisibility(View.VISIBLE);
         descriptionBackgroundColor.setText(model.getTitle() + " " + model.getDesc());
-        String modelColor = model.getColor();
-        String colors[] =modelColor.split(",");
-        descriptionBackgroundColor.setBackgroundColor(Color.rgb(Integer.parseInt(colors[0]),Integer.parseInt(colors[1]),Integer.parseInt(colors[2])));
-        descriptionBackgroundColor.setTextColor(Color.rgb(Integer.parseInt(colors[0]),Integer.parseInt(colors[1]),Integer.parseInt(colors[2])));
+        int color = model.getColor();
+        if (color != 0) {
+            descriptionBackgroundColor.setBackgroundColor(color);
+            descriptionBackgroundColor.setTextColor(color);
+        }
 
         TextView mealPrice = (TextView) convertView.findViewById(R.id.mensa_menu_price);
-        if (!model.getPreis1().equals("")) {
-            mealPrice.setText("Studenten: " + model.getPreis1() + "€ Mitarbeiter: " + model.getPreis2() + "€ Besucher: " + model.getPreis3() + "€");
+        if (model.getPreis1() != 0) {
+            String text = String.format(context.getString(R.string.mensaPriceFormat),
+                    .01*model.getPreis1(), .01*model.getPreis2(), .01*model.getPreis3());
+            mealPrice.setText(text);
             mealPrice.setVisibility(View.VISIBLE);
         }
         return convertView;
