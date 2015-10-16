@@ -43,7 +43,7 @@ public class RSSDetailActivity extends ActionBarActivity {
         setActionBar();
         setContentView(R.layout.rss_detail);
         if (fetcher == null) {
-            String tag = "rss-"+url.hashCode();
+            String tag = "rss-"+Integer.toHexString(url.hashCode());
             fetcher = new NetworkRetrieveAndCache<>(url, tag, 15 * 60,
                     Util.getContentCache(this),
                     new NewsItemExtractor(url),
