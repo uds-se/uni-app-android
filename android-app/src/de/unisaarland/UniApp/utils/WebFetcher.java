@@ -18,8 +18,11 @@ public class WebFetcher {
     private static final String TAG = WebFetcher.class.getSimpleName();
 
     private final INetworkLoaderDelegate delegate;
-    private volatile HttpURLConnection lastConnection;
+    private AsyncTask<Void, Void, InputStream> lastBackgroundTask = null;
+    private HttpURLConnection lastConnection = null;
     private static final int CONNECTION_TIME = 30000;
+
+    private volatile boolean canceled = false;
 
 
     public WebFetcher(INetworkLoaderDelegate delegate) {
@@ -42,7 +45,8 @@ public class WebFetcher {
             return;
         }
 
-        new AsyncTask<Void, Void, InputStream>() {
+        canceled = false;
+        AsyncTask<Void, Void, InputStream> t = new AsyncTask<Void, Void, InputStream>() {
             private String errorMessage = "";
             @Override
             protected InputStream doInBackground(Void... params) {
@@ -51,16 +55,12 @@ public class WebFetcher {
                     connection = startFetching(url);
                     return connection.getInputStream();
                 } catch (IOException e) {
-                    Log.w(TAG, "error loading document: "+url, e);
-                    errorMessage = context.getString(R.string.networkError);
+                    if (!canceled) {
+                        Log.w(TAG, "error loading document: " + url, e);
+                        errorMessage = context.getString(R.string.networkError);
+                    }
                     return null;
                 }
-            }
-
-            @Override
-            protected void onCancelled() {
-                invalidateRequest();
-                super.onCancelled();
             }
 
             @Override
@@ -71,7 +71,9 @@ public class WebFetcher {
                     delegate.onFailure(errorMessage);
                 }
             }
-        }.execute();
+        };
+        lastBackgroundTask = t;
+        t.execute();
     }
 
     private HttpURLConnection startFetching(URL url) throws IOException {
@@ -92,12 +94,15 @@ public class WebFetcher {
     }
 
     public void invalidateRequest() {
-        HttpURLConnection con = lastConnection;
-        try {
-            if (con != null)
-                con.disconnect();
-        } catch (Exception e) {
-            Log.e(TAG, e.toString());
+        canceled = true;
+        if (lastBackgroundTask != null)
+            lastBackgroundTask.cancel(true);
+        if (lastConnection != null) {
+            try {
+                lastConnection.disconnect();
+            } catch (Exception e) {
+                Log.e(TAG, e.toString());
+            }
         }
     }
 }
