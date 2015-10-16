@@ -8,9 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import de.unisaarland.UniApp.R;
 import de.unisaarland.UniApp.rssViews.model.RSSItem;
@@ -20,8 +18,7 @@ import de.unisaarland.UniApp.utils.Util;
 public class RSSAdapter extends BaseAdapter {
 
     private final Context context;
-    private final List<RSSItem> itemsArray;
-    private final Map<View,Integer> itemsMap = new HashMap<>();
+    private List<RSSItem> itemsArray;
     private final RSSActivity.Category cat;
 
     public RSSAdapter(Context context, List<RSSItem> itemsArray,
@@ -38,25 +35,24 @@ public class RSSAdapter extends BaseAdapter {
     private final View.OnClickListener clickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if (Util.isConnectedToInternet(context)) {
-                Intent myIntent = new Intent(context, RSSDetailActivity.class);
-                int index = itemsMap.get(v);
-                RSSItem model = itemsArray.get(index);
-                myIntent.putExtra("url", model.getLink());
-                myIntent.putExtra("titleId", R.string.event_article);
-                context.startActivity(myIntent);
-            } else {
+            if (!Util.isConnectedToInternet(context)) {
                 new AlertDialog.Builder(context)
                         .setMessage(R.string.not_connected)
                         .setCancelable(true)
                         .setPositiveButton("OK",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    dialog.cancel();
-                                }
-                            })
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.cancel();
+                                    }
+                                })
                         .create().show();
+                return;
             }
+            Intent myIntent = new Intent(context, RSSDetailActivity.class);
+            RSSItem item = (RSSItem) v.getTag(R.id.rss_view_model_tag);
+            myIntent.putExtra("url", item.getLink());
+            myIntent.putExtra("titleId", R.string.event_article);
+            context.startActivity(myIntent);
         }
     };
 
@@ -80,7 +76,11 @@ public class RSSAdapter extends BaseAdapter {
         RSSItem item = itemsArray.get(position);
         View view = cat.getView(item, convertView, context);
         view.setOnClickListener(clickListener);
-        itemsMap.put(view, position);
+        view.setTag(R.id.rss_view_model_tag, item);
         return view;
+    }
+
+    public void update(List<RSSItem> items) {
+        this.itemsArray = items;
     }
 }

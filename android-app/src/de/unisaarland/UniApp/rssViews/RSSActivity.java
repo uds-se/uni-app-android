@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -121,6 +122,15 @@ public class RSSActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
     }
 
+    // store scroll position on leave and restore on return (on first content load)
+    private Parcelable listState = null;
+    @Override
+    protected void onPause() {
+        super.onPause();
+        ListView listView = (ListView)findViewById(R.id.newsItemListView);
+        listState = listView.onSaveInstanceState();
+    }
+
     /**
      * Will be called when activity created first time after onCreate or when activity comes to the front again or in a pausing state
      * So its better to set all the things needed to use in the activity here if in case anything is released in onPause method
@@ -231,8 +241,21 @@ public class RSSActivity extends ActionBarActivity {
      */
     private void populateItems(List<RSSItem> items) {
         ListView itemsList = (ListView) findViewById(R.id.newsItemListView);
+
+        if (listState == null)
+            listState = itemsList.onSaveInstanceState();
+
         List<RSSItem> filtered = cat.filterItems(items);
-        itemsList.setAdapter(new RSSAdapter(this, filtered, cat));
+        RSSAdapter adapter = (RSSAdapter) itemsList.getAdapter();
+        if (adapter == null) {
+            itemsList.setAdapter(new RSSAdapter(this, filtered, cat));
+        } else {
+            adapter.update(filtered);
+            itemsList.invalidate();
+        }
+
+        itemsList.onRestoreInstanceState(listState);
+        listState = null;
     }
 
     //Creation Custom Actionbar with facebook link
