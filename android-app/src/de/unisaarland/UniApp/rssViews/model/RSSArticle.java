@@ -1,9 +1,9 @@
-package de.unisaarland.UniApp.utils;
+package de.unisaarland.UniApp.rssViews.model;
 
 
 import java.io.Serializable;
 
-public class NewsItem implements Serializable {
+public class RSSArticle implements Serializable {
 
     private final String baseHref;
     private final String date;
@@ -11,7 +11,7 @@ public class NewsItem implements Serializable {
     private final String subTitle;
     private final String body;
 
-    public NewsItem(String baseHref, String date, String head, String subTitle, String body) {
+    public RSSArticle(String baseHref, String date, String head, String subTitle, String body) {
         this.baseHref = baseHref;
         this.date = date;
         this.head = head;

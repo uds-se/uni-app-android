@@ -1,4 +1,4 @@
-package de.unisaarland.UniApp.utils;
+package de.unisaarland.UniApp.rssViews.model;
 
 
 import org.jsoup.Jsoup;
@@ -10,16 +10,18 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.ParseException;
 
-public class NewsItemExtractor implements ContentExtractor<NewsItem> {
+import de.unisaarland.UniApp.utils.ContentExtractor;
+
+public class RSSArticleExtractor implements ContentExtractor<RSSArticle> {
 
     private final String baseUrl;
 
-    public NewsItemExtractor(String baseUrl) {
+    public RSSArticleExtractor(String baseUrl) {
         this.baseUrl = baseUrl;
     }
 
     @Override
-    public NewsItem extract(InputStream data) throws ParseException, IOException {
+    public RSSArticle extract(InputStream data) throws ParseException, IOException {
         Document doc = Jsoup.parse(data, null, baseUrl);
 
         String baseHref = baseUrl;
@@ -60,7 +62,7 @@ public class NewsItemExtractor implements ContentExtractor<NewsItem> {
         if (date == null || heading == null || body == null)
             throw new ParseException("Received document is incomplete or has unexpected format", 0);
 
-        return new NewsItem(baseHref, date, heading, subTitle, body);
+        return new RSSArticle(baseHref, date, heading, subTitle, body);
     }
 
 }

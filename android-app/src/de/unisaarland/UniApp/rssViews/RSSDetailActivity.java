@@ -11,9 +11,9 @@ import android.webkit.WebView;
 import android.widget.ProgressBar;
 
 import de.unisaarland.UniApp.R;
+import de.unisaarland.UniApp.rssViews.model.RSSArticle;
+import de.unisaarland.UniApp.rssViews.model.RSSArticleExtractor;
 import de.unisaarland.UniApp.utils.NetworkRetrieveAndCache;
-import de.unisaarland.UniApp.utils.NewsItem;
-import de.unisaarland.UniApp.utils.NewsItemExtractor;
 import de.unisaarland.UniApp.utils.Util;
 
 
@@ -26,7 +26,7 @@ public class RSSDetailActivity extends ActionBarActivity {
     private String url;
     private int titleId;
 
-    private NetworkRetrieveAndCache<NewsItem> fetcher = null;
+    private NetworkRetrieveAndCache<RSSArticle> fetcher = null;
 
     /**
      * Will be called when activity created as this activity is being created from scratch every time when user
@@ -46,7 +46,7 @@ public class RSSDetailActivity extends ActionBarActivity {
             String tag = "rss-"+Integer.toHexString(url.hashCode());
             fetcher = new NetworkRetrieveAndCache<>(url, tag, 15 * 60,
                     Util.getContentCache(this),
-                    new NewsItemExtractor(url),
+                    new RSSArticleExtractor(url),
                     new NetworkDelegate(), this);
         }
         fetcher.loadAsynchronously();
@@ -64,10 +64,10 @@ public class RSSDetailActivity extends ActionBarActivity {
         super.onBackPressed();
     }
 
-    private class NetworkDelegate implements NetworkRetrieveAndCache.Delegate<NewsItem> {
+    private class NetworkDelegate implements NetworkRetrieveAndCache.Delegate<RSSArticle> {
 
         @Override
-        public void onUpdate(NewsItem rss) {
+        public void onUpdate(RSSArticle rss) {
             showRSSItem(rss);
         }
 
@@ -98,7 +98,7 @@ public class RSSDetailActivity extends ActionBarActivity {
     /**
      * load the downloaded description of a event and show it as html after setting the necessary html tags.
      */
-    private void showRSSItem(NewsItem item) {
+    private void showRSSItem(RSSArticle item) {
         WebView bodyView = (WebView) findViewById(R.id.body);
         StringBuilder sb = new StringBuilder();
         sb.append("<html><head></head><body><h5><center>").append(item.getDate());
