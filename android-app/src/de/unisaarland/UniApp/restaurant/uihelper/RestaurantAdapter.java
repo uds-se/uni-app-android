@@ -13,6 +13,7 @@ import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -52,38 +53,30 @@ public class RestaurantAdapter extends BaseAdapter {
         }
         MensaItem model = mensaItems.get(position);
 
-        TextView mealTitle = (TextView) convertView.findViewById(R.id.mensa_menu_category);
-        mealTitle.setText(model.getCategory());
-        mealTitle.setVisibility(View.VISIBLE);
+        TextView mealCategory = (TextView) convertView.findViewById(R.id.mensa_menu_category);
+        mealCategory.setText(model.getCategory());
 
-        TextView mealDescription = (TextView) convertView.findViewById(R.id.mensa_menu_detail);
-        mealDescription.setText(model.getTitle() + " " + model.getDesc());
-        mealDescription.setVisibility(View.VISIBLE);
+        TextView mealTitle = (TextView) convertView.findViewById(R.id.mensa_menu_title);
+        mealTitle.setText(model.getTitle());
 
+        TextView mealDescription = (TextView) convertView.findViewById(R.id.mensa_menu_description);
+        mealDescription.setText(model.getDesc());
 
         ImageView info = (ImageView) convertView.findViewById(R.id.info);
-        String kennzeichnungen = model.getKennzeichnungen();
-        if (kennzeichnungen != null && !kennzeichnungen.equals(""))
-        {
-            info.setOnClickListener(new ClickListener(kennzeichnungen,context));
-        }
-        else {
-            info.getLayoutParams().width = 0;
+        String labels = model.getKennzeichnungen();
+        if (labels != null && !labels.equals("")) {
+            info.setOnClickListener(new LabelsClickListener(labels, context));
+        } else {
+            info.setVisibility(View.GONE);
         }
 
-        TextView descriptionBackgroundColor = (TextView) convertView.findViewById(R.id.mensa_menu_detail_background);
-        descriptionBackgroundColor.setVisibility(View.VISIBLE);
-        descriptionBackgroundColor.setText(model.getTitle() + " " + model.getDesc());
-        int color = model.getColor();
-        if (color != 0) {
-            descriptionBackgroundColor.setBackgroundColor(color);
-            descriptionBackgroundColor.setTextColor(color);
-        }
+        RelativeLayout descriptionBackgroundColor = (RelativeLayout) convertView.findViewById(R.id.contentBackground);
+        descriptionBackgroundColor.setBackgroundColor(model.getColor());
 
         TextView mealPrice = (TextView) convertView.findViewById(R.id.mensa_menu_price);
         if (model.getPreis1() != 0) {
             String text = String.format(context.getString(R.string.mensaPriceFormat),
-                    .01*model.getPreis1(), .01*model.getPreis2(), .01*model.getPreis3());
+                    .01 * model.getPreis1(), .01 * model.getPreis2(), .01 * model.getPreis3());
             mealPrice.setText(text);
             mealPrice.setVisibility(View.VISIBLE);
         }
@@ -91,84 +84,81 @@ public class RestaurantAdapter extends BaseAdapter {
     }
 
 
-}
+    private static class LabelsClickListener implements View.OnClickListener {
 
- class ClickListener implements View.OnClickListener{
+        private String ingredis;
+        private Context context;
 
-     private String ingredis;
-     private Context context;
-
-    public  ClickListener(String ingredis, Context context){
-        this.ingredis = ingredis;
-        this.context = context;
-    }
-
-    @Override
-    public void onClick(View v) {
-        LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = layoutInflater.inflate(R.layout.label_list,null);
-        ListView list = (ListView) view.findViewById(R.id.label_list);
-        String[] labels = ingredis.split(",");
-        list.setAdapter(new labelAdapter(context,labels));
-        Dialog dialog = new Dialog(context, R.style.Transparent);
-        dialog.requestWindowFeature(Window.FEATURE_ACTION_BAR);
-        dialog.setContentView(view);
-        dialog.setTitle(view.getResources().getString(R.string.labels));
-        Display display = ((Activity) context).getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        int width = (int) Math.round(size.x*0.9);
-        int height = (int) Math.round(size.y*0.9);
-        dialog.getWindow().setLayout(width, height);
-        WindowManager.LayoutParams lp = dialog.getWindow().getAttributes();
-        lp.dimAmount = 0.7f;
-        dialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-        dialog.show();
-    }
-}
-
-class labelAdapter extends BaseAdapter {
-
-    private final Context context;
-    private final String[] labels;
-
-
-
-    public labelAdapter(Context context, String[] labels) {
-        this.context = context;
-        this.labels = labels;
-    }
-
-    @Override
-    public int getCount() {
-        return labels.length;
-    }
-
-    @Override
-    public Object getItem(int position) {
-        return null;
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return 0;
-    }
-
-    // sets the view of news item row
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        if(convertView == null){
-            convertView = View.inflate(context,R.layout.label_item,null);
+        public LabelsClickListener(String ingredis, Context context) {
+            this.ingredis = ingredis;
+            this.context = context;
         }
-        TextView tw_label = (TextView) convertView.findViewById(R.id.label);
-        String stringname;
-        try{
-            stringname = "label_" + labels[position];
+
+        @Override
+        public void onClick(View v) {
+            LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View view = layoutInflater.inflate(R.layout.label_list, null);
+            ListView list = (ListView) view.findViewById(R.id.label_list);
+            String[] labels = ingredis.split(",");
+            list.setAdapter(new LabelAdapter(context, labels));
+            Dialog dialog = new Dialog(context, R.style.Transparent);
+            dialog.requestWindowFeature(Window.FEATURE_ACTION_BAR);
+            dialog.setContentView(view);
+            dialog.setTitle(view.getResources().getString(R.string.labels));
+            Display display = ((Activity) context).getWindowManager().getDefaultDisplay();
+            Point size = new Point();
+            display.getSize(size);
+            int width = (int) Math.round(size.x * 0.9);
+            int height = (int) Math.round(size.y * 0.9);
+            dialog.getWindow().setLayout(width, height);
+            WindowManager.LayoutParams lp = dialog.getWindow().getAttributes();
+            lp.dimAmount = 0.7f;
+            dialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+            dialog.show();
         }
-        catch(Exception e){
-            stringname = "Keine Angabe";
+    }
+
+    private static class LabelAdapter extends BaseAdapter {
+
+        private final Context context;
+        private final String[] labels;
+
+
+        public LabelAdapter(Context context, String[] labels) {
+            this.context = context;
+            this.labels = labels;
         }
-        tw_label.setText(context.getResources().getIdentifier(stringname, "string", context.getPackageName()));
-        return convertView;
+
+        @Override
+        public int getCount() {
+            return labels.length;
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        // sets the view of news item row
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            if (convertView == null) {
+                convertView = View.inflate(context, R.layout.label_item, null);
+            }
+            TextView tw_label = (TextView) convertView.findViewById(R.id.label);
+            String stringname;
+            try {
+                stringname = "label_" + labels[position];
+            } catch (Exception e) {
+                stringname = "Keine Angabe";
+            }
+            tw_label.setText(context.getResources().getIdentifier(stringname, "string", context.getPackageName()));
+            return convertView;
+        }
     }
 }

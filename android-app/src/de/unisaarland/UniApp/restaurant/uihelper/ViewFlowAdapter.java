@@ -30,8 +30,6 @@ public class ViewFlowAdapter extends BaseAdapter {
         for (Long l : mensaItems.keySet())
             dates[idx++] = l;
         Arrays.sort(dates);
-
-
     }
 
     @Override
@@ -56,7 +54,7 @@ public class ViewFlowAdapter extends BaseAdapter {
         TextView date_label = (TextView) convertView.findViewById(R.id.date_label);
         TextView day_label = (TextView) convertView.findViewById(R.id.day_label);
 
-        Date d = new Date(1000L * dates[position]);
+        Date d = new Date(dates[position]);
         //Set date
         SimpleDateFormat parserSDF = new SimpleDateFormat("d. MMMM yyyy");
         String datestring = parserSDF.format(d);

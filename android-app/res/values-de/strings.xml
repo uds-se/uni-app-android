@@ -103,5 +103,5 @@
     <string name="noNewsText">Keine Neuigkeiten gefunden.</string>
     <string name="networkError">Netzwerkfehler</string>
     <string name="emptyDocumentError">Fehler: Dokument ist leer</string>
-    <string name="mensaPriceFormat">Studenten: %1$.2f€; Mitarbeiter: %2$.2f€; Besucher: %3$.2f€</string>
+    <string name="mensaPriceFormat">Studenten: %1$.2f€   Mitarbeiter: %2$.2f€   Besucher: %3$.2f€</string>
 </resources>
