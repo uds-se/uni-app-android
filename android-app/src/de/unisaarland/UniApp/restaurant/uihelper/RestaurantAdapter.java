@@ -4,6 +4,10 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Point;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.RelativeSizeSpan;
+import android.text.style.SuperscriptSpan;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +20,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import de.unisaarland.UniApp.R;
@@ -57,10 +62,10 @@ public class RestaurantAdapter extends BaseAdapter {
         mealCategory.setText(model.getCategory());
 
         TextView mealTitle = (TextView) convertView.findViewById(R.id.mensa_menu_title);
-        mealTitle.setText(model.getTitle());
+        mealTitle.setText(createMensaItemSpannable(model.getTitle()));
 
         TextView mealDescription = (TextView) convertView.findViewById(R.id.mensa_menu_description);
-        mealDescription.setText(model.getDesc());
+        mealDescription.setText(createMensaItemSpannable(model.getDesc()));
 
         ImageView info = (ImageView) convertView.findViewById(R.id.info);
         String labels = model.getKennzeichnungen();
@@ -81,6 +86,57 @@ public class RestaurantAdapter extends BaseAdapter {
             mealPrice.setVisibility(View.VISIBLE);
         }
         return convertView;
+    }
+
+    /**
+     * Returns a SpannableString for the given text. All occurences of (A,B,C) are put in
+     * superscript with the parentheses removed.
+     */
+    private SpannableString createMensaItemSpannable(String desc) {
+        // even entries are normal text, odd entries are superscript
+        List<String> substrs = new ArrayList<>();
+        int pos = 0;
+        int added = 0;
+        while (pos < desc.length()) {
+            int openParen = desc.indexOf('(', pos);
+            if (openParen == -1)
+                break;
+            int closeParen = desc.indexOf(')', openParen+1);
+            if (closeParen == -1)
+                break;
+            boolean valid = true;
+            String[] parts = desc.substring(openParen+1, closeParen).split(",");
+            for (String part : parts)
+                if (part.trim().length() > 2)
+                    valid = false;
+            if (!valid) {
+                pos = closeParen + 1;
+                continue;
+            }
+            int firstStrEnd = openParen;
+            if (firstStrEnd > added && desc.charAt(firstStrEnd-1) == ' ')
+                --firstStrEnd;
+            substrs.add(desc.substring(added, firstStrEnd));
+            substrs.add(desc.substring(openParen+1, closeParen));
+            added = pos = closeParen+1;
+        }
+        if (added < desc.length())
+            substrs.add(desc.substring(added));
+
+        StringBuilder sb = new StringBuilder();
+        for (String s : substrs)
+            sb.append(s);
+        SpannableString str = new SpannableString(sb.toString());
+        pos = 0;
+        for (int i = 1; i < substrs.size(); i += 2) {
+            pos += substrs.get(i-1).length();
+            str.setSpan(new SuperscriptSpan(), pos, pos+substrs.get(i).length(),
+                    Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+            str.setSpan(new RelativeSizeSpan(0.8f), pos, pos+substrs.get(i).length(),
+                    Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+            pos += substrs.get(i).length();
+        }
+        return str;
     }
 
 
