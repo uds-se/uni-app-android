@@ -1,6 +1,5 @@
 package de.unisaarland.UniApp.staff;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
@@ -16,13 +15,7 @@ import android.widget.ProgressBar;
 
 import de.unisaarland.UniApp.R;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Shahzad
- * Date: 12/13/13
- * Time: 8:44 PM
- * To change this template use File | Settings | File Templates.
- */
+
 public class PersonDetailWebActivity extends ActionBarActivity {
     private String url;
     private ProgressBar pBar;
@@ -37,7 +30,7 @@ public class PersonDetailWebActivity extends ActionBarActivity {
     public void onBackPressed() {
         url = null;
         pBar = null;
-        if(webView!=null){
+        if (webView!=null) {
             webView.invalidate();
         }
         webView = null;
@@ -59,7 +52,7 @@ public class PersonDetailWebActivity extends ActionBarActivity {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(webView.canGoBack()){
+                if (webView.canGoBack()) {
                     webView.goBack();
                 }
             }
@@ -81,17 +74,16 @@ public class PersonDetailWebActivity extends ActionBarActivity {
 
         webView.setWebViewClient(new WebViewClient() {
             public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-                AlertDialog.Builder builder1 = new AlertDialog.Builder(PersonDetailWebActivity.this);
-                builder1.setMessage(description);
-                builder1.setCancelable(true);
-                builder1.setPositiveButton("OK",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
-                AlertDialog alert11 = builder1.create();
-                alert11.show();
+                new AlertDialog.Builder(PersonDetailWebActivity.this)
+                        .setMessage(description)
+                        .setCancelable(true)
+                        .setPositiveButton("OK",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            })
+                        .create().show();
             }
 
             @Override
@@ -129,18 +121,5 @@ public class PersonDetailWebActivity extends ActionBarActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-
-    class BackButtonClickListener implements View.OnClickListener{
-        final Activity activity;
-        public BackButtonClickListener(Activity activity) {
-            this.activity = activity;
-        }
-
-        @Override
-        public void onClick(View v) {
-            activity.onBackPressed();
-        }
     }
 }

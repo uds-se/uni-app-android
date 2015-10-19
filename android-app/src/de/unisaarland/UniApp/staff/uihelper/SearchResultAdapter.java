@@ -20,19 +20,12 @@ import de.unisaarland.UniApp.R;
 import de.unisaarland.UniApp.utils.Util;
 import de.unisaarland.UniApp.staff.SearchResultItemDetailActivity;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Shahzad
- * Date: 12/12/13
- * Time: 11:44 PM
- * To change this template use File | Settings | File Templates.
- */
 public class SearchResultAdapter extends BaseAdapter {
 
     private final Context context;
     private final ArrayList<String> linksArray;
     private final ArrayList<String> namesArray;
-    private final HashMap<View,Integer> resultItemsMap = new HashMap<View,Integer>();
+    private final HashMap<View,Integer> resultItemsMap = new HashMap<>();
 
     public SearchResultAdapter(Context context, ArrayList<String> namesArray, ArrayList<String> linksArray) {
         this.context = context;
@@ -42,17 +35,17 @@ public class SearchResultAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return namesArray.size();  //To change body of implemented methods use File | Settings | File Templates.
+        return namesArray.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return null;
     }
 
     @Override
     public long getItemId(int position) {
-        return 0;  //To change body of implemented methods use File | Settings | File Templates.
+        return 0;
     }
 
     @Override

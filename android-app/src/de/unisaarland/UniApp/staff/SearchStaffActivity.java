@@ -1,6 +1,5 @@
 package de.unisaarland.UniApp.staff;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -17,14 +16,13 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.RadioGroup;
-import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TextView;
 
 import de.unisaarland.UniApp.R;
 import de.unisaarland.UniApp.utils.Util;
 
 
-public class SearchStaffActivity extends ActionBarActivity implements OnCheckedChangeListener {
+public class SearchStaffActivity extends ActionBarActivity {
     private RadioGroup radioChooser;
     private TextView lastName;
     private TextView firstName;
@@ -79,19 +77,18 @@ public class SearchStaffActivity extends ActionBarActivity implements OnCheckedC
                 lstNam = lstNam.trim();
                 String fstNam = firstName.getText().toString();
                 fstNam = fstNam.trim();
-                if(fstNam.length() ==0 && lstNam.length() == 0){
-                    AlertDialog.Builder builder1 = new AlertDialog.Builder(SearchStaffActivity.this);
-                    builder1.setTitle(getString(R.string.empty_search_field));
-                    builder1.setMessage(getString(R.string.fill_at_least_one));
-                    builder1.setCancelable(true);
-                    builder1.setPositiveButton(getString(R.string.ok),
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    dialog.cancel();
-                                }
-                            });
-                    AlertDialog alert11 = builder1.create();
-                    alert11.show();
+                if (fstNam.length() ==0 && lstNam.length() == 0) {
+                    new AlertDialog.Builder(SearchStaffActivity.this)
+                            .setTitle(getString(R.string.empty_search_field))
+                            .setMessage(getString(R.string.fill_at_least_one))
+                            .setCancelable(true)
+                            .setPositiveButton(getString(R.string.ok),
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.cancel();
+                                    }
+                                })
+                            .create().show();
                 } else if (Util.isConnectedToInternet(SearchStaffActivity.this)) {
                     String profPart = "";
                     if (radioChooser.getCheckedRadioButtonId() == R.id.rb_only_prof)
@@ -104,17 +101,16 @@ public class SearchStaffActivity extends ActionBarActivity implements OnCheckedC
                     myIntent.putExtra("url", searchURL);
                     SearchStaffActivity.this.startActivity(myIntent);
                 } else {
-                    AlertDialog.Builder builder1 = new AlertDialog.Builder(SearchStaffActivity.this);
-                    builder1.setMessage(getString(R.string.check_internet_message));
-                    builder1.setCancelable(true);
-                    builder1.setPositiveButton(getString(R.string.ok),
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    dialog.cancel();
-                                }
-                            });
-                    AlertDialog alert11 = builder1.create();
-                    alert11.show();
+                    new AlertDialog.Builder(SearchStaffActivity.this)
+                            .setMessage(getString(R.string.check_internet_message))
+                            .setCancelable(true)
+                            .setPositiveButton(getString(R.string.ok),
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.cancel();
+                                    }
+                                })
+                            .create().show();
                 }
             }
         });
@@ -139,23 +135,5 @@ public class SearchStaffActivity extends ActionBarActivity implements OnCheckedC
                 return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-
-    @Override
-    public void onCheckedChanged(RadioGroup group, int checkedId) {
-
-    }
-
-    class BackButtonClickListener implements View.OnClickListener{
-        final Activity activity;
-        public BackButtonClickListener(Activity activity) {
-            this.activity = activity;
-        }
-
-        @Override
-        public void onClick(View v) {
-            activity.onBackPressed();
-        }
     }
 }

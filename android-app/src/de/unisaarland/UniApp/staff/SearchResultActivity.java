@@ -1,6 +1,5 @@
 package de.unisaarland.UniApp.staff;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
@@ -24,16 +23,10 @@ import java.io.ObjectInputStream;
 import java.util.ArrayList;
 
 import de.unisaarland.UniApp.R;
-import de.unisaarland.UniApp.utils.Util;
 import de.unisaarland.UniApp.staff.uihelper.SearchResultAdapter;
+import de.unisaarland.UniApp.utils.Util;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Shahzad
- * Date: 12/13/13
- * Time: 12:13 AM
- * To change this template use File | Settings | File Templates.
- */
+
 public class SearchResultActivity extends ActionBarActivity {
     private String url = null;
     private ArrayList<String> namesArray;
@@ -151,43 +144,40 @@ public class SearchResultActivity extends ActionBarActivity {
                     showSearchResults();
                     //else show error message and dismiss view
                 else{
-                    AlertDialog.Builder builder1 = new AlertDialog.Builder(SearchResultActivity.this);
-                    builder1.setMessage(getString(R.string.not_connected));
-                    builder1.setCancelable(true);
-                    builder1.setPositiveButton(getString(R.string.ok),
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    finish();
-                                    dialog.cancel();
-                                }
-                            });
-                    AlertDialog alert11 = builder1.create();
-                    alert11.show();
+                    new AlertDialog.Builder(SearchResultActivity.this)
+                            .setMessage(getString(R.string.not_connected))
+                            .setCancelable(true)
+                            .setPositiveButton(getString(R.string.ok),
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        finish();
+                                        dialog.cancel();
+                                    }
+                                })
+                            .create().show();
                 }
             }
         };
     }
 
     private void showSearchResults() {
-        if(pBar != null) {
+        if (pBar != null) {
             pBar.setVisibility(View.INVISIBLE);
-            if(namesArray.size() == 0){
-                AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
-                builder1.setTitle(getString(R.string.no_staff_member_title));
-                builder1.setMessage(getString(R.string.no_staff_member_found_description));
-                builder1.setCancelable(true);
-                builder1.setPositiveButton(getString(R.string.ok),
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                                onBackPressed();
-
-                            }
-                        });
-                AlertDialog alert11 = builder1.create();
-                alert11.show();
+            if (namesArray.size() == 0) {
+                new AlertDialog.Builder(this)
+                        .setTitle(getString(R.string.no_staff_member_title))
+                        .setMessage(getString(R.string.no_staff_member_found_description))
+                        .setCancelable(true)
+                        .setPositiveButton(getString(R.string.ok),
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                    onBackPressed();
+                                }
+                            })
+                        .create().show();
             } else {
-                if(body != null){
+                if (body != null) {
                     body.setVisibility(View.VISIBLE);
                     SearchResultAdapter adapter = new SearchResultAdapter(this,namesArray,linksArray);
                     body.setAdapter(adapter);
@@ -216,18 +206,4 @@ public class SearchResultActivity extends ActionBarActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-
-    class BackButtonClickListener implements View.OnClickListener{
-        final Activity activity;
-        public BackButtonClickListener(Activity activity) {
-            this.activity = activity;
-        }
-
-        @Override
-        public void onClick(View v) {
-            activity.onBackPressed();
-        }
-    }
-
 }
