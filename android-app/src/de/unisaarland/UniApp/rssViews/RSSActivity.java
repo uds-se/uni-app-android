@@ -40,12 +40,12 @@ public class RSSActivity extends ActionBarActivity {
                 if(convertView == null){
                     convertView = View.inflate(context, R.layout.news_item, null);
                 }
-                TextView newsTitle = (TextView) convertView.findViewById(R.id.number);
+                TextView newsTitle = (TextView) convertView.findViewById(R.id.news_date);
                 Date date = item.getPublicationDate();
                 SimpleDateFormat parserSDF = new SimpleDateFormat("d. MMMM yyyy");
                 String datestring = parserSDF.format(date);
                 newsTitle.setText(datestring);
-                TextView newsDescription = (TextView) convertView.findViewById(R.id.mensa_label_desc);
+                TextView newsDescription = (TextView) convertView.findViewById(R.id.news_item_text);
                 newsDescription.setGravity(Gravity.CENTER_VERTICAL);
                 newsDescription.setText(item.getTitle());
                 return convertView;
@@ -76,11 +76,11 @@ public class RSSActivity extends ActionBarActivity {
                 Date date = item.getPublicationDate();
                 //Set month in locale language
                 SimpleDateFormat SDF = new SimpleDateFormat("MMM");
-                TextView eventMonth = (TextView) convertView.findViewById(R.id.month_text);
+                TextView eventMonth = (TextView) convertView.findViewById(R.id.event_month_text);
                 eventMonth.setText(SDF.format(date));
                 //Set day in local language
                 SDF = new SimpleDateFormat("d");
-                TextView eventDate = (TextView) convertView.findViewById(R.id.day_text);
+                TextView eventDate = (TextView) convertView.findViewById(R.id.event_day_text);
                 eventDate.setText(SDF.format(date));
 
                 TextView eventDescription = (TextView) convertView.findViewById(R.id.event_description);
