@@ -8,10 +8,13 @@ import org.xmlpull.v1.XmlPullParserException;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import de.unisaarland.UniApp.utils.Util;
 import de.unisaarland.UniApp.utils.XMLExtractor;
@@ -26,9 +29,6 @@ public class MensaXMLParser extends XMLExtractor<Map<Long, List<MensaItem>>> {
     private static final String TITLE = "title";
     private static final String CATEGORY = "category";
     private static final String DESCRIPTION = "description";
-    private static final String COMPONENTS = "components";
-    private static final String KENNZEICHNUNGEN = "kennzeichnungen";
-    private static final String BEILAGEN = "beilagen";
     private static final String PREIS1 = "preis1";
     private static final String PREIS2 = "preis2";
     private static final String PREIS3 = "preis3";
@@ -103,10 +103,6 @@ public class MensaXMLParser extends XMLExtractor<Map<Long, List<MensaItem>>> {
                 category = getElementValue(parser, CATEGORY);
             } else if (name.equals(DESCRIPTION)) {
                 desc = getElementValue(parser, DESCRIPTION);
-            } else if (name.equals(KENNZEICHNUNGEN)) {
-                kennzeichnungen = getElementValue(parser,KENNZEICHNUNGEN);
-            } else if (name.equals(BEILAGEN)) {
-                beilagen = getElementValue(parser, BEILAGEN);
             } else if (name.equals(PREIS1)) {
                 preis1 = parsePreis(getElementValue(parser, PREIS1));
             } else if (name.equals(PREIS2)) {
@@ -120,8 +116,36 @@ public class MensaXMLParser extends XMLExtractor<Map<Long, List<MensaItem>>> {
             }
         }
 
-        return new MensaItem(category, desc, title, tag, kennzeichnungen, beilagen, preis1, preis2,
+        String[] labels = extractLabels(title + desc);
+        return new MensaItem(category, desc, title, tag, labels, preis1, preis2,
                 preis3, color);
+    }
+
+    /**
+     * Returns the list of all labels extracted from occurances of "(A,B,C)" where each component is
+     * at most two characters long.
+     */
+    private String[] extractLabels(String desc) {
+        Set<String> labels = new HashSet<>();
+        int pos = 0;
+        while (pos < desc.length()) {
+            int openParen = desc.indexOf('(', pos);
+            int closeParen = desc.indexOf(')', openParen+1);
+            if (openParen == -1 || closeParen == -1)
+                break;
+            boolean valid = true;
+            String[] parts = desc.substring(openParen+1, closeParen).split(",");
+            for (String part : parts)
+                if (part.trim().length() > 2)
+                    valid = false;
+            if (valid)
+                for (String part : parts)
+                    labels.add(part);
+            pos = closeParen + 1;
+        }
+        String[] arr = labels.toArray(new String[labels.size()]);
+        Arrays.sort(arr);
+        return arr;
     }
 
     /**

@@ -56,7 +56,7 @@
     <string name="fri_and_bank_holi_time">9:00 am - 5:00 pm</string>
     <string name="friday_time_juristen">7:00 am - 3:00 pm</string>
     <string name="mon_to_fri_juristen_cafe_time_break">7:00 am - 3:00 pm</string>
-    <string name="article_text">Article</string>
+    <string name="news_article">Article</string>
     <string name="not_connected">Not connected to internet</string>
     <string name="gender">GENDER</string>
     <string name="academic_degree">ACADEMIC DEGREE</string>
@@ -93,7 +93,6 @@
     <string name="search">Search</string>
     <string name="settings">Settings</string>
     <string name="labels">Labels</string>
-    <!-- Campus -->
     <string name="c_homburg">Campus Homburg</string>
     <string name="c_saarbruecken">Campus Saarbrücken</string>
     <string name="choose_campus">Choose your campus</string>
@@ -103,4 +102,44 @@
     <string name="networkError">Network error</string>
     <string name="emptyDocumentError">Error: empty document</string>
     <string name="mensaPriceFormat">students: %1$.2f€   staff: %2$.2f€   guests: %3$.2f€</string>
+    <string name="no_description">no description</string>
+    <!-- labels for mensa items (selected programmatically, so ignore "no use" warnings): -->
+    <string name="label_1">With dye</string>
+    <string name="label_2">With preservatives</string>
+    <string name="label_3">With antioxidants</string>
+    <string name="label_4">With flavor enhancer</string>
+    <string name="label_5">Sulfurized</string>
+    <string name="label_6">Blackened</string>
+    <string name="label_7">Waxed</string>
+    <string name="label_8">With phosphate</string>
+    <string name="label_9">With sweeteners</string>
+    <string name="label_10">Contains a source of phenylalanine</string>
+    <string name="label_11">With milk protein</string>
+    <string name="label_12">With poultry</string>
+    <string name="label_13">With pork</string>
+    <string name="label_14">With alcohol</string>
+    <string name="label_15">May contain traces of nuts</string>
+    <string name="label_16">Without pork</string>
+    <string name="label_17">With garlic</string>
+    <string name="label_18">Vegetarian</string>
+    <string name="label_19">Organic food</string>
+    <string name="label_20">With baking agent</string>
+    <string name="label_21">Free of lactose</string>
+    <string name="label_22">Vegan food</string>
+    <string name="label_23">Fish from sustainable fishing</string>
+    <string name="label_Gl">Cereals containing gluten</string>
+    <string name="label_Kr">Shellfish</string>
+    <string name="label_Ei">Egg</string>
+    <string name="label_Fi">Fish</string>
+    <string name="label_En">Peanuts</string>
+    <string name="label_So">Soya </string>
+    <string name="label_La">Milk and lactose</string>
+    <string name="label_Nu">Nuts</string>
+    <string name="label_Sl">Celery</string>
+    <string name="label_Sf">Mustard</string>
+    <string name="label_Se">Sesame seeds</string>
+    <string name="label_Sw">Sulfur dioxide / sulfites</string>
+    <string name="label_Lu">Lupine</string>
+    <string name="label_Wt">Mollusks</string>
+    <!-- end of labels for mensa items -->
 </resources>

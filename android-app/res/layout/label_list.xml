@@ -8,5 +8,8 @@
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/label_list" />
+        android:id="@+id/label_list"
+        android:choiceMode="none"
+        android:clickable="false"
+        />
 </RelativeLayout>

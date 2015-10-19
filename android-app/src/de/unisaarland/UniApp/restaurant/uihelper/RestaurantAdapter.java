@@ -1,14 +1,12 @@
 package de.unisaarland.UniApp.restaurant.uihelper;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
-import android.graphics.Point;
+import android.graphics.Typeface;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.SuperscriptSpan;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,9 +66,10 @@ public class RestaurantAdapter extends BaseAdapter {
         mealDescription.setText(createMensaItemSpannable(model.getDesc()));
 
         ImageView info = (ImageView) convertView.findViewById(R.id.info);
-        String labels = model.getKennzeichnungen();
-        if (labels != null && !labels.equals("")) {
+        String[] labels = model.getLabels();
+        if (labels != null && labels.length != 0) {
             info.setOnClickListener(new LabelsClickListener(labels, context));
+            info.setVisibility(View.VISIBLE);
         } else {
             info.setVisibility(View.GONE);
         }
@@ -99,10 +98,8 @@ public class RestaurantAdapter extends BaseAdapter {
         int added = 0;
         while (pos < desc.length()) {
             int openParen = desc.indexOf('(', pos);
-            if (openParen == -1)
-                break;
             int closeParen = desc.indexOf(')', openParen+1);
-            if (closeParen == -1)
+            if (openParen == -1 || closeParen == -1)
                 break;
             boolean valid = true;
             String[] parts = desc.substring(openParen+1, closeParen).split(",");
@@ -142,11 +139,11 @@ public class RestaurantAdapter extends BaseAdapter {
 
     private static class LabelsClickListener implements View.OnClickListener {
 
-        private String ingredis;
-        private Context context;
+        private final String[] labels;
+        private final Context context;
 
-        public LabelsClickListener(String ingredis, Context context) {
-            this.ingredis = ingredis;
+        public LabelsClickListener(String[] labels, Context context) {
+            this.labels = labels;
             this.context = context;
         }
 
@@ -155,21 +152,17 @@ public class RestaurantAdapter extends BaseAdapter {
             LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View view = layoutInflater.inflate(R.layout.label_list, null);
             ListView list = (ListView) view.findViewById(R.id.label_list);
-            String[] labels = ingredis.split(",");
             list.setAdapter(new LabelAdapter(context, labels));
-            Dialog dialog = new Dialog(context, R.style.Transparent);
+            final Dialog dialog = new Dialog(context, R.style.Transparent);
             dialog.requestWindowFeature(Window.FEATURE_ACTION_BAR);
             dialog.setContentView(view);
             dialog.setTitle(view.getResources().getString(R.string.labels));
-            Display display = ((Activity) context).getWindowManager().getDefaultDisplay();
-            Point size = new Point();
-            display.getSize(size);
-            int width = (int) Math.round(size.x * 0.9);
-            int height = (int) Math.round(size.y * 0.9);
-            dialog.getWindow().setLayout(width, height);
             WindowManager.LayoutParams lp = dialog.getWindow().getAttributes();
             lp.dimAmount = 0.7f;
+            lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+            lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
             dialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+            dialog.setCanceledOnTouchOutside(true);
             dialog.show();
         }
     }
@@ -192,7 +185,7 @@ public class RestaurantAdapter extends BaseAdapter {
 
         @Override
         public Object getItem(int position) {
-            return null;
+            return labels[position];
         }
 
         @Override
@@ -206,14 +199,18 @@ public class RestaurantAdapter extends BaseAdapter {
             if (convertView == null) {
                 convertView = View.inflate(context, R.layout.label_item, null);
             }
-            TextView tw_label = (TextView) convertView.findViewById(R.id.label);
-            String stringname;
-            try {
-                stringname = "label_" + labels[position];
-            } catch (Exception e) {
-                stringname = "Keine Angabe";
+            String label = labels[position];
+            TextView labelView = (TextView) convertView.findViewById(R.id.mensa_label_id);
+            labelView.setText(label);
+            TextView descView = (TextView) convertView.findViewById(R.id.mensa_label_desc);
+            int descId = context.getResources().getIdentifier("label_" + label, "string", context.getPackageName());
+            if (descId == 0) {
+                descView.setText(R.string.no_description);
+                descView.setTypeface(descView.getTypeface(), Typeface.ITALIC);
+            } else {
+                descView.setText(descId);
+                descView.setTypeface(descView.getTypeface(), Typeface.NORMAL);
             }
-            tw_label.setText(context.getResources().getIdentifier(stringname, "string", context.getPackageName()));
             return convertView;
         }
     }

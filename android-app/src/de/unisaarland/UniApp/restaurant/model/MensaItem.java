@@ -9,21 +9,19 @@ public class MensaItem implements Serializable {
     private final String desc;
     private final String title;
     private final Date tag;
-    private final String kennzeichnungen;
-    private final String beilagen;
+    private final String[] labels;
     private final int preis1;
     private final int preis2;
     private final int preis3;
     private final int color;
 
-    public MensaItem(String category, String desc, String title, Date tag, String kennzeichnungen,
-                     String beilagen, int preis1, int preis2, int preis3, int color) {
+    public MensaItem(String category, String desc, String title, Date tag, String[] labels,
+                     int preis1, int preis2, int preis3, int color) {
         this.category = category;
         this.desc = desc;
         this.title = title;
         this.tag = tag;
-        this.kennzeichnungen = kennzeichnungen;
-        this.beilagen = beilagen;
+        this.labels = labels;
         this.preis1 = preis1;
         this.preis2 = preis2;
         this.preis3 = preis3;
@@ -46,12 +44,8 @@ public class MensaItem implements Serializable {
         return tag;
     }
 
-    public String getKennzeichnungen() {
-        return kennzeichnungen;
-    }
-
-    public String getBeilagen() {
-        return beilagen;
+    public String[] getLabels() {
+        return labels;
     }
 
     public int getPreis1() {

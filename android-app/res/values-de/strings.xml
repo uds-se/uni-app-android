@@ -42,7 +42,6 @@
     <string name="serving">Essensausgabe</string>
     <string name="mon_to_fri_time_hom">11.00 - 14.30 Uhr</string>
     <string name="mon_to_fri_time_hom_break"> 11.00 - 14.00 Uhr</string>
-
     <string name="mon_to_thur_time_break">11:30 Uhr - 14:15 Uhr</string>
     <string name="friday_time_break">11:30 Uhr - 14:00 Uhr</string>
     <string name="mon_to_fri_mensa_cafe_time">7:45 Uhr - 20:00 Uhr</string>
@@ -57,7 +56,7 @@
     <string name="fri_and_bank_holi_time">9:00 Uhr - 17:00 Uhr</string>
     <string name="friday_time_juristen">7:00 Uhr - 15:00 Uhr</string>
     <string name="mon_to_fri_juristen_cafe_time_break">7:00 Uhr - 15:00 Uhr</string>
-    <string name="article_text">Artikel</string>
+    <string name="news_article">Artikel</string>
     <string name="not_connected">Internetverbindung unterbrochen</string>
     <string name="gender">GESCHLECHT</string>
     <string name="academic_degree">AKADEMISCHER TITEL</string>
@@ -94,7 +93,6 @@
     <string name="search">Suche</string>
     <string name="settings">Einstellungen</string>
     <string name="labels">Kennzeichnungen</string>
-    <!-- Campus -->
     <string name="c_homburg">Campus Homburg</string>
     <string name="c_saarbruecken">Campus Saarbrücken</string>
     <string name="choose_campus">Campus auswählen</string>
@@ -104,4 +102,44 @@
     <string name="networkError">Netzwerkfehler</string>
     <string name="emptyDocumentError">Fehler: Dokument ist leer</string>
     <string name="mensaPriceFormat">Studenten: %1$.2f€   Mitarbeiter: %2$.2f€   Besucher: %3$.2f€</string>
+    <string name="no_description">Keine Beschreibung</string>
+    <!-- labels for mensa items (selected programmatically, so ignore "no use" warnings): -->
+    <string name="label_1">mit Farbstoff</string>
+    <string name="label_2">mit Konservierungsstoffe</string>
+    <string name="label_3">mit Antioxidationsmittel</string>
+    <string name="label_4">mit Geschmacksverstärker</string>
+    <string name="label_5">geschwefelt</string>
+    <string name="label_6">geschwärzt</string>
+    <string name="label_7">gewachst</string>
+    <string name="label_8">mit Phosphat</string>
+    <string name="label_9">mit Süßungsmittel</string>
+    <string name="label_10">enthält eine Phenylalaninquelle</string>
+    <string name="label_11">mit Milcheiweiß</string>
+    <string name="label_12">mit Geflügelanteil</string>
+    <string name="label_13">mit Schweinefleisch</string>
+    <string name="label_14">mit Alkohol</string>
+    <string name="label_15">kann Spuren von Nüssen enthalten</string>
+    <string name="label_16">ohne Schweinefleisch</string>
+    <string name="label_17">mit Knoblauch</string>
+    <string name="label_18">Vegetarisch</string>
+    <string name="label_19">Biologisches Essen</string>
+    <string name="label_20">Backtriebmittel</string>
+    <string name="label_21">laktosefrei</string>
+    <string name="label_22">veganes Essen</string>
+    <string name="label_23">Fisch aus nachhaltigem Fang</string>
+    <string name="label_Gl">Glutenhaltiges Getreide</string>
+    <string name="label_Kr">Krebstiere, Krusten- und Schalentiere</string>
+    <string name="label_Ei">Ei</string>
+    <string name="label_Fi">Fisch</string>
+    <string name="label_En">Erdnüsse</string>
+    <string name="label_So">Soja</string>
+    <string name="label_La">Milch und Lactose</string>
+    <string name="label_Nu">Schalenfrüchte (Nüsse)</string>
+    <string name="label_Sl">Sellerie</string>
+    <string name="label_Sf">Senf</string>
+    <string name="label_Se">Sesamsamen</string>
+    <string name="label_Sw">Schwefeldioxid / Sulfite</string>
+    <string name="label_Lu">Lupinen</string>
+    <string name="label_Wt">Weichtiere</string>
+    <!-- end of labels for mensa items -->
 </resources>
