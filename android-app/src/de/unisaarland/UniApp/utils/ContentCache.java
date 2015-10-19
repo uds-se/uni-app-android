@@ -58,6 +58,12 @@ public class ContentCache {
     private final OpenHelper openHelper;
     private final int discardContentAfterSeconds;
 
+    /**
+     * Initialize a new cache.
+     * @param context application context
+     * @param name name of this cache (determines file name). null for in-memory cache.
+     * @param discardContentAfterSeconds number of seconds after which entries are removed from the db.
+     */
     public ContentCache(Context context, String name, int discardContentAfterSeconds) {
         this.openHelper = new OpenHelper(context, name);
         this.discardContentAfterSeconds = discardContentAfterSeconds;

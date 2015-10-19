@@ -5,17 +5,17 @@
                 android:background="@drawable/home_screen_background">
 
 
-    <ProgressBar
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_centerVertical="true" android:layout_centerHorizontal="true"
-            android:id="@+id/web_view_progress_bar"
-            />
-
     <ListView
-             android:id="@+id/body" android:layout_width="fill_parent"
+             android:id="@+id/search_result_list" android:layout_width="fill_parent"
              android:layout_height="fill_parent"
              />
+
+    <include
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        layout="@layout/progress_bar"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"/>
 
 
 </RelativeLayout>

@@ -1,6 +1,5 @@
 package de.unisaarland.UniApp.staff.uihelper;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -10,37 +9,31 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.ObjectOutputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
 
 import de.unisaarland.UniApp.R;
-import de.unisaarland.UniApp.utils.Util;
+import de.unisaarland.UniApp.staff.SearchResult;
 import de.unisaarland.UniApp.staff.SearchResultItemDetailActivity;
+import de.unisaarland.UniApp.utils.Util;
 
 public class SearchResultAdapter extends BaseAdapter {
 
     private final Context context;
-    private final ArrayList<String> linksArray;
-    private final ArrayList<String> namesArray;
-    private final HashMap<View,Integer> resultItemsMap = new HashMap<>();
+    private List<SearchResult> result;
 
-    public SearchResultAdapter(Context context, ArrayList<String> namesArray, ArrayList<String> linksArray) {
+    public SearchResultAdapter(Context context, List<SearchResult> result) {
         this.context = context;
-        this.namesArray = namesArray;
-        this.linksArray = linksArray;
+        this.result = result;
     }
 
     @Override
     public int getCount() {
-        return namesArray.size();
+        return result.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return result.get(position);
     }
 
     @Override
@@ -50,54 +43,42 @@ public class SearchResultAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        if(convertView == null){
+        if (convertView == null) {
             convertView = View.inflate(context, R.layout.search_result_row, null);
         }
 
-        TextView newsTitle = (TextView) convertView.findViewById(R.id.name);
-        newsTitle.setText(namesArray.get(position));
+        TextView nameView = (TextView) convertView.findViewById(R.id.search_result_name);
+        SearchResult searchResult = result.get(position);
+        nameView.setText(searchResult.getName());
         convertView.setOnClickListener(clickListener);
-        resultItemsMap.put(convertView,position);
+        convertView.setTag(R.id.staff_search_person_tag, searchResult);
         return convertView;
     }
 
-    private boolean saveSearchResultToFile() {
-        try{
-            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File(context.getFilesDir().getAbsolutePath()+ Util.TEMP_STAFF_SEARCH_FILE)));
-            oos.writeObject(namesArray);
-            oos.writeObject(linksArray);
-            oos.flush();
-            oos.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-        return true;
-    }
-
-    View.OnClickListener clickListener = new View.OnClickListener() {
+    private final View.OnClickListener clickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if (Util.isConnectedToInternet(context)) {
-                saveSearchResultToFile();
-                Intent myIntent = new Intent(context, SearchResultItemDetailActivity.class);
-                int index = resultItemsMap.get(v);
-                myIntent.putExtra("url", linksArray.get(index));
-                context.startActivity(myIntent);
-                Activity activity = (Activity) context;
-            }else{
-                AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
-                builder1.setMessage(context.getString(R.string.not_connected));
-                builder1.setCancelable(true);
-                builder1.setPositiveButton(context.getString(R.string.ok),
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
-                AlertDialog alert11 = builder1.create();
-                alert11.show();
+            if (!Util.isConnectedToInternet(context)) {
+                new AlertDialog.Builder(context)
+                        .setMessage(context.getString(R.string.not_connected))
+                        .setCancelable(true)
+                        .setPositiveButton(context.getString(R.string.ok),
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.cancel();
+                                    }
+                                })
+                        .create().show();
+                return;
             }
+            Intent myIntent = new Intent(context, SearchResultItemDetailActivity.class);
+            SearchResult res = (SearchResult) v.getTag(R.id.staff_search_person_tag);
+            myIntent.putExtra("url", res.getUrl());
+            context.startActivity(myIntent);
         }
     };
+
+    public void update(List<SearchResult> result) {
+        this.result = result;
+    }
 }

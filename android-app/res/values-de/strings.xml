@@ -58,6 +58,7 @@
     <string name="mon_to_fri_juristen_cafe_time_break">7:00 Uhr - 15:00 Uhr</string>
     <string name="news_article">Artikel</string>
     <string name="not_connected">Internetverbindung unterbrochen</string>
+    <string name="name">NAME</string>
     <string name="gender">GESCHLECHT</string>
     <string name="academic_degree">AKADEMISCHER TITEL</string>
     <string name="building">GEBÄUDE</string>
@@ -93,8 +94,6 @@
     <string name="search">Suche</string>
     <string name="settings">Einstellungen</string>
     <string name="labels">Kennzeichnungen</string>
-    <string name="c_homburg">Campus Homburg</string>
-    <string name="c_saarbruecken">Campus Saarbrücken</string>
     <string name="choose_campus">Campus auswählen</string>
     <string name="choose_campus_hint">[%s]\n\nDiese Einstellung passt den Speiseplan, die Bushaltestellen und die Karte dem ausgewählten Campus an</string>
     <string name="noEventsText">Keine Veranstaltungen gefunden.</string>

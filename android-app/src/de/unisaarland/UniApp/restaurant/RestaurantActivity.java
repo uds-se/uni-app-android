@@ -47,8 +47,7 @@ public class RestaurantActivity extends ActionBarActivity {
 
         setContentView(R.layout.restaurant_layout);
         ProgressBar bar = (ProgressBar) findViewById(R.id.progress_bar);
-        bar.setVisibility(View.VISIBLE);
-        bar.animate();
+        bar.setVisibility(View.GONE);
 
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String campus = settings.getString(Util.KEY_CAMPUS_CHOOSER, "saar");
@@ -60,6 +59,15 @@ public class RestaurantActivity extends ActionBarActivity {
                     new MensaXMLParser(), new NetworkDelegate(), this);
         }
         mensaFetcher.loadAsynchronously();
+    }
+
+    @Override
+    protected void onStop() {
+        if (mensaFetcher != null) {
+            mensaFetcher.cancel();
+            mensaFetcher = null;
+        }
+        super.onStop();
     }
 
     @Override

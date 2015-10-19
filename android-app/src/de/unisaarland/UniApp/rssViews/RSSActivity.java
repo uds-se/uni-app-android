@@ -5,13 +5,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -149,16 +147,6 @@ public class RSSActivity extends ActionBarActivity {
         networkFetcher.loadAsynchronously();
     }
 
-    /**
-     * Called when back button is pressed either from device or navigation bar.
-     */
-    @Override
-    public void onBackPressed() {
-        if (networkFetcher != null)
-            networkFetcher.cancel();
-        super.onBackPressed();
-    }
-
     @Override
     protected void onStop() {
         if (networkFetcher != null) {
@@ -166,20 +154,6 @@ public class RSSActivity extends ActionBarActivity {
             networkFetcher = null;
         }
         super.onStop();
-    }
-
-    // Handling the Action Bar Buttons
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            // Respond to the action bar's Up/Home button
-            case android.R.id.home:
-                onBackPressed();
-                NavUtils.navigateUpFromSameTask(this);
-
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     private final class NetworkDelegate implements NetworkRetrieveAndCache.Delegate<List<RSSItem>> {
@@ -211,7 +185,7 @@ public class RSSActivity extends ActionBarActivity {
             new AlertDialog.Builder(RSSActivity.this).
                     setMessage(message).
                     setCancelable(true).
-                    setPositiveButton(getString(R.string.ok),
+                    setPositiveButton(R.string.ok,
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 ProgressBar bar = (ProgressBar) findViewById(R.id.progress_bar);

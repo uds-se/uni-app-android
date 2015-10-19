@@ -3,7 +3,6 @@ package de.unisaarland.UniApp;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -12,8 +11,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
-import java.io.File;
 
 import de.unisaarland.UniApp.about.AboutActicvity;
 import de.unisaarland.UniApp.bus.BusActivity;
@@ -37,18 +34,10 @@ public class MainActivity extends ActionBarActivity {
     private Button staffSearchButton = null;
     private TextView campusText = null;
 
-    /*
-    * Will be called when activity created first time e.g. from scratch
-    * */
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    /*
-    * Will be called when activity created first time after onCreate or when activity comes to the front again or in a pausing state
-    * So its better to set all the things needed to use in the activity here if in case anything is released in onPause method
-    * */
+    /**
+     * Will be called when activity created first time after onCreate or when activity comes to the front again or in a pausing state
+     * So its better to set all the things needed to use in the activity here if in case anything is released in onPause method
+     */
     @Override
     protected void onResume() {
         // sets the custom navigation bar according to each activity.
@@ -56,6 +45,8 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.main);
         // set Listeners for the main screen to launch specific activity
         setButtonListeners();
+        // If this is the first start, show preferences...
+        checkFirstStart();
         // Set Text on the Mainscreen
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String campus = settings.getString(Util.KEY_CAMPUS_CHOOSER, "saar");
@@ -63,10 +54,9 @@ public class MainActivity extends ActionBarActivity {
         // unfortunately, campusText happens to be null sometimes.
         if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE
                 && campusText != null) {
-            String text = campus.equals("saar") ? "Campus Saarbrücken" : "Campus Homburg";
+            int text = campus.equals("saar") ? R.string.c_saarbruecken : R.string.c_homburg;
             campusText.setText(text);
         }
-        setPreferences();
         super.onResume();
     }
 
@@ -75,12 +65,6 @@ public class MainActivity extends ActionBarActivity {
         // Inflate the menu items for use in the action bar
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_activity_actions, menu);
-                /*
-        SharedPreferences settings = getSharedPreferences(Util.PREFS_NAME, 0);
-        Boolean uni_saar = settings.getBoolean(Util.CAMPUS_SAAR,true);
-        String campus = uni_saar? getResources().getString(R.string.c_saarbruecken): getResources().getString(R.string.c_homburg);
-        menu.findItem(R.id.action_campus_chooser).setTitle(campus);
-        */
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -107,26 +91,14 @@ public class MainActivity extends ActionBarActivity {
     }
 
 
-    /*
-    * set the preference for events, news and staff search so that in case if activity is
-    * loaded again (from main activity) then these items should be downloaded from internet again
-    * otherwise these items are already loaded and models are already built so they will be displayed from there.
-    * */
-    private void setPreferences() {
+    private void checkFirstStart() {
         SharedPreferences settings = getSharedPreferences(Util.PREFS_NAME, 0);
-        SharedPreferences.Editor editor = settings.edit();
-        editor.putBoolean(Util.MENSA_ITEMS_LOADED, false);
-        editor.commit();
-        File f = new File(getFilesDir().getAbsolutePath()+ Util.TEMP_STAFF_SEARCH_FILE);
-        if(f.exists()) {
-            f.delete();
-        }
 
         //If App is used for the first time...
         if (settings.getBoolean(Util.FIRST_TIME, true)) {
+            settings.edit().putBoolean(Util.FIRST_TIME, false).commit();
             PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
             showSettings();
-            settings.edit().putBoolean(Util.FIRST_TIME, false).commit();
         }
     }
 

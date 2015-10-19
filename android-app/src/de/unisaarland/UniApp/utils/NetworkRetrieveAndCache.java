@@ -44,10 +44,22 @@ public class NetworkRetrieveAndCache<ResultType> {
     private String url;
 
 
+    /**
+     * Initialize a new cache.
+     * @param URL the URL to load
+     * @param contentTag the tag to use for this data in the cache. can be null if cache is null.
+     * @param reloadIfOlderSeconds document is reloaded if cached data is older than this number of seconds.
+     * @param cache the cache to use, can be null.
+     * @param extractor extractor to parse ResultType from the loaded document
+     * @param delegate object to receive parsed data
+     * @param context current application context
+     */
     public NetworkRetrieveAndCache(String URL, String contentTag, int reloadIfOlderSeconds,
                                    ContentCache cache,
                                    ContentExtractor<ResultType> extractor,
                                    Delegate<ResultType> delegate, Context context) {
+        if (cache != null && contentTag == null)
+            throw new NullPointerException("contentTag must not be null if cache is not null");
         this.URL = URL;
         this.contentTag = contentTag;
         this.cache = cache;
@@ -139,6 +151,9 @@ public class NetworkRetrieveAndCache<ResultType> {
     }
 
     private Pair<Date, ResultType> loadFromCache() {
+        if (cache == null)
+            return null;
+
         Pair<Date, byte[]> cached = cache.getContentWithAge(contentTag);
         if (cached == null)
             return null;
@@ -168,6 +183,9 @@ public class NetworkRetrieveAndCache<ResultType> {
     }
 
     private void saveToCache(ResultType data) {
+        if (cache == null)
+            return;
+
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
 
         try {

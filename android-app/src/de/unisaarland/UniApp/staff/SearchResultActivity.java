@@ -2,195 +2,142 @@ package de.unisaarland.UniApp.staff;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.NavUtils;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.util.ArrayList;
+import java.util.List;
 
 import de.unisaarland.UniApp.R;
 import de.unisaarland.UniApp.staff.uihelper.SearchResultAdapter;
-import de.unisaarland.UniApp.utils.Util;
+import de.unisaarland.UniApp.utils.ContentCache;
+import de.unisaarland.UniApp.utils.NetworkRetrieveAndCache;
 
 
 public class SearchResultActivity extends ActionBarActivity {
     private String url = null;
-    private ArrayList<String> namesArray;
-    private ArrayList<String> linksArray;
-    private ListView body;
-    private ProgressBar pBar;
 
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        savedInstanceState = getIntent().getExtras();
-        url = savedInstanceState.getString("url");
-        namesArray = new ArrayList<String>();
-        linksArray = new ArrayList<String>();
-    }
+    // in-memory cache of search results
+    private ContentCache cache = null;
 
+    private NetworkRetrieveAndCache<List<SearchResult>> networkFetcher;
+
+    // store scroll position on leave and restore on return (on first content load)
+    private Parcelable listState = null;
     @Override
-    public void onBackPressed() {
-        namesArray = null;
-        linksArray = null;
-        body = null;
-        pBar = null;
-        deleteTempFile();
-        super.onBackPressed();
-    }
-
-    private void deleteTempFile() {
-        if(tempSearchFileExist()){
-            File f = new File(getFilesDir().getAbsolutePath()+ Util.TEMP_STAFF_SEARCH_FILE);
-            boolean delete = f.delete();
-        }
+    protected void onPause() {
+        super.onPause();
+        ListView listView = (ListView)findViewById(R.id.search_result_list);
+        listState = listView.onSaveInstanceState();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        setActionBar();
+
+        Bundle extras = getIntent().getExtras();
+        url = extras.getString("url");
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle(R.string.search_results);
+
         setContentView(R.layout.search_result_layout);
-        body = (ListView) findViewById(R.id.body);
-        pBar = (ProgressBar) findViewById(R.id.web_view_progress_bar);
-        pBar.setVisibility(View.VISIBLE);
-        body.setVisibility(View.GONE);
-        if(tempSearchFileExist()){
-            loadSearchResultFromFile();
-            showSearchResults();
-        }else{
-            getTask(url).execute();
+
+        ProgressBar bar = (ProgressBar) findViewById(R.id.progress_bar);
+        bar.setVisibility(View.GONE);
+
+        if (cache == null)
+            // use an in-memory cache
+            cache = new ContentCache(this, null, 60*60*24);
+
+        if (networkFetcher == null || !url.equals(networkFetcher.getUrl())) {
+            String tag = "search-" + Integer.toHexString(url.hashCode());
+            networkFetcher = new NetworkRetrieveAndCache<>(url, tag, 60*15, cache,
+                    new SearchResultExtractor(url), new NetworkDelegate(), this);
         }
+        networkFetcher.loadAsynchronously();
     }
 
-    private void loadSearchResultFromFile() {
-        try{
-            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File(getFilesDir().getAbsolutePath()+ Util.TEMP_STAFF_SEARCH_FILE)));
-            namesArray = (ArrayList<String>) ois.readObject();
-            linksArray = (ArrayList<String>) ois.readObject();
-            ois.close();
-        } catch (Exception e) {
-            e.printStackTrace();
+    @Override
+    protected void onStop() {
+        if (networkFetcher != null) {
+            networkFetcher.cancel();
+            networkFetcher = null;
         }
+        super.onStop();
     }
 
-    private boolean tempSearchFileExist() {
-        File f = new File(getFilesDir().getAbsolutePath()+ Util.TEMP_STAFF_SEARCH_FILE);
-        return f.exists();
-    }
+    private class NetworkDelegate implements NetworkRetrieveAndCache.Delegate<List<SearchResult>> {
+        @Override
+        public void onUpdate(List<SearchResult> result) {
+            showSearchResults(result);
+        }
 
-    private AsyncTask<Void,Void,Integer> getTask(final String url){
-        return new AsyncTask<Void, Void, Integer>() {
-            @Override
-            protected Integer doInBackground(Void... params) {
-                Document doc = null;
-                try {
-                    doc = Jsoup.connect(url).timeout(15*1000).get();
-                    Elements divElements = doc.getElementsByTag("div");
-                    for(Element divElement: divElements){
-                        if(divElement.className().equals("erg_list_entry")){
-                            Elements ergListLabelElements = divElement.getElementsByAttributeValueContaining("class", "erg_list_label");
-                            if(ergListLabelElements.size()>0){
-                                Element timeElement = ergListLabelElements.get(0);
-                                if(timeElement.ownText().equals("Name:")){
-                                    Elements aElements = divElement.getElementsByTag("a");
-                                    Element nameElement = aElements.get(0);
-                                    String rawName = nameElement.text();
-                                    String[] nameArray = rawName.split(" ");
-                                    // filter out all leading "Prof.", "Dr.", "rer." ...
-                                    StringBuilder name = new StringBuilder();
-                                    boolean titlePart = true;
-                                    for (String namePart : nameArray) {
-                                        if (!namePart.endsWith(".") &&
-                                                !namePart.endsWith(".-"))
-                                            titlePart = false;
-                                        if (!titlePart)
-                                            name.append(" ").append(namePart);
-                                    }
-                                    String url = nameElement.attr("href");
-                                    //safety check in case user press the back button of device
-                                    if (namesArray != null && linksArray != null) {
-                                        namesArray.add(name.substring(1));
-                                        linksArray.add(url);
-                                    }
-                                }
-                            }
+        @Override
+        public void onStartLoading() {
+            ProgressBar bar = (ProgressBar) findViewById(R.id.progress_bar);
+            bar.animate();
+            bar.setVisibility(View.VISIBLE);
+        }
 
-                        }
-                    }
-                    return 1;
-                } catch (IOException e) {
-                    return 0;
-                }
-            }
-
-            @Override
-            protected void onPostExecute(Integer i) {
-                //if data fetching was successfull
-                if (i == 1)
-                    showSearchResults();
-                    //else show error message and dismiss view
-                else{
-                    new AlertDialog.Builder(SearchResultActivity.this)
-                            .setMessage(getString(R.string.not_connected))
-                            .setCancelable(true)
-                            .setPositiveButton(getString(R.string.ok),
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        finish();
-                                        dialog.cancel();
-                                    }
-                                })
-                            .create().show();
-                }
-            }
-        };
-    }
-
-    private void showSearchResults() {
-        if (pBar != null) {
-            pBar.setVisibility(View.INVISIBLE);
-            if (namesArray.size() == 0) {
-                new AlertDialog.Builder(this)
-                        .setTitle(getString(R.string.no_staff_member_title))
-                        .setMessage(getString(R.string.no_staff_member_found_description))
-                        .setCancelable(true)
-                        .setPositiveButton(getString(R.string.ok),
+        @Override
+        public void onFailure(String message) {
+            new AlertDialog.Builder(SearchResultActivity.this)
+                    .setMessage(message)
+                    .setCancelable(true)
+                    .setPositiveButton(R.string.ok,
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
                                     dialog.cancel();
                                     onBackPressed();
                                 }
                             })
-                        .create().show();
-            } else {
-                if (body != null) {
-                    body.setVisibility(View.VISIBLE);
-                    SearchResultAdapter adapter = new SearchResultAdapter(this,namesArray,linksArray);
-                    body.setAdapter(adapter);
-                }
-            }
+                    .create().show();
         }
     }
 
-    private void setActionBar() {
-        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle(R.string.search_results);
+    private void showSearchResults(List<SearchResult> result) {
+        ProgressBar pBar = (ProgressBar) findViewById(R.id.progress_bar);
+        pBar.setVisibility(View.GONE);
+        if (result.isEmpty()) {
+            new AlertDialog.Builder(this)
+                    .setTitle(R.string.no_staff_member_title)
+                    .setMessage(R.string.no_staff_member_found_description)
+                    .setCancelable(true)
+                    .setPositiveButton(getString(R.string.ok),
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                    onBackPressed();
+                                }
+                            })
+                    .create().show();
+            return;
+        }
 
+        ListView body = (ListView) findViewById(R.id.search_result_list);
+
+        if (listState == null)
+            listState = body.onSaveInstanceState();
+
+        SearchResultAdapter adapter = (SearchResultAdapter) body.getAdapter();
+        if (adapter == null) {
+            adapter = new SearchResultAdapter(this, result);
+            body.setAdapter(adapter);
+        } else {
+            adapter.update(result);
+            body.invalidate();
+        }
+
+        body.onRestoreInstanceState(listState);
+        listState = null;
     }
 
     // Handling the Action Bar Buttons

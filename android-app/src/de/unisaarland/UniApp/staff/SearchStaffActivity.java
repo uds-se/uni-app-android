@@ -7,10 +7,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
 import android.view.KeyEvent;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
@@ -64,25 +62,33 @@ public class SearchStaffActivity extends ActionBarActivity {
 
         SharedPreferences prefs = getSharedPreferences(Util.PREFS_NAME, 0);
         int lastChecked = prefs.getInt(Util.STAFF_LAST_SELECTION, R.id.rb_only_prof);
+        String lastFirstName = prefs.getString(Util.STAFF_LAST_FIRSTNAME, "");
+        String lastLastName = prefs.getString(Util.STAFF_LAST_LASTNAME, "");
         radioChooser.check(lastChecked);
+        firstName.setText(lastFirstName);
+        lastName.setText(lastLastName);
 
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SharedPreferences.Editor editor = getSharedPreferences(Util.PREFS_NAME, 0).edit();
-                editor.putInt(Util.STAFF_LAST_SELECTION, radioChooser.getCheckedRadioButtonId());
-                editor.commit();
 
                 String lstNam = lastName.getText().toString();
                 lstNam = lstNam.trim();
                 String fstNam = firstName.getText().toString();
                 fstNam = fstNam.trim();
+
+                SharedPreferences.Editor editor = getSharedPreferences(Util.PREFS_NAME, 0).edit();
+                editor.putInt(Util.STAFF_LAST_SELECTION, radioChooser.getCheckedRadioButtonId());
+                editor.putString(Util.STAFF_LAST_FIRSTNAME, fstNam);
+                editor.putString(Util.STAFF_LAST_LASTNAME, lstNam);
+                editor.commit();
+
                 if (fstNam.length() ==0 && lstNam.length() == 0) {
                     new AlertDialog.Builder(SearchStaffActivity.this)
-                            .setTitle(getString(R.string.empty_search_field))
-                            .setMessage(getString(R.string.fill_at_least_one))
+                            .setTitle(R.string.empty_search_field)
+                            .setMessage(R.string.fill_at_least_one)
                             .setCancelable(true)
-                            .setPositiveButton(getString(R.string.ok),
+                            .setPositiveButton(R.string.ok,
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
                                         dialog.cancel();
@@ -102,9 +108,9 @@ public class SearchStaffActivity extends ActionBarActivity {
                     SearchStaffActivity.this.startActivity(myIntent);
                 } else {
                     new AlertDialog.Builder(SearchStaffActivity.this)
-                            .setMessage(getString(R.string.check_internet_message))
+                            .setMessage(R.string.check_internet_message)
                             .setCancelable(true)
-                            .setPositiveButton(getString(R.string.ok),
+                            .setPositiveButton(R.string.ok,
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
                                         dialog.cancel();
@@ -122,18 +128,5 @@ public class SearchStaffActivity extends ActionBarActivity {
         //Enabling Up-Navigation
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle(R.string.search_for_staff_text);
-    }
-
-    // Handling the Action Bar Buttons
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            // Respond to the action bar's Up/Home button
-            case android.R.id.home:
-                onBackPressed();
-                NavUtils.navigateUpFromSameTask(this);
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 }
