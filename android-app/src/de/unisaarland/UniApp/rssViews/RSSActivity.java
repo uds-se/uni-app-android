@@ -34,7 +34,7 @@ import de.unisaarland.UniApp.utils.Util;
 public class RSSActivity extends ActionBarActivity {
 
     public enum Category {
-        News(R.string.newsText, R.string.noNewsText, Util.NEWS_URL, "news") {
+        News(R.string.newsText, R.string.news_article, R.string.noNewsText, Util.NEWS_URL, "news") {
             @Override
             protected View getView(RSSItem item, View convertView, Context context) {
                 if(convertView == null){
@@ -45,13 +45,13 @@ public class RSSActivity extends ActionBarActivity {
                 SimpleDateFormat parserSDF = new SimpleDateFormat("d. MMMM yyyy");
                 String datestring = parserSDF.format(date);
                 newsTitle.setText(datestring);
-                TextView newsDescription = (TextView) convertView.findViewById(R.id.label);
+                TextView newsDescription = (TextView) convertView.findViewById(R.id.mensa_label_desc);
                 newsDescription.setGravity(Gravity.CENTER_VERTICAL);
                 newsDescription.setText(item.getTitle());
                 return convertView;
             }
         },
-        Events(R.string.eventsText, R.string.noEventsText, Util.EVENTS_URL, "events") {
+        Events(R.string.eventsText, R.string.event_article, R.string.noEventsText, Util.EVENTS_URL, "events") {
             @Override
             public List<RSSItem> filterItems(List<RSSItem> items) {
                 List<RSSItem> filtered = new ArrayList<>();
@@ -91,12 +91,14 @@ public class RSSActivity extends ActionBarActivity {
         };
 
         private final int title;
+        protected final int articleTitle;
         private final int noElementsText;
         private final String url;
         private final String cacheTag;
 
-        Category(int title, int noElementsText, String url, String cacheTag) {
+        Category(int title, int articleTitle, int noElementsText, String url, String cacheTag) {
             this.title = title;
+            this.articleTitle = articleTitle;
             this.noElementsText = noElementsText;
             this.url = url;
             this.cacheTag = cacheTag;

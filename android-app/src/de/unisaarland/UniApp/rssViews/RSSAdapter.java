@@ -51,7 +51,7 @@ public class RSSAdapter extends BaseAdapter {
             Intent myIntent = new Intent(context, RSSDetailActivity.class);
             RSSItem item = (RSSItem) v.getTag(R.id.rss_view_model_tag);
             myIntent.putExtra("url", item.getLink());
-            myIntent.putExtra("titleId", R.string.event_article);
+            myIntent.putExtra("titleId", cat.articleTitle);
             context.startActivity(myIntent);
         }
     };
