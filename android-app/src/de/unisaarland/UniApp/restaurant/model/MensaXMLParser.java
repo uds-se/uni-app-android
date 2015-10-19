@@ -149,8 +149,8 @@ public class MensaXMLParser extends XMLExtractor<Map<Long, List<MensaItem>>> {
         int blue = 0;
         try {
             red = Integer.parseInt(parts[0]);
-            green = Integer.parseInt(parts[0]);
-            blue = Integer.parseInt(parts[0]);
+            green = Integer.parseInt(parts[1]);
+            blue = Integer.parseInt(parts[2]);
         } catch (NumberFormatException e) {
             return 0;
         }
