@@ -28,6 +28,12 @@ public class SearchResultExtractor implements ContentExtractor<List<SearchResult
 
         Document doc = Jsoup.parse(data, null, baseUrl);
 
+        // first check whether we got the error that too few search terms were given.
+        // in this case, return null to signal this.
+        for (Element h1Elem : doc.getElementsByTag("h1"))
+            if (h1Elem.text().trim().equals("Bitte geben Sie mehr Suchbegriffe ein"))
+                return null;
+
         for (Element divElement : doc.getElementsByClass("erg_list_entry")) {
             Elements ergListLabelElements = divElement.getElementsByAttributeValueContaining("class", "erg_list_label");
             if (ergListLabelElements.isEmpty())

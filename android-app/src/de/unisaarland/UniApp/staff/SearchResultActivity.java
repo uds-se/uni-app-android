@@ -100,6 +100,21 @@ public class SearchResultActivity extends ActionBarActivity {
     private void showSearchResults(List<SearchResult> result) {
         ProgressBar pBar = (ProgressBar) findViewById(R.id.progress_bar);
         pBar.setVisibility(View.GONE);
+        if (result == null) {
+            new AlertDialog.Builder(this)
+                    .setTitle(R.string.too_few_search_terms_title)
+                    .setMessage(R.string.too_few_search_terms_description)
+                    .setCancelable(true)
+                    .setPositiveButton(getString(R.string.ok),
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.dismiss();
+                                    onBackPressed();
+                                }
+                            })
+                    .create().show();
+            return;
+        }
         if (result.isEmpty()) {
             new AlertDialog.Builder(this)
                     .setTitle(R.string.no_staff_member_title)
@@ -108,7 +123,7 @@ public class SearchResultActivity extends ActionBarActivity {
                     .setPositiveButton(getString(R.string.ok),
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
-                                    dialog.cancel();
+                                    dialog.dismiss();
                                     onBackPressed();
                                 }
                             })

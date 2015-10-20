@@ -77,6 +77,8 @@
     <string name="ok">OK</string>
     <string name="no_staff_member_title">Staff member not found</string>
     <string name="no_staff_member_found_description">Unfortunately no staff member matches your search criteria.</string>
+    <string name="too_few_search_terms_title">Too few search terms</string>
+    <string name="too_few_search_terms_description">Please provide more or longer search terms.</string>
     <string name="empty_search_field">Empty search field</string>
     <string name="fill_at_least_one">Please fill at least one search field.</string>
     <string name="check_internet_message">Please check your internet connection and try again.</string>
