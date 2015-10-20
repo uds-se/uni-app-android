@@ -40,10 +40,8 @@ public class NetworkRetrieveAndCache<ResultType> {
 
     private final Context context;
 
-    private volatile WebFetcher lastWebFetcher = null;
-
-    private volatile boolean canceled = false;
-
+    private WebFetcher lastWebFetcher = null;
+    private AsyncTask<InputStream, Void, ResultType> lastAsyncTask;
 
     /**
      * Initialize a new cache.
@@ -96,7 +94,6 @@ public class NetworkRetrieveAndCache<ResultType> {
 
             Log.i(TAG, "Start loading '"+contentTag+"' for cache '"+cache.getName()+"' from URL '"+url+"'");
             WebFetcher fetcher = new WebFetcher(new NetworkDelegate());
-            canceled = false;
             fetcher.startFetchingAsynchronously(url, context);
             lastWebFetcher = fetcher;
         }
@@ -110,7 +107,9 @@ public class NetworkRetrieveAndCache<ResultType> {
 
         @Override
         public void onSuccess(final InputStream data) {
-            new ParseInBackgroundTask().execute(data);
+            ParseInBackgroundTask task = new ParseInBackgroundTask();
+            lastAsyncTask = task;
+            task.execute(data);
         }
     }
 
@@ -130,7 +129,7 @@ public class NetworkRetrieveAndCache<ResultType> {
                 Log.w(TAG, "parse error from URL '"+url+"'", e);
                 return null;
             } catch (IOException e) {
-                if (!canceled) {
+                if (!isCancelled()) {
                     errorMessage = "Error receiving remote content: " + e.getLocalizedMessage();
                     Log.w(TAG, "I/O error from URL '" + url + "'", e);
                 }
@@ -149,11 +148,10 @@ public class NetworkRetrieveAndCache<ResultType> {
     }
 
     public void cancel() {
-        WebFetcher fetcher = lastWebFetcher;
-        if (fetcher != null) {
-            canceled = true;
-            fetcher.invalidateRequest();
-        }
+        if (lastWebFetcher != null)
+            lastWebFetcher.invalidateRequest();
+        if (lastAsyncTask != null)
+            lastAsyncTask.cancel(true);
     }
 
     private Pair<Date, ResultType> loadFromCache() {
