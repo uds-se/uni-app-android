@@ -99,10 +99,8 @@ public class CampusActivity extends ActionBarActivity implements ConnectionCallb
     * */
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        savedInstanceState = getIntent().getExtras();
-        if(savedInstanceState!=null){
-            infoBuilding = savedInstanceState.getString("building");
-        }
+        Bundle extras = getIntent().getExtras();
+        infoBuilding = extras.getString("building");
         setContentView(R.layout.campus_layout);
         db = new DatabaseHandler(this);
     }
@@ -245,16 +243,21 @@ public class CampusActivity extends ActionBarActivity implements ConnectionCallb
         for (CustomMapTileProvider prov : CustomMapTileProvider.allTileProviders(getResources().getAssets()))
             map.addTileOverlay(new TileOverlayOptions().tileProvider(prov));
 
-        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        String uni_saar = settings.getString(Util.KEY_CAMPUS_CHOOSER, "saar");
-        LatLng latlng = uni_saar.equals("saar") ? new LatLng(49.25419, 7.041324)
-                : new LatLng(49.305582, 7.344296);
-        CameraUpdate upd = CameraUpdateFactory.newLatLngZoom(latlng, 15);
-        map.moveCamera(upd);
-        // if info building != null means activity is called from search result details page
-        // so it will get the building position from the database and will set the marker there.
-        if (infoBuilding != null)
-            pinPOIsInArray(db.getPointsOfInterestForTitle(infoBuilding));
+        map.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
+            @Override
+            public void onMapLoaded() {
+                SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                String uni_saar = settings.getString(Util.KEY_CAMPUS_CHOOSER, "saar");
+                LatLng latlng = uni_saar.equals("saar") ? new LatLng(49.25419, 7.041324)
+                        : new LatLng(49.305582, 7.344296);
+                CameraUpdate upd = CameraUpdateFactory.newLatLngZoom(latlng, 15);
+                map.moveCamera(upd);
+                // if info building != null means activity is called from search result details page
+                // so it will get the building position from the database and will set the marker there.
+                if (infoBuilding != null)
+                    pinPOIsInArray(db.getPointsOfInterestForTitle(infoBuilding));
+            }
+        });
     }
 
     /*
