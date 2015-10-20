@@ -73,6 +73,7 @@ public class ViewFlowAdapter extends BaseAdapter {
         } else {
             adapter.update(items);
         }
+        convertView.setTag(R.id.mensa_menu_date_tag, Long.valueOf(dates[position]));
         return convertView;
     }
 

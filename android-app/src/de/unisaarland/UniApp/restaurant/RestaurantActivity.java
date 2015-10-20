@@ -36,6 +36,8 @@ public class RestaurantActivity extends ActionBarActivity {
     private final String MENSA_URL_SB = "http://studentenwerk-saarland.de/_menu/actual/speiseplan-saarbruecken.xml";
     private final String MENSA_URL_HOM = "http://studentenwerk-saarland.de/_menu/actual/speiseplan-homburg.xml";
 
+    private long lastSelectedDate = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -147,8 +149,23 @@ public class RestaurantActivity extends ActionBarActivity {
         ViewFlowAdapter adapter = (ViewFlowAdapter) viewFlow.getAdapter();
         if (adapter == null) {
             viewFlow.setAdapter(new ViewFlowAdapter(this, items), 0);
+            viewFlow.setOnViewSwitchListener(new ViewFlow.ViewSwitchListener() {
+                @Override
+                public void onSwitched(View view, int position) {
+                    Long date = (Long) view.getTag(R.id.mensa_menu_date_tag);
+                    lastSelectedDate = date.longValue();
+                }
+            });
         } else {
             adapter.update(items);
+        }
+        long dateToSelect = lastSelectedDate != 0 ? lastSelectedDate : Util.getStartOfDay().getTime();
+        if (items.get(Long.valueOf(dateToSelect)) != null) {
+            int smallerOnes = 0;
+            for (Long l : items.keySet())
+                if (l < dateToSelect)
+                    ++smallerOnes;
+            viewFlow.setSelection(smallerOnes);
         }
         CircleFlowIndicator indic = (CircleFlowIndicator) findViewById(R.id.viewflowindic);
         viewFlow.setFlowIndicator(indic);
