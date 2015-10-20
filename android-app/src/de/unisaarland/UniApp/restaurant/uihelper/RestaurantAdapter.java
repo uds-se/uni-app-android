@@ -27,7 +27,7 @@ import de.unisaarland.UniApp.restaurant.model.MensaItem;
 
 public class RestaurantAdapter extends BaseAdapter {
     private final Context context;
-    private final List<MensaItem> mensaItems;
+    private List<MensaItem> mensaItems;
 
     public RestaurantAdapter(Context context, List<MensaItem> mensaItems) {
         this.context = context;
@@ -134,6 +134,14 @@ public class RestaurantAdapter extends BaseAdapter {
             pos += substrs.get(i).length();
         }
         return str;
+    }
+
+    public boolean update(List<MensaItem> items) {
+        if (this.mensaItems.equals(items))
+            return false;
+        this.mensaItems = items;
+        this.notifyDataSetChanged();
+        return true;
     }
 
 

@@ -52,16 +52,13 @@ public class RSSDetailActivity extends ActionBarActivity {
         fetcher.loadAsynchronously();
     }
 
-    /**
-     * Called when back button is pressed either from device or navigation bar.
-     */
     @Override
-    public void onBackPressed() {
+    protected void onStop() {
         if (fetcher != null) {
             fetcher.cancel();
             fetcher = null;
         }
-        super.onBackPressed();
+        super.onStop();
     }
 
     private class NetworkDelegate implements NetworkRetrieveAndCache.Delegate<RSSArticle> {

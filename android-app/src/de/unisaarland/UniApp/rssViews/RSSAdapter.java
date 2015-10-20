@@ -18,13 +18,12 @@ import de.unisaarland.UniApp.utils.Util;
 public class RSSAdapter extends BaseAdapter {
 
     private final Context context;
-    private List<RSSItem> itemsArray;
+    private List<RSSItem> items;
     private final RSSActivity.Category cat;
 
-    public RSSAdapter(Context context, List<RSSItem> itemsArray,
-                      RSSActivity.Category cat) {
+    public RSSAdapter(Context context, List<RSSItem> items, RSSActivity.Category cat) {
         this.context = context;
-        this.itemsArray = itemsArray;
+        this.items = items;
         this.cat = cat;
     }
 
@@ -39,7 +38,7 @@ public class RSSAdapter extends BaseAdapter {
                 new AlertDialog.Builder(context)
                         .setMessage(R.string.not_connected)
                         .setCancelable(true)
-                        .setPositiveButton("OK",
+                        .setPositiveButton(R.string.ok,
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
                                         dialog.cancel();
@@ -58,12 +57,12 @@ public class RSSAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return itemsArray.size();
+        return items.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return itemsArray.get(position);
+        return items.get(position);
     }
 
     @Override
@@ -73,14 +72,18 @@ public class RSSAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        RSSItem item = itemsArray.get(position);
+        RSSItem item = items.get(position);
         View view = cat.getView(item, convertView, context);
         view.setOnClickListener(clickListener);
         view.setTag(R.id.rss_view_model_tag, item);
         return view;
     }
 
-    public void update(List<RSSItem> items) {
-        this.itemsArray = items;
+    public boolean update(List<RSSItem> items) {
+        if (this.items.equals(items))
+            return false;
+        this.items = items;
+        this.notifyDataSetChanged();
+        return true;
     }
 }

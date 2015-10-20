@@ -4,8 +4,8 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -37,8 +37,8 @@ public class RestaurantActivity extends ActionBarActivity {
     private final String MENSA_URL_HOM = "http://studentenwerk-saarland.de/_menu/actual/speiseplan-homburg.xml";
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
         ActionBar actionBar = getSupportActionBar();
         //Enable Up-Navigation
@@ -46,6 +46,12 @@ public class RestaurantActivity extends ActionBarActivity {
         actionBar.setTitle(R.string.mensa_text);
 
         setContentView(R.layout.restaurant_layout);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
         ProgressBar bar = (ProgressBar) findViewById(R.id.progress_bar);
         bar.setVisibility(View.GONE);
 
@@ -82,12 +88,6 @@ public class RestaurantActivity extends ActionBarActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            // Respond to the action bar's Up/Home button
-            case android.R.id.home:
-                onBackPressed();
-                NavUtils.navigateUpFromSameTask(this);
-
-                return true;
             case R.id.action_opening_hours:
                 //Open opening hours actions when button is pressed
                 Intent myIntent = new Intent(RestaurantActivity.this, OpeningHoursActivity.class);
@@ -127,7 +127,7 @@ public class RestaurantActivity extends ActionBarActivity {
             new AlertDialog.Builder(RestaurantActivity.this)
                     .setMessage(message)
                     .setCancelable(true)
-                    .setPositiveButton("OK",
+                    .setPositiveButton(R.string.ok,
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
                                     ProgressBar bar = (ProgressBar) findViewById(R.id.progress_bar);
@@ -144,7 +144,12 @@ public class RestaurantActivity extends ActionBarActivity {
 
     private void populateItems(Map<Long, List<MensaItem>> items) {
         ViewFlow viewFlow = (ViewFlow) findViewById(R.id.viewflow);
-        viewFlow.setAdapter(new ViewFlowAdapter(this, items), 0);
+        ViewFlowAdapter adapter = (ViewFlowAdapter) viewFlow.getAdapter();
+        if (adapter == null) {
+            viewFlow.setAdapter(new ViewFlowAdapter(this, items), 0);
+        } else {
+            adapter.update(items);
+        }
         CircleFlowIndicator indic = (CircleFlowIndicator) findViewById(R.id.viewflowindic);
         viewFlow.setFlowIndicator(indic);
     }

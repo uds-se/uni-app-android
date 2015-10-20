@@ -125,8 +125,8 @@ public class RSSActivity extends ActionBarActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
         Bundle extras = getIntent().getExtras();
         cat = (Category) extras.getSerializable("category");
@@ -141,10 +141,15 @@ public class RSSActivity extends ActionBarActivity {
         if (networkFetcher == null) {
             ContentCache cache = Util.getContentCache(this);
             networkFetcher = new NetworkRetrieveAndCache<>(cat.url, cat.cacheTag,
-                    15*60, cache,
+                    15 * 60, cache,
                     new RSSItemParser(), new NetworkDelegate(), this);
         }
+    }
+
+    @Override
+    protected void onResume() {
         networkFetcher.loadAsynchronously();
+        super.onResume();
     }
 
     @Override
@@ -216,7 +221,6 @@ public class RSSActivity extends ActionBarActivity {
             itemsList.setAdapter(new RSSAdapter(this, filtered, cat));
         } else {
             adapter.update(filtered);
-            itemsList.invalidate();
         }
 
         itemsList.onRestoreInstanceState(listState);

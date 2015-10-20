@@ -17,7 +17,7 @@ import de.unisaarland.UniApp.R;
 import de.unisaarland.UniApp.restaurant.model.MensaItem;
 
 public class ViewFlowAdapter extends BaseAdapter {
-    private final Map<Long, List<MensaItem>> mensaItems;
+    private Map<Long, List<MensaItem>> mensaItems;
     private final Context context;
     private final long[] dates;
 
@@ -67,7 +67,20 @@ public class ViewFlowAdapter extends BaseAdapter {
         day_label.setVisibility(View.VISIBLE);
         ListView mensaList = (ListView) convertView.findViewById(R.id.mensaList);
         List<MensaItem> items = mensaItems.get(dates[position]);
-        mensaList.setAdapter(new RestaurantAdapter(context, items));
+        RestaurantAdapter adapter = (RestaurantAdapter) mensaList.getAdapter();
+        if (adapter == null) {
+            mensaList.setAdapter(new RestaurantAdapter(context, items));
+        } else {
+            adapter.update(items);
+        }
         return convertView;
+    }
+
+    public boolean update(Map<Long, List<MensaItem>> items) {
+        if (mensaItems.equals(items))
+            return false;
+        mensaItems = items;
+        this.notifyDataSetChanged();
+        return true;
     }
 }
