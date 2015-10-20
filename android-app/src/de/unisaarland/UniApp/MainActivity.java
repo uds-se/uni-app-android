@@ -92,7 +92,7 @@ public class MainActivity extends ActionBarActivity {
 
 
     private void checkFirstStart() {
-        SharedPreferences settings = getSharedPreferences(Util.PREFS_NAME, 0);
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
 
         //If App is used for the first time...
         if (settings.getBoolean(Util.FIRST_TIME, true)) {

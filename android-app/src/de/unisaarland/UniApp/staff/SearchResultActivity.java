@@ -18,14 +18,12 @@ import de.unisaarland.UniApp.R;
 import de.unisaarland.UniApp.staff.uihelper.SearchResultAdapter;
 import de.unisaarland.UniApp.utils.ContentCache;
 import de.unisaarland.UniApp.utils.NetworkRetrieveAndCache;
+import de.unisaarland.UniApp.utils.Util;
 
 
 public class SearchResultActivity extends ActionBarActivity {
     private String url = null;
-
-    // in-memory cache of search results
-    private ContentCache cache = null;
-
+    
     private NetworkRetrieveAndCache<List<SearchResult>> networkFetcher;
 
     // store scroll position on leave and restore on return (on first content load)
@@ -53,12 +51,9 @@ public class SearchResultActivity extends ActionBarActivity {
         ProgressBar bar = (ProgressBar) findViewById(R.id.progress_bar);
         bar.setVisibility(View.GONE);
 
-        if (cache == null)
-            // use an in-memory cache
-            cache = new ContentCache(this, null, 60*60*24);
-
         if (networkFetcher == null || !url.equals(networkFetcher.getUrl())) {
             String tag = "search-" + Integer.toHexString(url.hashCode());
+            ContentCache cache = Util.getContentCache(this);
             networkFetcher = new NetworkRetrieveAndCache<>(url, tag, 60*15, cache,
                     new SearchResultExtractor(url), new NetworkDelegate(), this);
         }
@@ -129,8 +124,7 @@ public class SearchResultActivity extends ActionBarActivity {
 
         SearchResultAdapter adapter = (SearchResultAdapter) body.getAdapter();
         if (adapter == null) {
-            adapter = new SearchResultAdapter(this, result);
-            body.setAdapter(adapter);
+            body.setAdapter(new SearchResultAdapter(this, result));
         } else {
             adapter.update(result);
             body.invalidate();

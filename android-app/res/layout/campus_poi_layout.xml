@@ -5,45 +5,24 @@
                 android:layout_height="fill_parent" android:background="#ffffffff">
 
     <ListView android:layout_width="fill_parent" android:layout_height="wrap_content"
-              android:id="@+id/categoriesList"
+              android:id="@+id/poisList"
         android:clickable="true"
         android:layout_alignParentTop="true"
-        android:layout_above="@+id/klist" />
+        />
 
-    <LinearLayout
-        android:orientation="horizontal"
+    <Button
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:text="@string/pin_all"
+        android:id="@+id/bt_pin_all"
         android:layout_alignParentBottom="true"
-        android:id="@+id/klist">
-
-        <Button
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="0dp"
-            android:layout_height="37dp"
-            android:text="@string/back"
-            android:id="@+id/bt_back"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignLeft="@+id/bt_back"
-            android:background="@drawable/list_item_selector"
-            android:textColor="@color/uni_blue"
-            android:textSize="18dp"
-            android:textStyle="bold" />
-
-        <Button
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/pin_all"
-            android:id="@+id/bt_pin_all"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_weight="1"
-            android:background="@drawable/list_item_selector"
-            android:textColor="@color/uni_blue"
-            android:textSize="18dp"
-            android:textStyle="bold" />
-    </LinearLayout>
+        android:layout_alignParentLeft="true"
+        android:layout_weight="1"
+        android:background="@drawable/list_item_selector"
+        android:textColor="@color/uni_blue"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        android:layout_alignParentRight="true"/>
 
 
 </RelativeLayout>

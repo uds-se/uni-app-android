@@ -2,4 +2,7 @@
 <resources>
     <item type="id" name="rss_view_model_tag" />
     <item type="id" name="staff_search_person_tag" />
+    <item type="id" name="campus_search_categorie_tag" />
+    <item type="id" name="campus_search_poi_tag" />
+    <item type="id" name="campus_search_poi_id_tag" />
 </resources>

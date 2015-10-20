@@ -24,7 +24,7 @@ public class NetworkRetrieveAndCache<ResultType> {
     private static final String TAG = NetworkRetrieveAndCache.class.getSimpleName();
 
     // URL to retrieve fresh content
-    private final String URL;
+    private final String url;
 
     // Tag used for cache file and for preference key of last fetch time
     private final String contentTag;
@@ -41,7 +41,8 @@ public class NetworkRetrieveAndCache<ResultType> {
     private final Context context;
 
     private volatile WebFetcher lastWebFetcher = null;
-    private String url;
+
+    private volatile boolean canceled = false;
 
 
     /**
@@ -60,7 +61,7 @@ public class NetworkRetrieveAndCache<ResultType> {
                                    Delegate<ResultType> delegate, Context context) {
         if (cache != null && contentTag == null)
             throw new NullPointerException("contentTag must not be null if cache is not null");
-        this.URL = URL;
+        this.url = URL;
         this.contentTag = contentTag;
         this.cache = cache;
         this.reloadIfOlderSeconds = reloadIfOlderSeconds;
@@ -93,9 +94,10 @@ public class NetworkRetrieveAndCache<ResultType> {
         if (reloadContentFromWeb) {
             delegate.onStartLoading();
 
-            Log.i(TAG, "Start loading '"+contentTag+"' for cache '"+cache.getName()+"' from URL '"+URL+"'");
+            Log.i(TAG, "Start loading '"+contentTag+"' for cache '"+cache.getName()+"' from URL '"+url+"'");
             WebFetcher fetcher = new WebFetcher(new NetworkDelegate());
-            fetcher.startFetchingAsynchronously(URL, context);
+            canceled = false;
+            fetcher.startFetchingAsynchronously(url, context);
             lastWebFetcher = fetcher;
         }
     }
@@ -125,11 +127,13 @@ public class NetworkRetrieveAndCache<ResultType> {
                 return result;
             } catch (ParseException e) {
                 errorMessage = "Error parsing remote content: " + e.getLocalizedMessage();
-                Log.w(TAG, "parse error from URL '"+URL+"'", e);
+                Log.w(TAG, "parse error from URL '"+url+"'", e);
                 return null;
             } catch (IOException e) {
-                errorMessage = "Error receiving remote content: " + e.getLocalizedMessage();
-                Log.w(TAG, "I/O error from URL '" + URL + "'", e);
+                if (!canceled) {
+                    errorMessage = "Error receiving remote content: " + e.getLocalizedMessage();
+                    Log.w(TAG, "I/O error from URL '" + url + "'", e);
+                }
                 return null;
             }
         }
@@ -146,8 +150,10 @@ public class NetworkRetrieveAndCache<ResultType> {
 
     public void cancel() {
         WebFetcher fetcher = lastWebFetcher;
-        if (fetcher != null)
+        if (fetcher != null) {
+            canceled = true;
             fetcher.invalidateRequest();
+        }
     }
 
     private Pair<Date, ResultType> loadFromCache() {

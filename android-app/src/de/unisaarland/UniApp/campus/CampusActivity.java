@@ -1,6 +1,5 @@
 package de.unisaarland.UniApp.campus;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.SearchManager;
 import android.content.Context;
@@ -13,7 +12,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
-import android.support.v4.app.NavUtils;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -22,9 +20,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AutoCompleteTextView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks;
@@ -46,8 +42,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.TileOverlayOptions;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -75,10 +70,8 @@ public class CampusActivity extends ActionBarActivity implements ConnectionCallb
     private GoogleMap map;
     private LocationClient locationClient;
     private final int REQUEST_CODE = 5;
-    private final Map<String, PointOfInterest> poisMap = new HashMap<>();
+    private final Map<Marker, PointOfInterest> poisMap = new HashMap<>();
     private Location currentLocation;
-    private final LatLngBounds UNIVERSITY = new LatLngBounds(
-            new LatLng(7.03466212,49.25030771), new LatLng(7.05128056,49.25946299));
     private static final int TIME_INTERVAL = 3000; // 3 seconds
 
     //////////////location will be updated after every 3 seconds//////////////
@@ -87,9 +80,6 @@ public class CampusActivity extends ActionBarActivity implements ConnectionCallb
             .setFastestInterval(16)    // 16ms = 60fps
             .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
     private String infoBuilding = null;
-    private final List<Marker> markers = new ArrayList<>();
-    private AutoCompleteTextView search;
-    private ArrayList<PointOfInterest> searchBase;
     private Menu menu;
     private DatabaseHandler db = null;
 
@@ -100,7 +90,7 @@ public class CampusActivity extends ActionBarActivity implements ConnectionCallb
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle extras = getIntent().getExtras();
-        infoBuilding = extras.getString("building");
+        infoBuilding = extras == null ? null : extras.getString("building");
         setContentView(R.layout.campus_layout);
         db = new DatabaseHandler(this);
     }
@@ -135,14 +125,10 @@ public class CampusActivity extends ActionBarActivity implements ConnectionCallb
 
 
     public void searchItemSelected(PointOfInterest model) {
-        if (markers.size() != poisMap.size())
-            Log.w(TAG, new AssertionError("mismatch in markers.size() and poisMap.size(). "+
-                markers.size() + " != " + poisMap.size()));
-        for (Marker m : markers)
+        for (Marker m : poisMap.keySet())
             m.remove();
-        markers.clear();
         poisMap.clear();
-        pinPOIsInArray(Arrays.asList(model));
+        pinPOIsInArray(Collections.singletonList(model));
         final SearchView search = (SearchView) menu.findItem(R.id.activity_search).getActionView();
         search.setQuery("",false);
         search.setIconified(false);
@@ -164,7 +150,7 @@ public class CampusActivity extends ActionBarActivity implements ConnectionCallb
     * */
     @Override
     public void onInfoWindowClick(final Marker marker) {
-        final PointOfInterest p = poisMap.get(marker.getTitle());
+        final PointOfInterest p = poisMap.get(marker);
         if (p.isCanShowRightCallOut() == 1 && p.getWebsite() != null && p.getWebsite().length() > 0) {
             AlertDialog.Builder builder1 = new AlertDialog.Builder(CampusActivity.this);
             builder1.setTitle(getString(R.string.action));
@@ -220,7 +206,7 @@ public class CampusActivity extends ActionBarActivity implements ConnectionCallb
         if (map == null)
             return;
 
-        markers.clear();
+        poisMap.clear();
         // set default options of a map which are loaded with the activity
         // like default zoom level and campera position
         map.setMyLocationEnabled(true);
@@ -243,21 +229,25 @@ public class CampusActivity extends ActionBarActivity implements ConnectionCallb
         for (CustomMapTileProvider prov : CustomMapTileProvider.allTileProviders(getResources().getAssets()))
             map.addTileOverlay(new TileOverlayOptions().tileProvider(prov));
 
-        map.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
-            @Override
-            public void onMapLoaded() {
-                SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                String uni_saar = settings.getString(Util.KEY_CAMPUS_CHOOSER, "saar");
-                LatLng latlng = uni_saar.equals("saar") ? new LatLng(49.25419, 7.041324)
-                        : new LatLng(49.305582, 7.344296);
-                CameraUpdate upd = CameraUpdateFactory.newLatLngZoom(latlng, 15);
-                map.moveCamera(upd);
-                // if info building != null means activity is called from search result details page
-                // so it will get the building position from the database and will set the marker there.
-                if (infoBuilding != null)
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        String uni_saar = settings.getString(Util.KEY_CAMPUS_CHOOSER, "saar");
+        LatLng latlng = uni_saar.equals("saar") ? new LatLng(49.25419, 7.041324)
+                : new LatLng(49.305582, 7.344296);
+        CameraUpdate upd = CameraUpdateFactory.newLatLngZoom(latlng, 15);
+        map.moveCamera(upd);
+
+        // if info building != null means activity is called from search result details page
+        // so it will get the building position from the database and will set the marker there.
+        if (infoBuilding != null) {
+            map.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
+                @Override
+                public void onCameraChange(CameraPosition cameraPosition) {
+                    map.setOnCameraChangeListener(null);
+                    Log.w("DEBUG", "pin building " + infoBuilding);
                     pinPOIsInArray(db.getPointsOfInterestForTitle(infoBuilding));
-            }
-        });
+                }
+            });
+        }
     }
 
     /*
@@ -266,28 +256,25 @@ public class CampusActivity extends ActionBarActivity implements ConnectionCallb
     * message that please enable at least one location service and will open the settings page on Clicking
     * */
     private void showRouteIfAvailable(PointOfInterest p) {
-        if(currentLocation != null){
+        if (currentLocation != null) {
             Intent intent = new Intent(Intent.ACTION_VIEW,
                     Uri.parse("http://maps.google.com/maps?saddr=" + currentLocation.getLatitude() +
                             "," + currentLocation.getLongitude() + "&daddr=" +
                             p.getLatitude() + "," + p.getLongitude()));
             startActivity(intent);
-
-        }else{
-            AlertDialog.Builder currentLocationOptionDialog = new AlertDialog.Builder(CampusActivity.this);
-            currentLocationOptionDialog.setTitle(getString(R.string.current_location_not_set));
-            currentLocationOptionDialog.setMessage(getString(R.string.enable_location_option));
-            currentLocationOptionDialog.setCancelable(true);
-            currentLocationOptionDialog.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    Intent viewIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                    startActivity(viewIntent);
-
-                }
-            });
-            AlertDialog locationOption = currentLocationOptionDialog.create();
-            locationOption.show();
+        } else {
+            new AlertDialog.Builder(CampusActivity.this)
+                    .setTitle(R.string.current_location_not_set)
+                    .setMessage(R.string.enable_location_option)
+                    .setCancelable(true)
+                    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent viewIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                                startActivity(viewIntent);
+                            }
+                        })
+                    .create().show();
         }
     }
 
@@ -318,9 +305,7 @@ public class CampusActivity extends ActionBarActivity implements ConnectionCallb
         search.setSearchableInfo(manager.getSearchableInfo(getComponentName()));
         search.setSuggestionsAdapter(new SearchAdapter(this, db.getAllData(), this));
 
-
         search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-
             @Override
             public boolean onQueryTextChange(String query) {
                 loadData(query);
@@ -332,7 +317,6 @@ public class CampusActivity extends ActionBarActivity implements ConnectionCallb
                 loadData(query);
                 return true;
             }
-
         });
         return true;
     }
@@ -352,21 +336,13 @@ public class CampusActivity extends ActionBarActivity implements ConnectionCallb
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            // Respond to the action bar's Up/Home button
-            case android.R.id.home:
-                onBackPressed();
-
-                NavUtils.navigateUpFromSameTask(this);
-                return true;
             case R.id.action_categories:
                 Intent myIntent = new Intent(CampusActivity.this, CampusSearchActivity.class);
                 CampusActivity.this.startActivityForResult(myIntent,REQUEST_CODE);
 
                 return true;
             case R.id.action_settings:
-                ( new PanelButtonListener(this,map,poisMap,markers)).onClick(null);
-
-
+                new PanelButtonListener(this,map,poisMap).onClick(null);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -376,8 +352,8 @@ public class CampusActivity extends ActionBarActivity implements ConnectionCallb
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (REQUEST_CODE == requestCode && resultCode == RESULT_OK && data.getExtras() != null) {
-            List<Integer> ids = (List<Integer>) data.getExtras().get("idsArray");
-            pinPOIsInArray(db.getPointsOfInterestForIDs(ids));
+            List<PointOfInterest> pois = (List<PointOfInterest>) data.getExtras().get("pois");
+            pinPOIsInArray(pois);
         }
     }
 
@@ -405,7 +381,6 @@ public class CampusActivity extends ActionBarActivity implements ConnectionCallb
                     : tempColor == 2 ?  BitmapDescriptorFactory.HUE_GREEN
                     : BitmapDescriptorFactory.HUE_RED;
 
-            poisMap.put(poi.getTitle(), poi);
             Marker m = map.addMarker(new MarkerOptions()
                    .position(new LatLng(poi.getLatitude(), poi.getLongitude()))
                    .title(poi.getTitle())
@@ -413,11 +388,11 @@ public class CampusActivity extends ActionBarActivity implements ConnectionCallb
                    .icon(BitmapDescriptorFactory.defaultMarker(color)));
             lati = poi.getLatitude();
             longi = poi.getLongitude();
-            markers.add(m);
+            poisMap.put(m, poi);
         }
 
         LatLngBounds.Builder builder = LatLngBounds.builder();
-        for (Marker m : markers)
+        for (Marker m : poisMap.keySet())
             builder.include(m.getPosition());
 
         LatLngBounds bounds = builder.build();
@@ -485,16 +460,4 @@ public class CampusActivity extends ActionBarActivity implements ConnectionCallb
         return false;
     }
 
-    // custom class to show the back button action using navigation bar and will call the onBack method of activity
-    class BackButtonClickListener implements View.OnClickListener{
-        final Activity activity;
-        public BackButtonClickListener(Activity activity) {
-            this.activity = activity;
-        }
-
-        @Override
-        public void onClick(View v) {
-            activity.onBackPressed();
-        }
-    }
 }

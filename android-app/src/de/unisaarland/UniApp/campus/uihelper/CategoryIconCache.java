@@ -14,7 +14,7 @@ public class CategoryIconCache {
     private static final String TAG = CategoryIconCache.class.getSimpleName();
 
     /* Maps to null if the icon does not exist */
-    private final Map<Integer, Drawable> cachedIcons = new HashMap<Integer, Drawable>();
+    private final Map<Integer, Drawable> cachedIcons = new HashMap<>();
 
     private final AssetManager assets;
 

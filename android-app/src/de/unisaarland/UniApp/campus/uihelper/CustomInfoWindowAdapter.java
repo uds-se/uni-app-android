@@ -8,21 +8,17 @@ import android.widget.TextView;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import de.unisaarland.UniApp.R;
 import de.unisaarland.UniApp.bus.model.PointOfInterest;
 
-/**
- * Created by Shahzad on 1/6/14.
- */
 public class CustomInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
 
     private final View mWindow;
-    private final Map<String, PointOfInterest> poisMap;
+    private final Map<Marker, PointOfInterest> poisMap;
 
-    public CustomInfoWindowAdapter(Activity activity, Map<String, PointOfInterest> poisMap) {
+    public CustomInfoWindowAdapter(Activity activity, Map<Marker, PointOfInterest> poisMap) {
         mWindow = activity.getLayoutInflater().inflate(R.layout.custom_info_window, null);
         this.poisMap = poisMap;
     }
@@ -39,14 +35,13 @@ public class CustomInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
     }
 
     private void render(final Marker marker, View view) {
-        String title = marker.getTitle();
         TextView titleUi = ((TextView) view.findViewById(R.id.title));
-        titleUi.setText(title);
-        final PointOfInterest p = poisMap.get(title);
+        titleUi.setText(marker.getTitle());
+        final PointOfInterest p = poisMap.get(marker);
         ImageButton linkButton = (ImageButton)view.findViewById(R.id.web_button);
-        if(p.isCanShowRightCallOut() == 1 && p.getWebsite() != null && p.getWebsite().length()>0){
+        if (p.isCanShowRightCallOut() == 1 && p.getWebsite() != null && p.getWebsite().length()>0) {
 
-        }else{
+        } else {
             linkButton.setVisibility(View.INVISIBLE);
         }
 

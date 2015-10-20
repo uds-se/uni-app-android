@@ -16,13 +16,11 @@ import de.unisaarland.UniApp.R;
 import de.unisaarland.UniApp.campus.CampusActivity;
 import de.unisaarland.UniApp.utils.ContentCache;
 import de.unisaarland.UniApp.utils.NetworkRetrieveAndCache;
+import de.unisaarland.UniApp.utils.Util;
 
 
 public class SearchResultItemDetailActivity extends ActionBarActivity {
     private String url = null;
-
-    // in-memory cache of search results
-    private ContentCache cache = null;
 
     private NetworkRetrieveAndCache<StaffInfo> networkFetcher = null;
 
@@ -44,12 +42,9 @@ public class SearchResultItemDetailActivity extends ActionBarActivity {
         ScrollView infoView = (ScrollView) findViewById(R.id.staff_info_scroll_view);
         infoView.setVisibility(View.INVISIBLE);
 
-        if (cache == null)
-            // use an in-memory cache
-            cache = new ContentCache(this, null, 60*60*24);
-
         if (networkFetcher == null) {
             String tag = "search-" + Integer.toHexString(url.hashCode());
+            ContentCache cache = Util.getContentCache(this);
             networkFetcher = new NetworkRetrieveAndCache<>(url, tag, 15*60, cache,
                     new StaffInfoParser(url), new NetworkDelegate(), this);
         }

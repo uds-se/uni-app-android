@@ -62,7 +62,7 @@ public class SearchResultAdapter extends BaseAdapter {
                 new AlertDialog.Builder(context)
                         .setMessage(context.getString(R.string.not_connected))
                         .setCancelable(true)
-                        .setPositiveButton(context.getString(R.string.ok),
+                        .setPositiveButton(R.string.ok,
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
                                         dialog.cancel();

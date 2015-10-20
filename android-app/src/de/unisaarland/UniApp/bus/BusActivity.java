@@ -1,12 +1,10 @@
 package de.unisaarland.UniApp.bus;
 
-import android.app.Activity;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ListView;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -18,6 +16,7 @@ import com.google.android.gms.location.LocationRequest;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import de.unisaarland.UniApp.R;
 import de.unisaarland.UniApp.bus.model.PointOfInterest;
@@ -119,7 +118,7 @@ public class BusActivity extends ActionBarActivity implements ConnectionCallback
     * */
     private void updateModel(){
         DatabaseHandler dbHandler = new DatabaseHandler(this);
-        ArrayList<PointOfInterest> tempBusStations = dbHandler.getPointsOfInterestForCategoryWithID(BUS_ID);
+        List<PointOfInterest> tempBusStations = dbHandler.getPOIsForCategoryWithID(BUS_ID);
         dbHandler.close();
         HashMap<String,String> tempHashMap = new HashMap<String, String>(5);
         for(PointOfInterest poi: tempBusStations){
@@ -199,19 +198,5 @@ public class BusActivity extends ActionBarActivity implements ConnectionCallback
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
         //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    // custom class to show the back button action using navigation bar and will call the onBack method of activity
-    class BackButtonClickListener implements View.OnClickListener{
-        final Activity activity;
-        public BackButtonClickListener(Activity activity) {
-            this.activity = activity;
-        }
-
-        @Override
-        public void onClick(View v) {
-            activity.onBackPressed();
-
-        }
     }
 }

@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -60,7 +61,7 @@ public class SearchStaffActivity extends ActionBarActivity {
             }
         });
 
-        SharedPreferences prefs = getSharedPreferences(Util.PREFS_NAME, 0);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         int lastChecked = prefs.getInt(Util.STAFF_LAST_SELECTION, R.id.rb_only_prof);
         String lastFirstName = prefs.getString(Util.STAFF_LAST_FIRSTNAME, "");
         String lastLastName = prefs.getString(Util.STAFF_LAST_LASTNAME, "");
@@ -77,7 +78,8 @@ public class SearchStaffActivity extends ActionBarActivity {
                 String fstNam = firstName.getText().toString();
                 fstNam = fstNam.trim();
 
-                SharedPreferences.Editor editor = getSharedPreferences(Util.PREFS_NAME, 0).edit();
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SearchStaffActivity.this);
+                SharedPreferences.Editor editor = prefs.edit();
                 editor.putInt(Util.STAFF_LAST_SELECTION, radioChooser.getCheckedRadioButtonId());
                 editor.putString(Util.STAFF_LAST_FIRSTNAME, fstNam);
                 editor.putString(Util.STAFF_LAST_LASTNAME, lstNam);

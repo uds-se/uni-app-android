@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.util.Pair;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -39,23 +40,16 @@ public class DatabaseHandler {
         this.DB_PATH = new File(context.getApplicationInfo().dataDir, "databases");
     }
 
-    public ArrayList<PointOfInterest> getPointsOfInterestForCategoryWithID(int ID){
-        ArrayList<PointOfInterest> result = new ArrayList<PointOfInterest>();
+    public List<PointOfInterest> getPOIs(String selection, String[] selectionArgs) {
+        List<PointOfInterest> result = new ArrayList<PointOfInterest>();
         Cursor cursor = campusQuery("pointOfInterest", new String[]{"title", "subtitle", "canshowleftcallout",
-                        "canshowrightcallout", "color", "website", "lat", "longi", "ID"}, "categorieID = ?",
-                new String[]{Integer.toString(ID)}, null, null, null);
+                        "canshowrightcallout", "website", "color", "lat", "longi", "ID", "categorieID"},
+                selection, selectionArgs, null, null);
 
         while (cursor.moveToNext()) {
-            PointOfInterest poi = new PointOfInterest();
-            poi.setTitle(cursor.getString(0));
-            poi.setSubtitle(cursor.getString(1)) ;
-            poi.setCanShowLeftCallOut(cursor.getInt(2));
-            poi.setCanShowRightCallOut(cursor.getInt(3));
-            poi.setColor(cursor.getInt(4));
-            poi.setWebsite(cursor.getString(5));
-            poi.setLatitude(cursor.getFloat(6));
-            poi.setLongitude(cursor.getFloat(7));
-            poi.setID(cursor.getInt(8));
+            PointOfInterest poi = new PointOfInterest(cursor.getString(0), cursor.getString(1),
+                    cursor.getInt(2), cursor.getInt(3), cursor.getString(4), cursor.getInt(5),
+                    cursor.getFloat(6), cursor.getFloat(7), cursor.getInt(8), cursor.getInt(9));
             result.add(poi);
         }
         cursor.close();
@@ -63,52 +57,20 @@ public class DatabaseHandler {
         return result;
     }
 
-    public ArrayList<String> getAllCategoryTitles(){
-        ArrayList<String> result = new ArrayList<String>();
-        // cursor = database.query("categorie",new String[]{"title"},null,null,null,null,null);
-        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
-        String campus = settings.getString(Util.KEY_CAMPUS_CHOOSER, "saar");
-        Cursor cursor = rawQuery("select categorie.title from categorie, pointOfInterest where categorie.iD = pointOfInterest.categorieID and pointOfInterest.campus = ? group by categorie.title", new String[]{campus});
-        while (cursor.moveToNext())
-            result.add(cursor.getString(0));
-        cursor.close();
-        return result;
-    }
-
-    public ArrayList<PointOfInterest> getPointsOfInterestPartialMatched(){
-        ArrayList<PointOfInterest> result = new ArrayList<PointOfInterest>();
-        Cursor cursor = campusQuery("pointOfInterest", new String[]{"title", "subtitle", "canshowleftcallout",
-                        "canshowrightcallout", "color", "website", "lat", "longi", "ID", "categorieID"}, null,
-                null, null, null, null);
-
-        while (cursor.moveToNext()) {
-            PointOfInterest poi = new PointOfInterest();
-            poi.setTitle(cursor.getString(0));
-            poi.setSubtitle(cursor.getString(1)) ;
-            poi.setCanShowLeftCallOut(cursor.getInt(2));
-            poi.setCanShowRightCallOut(cursor.getInt(3));
-            poi.setColor(cursor.getInt(4));
-            poi.setWebsite(cursor.getString(5));
-            poi.setLatitude(cursor.getFloat(6));
-            poi.setLongitude(cursor.getFloat(7));
-            poi.setID(cursor.getInt(8));
-            poi.setCategoryID(cursor.getInt(9));
-            result.add(poi);
-        }
-        cursor.close();
-        return result;
+    public List<PointOfInterest> getPOIsForCategoryWithID(int catId){
+        return getPOIs("categorieID = ?", new String[]{Integer.toString(catId)});
     }
 
     public Cursor getAllData() {
         String[] columns = new String[]{"ID as _id","title","subtitle","canshowleftcallout",
                 "canshowrightcallout","color","website","lat","longi","ID","categorieID"};
-        return campusQuery("pointOfInterest", columns, null, null, null, null, null);
+        return campusQuery("pointOfInterest", columns, null, null, null, null);
     }
 
     public ArrayList<String> getPointsOfInterestPartialMatchedTitles(){
         ArrayList<String> result = new ArrayList<String>();
         Cursor cursor = campusQuery("pointOfInterest",new String[]{"title"},null,
-                    null,null,null,null);
+                    null,null,null);
         while (cursor.moveToNext()) {
             result.add(cursor.getString(0));
         }
@@ -116,38 +78,6 @@ public class DatabaseHandler {
 
         return result;
     }
-
-    public ArrayList<PointOfInterest> getPointsOfInterestPartialMatchedForSearchKey(String searchKey){
-        ArrayList<PointOfInterest> result = new ArrayList<PointOfInterest>();
-        String sKeyWithPercAtEnd = searchKey + "%";
-
-        String sKeyWithPerAtBegEnd = "% " + searchKey + "%";
-
-        Cursor cursor =campusQuery("pointOfInterest",new String[]{"title","subtitle","canshowleftcallout",
-                        "canshowrightcallout","color","website","lat","longi","ID","categorieID"},
-                "(title LIKE ?) OR (subtitle LIKE ?)  OR (searchkey LIKE ?) OR ( title LIKE ? ) OR (subtitle LIKE ?)" +
-                        "  OR (searchkey LIKE ?)",
-                new String[]{sKeyWithPercAtEnd,sKeyWithPercAtEnd,sKeyWithPercAtEnd,sKeyWithPerAtBegEnd,sKeyWithPerAtBegEnd,sKeyWithPerAtBegEnd},null,null,"title ASC");
-
-        while (cursor.moveToNext()) {
-            PointOfInterest poi = new PointOfInterest();
-            poi.setTitle(cursor.getString(0));
-            poi.setSubtitle(cursor.getString(1));
-            poi.setCanShowLeftCallOut(cursor.getInt(2));
-            poi.setCanShowRightCallOut(cursor.getInt(3));
-            poi.setColor(cursor.getInt(4));
-            poi.setWebsite(cursor.getString(5));
-            poi.setLatitude(cursor.getFloat(6));
-            poi.setLongitude(cursor.getFloat(7));
-            poi.setID(cursor.getInt(8));
-            poi.setCategoryID(cursor.getInt(9));
-            result.add(poi);
-        }
-        cursor.close();
-
-        return result;
-    }
-
 
     public Cursor getCursorPointsOfInterestPartialMatchedForSearchKey(String searchKey){
         String sKeyWithPercAtEnd = searchKey + "%";
@@ -160,12 +90,12 @@ public class DatabaseHandler {
                 " OR (subtitle LIKE ?) OR (searchkey LIKE ?)";
         String[] args = new String[] {sKeyWithPercAtEnd, sKeyWithPercAtEnd, sKeyWithPercAtEnd,
                 sKeyWithPerAtBegEnd, sKeyWithPerAtBegEnd, sKeyWithPerAtBegEnd};
-        Cursor cursor = campusQuery("pointOfInterest", columns, query, args, null, null, "title ASC");
+        Cursor cursor = campusQuery("pointOfInterest", columns, query, args, null, null);
 
         return cursor;
     }
 
-    public List<PointOfInterest> getPointsOfInterestForIDs(List<Integer> ids) {
+    public List<PointOfInterest> getPOIsForIDs(List<Integer> ids) {
         if (ids.isEmpty()) {
             Log.w(TAG, new NoSuchElementException("empty ids"));
             return Collections.emptyList();
@@ -175,57 +105,24 @@ public class DatabaseHandler {
         for (int i = 0; i < ids.size(); ++i)
             queryBuilder.append(i == 0 ? "" : ", ").append(Integer.toString(ids.get(i)));
         String query = queryBuilder.append(")").toString();
-        Cursor cursor = campusQuery("pointOfInterest", new String[]{"title", "subtitle", "canshowleftcallout",
-                        "canshowrightcallout", "color", "website", "lat", "longi", "ID"}, query,
-                null, null, null, null);
-
-        List<PointOfInterest> result = new ArrayList<PointOfInterest>();
-        while (cursor.moveToNext()) {
-            PointOfInterest poi = new PointOfInterest();
-            poi.setTitle(cursor.getString(0));
-            poi.setSubtitle(cursor.getString(1));
-            poi.setCanShowLeftCallOut(cursor.getInt(2));
-            poi.setCanShowRightCallOut(cursor.getInt(3));
-            poi.setColor(cursor.getInt(4));
-            poi.setWebsite(cursor.getString(5));
-            poi.setLatitude(cursor.getFloat(6));
-            poi.setLongitude(cursor.getFloat(7));
-            poi.setID(cursor.getInt(8));
-            result.add(poi);
-        }
-        cursor.close();
-
-        return result;
+        return getPOIs(query, null);
     }
 
-    public ArrayList<PointOfInterest> getPointsOfInterestForTitle(String title) {
-        ArrayList<PointOfInterest> result = new ArrayList<PointOfInterest>();
-        Cursor cursor = campusQuery("pointOfInterest", new String[]{"title", "subtitle", "canshowleftcallout",
-                "canshowrightcallout", "color", "website", "lat", "longi", "ID"}, "title = ? ", new String[]{title}, null, null, null);
-        while (cursor.moveToNext()) {
-            PointOfInterest poi = new PointOfInterest();
-            poi.setTitle(cursor.getString(0));
-            poi.setSubtitle(cursor.getString(1));
-            poi.setCanShowLeftCallOut(cursor.getInt(2));
-            poi.setCanShowRightCallOut(cursor.getInt(3));
-            poi.setColor(cursor.getInt(4));
-            poi.setWebsite(cursor.getString(5));
-            poi.setLatitude(cursor.getFloat(6));
-            poi.setLongitude(cursor.getFloat(7));
-            poi.setID(cursor.getInt(8));
-            result.add(poi);
-        }
-        cursor.close();
-        return result;
+    public List<PointOfInterest> getPointsOfInterestForTitle(String title) {
+        return getPOIs("title = ? ", new String[]{title});
     }
 
-    public ArrayList<Integer> getAllCategoryIDs(){
-        ArrayList<Integer> result = new ArrayList<Integer>();
+    public List<Pair<String, Integer>> getAllCategories(){
+        List<Pair<String, Integer>> result = new ArrayList<>();
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
         String campus = settings.getString(Util.KEY_CAMPUS_CHOOSER, "saar");
-        Cursor cursor = rawQuery("select categorie.id from categorie, pointOfInterest where categorie.iD = pointOfInterest.categorieID and pointOfInterest.campus = ? group by categorie.title", new String[]{campus});
-        while (cursor.moveToNext())
-            result.add(cursor.getInt(0));
+        Cursor cursor = rawQuery("select distinct categorie.id, categorie.title from categorie, pointOfInterest "+
+                "where categorie.iD = pointOfInterest.categorieID and pointOfInterest.campus = ?",
+                new String[]{campus});
+
+        while (cursor.moveToNext()) {
+            result.add(new Pair(cursor.getString(1), cursor.getInt(0)));
+        }
         cursor.close();
         return result;
     }
@@ -328,8 +225,7 @@ public class DatabaseHandler {
 
     // This method queries the database for entries regarding the campus which was selected in the settings
     public Cursor campusQuery(String table, String[] columns, String selection,
-                              String[] selectionArgs, String groupBy, String having,
-                              String orderBy) {
+                              String[] selectionArgs, String groupBy, String having) {
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
         String campus = settings.getString(Util.KEY_CAMPUS_CHOOSER, "saar");
         selection = selection == null ? "campus = ?" : "(" +selection + ") AND (campus = ?)";

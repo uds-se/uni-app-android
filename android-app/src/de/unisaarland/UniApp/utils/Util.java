@@ -10,7 +10,6 @@ import java.util.GregorianCalendar;
 
 public class Util {
 
-    public static String PREFS_NAME = "SaarUni-Prefs";
     public static final String FIRST_TIME = "firstTime";
     public static final String STAFF_LAST_SELECTION = "staffLastSel";
     public static final String STAFF_LAST_FIRSTNAME = "staffLastFst";

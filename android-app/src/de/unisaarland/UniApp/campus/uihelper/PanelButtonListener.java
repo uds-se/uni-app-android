@@ -15,7 +15,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.TileOverlayOptions;
 
-import java.util.List;
 import java.util.Map;
 
 import de.unisaarland.UniApp.R;
@@ -27,16 +26,15 @@ import de.unisaarland.UniApp.campus.model.CustomMapTileProvider;
 public class PanelButtonListener implements View.OnClickListener{
     private final GoogleMap map;
     private final CampusActivity campusActivity;
-    private final Map<String, PointOfInterest> poisMap;
-    private final List<Marker> markers;
+    private final Map<Marker, PointOfInterest> poisMap;
 
     // set the panel listener for changing map type and remove all pins
-    public PanelButtonListener(CampusActivity campusActivity, GoogleMap map, Map<String, PointOfInterest> poisMap, List<Marker> markers){
+    public PanelButtonListener(CampusActivity campusActivity, GoogleMap map, Map<Marker, PointOfInterest> poisMap){
         this.campusActivity = campusActivity;
         this.map = map;
         this.poisMap = poisMap;
-        this.markers = markers;
     }
+
     @Override
     public void onClick(View v) {
         LayoutInflater layoutInflater = (LayoutInflater) campusActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -84,9 +82,7 @@ public class PanelButtonListener implements View.OnClickListener{
             @Override
             public void onClick(View v) {
                 int type = map.getMapType();
-                if(markers != null){
-                    markers.clear();
-                }
+                poisMap.clear();
                 map.clear();
                 map.setMyLocationEnabled(true);
                 map.setMapType(type);
