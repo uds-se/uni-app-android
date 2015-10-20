@@ -74,7 +74,7 @@
     <string name="web_or_route">Visit website or route</string>
     <string name="website">Website</string>
     <string name="route">Route</string>
-    <string name="ok">OK</string>
+    <string name="ok" translatable="false">OK</string>
     <string name="no_staff_member_title">Staff member not found</string>
     <string name="no_staff_member_found_description">Unfortunately no staff member matches your search criteria.</string>
     <string name="too_few_search_terms_title">Too few search terms</string>
@@ -96,8 +96,8 @@
     <string name="search">Search</string>
     <string name="settings">Settings</string>
     <string name="labels">Labels</string>
-    <string name="c_homburg">Campus Homburg</string>
-    <string name="c_saarbruecken">Campus Saarbrücken</string>
+    <string name="c_homburg" translatable="false">Campus Homburg</string>
+    <string name="c_saarbruecken" translatable="false">Campus Saarbrücken</string>
     <string name="choose_campus">Choose your campus</string>
     <string name="choose_campus_hint">[%s]\n\nThis setting customizes the mensa menu, bus stations and the map</string>
     <string name="noEventsText">No events found.</string>

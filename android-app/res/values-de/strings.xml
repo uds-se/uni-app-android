@@ -142,5 +142,4 @@
     <string name="label_Lu">Lupinen</string>
     <string name="label_Wt">Weichtiere</string>
     <!-- end of labels for mensa items -->
-    <string name="too_few_search_terms">Zu wenige Suchbegriffe angegeben</string>
 </resources>
