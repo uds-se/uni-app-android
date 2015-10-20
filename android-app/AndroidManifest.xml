@@ -3,6 +3,16 @@
           package="de.unisaarland.UniApp">
 
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <!-- WRITE_EXTERNAL_STORAGE is also required by Google Maps if api < 23 or Google Play SDK < 8.1 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <!-- The following two permissions are not required to use
+         Google Maps Android API v2, but are recommended. -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+
+
     <application android:label="@string/app_name" android:icon="@drawable/ic_launcher"
                  android:theme="@style/AppTheme">
         <activity android:name="de.unisaarland.UniApp.MainActivity"
@@ -19,14 +29,6 @@
                 android:value="de.unisaarland.UniApp.MainActivity"
                 android:theme="@style/AppTheme"/>
         </activity>
-
-
-        <activity android:name=".news.NewsActivity" android:label="@string/newsText" android:configChanges="orientation|screenSize">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="de.unisaarland.UniApp.MainActivity" />
-        </activity>
-
 
         <activity android:name=".bus.BusActivity" android:label="@string/busText" android:configChanges="orientation|screenSize">
             <meta-data
@@ -129,17 +131,6 @@
 
 
  </application>
-
-
- <uses-permission android:name="android.permission.INTERNET"/>
- <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
- <!-- WRITE_EXTERNAL_STORAGE is also required by Google Maps if api < 23 or Google Play SDK < 8.1 -->
- <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
- <!-- The following two permissions are not required to use
-      Google Maps Android API v2, but are recommended. -->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-
 
 
 </manifest>

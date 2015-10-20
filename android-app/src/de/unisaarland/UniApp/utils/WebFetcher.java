@@ -50,7 +50,7 @@ public class WebFetcher {
             private String errorMessage = "";
             @Override
             protected InputStream doInBackground(Void... params) {
-                HttpURLConnection connection = null;
+                HttpURLConnection connection;
                 try {
                     connection = startFetching(url);
                     return connection.getInputStream();

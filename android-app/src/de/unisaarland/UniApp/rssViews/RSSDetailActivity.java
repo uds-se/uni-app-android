@@ -22,10 +22,6 @@ import de.unisaarland.UniApp.utils.Util;
  */
 public class RSSDetailActivity extends ActionBarActivity {
 
-    // passed by the intent:
-    private String url;
-    private int titleId;
-
     private NetworkRetrieveAndCache<RSSArticle> fetcher = null;
 
     /**
@@ -37,10 +33,15 @@ public class RSSDetailActivity extends ActionBarActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle extras = getIntent().getExtras();
-        url = extras.getString("url");
-        titleId = extras.getInt("titleId");
+        String url = extras.getString("url");
+        int titleId = extras.getInt("titleId");
+
         // sets the custom navigation bar according to each activity.
-        setActionBar();
+        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        //Enabling Up-Navigation
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle(titleId);
+
         setContentView(R.layout.rss_detail);
         if (fetcher == null) {
             String tag = "rss-"+Integer.toHexString(url.hashCode());
@@ -117,10 +118,7 @@ public class RSSDetailActivity extends ActionBarActivity {
      * sets the custom navigation bar according to each activity.
      */
     private void setActionBar() {
-        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
-        //Enabling Up-Navigation
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle(titleId);
+
     }
 
     // Handling the Action Bar Buttons

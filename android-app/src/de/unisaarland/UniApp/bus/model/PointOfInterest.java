@@ -1,6 +1,8 @@
 package de.unisaarland.UniApp.bus.model;
 
 
+import android.support.annotation.NonNull;
+
 import java.io.Serializable;
 
 public class PointOfInterest implements Comparable<PointOfInterest>, Serializable {
@@ -71,10 +73,16 @@ public class PointOfInterest implements Comparable<PointOfInterest>, Serializabl
     }
 
     @Override
-    public int compareTo(PointOfInterest another) {
+    public int compareTo(@NonNull PointOfInterest another) {
         int cmp = getTitle().compareTo(another.getTitle());
-        if (cmp == 0)
-            cmp = Integer.compare(getId(), another.getId());
+        if (cmp == 0) {
+            // on API >= 19:
+            // cmp = Integer.compare(getId(), another.getId());
+            if (getId() < another.getId())
+                cmp = -1;
+            else if (getId() > another.getId())
+                cmp = 1;
+        }
         return cmp;
     }
 }

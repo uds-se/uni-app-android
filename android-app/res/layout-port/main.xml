@@ -22,7 +22,7 @@
                     android:gravity="left" android:layout_alignParentLeft="true" android:layout_alignParentTop="true"
                     />
             <TextView android:layout_width="90dp" android:layout_height="20dp" android:text="@string/newsText"
-                      android:textStyle="bold" android:textSize="12dp"
+                      android:textStyle="bold" android:textSize="12sp"
                       android:gravity="center_vertical|center_horizontal"
                       android:layout_below="@+id/newsBtn" android:textColor="#000000" android:id="@+id/newsTxt"/>
         </RelativeLayout>
@@ -36,7 +36,7 @@
                     android:id="@+id/restaurantBtn" android:clickable="true"
                     android:layout_alignParentLeft="true"/>
             <TextView android:layout_width="90dp" android:layout_height="20dp" android:text="@string/mensa_text"
-                      android:textStyle="bold" android:textSize="12dp"
+                      android:textStyle="bold" android:textSize="12sp"
                       android:gravity="center_vertical|center_horizontal" android:layout_below="@+id/restaurantBtn"
                       android:textColor="#000000" android:id="@+id/restaurantTxt"/>
         </RelativeLayout>
@@ -49,7 +49,7 @@
                     android:layout_height="90dp" android:background="@drawable/campus_button"
                     android:id="@+id/campusBtn" android:layout_alignParentLeft="true" android:clickable="true"/>
             <TextView android:layout_width="90dp" android:layout_height="20dp" android:text="@string/campusText"
-                      android:textStyle="bold" android:textSize="12dp"
+                      android:textStyle="bold" android:textSize="12sp"
                       android:gravity="center_vertical|center_horizontal" android:layout_below="@+id/campusBtn"
                       android:textColor="#000000" android:id="@+id/campusTxt"/>
         </RelativeLayout>
@@ -72,7 +72,7 @@
                     android:id="@+id/eventsBtn" android:clickable="true"
                     android:gravity="left" android:layout_alignParentLeft="true" android:layout_alignParentTop="true"/>
             <TextView android:layout_width="90dp" android:layout_height="20dp" android:text="@string/eventsText"
-                      android:textStyle="bold" android:textSize="12dp"
+                      android:textStyle="bold" android:textSize="12sp"
                       android:gravity="center_vertical|center_horizontal"
                       android:layout_below="@+id/eventsBtn" android:textColor="#000000" android:id="@+id/eventsTxt"/>
         </RelativeLayout>
@@ -86,7 +86,7 @@
                     android:id="@+id/busBtn" android:clickable="true"
                     android:layout_alignParentLeft="true"/>
             <TextView android:layout_width="90dp" android:layout_height="20dp" android:text="@string/busText"
-                    android:textStyle="bold" android:textSize="12dp" android:gravity="center_vertical|center_horizontal"
+                    android:textStyle="bold" android:textSize="12sp" android:gravity="center_vertical|center_horizontal"
                     android:layout_below="@+id/busBtn" android:textColor="#000000" android:id="@+id/busTxt"/>
         </RelativeLayout>
         <RelativeLayout
@@ -98,7 +98,7 @@
                     android:layout_height="90dp" android:background="@drawable/search_for_staff_button"
                     android:id="@+id/staffBtn" android:layout_alignParentLeft="true" android:clickable="true"/>
             <TextView android:layout_width="90dp" android:layout_height="20dp" android:text="@string/staff_searchText"
-                      android:textStyle="bold" android:textSize="12dp"
+                      android:textStyle="bold" android:textSize="12sp"
                       android:gravity="center_vertical|center_horizontal"
                       android:layout_below="@+id/staffBtn" android:textColor="#000000" android:id="@+id/staffTxt"/>
         </RelativeLayout>
@@ -131,7 +131,7 @@
                 android:id="@+id/campusText"
                 android:textColor="@color/uni_real"
                 android:textStyle="bold"
-                android:textSize="16dp"
+                android:textSize="16sp"
                 android:layout_centerHorizontal="true"
                 android:layout_below="@+id/logo" />
 

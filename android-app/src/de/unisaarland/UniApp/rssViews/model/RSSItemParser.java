@@ -16,12 +16,12 @@ import de.unisaarland.UniApp.utils.XMLExtractor;
 
 public class RSSItemParser extends XMLExtractor<List<RSSItem>> {
 
-    private final String TITLE = "title";
-    private final String PUBLICATION_DATE = "pubDate";
-    private final String LINK = "link";
-    private final String DESCRIPTION = "content:encoded";
-    private final String START_TAG = "rss";
-    private final String ITEM_TAG = "item";
+    private static final String TITLE = "title";
+    private static final String PUBLICATION_DATE = "pubDate";
+    private static final String LINK = "link";
+    private static final String DESCRIPTION = "content:encoded";
+    private static final String START_TAG = "rss";
+    private static final String ITEM_TAG = "item";
 
     @Override
     public List<RSSItem> extractFromXML(XmlPullParser parser)

@@ -92,7 +92,8 @@ public class CampusSearchActivity extends ActionBarActivity {
 
             ImageView categoryIcon = (ImageView) convertView.findViewById(R.id.category_icon);
             int catId = categories.get(position).second;
-            categoryIcon.setBackground(catIconCache.getIconForCategory(catId));
+            // use deprecated setBackgroundDrawable method because we want to support API <16
+            categoryIcon.setBackgroundDrawable(catIconCache.getIconForCategory(catId));
 
             convertView.setOnClickListener(categoryClickListener);
             convertView.setTag(R.id.campus_search_categorie_tag, categories.get(position));

@@ -38,7 +38,7 @@
                 android:ellipsize="end"
                 android:singleLine="true"
                 android:textColor="#ff000000"
-                android:textSize="14dp"
+                android:textSize="14sp"
                 android:textStyle="bold"
             android:text="dummy" />
         <TextView
@@ -48,7 +48,7 @@
                 android:ellipsize="end"
                 android:singleLine="true"
                 android:textColor="#000000"
-                android:textSize="10dp"
+                android:textSize="10sp"
             android:text="dummy dummy dummy" />
     </LinearLayout>
     <ImageButton

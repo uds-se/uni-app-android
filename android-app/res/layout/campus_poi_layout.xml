@@ -20,7 +20,7 @@
         android:layout_weight="1"
         android:background="@drawable/list_item_selector"
         android:textColor="@color/uni_blue"
-        android:textSize="18dp"
+        android:textSize="18sp"
         android:textStyle="bold"
         android:layout_alignParentRight="true"/>
 

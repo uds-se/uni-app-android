@@ -25,15 +25,6 @@ import de.unisaarland.UniApp.utils.Util;
  */
 public class MainActivity extends ActionBarActivity {
 
-    //Buttons to perform actions
-    private Button newsButton = null;
-    private Button restaurantButton = null;
-    private Button campusButton = null;
-    private Button eventsButton = null;
-    private Button busButton = null;
-    private Button staffSearchButton = null;
-    private TextView campusText = null;
-
     /**
      * Will be called when activity created first time after onCreate or when activity comes to the front again or in a pausing state
      * So its better to set all the things needed to use in the activity here if in case anything is released in onPause method
@@ -50,7 +41,7 @@ public class MainActivity extends ActionBarActivity {
         // Set Text on the Mainscreen
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String campus = settings.getString(Util.KEY_CAMPUS_CHOOSER, "saar");
-        campusText = (TextView) findViewById(R.id.campusText);
+        TextView campusText = (TextView) findViewById(R.id.campusText);
         // unfortunately, campusText happens to be null sometimes.
         if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE
                 && campusText != null) {
@@ -104,7 +95,7 @@ public class MainActivity extends ActionBarActivity {
 
     private void setButtonListeners() {
 
-        newsButton = (Button) findViewById(R.id.newsBtn);
+        Button newsButton = (Button) findViewById(R.id.newsBtn);
         newsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -113,7 +104,7 @@ public class MainActivity extends ActionBarActivity {
                 MainActivity.this.startActivity(myIntent);
             }
         });
-        restaurantButton = (Button) findViewById(R.id.restaurantBtn);
+        Button restaurantButton = (Button) findViewById(R.id.restaurantBtn);
         restaurantButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -121,7 +112,7 @@ public class MainActivity extends ActionBarActivity {
                 MainActivity.this.startActivity(myIntent);
             }
         });
-        campusButton = (Button) findViewById(R.id.campusBtn);
+        Button campusButton = (Button) findViewById(R.id.campusBtn);
         campusButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -129,7 +120,7 @@ public class MainActivity extends ActionBarActivity {
                 MainActivity.this.startActivity(myIntent);
             }
         });
-        eventsButton = (Button) findViewById(R.id.eventsBtn);
+        Button eventsButton = (Button) findViewById(R.id.eventsBtn);
         eventsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -138,7 +129,7 @@ public class MainActivity extends ActionBarActivity {
                 MainActivity.this.startActivity(myIntent);
             }
         });
-        busButton = (Button) findViewById(R.id.busBtn);
+        Button busButton = (Button) findViewById(R.id.busBtn);
         busButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -146,7 +137,7 @@ public class MainActivity extends ActionBarActivity {
                 MainActivity.this.startActivity(myIntent);
             }
         });
-        staffSearchButton = (Button) findViewById(R.id.staffBtn);
+        Button staffSearchButton = (Button) findViewById(R.id.staffBtn);
         staffSearchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

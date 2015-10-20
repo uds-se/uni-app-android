@@ -37,7 +37,7 @@ import de.unisaarland.UniApp.database.DatabaseHandler;
 * It implements Location listeners to show the distance of the bus stop from users current location.
 * */
 public class BusActivity extends ActionBarActivity implements ConnectionCallbacks,LocationListener,OnConnectionFailedListener {
-    private final int BUS_ID = 5;
+    private static final int BUS_ID = 5;
     private ArrayList<PointOfInterest> busStationsArray = null;
     private Location currentLocation = null;
     private String provider = null;

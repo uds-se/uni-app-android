@@ -175,7 +175,7 @@
                 android:id="@+id/contact_btn" android:clickable="true"
                 android:text="@string/contact_feedback"
                 android:textColor="#1519a4"
-                android:textSize="16dp"
+                android:textSize="16sp"
                 android:textStyle="bold" android:background="@android:color/transparent"
                 android:layout_below="@+id/textView4"
                 android:layout_alignParentLeft="true" />

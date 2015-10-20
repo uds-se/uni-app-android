@@ -14,7 +14,7 @@
         android:clickable="false"
         android:background="@drawable/list_item_selector">
         <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="dummy"
-                  android:textStyle="bold" android:textSize="12dp" android:id="@+id/news_date"
+                  android:textStyle="bold" android:textSize="12sp" android:id="@+id/news_date"
             android:visibility="visible" android:textColor="@color/uni_blue"
                   android:layout_alignParentTop="true" android:layout_alignParentLeft="true"
                   android:layout_marginTop="10dp" android:layout_marginLeft="10dp"

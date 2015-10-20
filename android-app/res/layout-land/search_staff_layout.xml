@@ -12,7 +12,7 @@
         android:id="@+id/searchBtn"
         android:background="@drawable/button_item"
         android:textColor="@color/button_text"
-        android:textSize="18dp"
+        android:textSize="18sp"
         android:textStyle="bold"
         android:clickable="true"
 
@@ -39,7 +39,7 @@
             android:layout_alignLeft="@+id/ingredis"
             android:checked="true"
             android:enabled="true"
-            android:textSize="16dp" />
+            android:textSize="16sp" />
 
         <RadioButton
             android:layout_width="wrap_content"
@@ -50,7 +50,7 @@
             android:layout_alignLeft="@+id/rb_only_prof"
             android:checked="false"
             android:enabled="true"
-            android:textSize="16dp" />
+            android:textSize="16sp" />
 
     </RadioGroup>
 
@@ -60,7 +60,7 @@
         android:text="@string/filter"
         android:textColor="#000000"
         android:gravity="center_vertical|left"
-        android:textSize="16dp"
+        android:textSize="16sp"
         android:textStyle="bold"
 
         android:id="@+id/ingredis"
@@ -88,7 +88,7 @@
             android:layout_weight="1">
 
             <TextView android:layout_height="wrap_content" android:layout_width="120dp" android:text="@string/last_name"
-                      android:textColor="#000000" android:gravity="center_vertical|left" android:textSize="16dp"
+                      android:textColor="#000000" android:gravity="center_vertical|left" android:textSize="16sp"
                       android:textStyle="bold"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentLeft="true"
@@ -103,7 +103,7 @@
                 android:layout_below="@+id/label"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentRight="true"
-                android:textSize="16dp"
+                android:textSize="16sp"
                 android:layout_weight="1" />
         </LinearLayout>
 
@@ -116,7 +116,7 @@
             android:layout_marginLeft="10dp">
 
             <TextView android:layout_height="wrap_content" android:layout_width="120dp" android:text="@string/first_name"
-                      android:textColor="#000000" android:gravity="center_vertical|left" android:textSize="16dp"
+                      android:textColor="#000000" android:gravity="center_vertical|left" android:textSize="16sp"
                       android:textStyle="bold"
                 android:layout_weight="1" />
 
@@ -127,7 +127,7 @@
                 android:layout_below="@+id/label"
                 android:layout_alignLeft="@+id/label"
                 android:layout_alignRight="@+id/last_name"
-                android:textSize="16dp"
+                android:textSize="16sp"
                 android:imeOptions="flagNoExtractUi"
                 android:singleLine="true"
                 android:layout_weight="1" />

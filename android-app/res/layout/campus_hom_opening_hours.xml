@@ -9,7 +9,7 @@
         android:layout_width="240dp"
         android:layout_height="wrap_content"
         android:gravity="left|center_horizontal" android:textColor="@color/uni_blue" android:text="@string/during_semester"
-        android:layout_marginTop="20dp" android:textSize="18dp" android:singleLine="true"
+        android:layout_marginTop="20dp" android:textSize="18sp" android:singleLine="true"
         android:textStyle="normal" android:layout_marginLeft="10dp"/>
 
     <TableRow
@@ -22,13 +22,13 @@
             android:layout_width="180dp"
             android:layout_height="20dp"
             android:id="@+id/mon_to_thu"
-            android:text="@string/mon_to_fri" android:textSize="12dp" android:textColor="#000000"
+            android:text="@string/mon_to_fri" android:textSize="12sp" android:textColor="#000000"
             android:singleLine="true"/>
         <TextView
             android:layout_width="120dp"
             android:layout_height="20dp"
             android:id="@+id/mon_to_thur_time"
-            android:textSize="12dp" android:singleLine="false"
+            android:textSize="12sp" android:singleLine="false"
             android:textColor="#000000"
             android:text="@string/mon_to_fri_time_hom" />
 
@@ -46,7 +46,7 @@
             android:layout_height="20dp"
             android:id="@+id/textView"
             android:text="@string/serving"
-            android:textSize="12dp"
+            android:textSize="12sp"
             android:textColor="#000000"
             android:singleLine="true" />
 
@@ -54,7 +54,7 @@
             android:layout_width="120dp"
             android:layout_height="20dp"
             android:id="@+id/textView2"
-            android:textSize="12dp"
+            android:textSize="12sp"
             android:singleLine="false"
             android:textColor="#000000"
             android:text="@string/mon_to_fri_time_hom" />
@@ -65,7 +65,7 @@
         android:layout_width="240dp"
         android:layout_height="wrap_content"
         android:gravity="left|center_horizontal" android:textColor="@color/uni_blue" android:text="@string/during_break"
-        android:textSize="18dp" android:singleLine="true"
+        android:textSize="18sp" android:singleLine="true"
         android:textStyle="normal"
         android:layout_below="@+id/tableRow2"
         android:layout_alignLeft="@+id/during_semester" />
@@ -81,13 +81,13 @@
             android:layout_width="180dp"
             android:layout_height="20dp"
             android:id="@+id/mon_to_fri_break"
-            android:text="@string/mon_to_fri" android:textSize="12dp" android:textColor="#000000"
+            android:text="@string/mon_to_fri" android:textSize="12sp" android:textColor="#000000"
             android:singleLine="true"/>
         <TextView
             android:layout_width="120dp"
             android:layout_height="20dp"
             android:id="@+id/friday_time_break"
-            android:text="@string/mon_to_fri_time_hom_break" android:textSize="12dp" android:singleLine="true"
+            android:text="@string/mon_to_fri_time_hom_break" android:textSize="12sp" android:singleLine="true"
             android:textColor="#000000"/>
 
     </TableRow>
@@ -104,7 +104,7 @@
             android:layout_height="20dp"
             android:id="@+id/textView3"
             android:text="@string/serving"
-            android:textSize="12dp"
+            android:textSize="12sp"
             android:textColor="#000000"
             android:singleLine="true" />
 
@@ -113,7 +113,7 @@
             android:layout_height="20dp"
             android:id="@+id/textView4"
             android:text="@string/mon_to_fri_time_hom_break"
-            android:textSize="12dp"
+            android:textSize="12sp"
             android:singleLine="true"
             android:textColor="#000000" />
     </TableRow>

@@ -38,6 +38,7 @@ public class SearchAdapter extends android.support.v4.widget.CursorAdapter {
         int id = cursor.getInt(cursor.getColumnIndexOrThrow("ID"));
         itemTitle.setText(title);
         itemDescription.setText(subtitle);
+        // use deprecated setBackgroundDrawable method because we want to support API <16
         categoryIcon.setBackgroundDrawable(catIconCache.getIconForCategory(categoryId));
         view.setOnClickListener(clickListener);
         view.setTag(R.id.campus_search_poi_id_tag, Integer.valueOf(id));
@@ -58,7 +59,6 @@ public class SearchAdapter extends android.support.v4.widget.CursorAdapter {
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.campus_search_row_layout, parent, false);
-        return view;
+        return inflater.inflate(R.layout.campus_search_row_layout, parent, false);
     }
 }

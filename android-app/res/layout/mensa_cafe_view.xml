@@ -9,7 +9,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="left|center_horizontal" android:textColor="@color/uni_blue" android:text="@string/during_semester"
-            android:layout_marginTop="60dp" android:textSize="18dp" android:singleLine="true"
+            android:layout_marginTop="60dp" android:textSize="18sp" android:singleLine="true"
             android:textStyle="normal" android:layout_marginLeft="10dp"/>
 
     <TableRow
@@ -21,13 +21,13 @@
                 android:layout_width="180dp"
                 android:layout_height="20dp"
                 android:id="@+id/mon_to_fri"
-                android:text="@string/mon_to_fri" android:textSize="12dp" android:textColor="#000000"
+                android:text="@string/mon_to_fri" android:textSize="12sp" android:textColor="#000000"
                 android:singleLine="true"/>
         <TextView
                 android:layout_width="150dp"
                 android:layout_height="20dp"
                 android:id="@+id/mon_to_fri_time"
-                android:text="@string/mon_to_fri_mensa_cafe_time" android:textSize="12dp" android:singleLine="true"
+                android:text="@string/mon_to_fri_mensa_cafe_time" android:textSize="12sp" android:singleLine="true"
                 android:textColor="#000000"/>
     </TableRow>
 
@@ -42,14 +42,14 @@
                 android:layout_width="180dp"
                 android:layout_height="20dp"
                 android:id="@+id/mon_to_fri_time_warm"
-                android:text="@string/mon_to_fri_mensa_cafe_warm_meals" android:textSize="12dp" android:singleLine="true"
+                android:text="@string/mon_to_fri_mensa_cafe_warm_meals" android:textSize="12sp" android:singleLine="true"
                 android:textColor="#000000" />
 
         <TextView
                 android:layout_width="150dp"
                 android:layout_height="20dp"
                 android:id="@+id/mon_to_fri_time_warm_until"
-                android:text="@string/mon_to_fri_mensa_cafe_warm_meals_until" android:textSize="12dp" android:singleLine="true"
+                android:text="@string/mon_to_fri_mensa_cafe_warm_meals_until" android:textSize="12sp" android:singleLine="true"
                 android:textColor="#000000"/>
 
     </TableRow>
@@ -62,7 +62,7 @@
                 android:layout_width="180dp"
                 android:layout_height="20dp"
                 android:id="@+id/mon_to_fri_empty_until"
-                android:text="@string/empty_string" android:textSize="12dp" android:textColor="#000000"
+                android:text="@string/empty_string" android:textSize="12sp" android:textColor="#000000"
                 android:singleLine="true"/>
     </TableRow>
 
@@ -71,7 +71,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="left|center_horizontal" android:textColor="@color/uni_blue" android:text="@string/during_break"
-            android:layout_marginTop="210dp" android:textSize="18dp" android:singleLine="true"
+            android:layout_marginTop="210dp" android:textSize="18sp" android:singleLine="true"
             android:textStyle="normal" android:layout_marginLeft="10dp"/>
 
     <TableRow
@@ -83,13 +83,13 @@
                 android:layout_width="180dp"
                 android:layout_height="20dp"
                 android:id="@+id/mon_to_thur_break"
-                android:text="@string/mon_to_thur" android:textSize="12dp" android:textColor="#000000"
+                android:text="@string/mon_to_thur" android:textSize="12sp" android:textColor="#000000"
                 android:singleLine="true"/>
         <TextView
                 android:layout_width="150dp"
                 android:layout_height="20dp"
                 android:id="@+id/mon_to_thur_time_break"
-                android:text="@string/mon_to_thur_time_break_mensa_cafe" android:textSize="12dp" android:singleLine="true"
+                android:text="@string/mon_to_thur_time_break_mensa_cafe" android:textSize="12sp" android:singleLine="true"
                 android:textColor="#000000"/>
     </TableRow>
     <TableRow
@@ -102,13 +102,13 @@
                 android:layout_width="180dp"
                 android:layout_height="20dp"
                 android:id="@+id/friday_break"
-                android:text="@string/friday" android:textSize="12dp" android:textColor="#000000"
+                android:text="@string/friday" android:textSize="12sp" android:textColor="#000000"
                 android:singleLine="true"/>
         <TextView
                 android:layout_width="150dp"
                 android:layout_height="20dp"
                 android:id="@+id/friday_time_break"
-                android:text="@string/friday_time_break_mensa_cafe" android:textSize="12dp" android:singleLine="true"
+                android:text="@string/friday_time_break_mensa_cafe" android:textSize="12sp" android:singleLine="true"
                 android:textColor="#000000"/>
     </TableRow>
 

@@ -41,7 +41,7 @@ public class DatabaseHandler {
     }
 
     public List<PointOfInterest> getPOIs(String selection, String[] selectionArgs) {
-        List<PointOfInterest> result = new ArrayList<PointOfInterest>();
+        List<PointOfInterest> result = new ArrayList<>();
         Cursor cursor = campusQuery("pointOfInterest", new String[]{"title", "subtitle", "canshowleftcallout",
                         "canshowrightcallout", "website", "color", "lat", "longi", "ID", "categorieID"},
                 selection, selectionArgs, null, null);
@@ -68,7 +68,7 @@ public class DatabaseHandler {
     }
 
     public ArrayList<String> getPointsOfInterestPartialMatchedTitles(){
-        ArrayList<String> result = new ArrayList<String>();
+        ArrayList<String> result = new ArrayList<>();
         Cursor cursor = campusQuery("pointOfInterest",new String[]{"title"},null,
                     null,null,null);
         while (cursor.moveToNext()) {
@@ -90,9 +90,7 @@ public class DatabaseHandler {
                 " OR (subtitle LIKE ?) OR (searchkey LIKE ?)";
         String[] args = new String[] {sKeyWithPercAtEnd, sKeyWithPercAtEnd, sKeyWithPercAtEnd,
                 sKeyWithPerAtBegEnd, sKeyWithPerAtBegEnd, sKeyWithPerAtBegEnd};
-        Cursor cursor = campusQuery("pointOfInterest", columns, query, args, null, null);
-
-        return cursor;
+        return campusQuery("pointOfInterest", columns, query, args, null, null);
     }
 
     public List<PointOfInterest> getPOIsForIDs(List<Integer> ids) {
@@ -121,7 +119,7 @@ public class DatabaseHandler {
                 new String[]{campus});
 
         while (cursor.moveToNext()) {
-            result.add(new Pair(cursor.getString(1), cursor.getInt(0)));
+            result.add(new Pair<>(cursor.getString(1), cursor.getInt(0)));
         }
         cursor.close();
         return result;
@@ -131,7 +129,7 @@ public class DatabaseHandler {
         if (database != null && database.isOpen())
             return database;
 
-        String versionName = "0";
+        String versionName;
 
         try {
             versionName = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName;
@@ -176,9 +174,10 @@ public class DatabaseHandler {
 
         File outFile = new File(DB_PATH, DATABASE_NAME);
         if (!outFile.getParentFile().exists())
-            outFile.getParentFile().mkdirs();
-        outFile.delete();
-        if (outFile.exists())
+            if (!outFile.getParentFile().mkdirs())
+                throw new AssertionError("cannot create directory '" + outFile.getParentFile() + "'");
+
+        if (outFile.exists() && !outFile.delete())
             throw new AssertionError("Cannot remote old DB file.");
 
         SQLiteDatabase db = SQLiteDatabase.openOrCreateDatabase(outFile, null);

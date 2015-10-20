@@ -33,8 +33,8 @@ public class RestaurantActivity extends ActionBarActivity {
 
     private NetworkRetrieveAndCache<Map<Long, List<MensaItem>>> mensaFetcher = null;
 
-    private final String MENSA_URL_SB = "http://studentenwerk-saarland.de/_menu/actual/speiseplan-saarbruecken.xml";
-    private final String MENSA_URL_HOM = "http://studentenwerk-saarland.de/_menu/actual/speiseplan-homburg.xml";
+    private static final String MENSA_URL_SB = "http://studentenwerk-saarland.de/_menu/actual/speiseplan-saarbruecken.xml";
+    private static final String MENSA_URL_HOM = "http://studentenwerk-saarland.de/_menu/actual/speiseplan-homburg.xml";
 
     private long lastSelectedDate = 0;
 

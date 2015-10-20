@@ -22,7 +22,6 @@ import de.unisaarland.UniApp.utils.Util;
 
 
 public class SearchResultActivity extends ActionBarActivity {
-    private String url = null;
     
     private NetworkRetrieveAndCache<List<SearchResult>> networkFetcher;
 
@@ -40,7 +39,7 @@ public class SearchResultActivity extends ActionBarActivity {
         super.onResume();
 
         Bundle extras = getIntent().getExtras();
-        url = extras.getString("url");
+        String url = extras.getString("url");
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
