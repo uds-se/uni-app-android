@@ -25,8 +25,8 @@ public class SearchResultItemDetailActivity extends ActionBarActivity {
     private NetworkRetrieveAndCache<StaffInfo> networkFetcher = null;
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
         ActionBar actionBar = getSupportActionBar();
         //Enabling UP-Navigation
@@ -37,6 +37,12 @@ public class SearchResultItemDetailActivity extends ActionBarActivity {
         url = extras.getString("url");
 
         setContentView(R.layout.search_result_detail_layout);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
         ProgressBar bar = (ProgressBar) findViewById(R.id.progress_bar);
         bar.setVisibility(View.GONE);
         ScrollView infoView = (ScrollView) findViewById(R.id.staff_info_scroll_view);
@@ -48,6 +54,12 @@ public class SearchResultItemDetailActivity extends ActionBarActivity {
             networkFetcher = new NetworkRetrieveAndCache<>(url, tag, 15*60, cache,
                     new StaffInfoParser(url), new NetworkDelegate(), this);
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
         networkFetcher.loadAsynchronously();
     }
 

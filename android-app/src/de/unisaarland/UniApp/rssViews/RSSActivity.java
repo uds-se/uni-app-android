@@ -137,6 +137,11 @@ public class RSSActivity extends ActionBarActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         setContentView(R.layout.news_panel);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
 
         if (networkFetcher == null) {
             ContentCache cache = Util.getContentCache(this);
