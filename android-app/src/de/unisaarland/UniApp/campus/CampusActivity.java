@@ -373,8 +373,6 @@ public class CampusActivity extends ActionBarActivity implements ConnectionCallb
             return false;
         }
 
-        float lati = 0.0f;
-        float longi = 0.0f;
         for (PointOfInterest poi : POIs) {
             int tempColor = poi.getColor();
             float color = tempColor == 1 ? BitmapDescriptorFactory.HUE_CYAN
@@ -386,8 +384,6 @@ public class CampusActivity extends ActionBarActivity implements ConnectionCallb
                    .title(poi.getTitle())
                    .snippet(poi.getSubtitle())
                    .icon(BitmapDescriptorFactory.defaultMarker(color)));
-            lati = poi.getLatitude();
-            longi = poi.getLongitude();
             poisMap.put(m, poi);
         }
 
@@ -396,19 +392,22 @@ public class CampusActivity extends ActionBarActivity implements ConnectionCallb
             builder.include(m.getPosition());
 
         LatLngBounds bounds = builder.build();
+        bounds = increaseBoundsByFactor(bounds, .2);
         bounds = adjustBoundsForMaxZoomLevel(bounds);
-        //try{
-            map.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 20));
-        // TODO if this throws an exception, document why, and add proper handling again
-        //}catch (Exception e){
-        //    if(lati != 0.0 && longi != 0.0){
-        //    CameraUpdate upd = CameraUpdateFactory.newLatLngZoom(new LatLng(lati, longi),15 );
-        //    map.moveCamera(upd);
-        //}
-        //    Log.e("MyTag",e.getMessage());
-        //}
+
+        map.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 20));
 
         return true;
+    }
+
+    private LatLngBounds increaseBoundsByFactor(LatLngBounds bounds, double factor) {
+        LatLng sw = bounds.southwest;
+        LatLng ne = bounds.northeast;
+        LatLng newSw = new LatLng(sw.latitude + .5 * factor * (sw.latitude - ne.latitude),
+                sw.longitude + .5 * factor * (sw.longitude - ne.longitude));
+        LatLng newNe = new LatLng(ne.latitude + .5 * factor * (ne.latitude - sw.latitude),
+                ne.longitude + .5 * factor * (ne.longitude - sw.longitude));
+        return new LatLngBounds(newSw, newNe);
     }
 
     // will adjust the bounds to include markers
