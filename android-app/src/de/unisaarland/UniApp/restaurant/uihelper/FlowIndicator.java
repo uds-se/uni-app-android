@@ -28,7 +28,7 @@ public interface FlowIndicator extends ViewFlow.ViewSwitchListener {
 	/**
 	 * Set the current ViewFlow. This method is called by the ViewFlow when the
 	 * FlowIndicator is attached to it.
-	 * 
+	 *
 	 * @param view
 	 */
 	void setViewFlow(ViewFlow view);
