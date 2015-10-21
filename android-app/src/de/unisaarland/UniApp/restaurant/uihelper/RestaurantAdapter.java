@@ -79,10 +79,12 @@ public class RestaurantAdapter extends BaseAdapter {
 
         TextView mealPrice = (TextView) convertView.findViewById(R.id.mensa_menu_price);
         if (model.getPreis1() != 0) {
-            String text = String.format(context.getString(R.string.mensaPriceFormat),
+            String text = context.getString(R.string.mensaPriceFormat,
                     .01 * model.getPreis1(), .01 * model.getPreis2(), .01 * model.getPreis3());
             mealPrice.setText(text);
             mealPrice.setVisibility(View.VISIBLE);
+        } else {
+            mealPrice.setVisibility(View.INVISIBLE);
         }
         return convertView;
     }
