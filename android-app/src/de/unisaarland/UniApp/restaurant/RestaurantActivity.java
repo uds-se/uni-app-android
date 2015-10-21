@@ -145,10 +145,17 @@ public class RestaurantActivity extends ActionBarActivity {
     }
 
     private void populateItems(Map<Long, List<MensaItem>> items) {
+        // compute which item to preselect (smallest item >= current day, or last selected item)
+        long dateToSelect = lastSelectedDate != 0 ? lastSelectedDate : Util.getStartOfDay().getTime();
+        int itemToSelect = 0;
+        for (Long l : items.keySet())
+            if (l < dateToSelect)
+                ++itemToSelect;
+
         ViewFlow viewFlow = (ViewFlow) findViewById(R.id.viewflow);
         ViewFlowAdapter adapter = (ViewFlowAdapter) viewFlow.getAdapter();
         if (adapter == null) {
-            viewFlow.setAdapter(new ViewFlowAdapter(this, items), 0);
+            viewFlow.setAdapter(new ViewFlowAdapter(this, items), itemToSelect);
             viewFlow.setOnViewSwitchListener(new ViewFlow.ViewSwitchListener() {
                 @Override
                 public void onSwitched(View view, int position) {
@@ -158,14 +165,7 @@ public class RestaurantActivity extends ActionBarActivity {
             });
         } else {
             adapter.update(items);
-        }
-        long dateToSelect = lastSelectedDate != 0 ? lastSelectedDate : Util.getStartOfDay().getTime();
-        if (items.get(Long.valueOf(dateToSelect)) != null) {
-            int smallerOnes = 0;
-            for (Long l : items.keySet())
-                if (l < dateToSelect)
-                    ++smallerOnes;
-            viewFlow.setSelection(smallerOnes);
+            viewFlow.setSelection(itemToSelect);
         }
         CircleFlowIndicator indic = (CircleFlowIndicator) findViewById(R.id.viewflowindic);
         viewFlow.setFlowIndicator(indic);
