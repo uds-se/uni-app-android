@@ -194,15 +194,20 @@ public class CircleFlowIndicator extends View implements FlowIndicator,
 		}
 		
 		//this is the amount the first circle should be offset to make the entire thing centered
-		float centeringOffset = 0;
+
+		float centeringOffsetX = (getWidth() - measureWidth(0)) / 2.f;
+		float centeringOffsetY = (getHeight() - measureHeight(0)) / 2.f;
 		
 		int leftPadding = getPaddingLeft();
-		
+		int topPadding = getPaddingTop();
+
+		float circleCenterXOffset = centeringOffsetX + leftPadding + mRadius;
+		float circleCenterY = centeringOffsetY + topPadding + mRadius;
+
 		// Draw stroked circles
 		for (int iLoop = 0; iLoop < count; iLoop++) {
-			canvas.drawCircle(leftPadding + mRadius
-					+ (iLoop * spacing) + centeringOffset,
-					getPaddingTop() + mRadius, mRadiusInactive, mPaintInactive);
+			canvas.drawCircle(circleCenterXOffset + (iLoop * spacing),
+					circleCenterY, mRadiusInactive, mPaintInactive);
 		}
 		float cx = 0;
 		if (mSnap) {
@@ -214,8 +219,8 @@ public class CircleFlowIndicator extends View implements FlowIndicator,
 			}
 			// else, the flow width hasn't been updated yet. Draw the default position.
 		}
-		canvas.drawCircle(leftPadding + mRadius + cx+centeringOffset, getPaddingTop()
-				+ mRadius, mRadiusActive, mPaintActive);
+		canvas.drawCircle(circleCenterXOffset + cx, circleCenterY,
+				mRadiusActive, mPaintActive);
 	}
 
 	/*
