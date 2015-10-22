@@ -2,7 +2,9 @@ package de.unisaarland.UniApp.restaurant.uihelper;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
+import android.preference.PreferenceManager;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.RelativeSizeSpan;
@@ -29,9 +31,14 @@ public class RestaurantAdapter extends BaseAdapter {
     private final Context context;
     private List<MensaItem> mensaItems;
 
+    private final boolean showIngredients;
+
     public RestaurantAdapter(Context context, List<MensaItem> mensaItems) {
         this.context = context;
         this.mensaItems = mensaItems;
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
+        this.showIngredients = settings.getBoolean(
+                context.getString(R.string.pref_mensa_ingredients), true);
     }
 
     @Override
@@ -67,7 +74,7 @@ public class RestaurantAdapter extends BaseAdapter {
 
         ImageView info = (ImageView) convertView.findViewById(R.id.info);
         String[] labels = model.getLabels();
-        if (labels != null && labels.length != 0) {
+        if (labels != null && labels.length != 0 && showIngredients) {
             info.setOnClickListener(new LabelsClickListener(labels, context));
             info.setVisibility(View.VISIBLE);
         } else {
@@ -90,11 +97,13 @@ public class RestaurantAdapter extends BaseAdapter {
     }
 
     /**
-     * Returns a SpannableString for the given text. All occurences of (A,B,C) are put in
-     * superscript with the parentheses removed.
+     * if showIngredients is set: returns a SpannableString for the given text. All occurences
+     * of (A,B,C) are put in superscript with the parentheses removed.
+     * otherwise: returns just a string with all those occurences removed.
      */
-    private SpannableString createMensaItemSpannable(String desc) {
-        // even entries are normal text, odd entries are superscript
+    private CharSequence createMensaItemSpannable(String desc) {
+        // if showIngredients==true: even entries are normal text, odd entries are superscript
+        // otherwise: contains all strings which are not ingredients
         List<String> substrs = new ArrayList<>();
         int pos = 0;
         int added = 0;
@@ -116,7 +125,8 @@ public class RestaurantAdapter extends BaseAdapter {
             if (firstStrEnd > added && desc.charAt(firstStrEnd-1) == ' ')
                 --firstStrEnd;
             substrs.add(desc.substring(added, firstStrEnd));
-            substrs.add(desc.substring(openParen+1, closeParen));
+            if (showIngredients)
+                substrs.add(desc.substring(openParen+1, closeParen));
             added = pos = closeParen+1;
         }
         if (added < desc.length())
@@ -125,6 +135,8 @@ public class RestaurantAdapter extends BaseAdapter {
         StringBuilder sb = new StringBuilder();
         for (String s : substrs)
             sb.append(s);
+        if (!showIngredients)
+            return sb.toString();
         SpannableString str = new SpannableString(sb.toString());
         pos = 0;
         for (int i = 1; i < substrs.size(); i += 2) {

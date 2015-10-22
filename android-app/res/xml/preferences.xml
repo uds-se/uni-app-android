@@ -10,4 +10,12 @@
         android:defaultValue="@string/pref_campus_saar"
         android:dialogLayout="@layout/listlayout_with_message"
         android:dialogMessage="@string/choose_campus_message"/>
+    <SwitchPreference
+        android:key="@string/pref_mensa_ingredients"
+        android:title="@string/show_ingredients_title"
+        android:defaultValue="true"
+        android:summaryOn="@string/show_ingredients_on"
+        android:summaryOff="@string/show_ingredients_off"
+        android:switchTextOn="@string/yes"
+        android:switchTextOff="@string/no"/>
 </PreferenceScreen>

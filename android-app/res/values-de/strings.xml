@@ -142,4 +142,9 @@
     <string name="label_Lu">Lupinen</string>
     <string name="label_Wt">Weichtiere</string>
     <!-- end of labels for mensa items -->
+    <string name="show_ingredients_off">Inhaltsstoffe werden nicht angezeigt</string>
+    <string name="show_ingredients_on">Inhaltsstoffe werden angezeigt</string>
+    <string name="show_ingredients_title">Mensa-Inhaltsstoffe anzeigen</string>
+    <string name="yes">ja</string>
+    <string name="no">nein</string>
 </resources>

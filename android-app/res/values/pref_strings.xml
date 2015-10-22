@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="pref_campus">campus</string>
-    <string name="pref_campus_saar">saar</string>
-    <string name="pref_campus_hom">hom</string>
-    <string name="pref_staff_search_fstnam">staffLastFst</string>
-    <string name="pref_staff_search_lstnam">staffLastLst</string>
-    <string name="pref_staff_search_prof_sel">staffLastSel</string>
+    <string name="pref_campus" translatable="false">campus</string>
+    <string name="pref_campus_saar" translatable="false">saar</string>
+    <string name="pref_campus_hom" translatable="false">hom</string>
+    <string name="pref_mensa_ingredients" translatable="false">mensa_ingredients</string>
+    <string name="pref_staff_search_fstnam" translatable="false">staffLastFst</string>
+    <string name="pref_staff_search_lstnam" translatable="false">staffLastLst</string>
+    <string name="pref_staff_search_prof_sel" translatable="false">staffLastSel</string>
     <!-- the string to use as summary if only the current pref value should be shown -->
-    <string name="pref_show_value">%s</string>
+    <string name="pref_show_value" translatable="false">%s</string>
 </resources>
