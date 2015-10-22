@@ -242,7 +242,6 @@ public class CampusActivity extends ActionBarActivity implements ConnectionCallb
                 @Override
                 public void onCameraChange(CameraPosition cameraPosition) {
                     map.setOnCameraChangeListener(null);
-                    Log.w("DEBUG", "pin building " + infoBuilding);
                     pinPOIsInArray(db.getPointsOfInterestForTitle(infoBuilding));
                 }
             });

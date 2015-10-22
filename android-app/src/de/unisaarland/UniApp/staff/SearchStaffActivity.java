@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -40,7 +41,12 @@ public class SearchStaffActivity extends ActionBarActivity {
         InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
         setContentView(R.layout.search_staff_layout);
-        setActionBar();
+
+        ActionBar actionBar = getSupportActionBar();
+        //Enabling Up-Navigation
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle(R.string.search_for_staff_text);
+
         radioChooser = (RadioGroup) findViewById(R.id.radioChooser);
         lastName = (TextView) findViewById(R.id.last_name);
         firstName = (TextView) findViewById(R.id.first_name);
@@ -123,12 +129,5 @@ public class SearchStaffActivity extends ActionBarActivity {
             }
         });
 
-    }
-
-    private void setActionBar() {
-        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
-        //Enabling Up-Navigation
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle(R.string.search_for_staff_text);
     }
 }
