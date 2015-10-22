@@ -114,13 +114,6 @@ public class RSSDetailActivity extends ActionBarActivity {
         pBar.setVisibility(View.GONE);
     }
 
-    /**
-     * sets the custom navigation bar according to each activity.
-     */
-    private void setActionBar() {
-
-    }
-
     // Handling the Action Bar Buttons
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

@@ -145,9 +145,6 @@ public class CampusSearchActivity extends ActionBarActivity {
                 optionMenuDialog.show();
             }
         };
-
-        public void update(List<String> categoryTitles, List<Integer> categoryIds) {
-        }
     }
 
     void returnPOIs(List<PointOfInterest> pois) {

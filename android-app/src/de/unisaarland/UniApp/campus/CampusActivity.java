@@ -120,12 +120,6 @@ public class CampusActivity extends ActionBarActivity implements ConnectionCallb
         super.onPause();
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
-
-
 
     public void searchItemSelected(PointOfInterest model) {
         for (Marker m : poisMap.keySet())

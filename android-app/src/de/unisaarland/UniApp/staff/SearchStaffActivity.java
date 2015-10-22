@@ -89,7 +89,7 @@ public class SearchStaffActivity extends ActionBarActivity {
                 editor.putInt(getString(R.string.pref_staff_search_prof_sel), radioChooser.getCheckedRadioButtonId());
                 editor.putString(getString(R.string.pref_staff_search_fstnam), fstNam);
                 editor.putString(getString(R.string.pref_staff_search_lstnam), lstNam);
-                editor.commit();
+                editor.apply();
 
                 if (fstNam.length() ==0 && lstNam.length() == 0) {
                     new AlertDialog.Builder(SearchStaffActivity.this)

@@ -10,7 +10,8 @@
                     android:layout_centerHorizontal="true"
         android:weightSum="3"
         android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp">
+        android:layout_marginLeft="10dp"
+                  android:baselineAligned="true">
         <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="110dp"
@@ -61,7 +62,8 @@
                     android:layout_centerHorizontal="true"
         android:weightSum="3"
         android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp">
+        android:layout_marginLeft="10dp"
+                  android:baselineAligned="true">
         <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="110dp"
