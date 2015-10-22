@@ -21,8 +21,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import de.unisaarland.UniApp.R;
 import de.unisaarland.UniApp.bus.model.PointOfInterest;
-import de.unisaarland.UniApp.utils.Util;
 
 
 public class DatabaseHandler {
@@ -113,7 +113,7 @@ public class DatabaseHandler {
     public List<Pair<String, Integer>> getAllCategories(){
         List<Pair<String, Integer>> result = new ArrayList<>();
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
-        String campus = settings.getString(Util.KEY_CAMPUS_CHOOSER, "saar");
+        String campus = settings.getString(context.getString(R.string.pref_campus), null);
         Cursor cursor = rawQuery("select distinct categorie.id, categorie.title from categorie, pointOfInterest "+
                 "where categorie.iD = pointOfInterest.categorieID and pointOfInterest.campus = ?",
                 new String[]{campus});
@@ -226,7 +226,7 @@ public class DatabaseHandler {
     public Cursor campusQuery(String table, String[] columns, String selection,
                               String[] selectionArgs, String groupBy, String having) {
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
-        String campus = settings.getString(Util.KEY_CAMPUS_CHOOSER, "saar");
+        String campus = settings.getString(context.getString(R.string.pref_campus), null);
         selection = selection == null ? "campus = ?" : "(" +selection + ") AND (campus = ?)";
         selectionArgs = selectionArgs == null ? new String[1]
                 : Arrays.copyOf(selectionArgs, selectionArgs.length + 1);

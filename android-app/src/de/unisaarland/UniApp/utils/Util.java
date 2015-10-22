@@ -10,12 +10,6 @@ import java.util.GregorianCalendar;
 
 public class Util {
 
-    public static final String FIRST_TIME = "firstTime";
-    public static final String STAFF_LAST_SELECTION = "staffLastSel";
-    public static final String STAFF_LAST_FIRSTNAME = "staffLastFst";
-    public static final String STAFF_LAST_LASTNAME = "staffLastLst";
-    public static final String KEY_CAMPUS_CHOOSER= "pref_campus_chooser";
-
     public static final String EVENTS_URL =
             "http://www.uni-saarland.de/aktuelles/veranstaltungen/alle-veranstaltungen/rss.xml";
     public static final String NEWS_URL =

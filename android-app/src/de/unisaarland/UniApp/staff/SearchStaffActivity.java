@@ -62,9 +62,9 @@ public class SearchStaffActivity extends ActionBarActivity {
         });
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        int lastChecked = prefs.getInt(Util.STAFF_LAST_SELECTION, R.id.rb_only_prof);
-        String lastFirstName = prefs.getString(Util.STAFF_LAST_FIRSTNAME, "");
-        String lastLastName = prefs.getString(Util.STAFF_LAST_LASTNAME, "");
+        int lastChecked = prefs.getInt(getString(R.string.pref_staff_search_prof_sel), R.id.rb_only_prof);
+        String lastFirstName = prefs.getString(getString(R.string.pref_staff_search_fstnam), "");
+        String lastLastName = prefs.getString(getString(R.string.pref_staff_search_lstnam), "");
         radioChooser.check(lastChecked);
         firstName.setText(lastFirstName);
         lastName.setText(lastLastName);
@@ -80,9 +80,9 @@ public class SearchStaffActivity extends ActionBarActivity {
 
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SearchStaffActivity.this);
                 SharedPreferences.Editor editor = prefs.edit();
-                editor.putInt(Util.STAFF_LAST_SELECTION, radioChooser.getCheckedRadioButtonId());
-                editor.putString(Util.STAFF_LAST_FIRSTNAME, fstNam);
-                editor.putString(Util.STAFF_LAST_LASTNAME, lstNam);
+                editor.putInt(getString(R.string.pref_staff_search_prof_sel), radioChooser.getCheckedRadioButtonId());
+                editor.putString(getString(R.string.pref_staff_search_fstnam), fstNam);
+                editor.putString(getString(R.string.pref_staff_search_lstnam), lstNam);
                 editor.commit();
 
                 if (fstNam.length() ==0 && lstNam.length() == 0) {

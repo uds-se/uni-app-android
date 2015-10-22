@@ -16,7 +16,6 @@ import de.unisaarland.UniApp.restaurant.uihelper.JuristenCafeFragment;
 import de.unisaarland.UniApp.restaurant.uihelper.MensaCafeFragment;
 import de.unisaarland.UniApp.restaurant.uihelper.MensaFragment;
 import de.unisaarland.UniApp.restaurant.uihelper.SupportFragmentTabListener;
-import de.unisaarland.UniApp.utils.Util;
 
 
 //TODO: Add swipe to change Tabs
@@ -29,9 +28,9 @@ public class OpeningHoursActivity extends ActionBarActivity {
 
         super.onCreate(savedInstanceState);
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
-        String campus = settings.getString(Util.KEY_CAMPUS_CHOOSER, "saar");
+        String campus = settings.getString(getString(R.string.pref_campus), null);
         setActionBar();
-        if (campus.equals("saar")) {
+        if (campus.equals(getString(R.string.pref_campus_saar))) {
             //setContentView(R.layout.opening_layout);
             setTabs();
         } else

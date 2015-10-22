@@ -3,6 +3,7 @@ package de.unisaarland.UniApp;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -18,12 +19,21 @@ import de.unisaarland.UniApp.campus.CampusActivity;
 import de.unisaarland.UniApp.restaurant.RestaurantActivity;
 import de.unisaarland.UniApp.rssViews.RSSActivity;
 import de.unisaarland.UniApp.staff.SearchStaffActivity;
-import de.unisaarland.UniApp.utils.Util;
 
 /**
  * Launcher Activity of the application this Activity will be displayed when application is launched from the launcher
  */
 public class MainActivity extends ActionBarActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        // sets the custom navigation bar according to each activity.
+        setContentView(R.layout.main);
+        // set Listeners for the main screen to launch specific activity
+        setButtonListeners();
+    }
 
     /**
      * Will be called when activity created first time after onCreate or when activity comes to the front again or in a pausing state
@@ -31,24 +41,30 @@ public class MainActivity extends ActionBarActivity {
      */
     @Override
     protected void onResume() {
-        // sets the custom navigation bar according to each activity.
-        //setActionBar();
-        setContentView(R.layout.main);
-        // set Listeners for the main screen to launch specific activity
-        setButtonListeners();
-        // If this is the first start, show preferences...
-        checkFirstStart();
-        // Set Text on the Mainscreen
+        super.onResume();
+
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        String campus = settings.getString(Util.KEY_CAMPUS_CHOOSER, "saar");
+
+        // If this is the first start, show preferences...
+        if (!settings.contains(getString(R.string.pref_campus))) {
+            PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+            showSettings();
+        }
+
+        // take special care in preceeding code to use default values on the settings, as they
+        // might not have been set yet...
+
+        // Set Text on the Mainscreen
+        String campus = settings.getString(getString(R.string.pref_campus),
+                getString(R.string.pref_campus_saar));
         TextView campusText = (TextView) findViewById(R.id.campusText);
         // unfortunately, campusText happens to be null sometimes.
         if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE
                 && campusText != null) {
-            int text = campus.equals("saar") ? R.string.c_saarbruecken : R.string.c_homburg;
+            int text = campus.equals(getString(R.string.pref_campus_saar))
+                    ? R.string.c_saarbruecken : R.string.c_homburg;
             campusText.setText(text);
         }
-        super.onResume();
     }
 
     @Override
@@ -81,17 +97,6 @@ public class MainActivity extends ActionBarActivity {
         MainActivity.this.startActivity(myIntent);
     }
 
-
-    private void checkFirstStart() {
-        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
-
-        //If App is used for the first time...
-        if (settings.getBoolean(Util.FIRST_TIME, true)) {
-            settings.edit().putBoolean(Util.FIRST_TIME, false).commit();
-            PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
-            showSettings();
-        }
-    }
 
     private void setButtonListeners() {
 

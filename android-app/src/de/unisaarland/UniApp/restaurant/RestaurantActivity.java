@@ -58,8 +58,8 @@ public class RestaurantActivity extends ActionBarActivity {
         bar.setVisibility(View.GONE);
 
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        String campus = settings.getString(Util.KEY_CAMPUS_CHOOSER, "saar");
-        String mensaUrl = campus.equals("saar") ? MENSA_URL_SB : MENSA_URL_HOM;
+        String campus = settings.getString(getString(R.string.pref_campus), null);
+        String mensaUrl = campus.equals(getString(R.string.pref_campus_saar)) ? MENSA_URL_SB : MENSA_URL_HOM;
 
         if (mensaFetcher == null || !mensaUrl.equals(mensaFetcher.getUrl())) {
             ContentCache cache = Util.getContentCache(this);

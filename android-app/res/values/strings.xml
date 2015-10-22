@@ -99,7 +99,7 @@
     <string name="c_homburg" translatable="false">Campus Homburg</string>
     <string name="c_saarbruecken" translatable="false">Campus Saarbrücken</string>
     <string name="choose_campus">Choose your campus</string>
-    <string name="choose_campus_hint">[%s]\n\nThis setting customizes the mensa menu, bus stations and the map</string>
+    <string name="choose_campus_message">This setting customizes the mensa menu, bus stations and the map.</string>
     <string name="noEventsText">No events found.</string>
     <string name="noNewsText">No news found.</string>
     <string name="networkError">Network error</string>
