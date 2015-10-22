@@ -1,6 +1,7 @@
 package de.unisaarland.UniApp.campus;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -17,10 +18,14 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks;
@@ -52,7 +57,6 @@ import de.unisaarland.UniApp.bus.BusDetailActivity;
 import de.unisaarland.UniApp.bus.model.PointOfInterest;
 import de.unisaarland.UniApp.campus.model.CustomMapTileProvider;
 import de.unisaarland.UniApp.campus.uihelper.CustomInfoWindowAdapter;
-import de.unisaarland.UniApp.campus.uihelper.PanelButtonListener;
 import de.unisaarland.UniApp.campus.uihelper.SearchAdapter;
 import de.unisaarland.UniApp.database.DatabaseHandler;
 import de.unisaarland.UniApp.restaurant.RestaurantActivity;
@@ -228,12 +232,7 @@ public class CampusActivity extends ActionBarActivity implements ConnectionCallb
         for (CustomMapTileProvider prov : CustomMapTileProvider.allTileProviders(getResources().getAssets()))
             map.addTileOverlay(new TileOverlayOptions().tileProvider(prov));
 
-        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        String campus = settings.getString(getString(R.string.pref_campus), null);
-        LatLng latlng = campus.equals(getString(R.string.pref_campus_saar)) ? new LatLng(49.25419, 7.041324)
-                : new LatLng(49.305582, 7.344296);
-        CameraUpdate upd = CameraUpdateFactory.newLatLngZoom(latlng, 15);
-        map.moveCamera(upd);
+        resetCamera();
 
         // if info building != null means activity is called from search result details page
         // so it will get the building position from the database and will set the marker there.
@@ -340,7 +339,7 @@ public class CampusActivity extends ActionBarActivity implements ConnectionCallb
 
                 return true;
             case R.id.action_settings:
-                new PanelButtonListener(this,map,poisMap).onClick(null);
+                showOptions();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -455,6 +454,73 @@ public class CampusActivity extends ActionBarActivity implements ConnectionCallb
     @Override
     public boolean onMyLocationButtonClick() {
         return false;
+    }
+
+    private void showOptions() {
+        LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = layoutInflater.inflate(R.layout.map_options_layout, null);
+        final Dialog optionMenuDialog = new Dialog(this);
+        optionMenuDialog.setTitle(R.string.settings);
+        WindowManager.LayoutParams lp = optionMenuDialog.getWindow().getAttributes();
+        lp.dimAmount = 0.7f;
+        optionMenuDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        optionMenuDialog.setContentView(view);
+
+        TextView satellite = (TextView) view.findViewById(R.id.satellite);
+        satellite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                map.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+                optionMenuDialog.dismiss();
+            }
+        });
+        TextView standard = (TextView) view.findViewById(R.id.normal);
+        standard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+                optionMenuDialog.dismiss();
+            }
+        });
+
+        TextView hybrid = (TextView) view.findViewById(R.id.hybrid);
+        hybrid.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+                optionMenuDialog.dismiss();
+            }
+        });
+
+        TextView pins = (TextView) view.findViewById(R.id.remove);
+        pins.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                removeAllMarkers();
+                resetCamera();
+                optionMenuDialog.dismiss();
+            }
+        });
+        optionMenuDialog.show();
+    }
+
+    private void removeAllMarkers() {
+        for (Marker m : poisMap.keySet())
+            m.remove();
+        poisMap.clear();
+    }
+
+    private void resetCamera() {
+        if (map == null)
+            return;
+
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        String campus = settings.getString(getString(R.string.pref_campus), null);
+        LatLng latlng = campus.equals(getString(R.string.pref_campus_saar))
+                ? new LatLng(49.25419, 7.041324)
+                : new LatLng(49.305582, 7.344296);
+        CameraUpdate upd = CameraUpdateFactory.newLatLngZoom(latlng, 15);
+        map.moveCamera(upd);
     }
 
 }

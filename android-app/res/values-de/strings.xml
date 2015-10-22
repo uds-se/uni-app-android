@@ -147,4 +147,8 @@
     <string name="show_ingredients_title">Mensa-Inhaltsstoffe anzeigen</string>
     <string name="yes">ja</string>
     <string name="no">nein</string>
+    <string name="remove_all_pins">Alle Nadeln entfernen</string>
+    <string name="map_hybrid">Hybrid</string>
+    <string name="map_standard">Standard</string>
+    <string name="map_satellite">Satellit</string>
 </resources>

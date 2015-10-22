@@ -150,4 +150,8 @@
     <string name="show_ingredients_off">Ingredients are not shown</string>
     <string name="yes">yes</string>
     <string name="no">no</string>
+    <string name="remove_all_pins">Remove all pins</string>
+    <string name="map_hybrid">Hybrid</string>
+    <string name="map_standard">Standard</string>
+    <string name="map_satellite">Satellite</string>
 </resources>

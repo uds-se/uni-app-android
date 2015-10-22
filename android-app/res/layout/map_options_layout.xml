@@ -1,26 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="200dp"
-                android:layout_height="175dp" android:background="#ffffff" android:alpha="0.5">
-    <TextView android:id="@+id/satellite" android:layout_width="100dp" android:layout_height="30dp"
-              android:textColor="@color/uni_blue" android:text="Satellite" android:gravity="center_vertical|left"
-              android:layout_marginTop="10dp" android:layout_marginLeft="20dp"
-        android:layout_marginBottom="10dp" />
-    <TextView android:id="@+id/normal" android:layout_width="100dp" android:layout_height="30dp"
-              android:textColor="@color/uni_blue" android:text="Standard" android:gravity="center_vertical|left"
-        android:layout_below="@+id/satellite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:alpha="0.5"
+                android:background="#ffffff">
+
+    <TextView
+        android:id="@+id/satellite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="5dp"
+        android:gravity="center_vertical|left"
+        android:text="@string/map_satellite"
+        android:textColor="@color/uni_blue"/>
+
+    <TextView
+        android:id="@+id/normal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/satellite"
-        android:layout_marginBottom="10dp" />
-    <TextView android:id="@+id/hybrid" android:layout_width="100dp" android:layout_height="30dp"
-              android:textColor="@color/uni_blue" android:text="Hybrid" android:gravity="center_vertical|left"
-        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/satellite"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="5dp"
+        android:gravity="center_vertical|left"
+        android:text="@string/map_standard"
+        android:textColor="@color/uni_blue"/>
+
+    <TextView
+        android:id="@+id/hybrid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/normal"
+        android:layout_alignParentLeft="true"
         android:layout_below="@+id/normal"
-        android:layout_marginBottom="10dp" />
-    <TextView android:id="@+id/remove" android:layout_width="130dp" android:layout_height="30dp"
-              android:textColor="@color/uni_blue" android:text="Remove all pins" android:gravity="center_vertical|left"
-        android:singleLine="true"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="5dp"
+        android:gravity="center_vertical|left"
+        android:text="@string/map_hybrid"
+        android:textColor="@color/uni_blue"/>
+
+    <TextView
+        android:id="@+id/remove"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/hybrid"
+        android:layout_alignParentLeft="true"
         android:layout_below="@+id/hybrid"
-        android:layout_alignLeft="@+id/hybrid" />
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="5dp"
+        android:gravity="center_vertical|left"
+        android:singleLine="true"
+        android:text="@string/remove_all_pins"
+        android:textColor="@color/uni_blue"/>
+
 </RelativeLayout>
