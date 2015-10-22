@@ -38,6 +38,7 @@ CREATE TABLE "pointOfInterest" (
 	`campus`	TEXT,
 	PRIMARY KEY(ID)
 );
+CREATE INDEX `campus_idx` ON "pointOfInterest" (`campus`);
 INSERT INTO "pointOfInterest" VALUES(NULL,'Bank1Saar','Bank',1,0,'2','',49.254606,7.040246,1,3,'saar');
 INSERT INTO "pointOfInterest" VALUES(NULL,'Sparkasse','Bankautomat',1,0,'2','',49.2574,7.043089,2,3,'saar');
 INSERT INTO "pointOfInterest" VALUES(NULL,'Postbank','Bankautomat',1,0,'2','',49.254645,7.04163,3,3,'saar');
