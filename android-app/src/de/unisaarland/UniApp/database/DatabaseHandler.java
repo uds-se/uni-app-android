@@ -207,6 +207,9 @@ public class DatabaseHandler {
             throw err;
         }
         db.close();
+        boolean readonly = outFile.setReadOnly();
+        if (!readonly)
+            Log.w(TAG, "Database file '" + outFile + "' cannot be set read-only.");
 
         Log.w(TAG, "Finished creating database from asset SQL.");
     }
