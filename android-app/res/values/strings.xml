@@ -145,9 +145,9 @@
     <string name="label_Lu">Lupine</string>
     <string name="label_Wt">Mollusks</string>
     <!-- end of labels for mensa items -->
-    <string name="show_ingredients_title">Show mensa ingredients</string>
-    <string name="show_ingredients_on">Ingredients are shown</string>
-    <string name="show_ingredients_off">Ingredients are not shown</string>
+    <string name="show_ingredients_title">Show ingredients</string>
+    <string name="show_ingredients_on">Mensa ingredients are shown</string>
+    <string name="show_ingredients_off">Mensa ingredients are <b>not</b> shown</string>
     <string name="yes">yes</string>
     <string name="no">no</string>
     <string name="remove_all_pins">Remove all pins</string>
