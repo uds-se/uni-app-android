@@ -4,9 +4,9 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
+import android.os.PersistableBundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -18,36 +18,34 @@ import de.unisaarland.UniApp.R;
 
 public class PersonDetailWebActivity extends ActionBarActivity {
     private String url;
-    private ProgressBar pBar;
-    private WebView webView;
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        savedInstanceState = getIntent().getExtras();
-        url = savedInstanceState.getString("url");
+        Bundle extras = getIntent().getExtras();
+        url = extras.getString("url");
     }
 
     @Override
     public void onBackPressed() {
-        url = null;
-        pBar = null;
-        if (webView!=null) {
-            webView.invalidate();
-        }
-        webView = null;
+        WebView webView = (WebView) findViewById(R.id.web_view);
+        webView.stopLoading();
         super.onBackPressed();
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        setActionBar();
-        setContentView(R.layout.person_detail_layout);
-        pBar = (ProgressBar) findViewById(R.id.progress_bar);
-        webView = (WebView) findViewById(R.id.web_view);
-        showDetail();
-    }
+    public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
+        super.onCreate(savedInstanceState, persistentState);
 
-    private void showDetail() {
+        ActionBar actionBar = getSupportActionBar();
+        //Enabling Up-Navigation
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle(R.string.more_info);
+
+        setContentView(R.layout.person_detail_layout);
+
+        final ProgressBar pBar = (ProgressBar) findViewById(R.id.progress_bar);
+        final WebView webView = (WebView) findViewById(R.id.web_view);
+
         ImageButton backButton = (ImageButton) findViewById(R.id.back_button);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,7 +67,6 @@ public class PersonDetailWebActivity extends ActionBarActivity {
         webView.setBackgroundColor(Color.WHITE);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.setVerticalScrollBarEnabled(true);
-        webView.loadUrl(url);
         webView.getSettings().setBuiltInZoomControls(true);
 
         webView.setWebViewClient(new WebViewClient() {
@@ -77,49 +74,26 @@ public class PersonDetailWebActivity extends ActionBarActivity {
                 new AlertDialog.Builder(PersonDetailWebActivity.this)
                         .setMessage(description)
                         .setCancelable(true)
-                        .setPositiveButton("OK",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    dialog.cancel();
-                                }
-                            })
+                        .setPositiveButton(R.string.ok,
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.dismiss();
+                                    }
+                                })
                         .create().show();
             }
 
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
-                if(pBar!=null && webView!=null) {
+                ProgressBar pBar = (ProgressBar) findViewById(R.id.progress_bar);
+                WebView webView = (WebView) findViewById(R.id.web_view);
+                if (pBar != null && webView != null) {
                     pBar.setVisibility(View.GONE);
-                    webView.setVisibility(View.VISIBLE);
                 }
             }
         });
 
-        webView.reload();
-        webView.refreshDrawableState();
-    }
-
-
-    private void setActionBar() {
-        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
-        //Enabling Up-Navigation
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle(R.string.more_info);
-
-    }
-
-    // Handling the Action Bar Buttons
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            // Respond to the action bar's Up/Home button
-            case android.R.id.home:
-                onBackPressed();
-                NavUtils.navigateUpFromSameTask(this);
-
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
+        webView.loadUrl(url);
     }
 }
