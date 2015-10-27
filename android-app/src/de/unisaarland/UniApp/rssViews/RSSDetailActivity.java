@@ -3,6 +3,7 @@ package de.unisaarland.UniApp.rssViews;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
@@ -33,17 +34,28 @@ public class RSSDetailActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
 
         Bundle extras = getIntent().getExtras();
-        String url = extras.getString("url");
-        int titleId = extras.getInt("titleId");
+
+        String url = null;
+        int titleId = -1;
+
+        if (extras != null) {
+            url = extras.getString("url");
+            titleId = extras.getInt("titleId");
+        } else {
+            url = savedInstanceState.getString("url");
+        }
 
         // sets the custom navigation bar according to each activity.
         ActionBar actionBar = getSupportActionBar();
         //Enabling Up-Navigation
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle(titleId);
+        if (titleId != -1)
+            actionBar.setTitle(titleId);
 
         setContentView(R.layout.rss_detail);
         if (fetcher == null) {
+            if (url == null)
+                throw new NullPointerException("url must be supplied by intent or saved state");
             String tag = "rss-"+Integer.toHexString(url.hashCode());
             fetcher = new NetworkRetrieveAndCache<>(url, tag, 15 * 60,
                     Util.getContentCache(this),
@@ -51,6 +63,13 @@ public class RSSDetailActivity extends ActionBarActivity {
                     new NetworkDelegate(), this);
         }
         fetcher.loadAsynchronously();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+        if (fetcher != null)
+            outState.putString("url", fetcher.getUrl());
     }
 
     @Override
@@ -76,8 +95,6 @@ public class RSSDetailActivity extends ActionBarActivity {
             ProgressBar pBar = (ProgressBar) findViewById(R.id.progress_bar);
             pBar.animate();
             pBar.setVisibility(View.VISIBLE);
-            WebView body = (WebView) findViewById(R.id.body);
-            body.setVisibility(View.GONE);
         }
 
         @Override
