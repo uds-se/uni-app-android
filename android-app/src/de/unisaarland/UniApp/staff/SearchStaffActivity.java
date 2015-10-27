@@ -1,7 +1,6 @@
 package de.unisaarland.UniApp.staff;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,13 +12,11 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import de.unisaarland.UniApp.R;
-import de.unisaarland.UniApp.utils.Util;
 
 
 public class SearchStaffActivity extends ActionBarActivity {
@@ -99,11 +96,11 @@ public class SearchStaffActivity extends ActionBarActivity {
                             .setPositiveButton(R.string.ok,
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
-                                        dialog.cancel();
+                                        dialog.dismiss();
                                     }
                                 })
                             .create().show();
-                } else if (Util.isConnectedToInternet(SearchStaffActivity.this)) {
+                } else {
                     String profPart = "";
                     if (radioChooser.getCheckedRadioButtonId() == R.id.rb_only_prof)
                         profPart = "choice.r_funktion.pfid=y&r_funktion.pfid=171&";
@@ -114,20 +111,8 @@ public class SearchStaffActivity extends ActionBarActivity {
                     Intent myIntent = new Intent(SearchStaffActivity.this, SearchResultActivity.class);
                     myIntent.putExtra("url", searchURL);
                     SearchStaffActivity.this.startActivity(myIntent);
-                } else {
-                    new AlertDialog.Builder(SearchStaffActivity.this)
-                            .setMessage(R.string.check_internet_message)
-                            .setCancelable(true)
-                            .setPositiveButton(R.string.ok,
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        dialog.cancel();
-                                    }
-                                })
-                            .create().show();
                 }
             }
         });
-
     }
 }

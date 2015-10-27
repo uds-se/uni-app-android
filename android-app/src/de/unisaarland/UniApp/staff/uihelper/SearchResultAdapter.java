@@ -1,8 +1,6 @@
 package de.unisaarland.UniApp.staff.uihelper;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +12,6 @@ import java.util.List;
 import de.unisaarland.UniApp.R;
 import de.unisaarland.UniApp.staff.SearchResult;
 import de.unisaarland.UniApp.staff.SearchResultItemDetailActivity;
-import de.unisaarland.UniApp.utils.Util;
 
 public class SearchResultAdapter extends BaseAdapter {
 
@@ -58,19 +55,6 @@ public class SearchResultAdapter extends BaseAdapter {
     private final View.OnClickListener clickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if (!Util.isConnectedToInternet(context)) {
-                new AlertDialog.Builder(context)
-                        .setMessage(context.getString(R.string.not_connected))
-                        .setCancelable(true)
-                        .setPositiveButton(R.string.ok,
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        dialog.cancel();
-                                    }
-                                })
-                        .create().show();
-                return;
-            }
             Intent myIntent = new Intent(context, SearchResultItemDetailActivity.class);
             SearchResult res = (SearchResult) v.getTag(R.id.staff_search_person_tag);
             myIntent.putExtra("url", res.getUrl());

@@ -4,10 +4,8 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -69,9 +67,12 @@ public class SearchResultActivity extends ActionBarActivity {
     }
 
     private class NetworkDelegate implements NetworkRetrieveAndCache.Delegate<List<SearchResult>> {
+        private boolean hasResult = false;
+
         @Override
         public void onUpdate(List<SearchResult> result) {
             showSearchResults(result);
+            hasResult = true;
         }
 
         @Override
@@ -89,8 +90,11 @@ public class SearchResultActivity extends ActionBarActivity {
                     .setPositiveButton(R.string.ok,
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
-                                    dialog.cancel();
-                                    onBackPressed();
+                                    ProgressBar bar = (ProgressBar) findViewById(R.id.progress_bar);
+                                    bar.setVisibility(View.GONE);
+                                    dialog.dismiss();
+                                    if (!hasResult)
+                                        onBackPressed();
                                 }
                             })
                     .create().show();
@@ -146,19 +150,5 @@ public class SearchResultActivity extends ActionBarActivity {
 
         body.onRestoreInstanceState(listState);
         listState = null;
-    }
-
-    // Handling the Action Bar Buttons
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            // Respond to the action bar's Up/Home button
-            case android.R.id.home:
-                onBackPressed();
-                NavUtils.navigateUpFromSameTask(this);
-
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 }

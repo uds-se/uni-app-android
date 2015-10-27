@@ -3,9 +3,8 @@ package de.unisaarland.UniApp.rssViews;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.ProgressBar;
@@ -32,12 +31,13 @@ public class RSSDetailActivity extends ActionBarActivity {
      */
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         Bundle extras = getIntent().getExtras();
         String url = extras.getString("url");
         int titleId = extras.getInt("titleId");
 
         // sets the custom navigation bar according to each activity.
-        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        ActionBar actionBar = getSupportActionBar();
         //Enabling Up-Navigation
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle(titleId);
@@ -63,15 +63,18 @@ public class RSSDetailActivity extends ActionBarActivity {
     }
 
     private class NetworkDelegate implements NetworkRetrieveAndCache.Delegate<RSSArticle> {
+        private boolean hasItem = false;
 
         @Override
         public void onUpdate(RSSArticle rss) {
+            hasItem = true;
             showRSSItem(rss);
         }
 
         @Override
         public void onStartLoading() {
             ProgressBar pBar = (ProgressBar) findViewById(R.id.progress_bar);
+            pBar.animate();
             pBar.setVisibility(View.VISIBLE);
             WebView body = (WebView) findViewById(R.id.body);
             body.setVisibility(View.GONE);
@@ -79,14 +82,17 @@ public class RSSDetailActivity extends ActionBarActivity {
 
         @Override
         public void onFailure(String message) {
+            ProgressBar pBar = (ProgressBar) findViewById(R.id.progress_bar);
+            pBar.setVisibility(View.GONE);
             new AlertDialog.Builder(RSSDetailActivity.this).
                     setMessage(message).
                     setCancelable(true).
                     setPositiveButton(getString(R.string.ok),
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
-                                    dialog.cancel();
-                                    onBackPressed();
+                                    dialog.dismiss();
+                                    if (!hasItem)
+                                        onBackPressed();
                                 }
                             })
                     .create().show();
@@ -112,19 +118,5 @@ public class RSSDetailActivity extends ActionBarActivity {
         bodyView.setVisibility(View.VISIBLE);
         ProgressBar pBar = (ProgressBar) findViewById(R.id.progress_bar);
         pBar.setVisibility(View.GONE);
-    }
-
-    // Handling the Action Bar Buttons
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            // Respond to the action bar's Up/Home button
-            case android.R.id.home:
-                onBackPressed();
-                NavUtils.navigateUpFromSameTask(this);
-
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 }

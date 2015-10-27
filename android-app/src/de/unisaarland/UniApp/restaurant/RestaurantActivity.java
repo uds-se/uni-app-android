@@ -112,8 +112,7 @@ public class RestaurantActivity extends ActionBarActivity {
             hasItems = true;
 
             ProgressBar bar = (ProgressBar) findViewById(R.id.progress_bar);
-            bar.clearAnimation();
-            bar.setVisibility(View.INVISIBLE);
+            bar.setVisibility(View.GONE);
             populateItems(result);
         }
 
@@ -126,16 +125,15 @@ public class RestaurantActivity extends ActionBarActivity {
 
         @Override
         public void onFailure(String message) {
+            ProgressBar bar = (ProgressBar) findViewById(R.id.progress_bar);
+            bar.setVisibility(View.GONE);
             new AlertDialog.Builder(RestaurantActivity.this)
                     .setMessage(message)
                     .setCancelable(true)
                     .setPositiveButton(R.string.ok,
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
-                                    ProgressBar bar = (ProgressBar) findViewById(R.id.progress_bar);
-                                    bar.clearAnimation();
-                                    bar.setVisibility(View.INVISIBLE);
-                                    dialog.cancel();
+                                    dialog.dismiss();
                                     if (!hasItems)
                                         onBackPressed();
                                 }

@@ -73,11 +73,13 @@ public class SearchResultItemDetailActivity extends ActionBarActivity {
     }
 
     private class NetworkDelegate implements NetworkRetrieveAndCache.Delegate<StaffInfo> {
+        private boolean hasResult = false;
 
         @Override
         public void onUpdate(StaffInfo result) {
             ProgressBar bar = (ProgressBar) findViewById(R.id.progress_bar);
             bar.setVisibility(View.GONE);
+            hasResult = true;
             showResult(result);
         }
 
@@ -96,8 +98,11 @@ public class SearchResultItemDetailActivity extends ActionBarActivity {
                     .setPositiveButton(R.string.ok,
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
-                                    dialog.cancel();
-                                    onBackPressed();
+                                    ProgressBar bar = (ProgressBar) findViewById(R.id.progress_bar);
+                                    bar.setVisibility(View.GONE);
+                                    dialog.dismiss();
+                                    if (!hasResult)
+                                        onBackPressed();
                                 }
                             })
                     .create().show();
