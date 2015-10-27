@@ -19,12 +19,18 @@ import de.unisaarland.UniApp.restaurant.model.MensaItem;
 public class ViewFlowAdapter extends BaseAdapter {
     private Map<Long, List<MensaItem>> mensaItems;
     private final Context context;
-    private final long[] dates;
+    private long[] dates;
 
     public ViewFlowAdapter(Context context, Map<Long, List<MensaItem>> mensaItems) {
+        if (context == null || mensaItems == null)
+            throw new NullPointerException();
         this.context = context;
         this.mensaItems = mensaItems;
-        this.dates = new long[mensaItems.size()];
+        recomputeDates();
+    }
+
+    private void recomputeDates() {
+        dates = new long[mensaItems.size()];
 
         int idx = 0;
         for (Long l : mensaItems.keySet())
@@ -78,9 +84,12 @@ public class ViewFlowAdapter extends BaseAdapter {
     }
 
     public boolean update(Map<Long, List<MensaItem>> items) {
+        if (items == null)
+            throw new NullPointerException();
         if (mensaItems.equals(items))
             return false;
         mensaItems = items;
+        recomputeDates();
         this.notifyDataSetChanged();
         return true;
     }

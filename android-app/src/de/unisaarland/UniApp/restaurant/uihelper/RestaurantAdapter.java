@@ -34,6 +34,8 @@ public class RestaurantAdapter extends BaseAdapter {
     private final boolean showIngredients;
 
     public RestaurantAdapter(Context context, List<MensaItem> mensaItems) {
+        if (context == null || mensaItems == null)
+            throw new NullPointerException();
         this.context = context;
         this.mensaItems = mensaItems;
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
@@ -151,6 +153,8 @@ public class RestaurantAdapter extends BaseAdapter {
     }
 
     public boolean update(List<MensaItem> items) {
+        if (items == null)
+            throw new NullPointerException();
         if (this.mensaItems.equals(items))
             return false;
         this.mensaItems = items;
