@@ -235,7 +235,9 @@ public class CampusActivity extends ActionBarActivity implements ConnectionCallb
                 @Override
                 public void onCameraChange(CameraPosition cameraPosition) {
                     map.setOnCameraChangeListener(null);
-                    pinPOIsInArray(db.getPointsOfInterestForTitle(infoBuilding));
+                    List<PointOfInterest> pois = db.getPointsOfInterestForTitle(infoBuilding);
+                    if (!pois.isEmpty())
+                        pinPOIsInArray(pois);
                 }
             });
         }
