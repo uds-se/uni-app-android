@@ -34,9 +34,13 @@ public class SearchStaffActivity extends ActionBarActivity {
         else{
             getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         }
+
+        /*
         //TODO: Hide Keyboard
         InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+        */
+
         setContentView(R.layout.search_staff_layout);
 
         ActionBar actionBar = getSupportActionBar();
