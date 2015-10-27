@@ -13,7 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import de.unisaarland.UniApp.about.AboutActicvity;
+import de.unisaarland.UniApp.about.AboutActivity;
 import de.unisaarland.UniApp.bus.BusActivity;
 import de.unisaarland.UniApp.campus.CampusActivity;
 import de.unisaarland.UniApp.restaurant.RestaurantActivity;
@@ -84,7 +84,7 @@ public class MainActivity extends ActionBarActivity {
                 showSettings();
                 return true;
             case R.id.action_about:
-                Intent myIntent = new Intent(MainActivity.this, AboutActicvity.class);
+                Intent myIntent = new Intent(MainActivity.this, AboutActivity.class);
                 MainActivity.this.startActivity(myIntent);
 
                 return true;

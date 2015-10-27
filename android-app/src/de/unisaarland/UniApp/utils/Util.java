@@ -15,6 +15,9 @@ public class Util {
     public static final String NEWS_URL =
             "http://www.uni-saarland.de/aktuelles/presse/pms.html?type=100&tx_ttnews[cat]=26";
 
+    public static final String SUPPORT_MAIL = "uniapp@uni-saarland.de";
+
+
     // check if internet is connected
     public static boolean isConnectedToInternet(Context context) {
         ConnectivityManager cm = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
