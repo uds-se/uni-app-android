@@ -71,7 +71,7 @@ public class RSSDetailActivity extends ActionBarActivity {
 
         @Override
         public void onStartLoading() {
-            ProgressBar pBar = (ProgressBar) findViewById(R.id.web_view_progress_bar);
+            ProgressBar pBar = (ProgressBar) findViewById(R.id.progress_bar);
             pBar.setVisibility(View.VISIBLE);
             WebView body = (WebView) findViewById(R.id.body);
             body.setVisibility(View.GONE);
@@ -110,7 +110,7 @@ public class RSSDetailActivity extends ActionBarActivity {
         bodyView.loadDataWithBaseURL(item.getBaseHref(), sb.toString(), "text/html", "utf-8", null);
         bodyView.getSettings().setJavaScriptEnabled(true);
         bodyView.setVisibility(View.VISIBLE);
-        ProgressBar pBar = (ProgressBar) findViewById(R.id.web_view_progress_bar);
+        ProgressBar pBar = (ProgressBar) findViewById(R.id.progress_bar);
         pBar.setVisibility(View.GONE);
     }
 

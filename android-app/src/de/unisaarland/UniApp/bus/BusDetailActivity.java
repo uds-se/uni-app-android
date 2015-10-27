@@ -62,7 +62,7 @@ public class BusDetailActivity extends ActionBarActivity {
         super.onResume();
         setActionBar();
         setContentView(R.layout.person_detail_layout);
-        pBar = (ProgressBar) findViewById(R.id.web_view_progress_bar);
+        pBar = (ProgressBar) findViewById(R.id.progress_bar);
         webView = (WebView) findViewById(R.id.web_view);
         showDetail();
     }

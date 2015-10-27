@@ -72,7 +72,7 @@ public class RestaurantAdapter extends BaseAdapter {
         TextView mealDescription = (TextView) convertView.findViewById(R.id.mensa_menu_description);
         mealDescription.setText(createMensaItemSpannable(model.getDesc()));
 
-        ImageView info = (ImageView) convertView.findViewById(R.id.info);
+        ImageView info = (ImageView) convertView.findViewById(R.id.img_info);
         String[] labels = model.getLabels();
         if (labels != null && labels.length != 0 && showIngredients) {
             info.setOnClickListener(new LabelsClickListener(labels, context));

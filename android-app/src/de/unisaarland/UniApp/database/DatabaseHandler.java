@@ -67,18 +67,6 @@ public class DatabaseHandler {
         return campusQuery("pointOfInterest", columns, null, null, null, null);
     }
 
-    public ArrayList<String> getPointsOfInterestPartialMatchedTitles(){
-        ArrayList<String> result = new ArrayList<>();
-        Cursor cursor = campusQuery("pointOfInterest",new String[]{"title"},null,
-                    null,null,null);
-        while (cursor.moveToNext()) {
-            result.add(cursor.getString(0));
-        }
-        cursor.close();
-
-        return result;
-    }
-
     public Cursor getCursorPointsOfInterestPartialMatchedForSearchKey(String searchKey){
         String sKeyWithPercAtEnd = searchKey + "%";
 

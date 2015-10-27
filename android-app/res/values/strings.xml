@@ -83,7 +83,6 @@
     <string name="fill_at_least_one">Please fill at least one search field.</string>
     <string name="check_internet_message">Please check your internet connection and try again.</string>
     <string name="mon_to_fri_heroes_time">10:30 am - 4:30 pm</string>
-    <string name="back">Back</string>
     <string name="at_station">At bus station</string>
     <string name="search_bus">Search a bus</string>
     <string name="current_location_not_set">Current location is not set</string>
@@ -148,8 +147,6 @@
     <string name="show_ingredients_title">Show ingredients</string>
     <string name="show_ingredients_on">Mensa ingredients are shown</string>
     <string name="show_ingredients_off">Mensa ingredients are <b>not</b> shown</string>
-    <string name="yes">yes</string>
-    <string name="no">no</string>
     <string name="remove_all_pins">Remove all pins</string>
     <string name="map_hybrid">Hybrid</string>
     <string name="map_standard">Standard</string>

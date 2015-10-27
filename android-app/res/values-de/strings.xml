@@ -82,7 +82,6 @@
     <string name="empty_search_field">Leeres Suchfeld.</string>
     <string name="fill_at_least_one">Bitte geben Sie Nachname oder Vorname ein.</string>
     <string name="check_internet_message">Bitte überprüfen Sie ihre Internetverbindung und versuchen Sie es erneut.</string>
-    <string name="back">Zurück</string>
     <string name="at_station">An Haltestelle</string>
     <string name="search_bus">Bus Suche</string>
     <string name="current_location_not_set">Standort kann nicht ermittelt werden</string>
@@ -145,8 +144,6 @@
     <string name="show_ingredients_off">Inhaltsstoffe bei Mensa werden <b>nicht</b> angezeigt</string>
     <string name="show_ingredients_on">Inhaltsstoffe bei Mensa werden angezeigt</string>
     <string name="show_ingredients_title">Inhaltsstoffe anzeigen</string>
-    <string name="yes">ja</string>
-    <string name="no">nein</string>
     <string name="remove_all_pins">Alle Nadeln entfernen</string>
     <string name="map_hybrid">Hybrid</string>
     <string name="map_standard">Standard</string>

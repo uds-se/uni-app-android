@@ -5,15 +5,8 @@
         android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android"
         android:background="@drawable/home_screen_background">
 
-    <WebView android:id="@id/web_view" android:layout_width="fill_parent" android:layout_height="fill_parent"
+    <WebView android:id="@+id/web_view" android:layout_width="fill_parent" android:layout_height="fill_parent"
              android:layout_marginBottom="30dp" android:visibility="invisible"/>
-
-    <ProgressBar
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_centerVertical="true" android:layout_centerHorizontal="true"
-            android:id="@+id/web_view_progress_bar"
-            />
 
     <ImageView android:layout_width="fill_parent" android:layout_height="30dp"
                android:background="@drawable/bottom_bar_background"
@@ -32,5 +25,12 @@
         android:layout_toRightOf="@+id/back_button"
         android:layout_marginLeft="30dp"
         android:layout_marginBottom="2.5dp" />
+
+    <include
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        layout="@layout/progress_bar"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"/>
 
 </RelativeLayout>

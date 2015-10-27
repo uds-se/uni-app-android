@@ -23,7 +23,8 @@
             android:id="@+id/route_button"
             android:layout_width="28dp" android:layout_height="28dp"
             android:layout_marginTop="5dp" android:layout_marginLeft="6dp"
-            android:adjustViewBounds="true" android:background="@drawable/maps_icon" android:clickable="true">
+            android:adjustViewBounds="true" android:background="@drawable/maps_icon" android:clickable="true"
+            android:contentDescription="show route">
     </ImageButton>
     <LinearLayout
             android:layout_width="wrap_content"
@@ -58,5 +59,6 @@
             android:layout_marginRight="5dp" android:layout_marginLeft="15dp"
             android:layout_marginBottom="10dp"
             android:adjustViewBounds="true" android:background="@drawable/detail_dis"
-            android:layout_gravity="center_vertical" android:clickable="true" />
+            android:layout_gravity="center_vertical" android:clickable="true"
+            android:contentDescription="show webpage"/>
 </LinearLayout>

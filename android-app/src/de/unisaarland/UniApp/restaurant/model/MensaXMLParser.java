@@ -62,7 +62,7 @@ public class MensaXMLParser extends XMLExtractor<Map<Long, List<MensaItem>>> {
     }
 
     private List<MensaItem> readItems(XmlPullParser parser)
-            throws XmlPullParserException, IOException, ParseException {
+            throws XmlPullParserException, IOException {
         parser.require(XmlPullParser.START_TAG, null, TAG);
         List<MensaItem> mensaItems = new ArrayList<>();
 

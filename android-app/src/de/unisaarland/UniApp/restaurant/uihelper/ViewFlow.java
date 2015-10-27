@@ -66,7 +66,7 @@ public class ViewFlow extends AdapterView<Adapter> {
 	private boolean mFirstLayout = true;
 	private ViewSwitchListener mViewSwitchListener;
 	private ViewLazyInitializeListener mViewInitializeListener;
-	private EnumSet<LazyInit> mLazyInit = EnumSet.allOf(LazyInit.class);
+	private final EnumSet<LazyInit> mLazyInit = EnumSet.allOf(LazyInit.class);
 	private Adapter mAdapter;
 	private int mLastScrollDirection;
 	private AdapterDataSetObserver mDataSetObserver;
@@ -76,7 +76,7 @@ public class ViewFlow extends AdapterView<Adapter> {
 	 * This is a member because getting a second return value requires an allocation. */
 	private boolean mLastObtainedViewWasRecycled = false;
 
-	private OnGlobalLayoutListener orientationChangeListener = new OnGlobalLayoutListener() {
+	private final OnGlobalLayoutListener orientationChangeListener = new OnGlobalLayoutListener() {
 
 		@Override
 		public void onGlobalLayout() {

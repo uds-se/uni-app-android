@@ -77,7 +77,7 @@ public class CircleFlowIndicator extends View implements FlowIndicator,
 	private int currentPosition = 0;
 	private int flowWidth = 0;
 	private FadeTimer timer;
-	public AnimationListener animationListener = this;
+	private final AnimationListener animationListener = this;
 	private Animation animation;
 	private boolean mCentered = false;
 	private boolean mSnap = false;

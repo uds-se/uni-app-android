@@ -67,7 +67,7 @@ public class SearchStationAdapter extends BaseAdapter {
     }
 
     // On clicking of any item will call the BusDetailActivity and will pass it the url to be opened.
-    View.OnClickListener clickListener = new View.OnClickListener() {
+    private final View.OnClickListener clickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             if(searchStationsMap.containsKey(v)){

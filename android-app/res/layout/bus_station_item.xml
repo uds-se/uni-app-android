@@ -25,9 +25,10 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/info"
+            android:id="@+id/img_show"
             android:background="@drawable/ic_ab_back_holo_light_am"
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true" />
+            android:layout_centerVertical="true"
+            android:contentDescription="show"/>
     </RelativeLayout>
 </RelativeLayout>

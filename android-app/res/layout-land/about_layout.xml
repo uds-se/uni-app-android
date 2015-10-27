@@ -25,8 +25,9 @@
                 android:adjustViewBounds="true"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
-                android:id="@+id/info"
-                android:layout_weight="1" />
+                android:id="@+id/uds_logo"
+                android:layout_weight="1"
+                android:contentDescription="university logo"/>
         </RelativeLayout>
 
         <LinearLayout
@@ -35,7 +36,7 @@
             android:layout_height="wrap_content"
             android:weightSum="3"
             android:id="@+id/linearLayout"
-            android:layout_below="@+id/info"
+            android:layout_below="@+id/uds_logo"
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
@@ -53,7 +54,7 @@
                     android:gravity="center_horizontal"
                           android:text="@string/development"
                           android:textColor="#000000" android:textStyle="bold" android:id="@+id/textView16"
-                    android:layout_below="@+id/info"
+                    android:layout_below="@+id/uds_logo"
                     android:layout_alignParentLeft="true"
                     android:layout_weight="1" />
 

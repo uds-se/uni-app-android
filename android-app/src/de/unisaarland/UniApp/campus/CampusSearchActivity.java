@@ -57,7 +57,7 @@ public class CampusSearchActivity extends ActionBarActivity {
 
         private final Context context;
         private final List<Pair<String, Integer>> categories;
-        private CategoryIconCache catIconCache;
+        private final CategoryIconCache catIconCache;
 
         public CampusCategoriesAdapter(Context context, List<Pair<String, Integer>> categories) {
             this.context = context;
@@ -147,7 +147,7 @@ public class CampusSearchActivity extends ActionBarActivity {
         };
     }
 
-    void returnPOIs(List<PointOfInterest> pois) {
+    private void returnPOIs(List<PointOfInterest> pois) {
         Intent data = new Intent();
         data.putExtra("pois", (Serializable) pois);
         setResult(RESULT_OK, data);
@@ -205,7 +205,7 @@ public class CampusSearchActivity extends ActionBarActivity {
         }
     }
 
-    private View.OnClickListener poiClickListener = new View.OnClickListener() {
+    private final View.OnClickListener poiClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             PointOfInterest poi = (PointOfInterest) v.getTag(R.id.campus_search_poi_tag);

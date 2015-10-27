@@ -20,7 +20,8 @@
             android:id="@+id/relativeLayout">
             <ImageView android:layout_height="fill_parent"
                        android:layout_width="fill_parent" android:background="@drawable/cal_empty"
-                       android:id="@+id/cal_image">
+                       android:id="@+id/cal_image"
+                       android:contentDescription="date">
             </ImageView>
             <TextView android:id="@+id/event_month_text"
                       android:layout_height="16dp" android:layout_width="wrap_content"
