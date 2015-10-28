@@ -35,7 +35,7 @@ public class RSSDetailActivity extends ActionBarActivity {
 
         Bundle extras = getIntent().getExtras();
 
-        String url = null;
+        String url;
         int titleId = -1;
 
         if (extras != null) {

@@ -37,7 +37,16 @@ public class SearchResultActivity extends ActionBarActivity {
         super.onResume();
 
         Bundle extras = getIntent().getExtras();
-        String url = extras.getString("url");
+        String url;
+        if (extras != null) {
+            url = extras.getString("url");
+        } else {
+            url = savedInstanceState.getString("url");
+        }
+
+        if (url == null)
+            throw new AssertionError("url should be passed via intent or from saved state");
+
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);

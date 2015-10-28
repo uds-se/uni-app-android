@@ -49,7 +49,6 @@ public class StaffInfoParser implements ContentExtractor<StaffInfo> {
                 fax = tdElements.get(3).text();
                 email = tdElements.get(5).tagName("a").text();
                 room = tdElements.get(6).tagName("a").text();
-                String a = tdElements.get(7).text();
                 building = tdElements.get(8).tagName("a").text();
                 String[] tempArray = building.split(" ");
                 if (tempArray.length > 1) {

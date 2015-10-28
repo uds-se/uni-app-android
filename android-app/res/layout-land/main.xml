@@ -117,5 +117,19 @@
                           android:layout_below="@+id/staffBtn" android:textColor="#000000" android:id="@+id/staffTxt"/>
             </RelativeLayout>
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="wrap_content"
+            android:layout_height="28dp"
+            android:text="@string/c_saarbruecken"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/uni_real"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"/>
     </LinearLayout>
+
 </RelativeLayout>

@@ -224,7 +224,7 @@
                 android:layout_centerHorizontal="true"
                 android:adjustViewBounds="true"
                 android:background="@drawable/uds_logo"
-                android:contentDescription="Owl"></ImageView>
+                android:contentDescription="uni logo"></ImageView>
 
             <TextView
                 android:id="@+id/campusText"

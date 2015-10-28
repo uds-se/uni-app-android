@@ -131,6 +131,16 @@
                 android:textStyle="bold"/>
 
 
+            <ImageButton
+                android:id="@+id/building_forward_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignTop="@+id/building"
+                android:layout_marginTop="7dp"
+                android:background="@drawable/ic_ab_back_holo_light_am"
+                android:contentDescription="show on map"/>
+
             <TextView
                 android:id="@+id/roomText"
                 android:layout_width="fill_parent"
@@ -281,16 +291,8 @@
                 android:layout_alignParentRight="true"
                 android:layout_alignTop="@+id/more"
                 android:layout_marginTop="7dp"
-                android:background="@drawable/ic_ab_back_holo_light_am"/>
-
-            <ImageButton
-                android:id="@+id/building_forward_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_alignTop="@+id/building"
-                android:layout_marginTop="7dp"
-                android:background="@drawable/ic_ab_back_holo_light_am"/>
+                android:background="@drawable/ic_ab_back_holo_light_am"
+                android:contentDescription="more information"/>
 
             <include
                 layout="@layout/progress_bar"

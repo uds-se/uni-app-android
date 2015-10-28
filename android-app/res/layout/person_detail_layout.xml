@@ -16,7 +16,8 @@
                  android:layout_alignParentBottom="true"
                  android:background="@drawable/ic_action_back"
         android:layout_marginLeft="30dp"
-        android:layout_marginBottom="2.5dp" />
+        android:layout_marginBottom="2.5dp"
+                 android:contentDescription="back"/>
 
     <ImageButton android:id="@+id/forward_button" android:layout_height="25dp" android:layout_width="25dp"
         android:background="@drawable/ic_action_forward"
@@ -24,7 +25,8 @@
         android:layout_alignParentRight="false"
         android:layout_toRightOf="@+id/back_button"
         android:layout_marginLeft="30dp"
-        android:layout_marginBottom="2.5dp" />
+        android:layout_marginBottom="2.5dp"
+                 android:contentDescription="forward"/>
 
     <include
         android:layout_width="wrap_content"

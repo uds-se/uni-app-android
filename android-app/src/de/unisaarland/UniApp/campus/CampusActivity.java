@@ -345,6 +345,7 @@ public class CampusActivity extends ActionBarActivity implements ConnectionCallb
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (REQUEST_CODE == requestCode && resultCode == RESULT_OK && data.getExtras() != null) {
+            @SuppressWarnings("unchecked")
             List<PointOfInterest> pois = (List<PointOfInterest>) data.getExtras().get("pois");
             pinPOIsInArray(pois);
         }
@@ -512,6 +513,7 @@ public class CampusActivity extends ActionBarActivity implements ConnectionCallb
 
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String campus = settings.getString(getString(R.string.pref_campus), null);
+        assert campus != null;
         LatLng latlng = campus.equals(getString(R.string.pref_campus_saar))
                 ? new LatLng(49.25419, 7.041324)
                 : new LatLng(49.305582, 7.344296);

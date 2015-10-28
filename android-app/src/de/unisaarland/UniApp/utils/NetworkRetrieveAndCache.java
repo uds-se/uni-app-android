@@ -166,6 +166,7 @@ public class NetworkRetrieveAndCache<ResultType> {
         ObjectInputStream ois = null;
         try {
             ois = new ObjectInputStream(new ByteArrayInputStream(cached.second));
+            //noinspection unchecked
             data = (ResultType)ois.readObject();
             ois.close();
         } catch (IOException e) {

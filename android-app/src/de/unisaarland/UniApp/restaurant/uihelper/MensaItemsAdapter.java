@@ -7,7 +7,7 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import java.text.SimpleDateFormat;
+import java.text.DateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -60,10 +60,11 @@ public class MensaItemsAdapter extends BaseAdapter {
         TextView date_label = (TextView) convertView.findViewById(R.id.date_label);
         TextView day_label = (TextView) convertView.findViewById(R.id.day_label);
 
-        Date d = new Date(dates[position]);
-        //Set date
-        SimpleDateFormat parserSDF = new SimpleDateFormat("d. MMMM yyyy");
-        String datestring = parserSDF.format(d);
+        Date date = new Date(dates[position]);
+        Calendar dateCal = Calendar.getInstance();
+        dateCal.setTime(date);
+        // Set date in current locale
+        String datestring = DateFormat.getDateInstance(DateFormat.LONG).format(date);
         date_label.setText(datestring);
         date_label.setVisibility(View.VISIBLE);
         //Set day

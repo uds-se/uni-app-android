@@ -103,6 +103,7 @@ public class CampusSearchActivity extends ActionBarActivity {
         private final View.OnClickListener categoryClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                @SuppressWarnings("unchecked")
                 Pair<String, Integer> cat = (Pair<String, Integer>) v.getTag(R.id.campus_search_categorie_tag);
 
                 LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

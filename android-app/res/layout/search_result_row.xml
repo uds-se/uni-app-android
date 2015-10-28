@@ -27,6 +27,7 @@
             android:id="@+id/search_result_show_detail"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
-            android:background="@drawable/ic_ab_back_holo_light_am" />
+            android:background="@drawable/ic_ab_back_holo_light_am"
+            android:contentDescription="show"/>
     </RelativeLayout>
 </RelativeLayout>

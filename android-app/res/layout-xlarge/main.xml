@@ -107,18 +107,19 @@
     <ImageView android:layout_width="285dp"
                android:layout_height="120dp" android:background="@drawable/uds_logo"
         android:adjustViewBounds="true"
-        android:layout_above="@+id/about_btn"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20dp"></ImageView>
-    <Button android:layout_width="160dp"
-            android:layout_height="25dp"
-            android:id="@+id/about_btn"
-        android:clickable="true"
-        android:text="@string/aboutText"
-            android:gravity="center_vertical|center_horizontal" android:textColor="@color/uni_blue" android:textSize="16sp"
-            android:textStyle="bold"
-        android:background="@android:color/transparent"
+               android:layout_above="@+id/textView5"
+               android:layout_centerHorizontal="true"></ImageView>
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="28dp"
+        android:text="@string/c_saarbruecken"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/uni_real"
+        android:textSize="16sp"
+        android:textStyle="bold"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="10dp" />
+        android:layout_marginBottom="49dp"/>
 </RelativeLayout>

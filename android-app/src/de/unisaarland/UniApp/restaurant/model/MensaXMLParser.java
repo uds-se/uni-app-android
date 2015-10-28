@@ -86,8 +86,6 @@ public class MensaXMLParser extends XMLExtractor<Map<Long, List<MensaItem>>> {
         String desc = null;
         String title = null;
         Date tag = null;
-        String kennzeichnungen = null;
-        String beilagen = null;
         int preis1 = 0;
         int preis2 = 0;
         int preis3 = 0;
@@ -139,8 +137,7 @@ public class MensaXMLParser extends XMLExtractor<Map<Long, List<MensaItem>>> {
                 if (part.trim().length() > 2)
                     valid = false;
             if (valid)
-                for (String part : parts)
-                    labels.add(part);
+                labels.addAll(Arrays.asList(parts));
             pos = closeParen + 1;
         }
         String[] arr = labels.toArray(new String[labels.size()]);
@@ -168,9 +165,9 @@ public class MensaXMLParser extends XMLExtractor<Map<Long, List<MensaItem>>> {
         String[] parts = str.split(",");
         if (parts.length != 3)
             return 0;
-        int red = 0;
-        int green = 0;
-        int blue = 0;
+        int red;
+        int green;
+        int blue;
         try {
             red = Integer.parseInt(parts[0]);
             green = Integer.parseInt(parts[1]);
