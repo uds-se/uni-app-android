@@ -9,8 +9,10 @@ import android.widget.TextView;
 
 import java.text.DateFormat;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import de.unisaarland.UniApp.R;
@@ -66,12 +68,10 @@ public class MensaItemsAdapter extends BaseAdapter {
         // Set date in current locale
         String datestring = DateFormat.getDateInstance(DateFormat.LONG).format(date);
         date_label.setText(datestring);
-        date_label.setVisibility(View.VISIBLE);
-        //Set day
-        parserSDF = new SimpleDateFormat("EEEE");
-        String daystring = parserSDF.format(d);
+        // Set day in current locale
+        String daystring = dateCal.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG,
+                Locale.getDefault());
         day_label.setText(daystring);
-        day_label.setVisibility(View.VISIBLE);
         ListView mensaList = (ListView) convertView.findViewById(R.id.mensaList);
         List<MensaItem> items = mensaItems.get(dates[position]);
         RestaurantAdapter adapter = (RestaurantAdapter) mensaList.getAdapter();

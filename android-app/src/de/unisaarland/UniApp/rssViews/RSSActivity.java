@@ -17,10 +17,12 @@ import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import de.unisaarland.UniApp.R;
 import de.unisaarland.UniApp.rssViews.model.RSSItem;
@@ -40,8 +42,7 @@ public class RSSActivity extends ActionBarActivity {
                 }
                 TextView newsTitle = (TextView) convertView.findViewById(R.id.news_date);
                 Date date = item.getPublicationDate();
-                SimpleDateFormat parserSDF = new SimpleDateFormat("d. MMMM yyyy");
-                String datestring = parserSDF.format(date);
+                String datestring = SimpleDateFormat.getDateInstance().format(date);
                 newsTitle.setText(datestring);
                 TextView newsDescription = (TextView) convertView.findViewById(R.id.news_item_text);
                 newsDescription.setGravity(Gravity.CENTER_VERTICAL);
@@ -68,23 +69,23 @@ public class RSSActivity extends ActionBarActivity {
 
             @Override
             protected View getView(RSSItem item, View convertView, Context context) {
-                if (convertView == null) {
+                if (convertView == null)
                     convertView = View.inflate(context, R.layout.event_item, null);
-                }
                 Date date = item.getPublicationDate();
+                Calendar dateCal = Calendar.getInstance();
+                dateCal.setTime(date);
                 //Set month in locale language
-                SimpleDateFormat SDF = new SimpleDateFormat("MMM");
+                String month = dateCal.getDisplayName(Calendar.MONTH, Calendar.SHORT,
+                        Locale.getDefault());
                 TextView eventMonth = (TextView) convertView.findViewById(R.id.event_month_text);
-                eventMonth.setText(SDF.format(date));
-                //Set day in local language
-                SDF = new SimpleDateFormat("d");
+                eventMonth.setText(month);
+                //Set day
                 TextView eventDate = (TextView) convertView.findViewById(R.id.event_day_text);
-                eventDate.setText(SDF.format(date));
+                eventDate.setText(Integer.toString(dateCal.get(Calendar.DAY_OF_MONTH)));
 
                 TextView eventDescription = (TextView) convertView.findViewById(R.id.event_description);
                 eventDescription.setText(item.getTitle());
                 return convertView;
-
             }
         };
 
