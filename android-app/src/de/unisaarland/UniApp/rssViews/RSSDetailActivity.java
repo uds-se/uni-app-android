@@ -3,7 +3,6 @@ package de.unisaarland.UniApp.rssViews;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
@@ -45,6 +44,9 @@ public class RSSDetailActivity extends ActionBarActivity {
             url = savedInstanceState.getString("url");
         }
 
+        if (url == null)
+            throw new AssertionError("url should be passed via intent or from saved state");
+
         // sets the custom navigation bar according to each activity.
         ActionBar actionBar = getSupportActionBar();
         //Enabling Up-Navigation
@@ -54,8 +56,6 @@ public class RSSDetailActivity extends ActionBarActivity {
 
         setContentView(R.layout.rss_detail);
         if (fetcher == null) {
-            if (url == null)
-                throw new NullPointerException("url must be supplied by intent or saved state");
             String tag = "rss-"+Integer.toHexString(url.hashCode());
             fetcher = new NetworkRetrieveAndCache<>(url, tag, 15 * 60,
                     Util.getContentCache(this),
@@ -66,8 +66,8 @@ public class RSSDetailActivity extends ActionBarActivity {
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
-        super.onSaveInstanceState(outState, outPersistentState);
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
         if (fetcher != null)
             outState.putString("url", fetcher.getUrl());
     }

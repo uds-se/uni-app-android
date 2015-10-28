@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
@@ -22,19 +21,13 @@ public class PersonDetailWebActivity extends ActionBarActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle extras = getIntent().getExtras();
-        url = extras.getString("url");
-    }
+        if (extras.containsKey("url"))
+            url = extras.getString("url");
+        else if (savedInstanceState.containsKey("url"))
+            url = savedInstanceState.getString("url");
 
-    @Override
-    public void onBackPressed() {
-        WebView webView = (WebView) findViewById(R.id.web_view);
-        webView.stopLoading();
-        super.onBackPressed();
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
+        if (url == null)
+            throw new AssertionError("url should be passed via intent or saved state");
 
         ActionBar actionBar = getSupportActionBar();
         //Enabling Up-Navigation
@@ -86,14 +79,28 @@ public class PersonDetailWebActivity extends ActionBarActivity {
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
-                ProgressBar pBar = (ProgressBar) findViewById(R.id.progress_bar);
-                WebView webView = (WebView) findViewById(R.id.web_view);
-                if (pBar != null && webView != null) {
-                    pBar.setVisibility(View.GONE);
-                }
+                pBar.setVisibility(View.GONE);
             }
         });
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        WebView webView = (WebView) findViewById(R.id.web_view);
         webView.loadUrl(url);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        WebView webView = (WebView) findViewById(R.id.web_view);
+        webView.stopLoading();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("url", url);
     }
 }

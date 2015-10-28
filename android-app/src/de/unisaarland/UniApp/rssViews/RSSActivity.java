@@ -130,7 +130,14 @@ public class RSSActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
 
         Bundle extras = getIntent().getExtras();
-        cat = (Category) extras.getSerializable("category");
+        if (extras != null && extras.containsKey("category")) {
+            cat = (Category) extras.getSerializable("category");
+        } else if (savedInstanceState.containsKey("category")) {
+            cat = (Category) savedInstanceState.getSerializable("category");
+        }
+
+        if (cat == null)
+            throw new AssertionError("category should be passed via intent or from saved state");
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle(cat.title);
@@ -138,6 +145,12 @@ public class RSSActivity extends ActionBarActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         setContentView(R.layout.news_panel);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable("category", cat);
     }
 
     @Override

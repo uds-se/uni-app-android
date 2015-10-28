@@ -25,6 +25,7 @@ public class SearchResultActivity extends ActionBarActivity {
 
     // store scroll position on leave and restore on return (on first content load)
     private Parcelable listState = null;
+
     @Override
     protected void onPause() {
         super.onPause();
@@ -33,8 +34,8 @@ public class SearchResultActivity extends ActionBarActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
         Bundle extras = getIntent().getExtras();
         String url;
@@ -63,7 +64,18 @@ public class SearchResultActivity extends ActionBarActivity {
             networkFetcher = new NetworkRetrieveAndCache<>(url, tag, 60*15, cache,
                     new SearchResultExtractor(url), new NetworkDelegate(), this);
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         networkFetcher.loadAsynchronously();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("url", networkFetcher.getUrl());
     }
 
     @Override
@@ -80,8 +92,8 @@ public class SearchResultActivity extends ActionBarActivity {
 
         @Override
         public void onUpdate(List<SearchResult> result) {
-            showSearchResults(result);
             hasResult = true;
+            showSearchResults(result);
         }
 
         @Override
