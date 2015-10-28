@@ -16,12 +16,12 @@ import java.util.Map;
 import de.unisaarland.UniApp.R;
 import de.unisaarland.UniApp.restaurant.model.MensaItem;
 
-public class ViewFlowAdapter extends BaseAdapter {
+public class MensaItemsAdapter extends BaseAdapter {
     private Map<Long, List<MensaItem>> mensaItems;
     private final Context context;
     private long[] dates;
 
-    public ViewFlowAdapter(Context context, Map<Long, List<MensaItem>> mensaItems) {
+    public MensaItemsAdapter(Context context, Map<Long, List<MensaItem>> mensaItems) {
         if (context == null || mensaItems == null)
             throw new NullPointerException();
         this.context = context;

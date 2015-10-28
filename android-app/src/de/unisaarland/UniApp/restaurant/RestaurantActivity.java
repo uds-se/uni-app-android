@@ -22,7 +22,7 @@ import de.unisaarland.UniApp.restaurant.model.MensaItem;
 import de.unisaarland.UniApp.restaurant.model.MensaXMLParser;
 import de.unisaarland.UniApp.restaurant.uihelper.CircleFlowIndicator;
 import de.unisaarland.UniApp.restaurant.uihelper.ViewFlow;
-import de.unisaarland.UniApp.restaurant.uihelper.ViewFlowAdapter;
+import de.unisaarland.UniApp.restaurant.uihelper.MensaItemsAdapter;
 import de.unisaarland.UniApp.utils.ContentCache;
 import de.unisaarland.UniApp.utils.NetworkRetrieveAndCache;
 import de.unisaarland.UniApp.utils.Util;
@@ -151,9 +151,9 @@ public class RestaurantActivity extends ActionBarActivity {
                 ++itemToSelect;
 
         ViewFlow viewFlow = (ViewFlow) findViewById(R.id.viewflow);
-        ViewFlowAdapter adapter = (ViewFlowAdapter) viewFlow.getAdapter();
+        MensaItemsAdapter adapter = (MensaItemsAdapter) viewFlow.getAdapter();
         if (adapter == null) {
-            viewFlow.setAdapter(new ViewFlowAdapter(this, items), itemToSelect);
+            viewFlow.setAdapter(new MensaItemsAdapter(this, items), itemToSelect);
             viewFlow.setOnViewSwitchListener(new ViewFlow.ViewSwitchListener() {
                 @Override
                 public void onSwitched(View view, int position) {
