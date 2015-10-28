@@ -79,7 +79,7 @@
                 android:value=".campus.CampusActivity" />
             </activity>
 
-        <activity android:name=".about.AboutActicvity" android:label="@string/aboutText" >
+        <activity android:name=".about.AboutActivity" android:label="@string/aboutText" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="de.unisaarland.UniApp.MainActivity" />
