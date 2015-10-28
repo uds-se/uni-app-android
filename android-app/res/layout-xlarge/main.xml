@@ -108,7 +108,8 @@
                android:layout_height="120dp" android:background="@drawable/uds_logo"
         android:adjustViewBounds="true"
                android:layout_above="@+id/textView5"
-               android:layout_centerHorizontal="true"></ImageView>
+               android:layout_centerHorizontal="true"
+               android:contentDescription="uni logo"></ImageView>
 
     <TextView
         android:id="@+id/textView5"
