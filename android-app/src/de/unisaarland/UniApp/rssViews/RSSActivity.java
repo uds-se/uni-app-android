@@ -15,7 +15,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import java.text.SimpleDateFormat;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -42,7 +42,7 @@ public class RSSActivity extends ActionBarActivity {
                 }
                 TextView newsTitle = (TextView) convertView.findViewById(R.id.news_date);
                 Date date = item.getPublicationDate();
-                String datestring = SimpleDateFormat.getDateInstance().format(date);
+                String datestring = DateFormat.getDateInstance(DateFormat.LONG).format(date);
                 newsTitle.setText(datestring);
                 TextView newsDescription = (TextView) convertView.findViewById(R.id.news_item_text);
                 newsDescription.setGravity(Gravity.CENTER_VERTICAL);
