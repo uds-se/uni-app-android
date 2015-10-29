@@ -88,7 +88,7 @@
         <activity android:name=".rssViews.RSSDetailActivity" android:configChanges="orientation|screenSize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".rssViews.RSSDetailActivity" />
+                android:value=".rssViews.RSSActivity" />
             </activity>
 
         <activity android:name=".staff.SearchResultActivity" android:launchMode="singleTop" android:configChanges="orientation|screenSize">
