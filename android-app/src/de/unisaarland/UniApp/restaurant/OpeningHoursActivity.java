@@ -3,11 +3,8 @@ package de.unisaarland.UniApp.restaurant;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.NavUtils;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.view.MenuItem;
 
 import de.unisaarland.UniApp.R;
 import de.unisaarland.UniApp.restaurant.uihelper.AuslanderCafeFragment;
@@ -21,12 +18,9 @@ import de.unisaarland.UniApp.restaurant.uihelper.SupportFragmentTabListener;
 //TODO: Add swipe to change Tabs
 public class OpeningHoursActivity extends ActionBarActivity {
 
-    private PagerAdapter mCollectionPagerAdapter;
-    private ViewPager mViewPager;
-
     public void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
+
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
         String campus = settings.getString(getString(R.string.pref_campus), null);
         setActionBar();
@@ -46,7 +40,7 @@ public class OpeningHoursActivity extends ActionBarActivity {
     }
 
     private void setTabs() {
-        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        ActionBar actionBar = getSupportActionBar();
         actionBar.addTab(actionBar.newTab().setTabListener(new SupportFragmentTabListener<MensaFragment>(
                 this, "mensa", MensaFragment.class)).setText(R.string.mensa));
         actionBar.addTab(actionBar.newTab().setTabListener(new SupportFragmentTabListener<MensaCafeFragment>(
@@ -57,21 +51,6 @@ public class OpeningHoursActivity extends ActionBarActivity {
                 this, "juristencafe", JuristenCafeFragment.class)).setText(R.string.juristen_cafe));
         actionBar.addTab(actionBar.newTab().setTabListener(new SupportFragmentTabListener<HeroesCafeFragment>(
                 this, "horoescafe", HeroesCafeFragment.class)).setText(R.string.heroes_cafe));
-        actionBar.setNavigationMode(android.support.v7.app.ActionBar.NAVIGATION_MODE_TABS);
-    }
-
-
-    // Handling the Action Bar Buttons
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            // Respond to the action bar's Up/Home button
-            case android.R.id.home:
-                onBackPressed();
-                NavUtils.navigateUpFromSameTask(this);
-
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
     }
 }
