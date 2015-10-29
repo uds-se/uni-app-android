@@ -107,12 +107,12 @@
     <ImageView android:layout_width="285dp"
                android:layout_height="120dp" android:background="@drawable/uds_logo"
         android:adjustViewBounds="true"
-               android:layout_above="@+id/textView5"
-               android:layout_centerHorizontal="true"
-               android:contentDescription="uni logo"></ImageView>
+               android:contentDescription="uni logo"
+               android:layout_above="@+id/campusText"
+               android:layout_centerHorizontal="true"></ImageView>
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/campusText"
         android:layout_width="wrap_content"
         android:layout_height="28dp"
         android:text="@string/c_saarbruecken"
