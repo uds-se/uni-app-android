@@ -1,0 +1,31 @@
+Version 1.4.1 (Okt 2015)
+========================
+- Inhaltsstoffe bei Mensa-Essen können optional ausgeblendet werden
+
+Version 1.4 (Okt 2015)
+======================
+- Heruntergeladenen Inhalte werden zwischengespeichert (Neuigkeiten, Veranstaltungen, Mensaplan, Personensuche)
+- Inhaltsstoffe bei Mensa-Essen werden wieder angezeigt (kann in den Einstellungen deaktiviert werden)
+
+Version 1.3.1 (Okt 2015)
+======================
+- Vergangene Veranstaltungen werden aussortiert und der Rest chronographisch sortiert
+
+Version 1.3 (Okt 2015)
+======================
+- URL für Veranstaltungen korrigiert
+- Suchauswahl (Profs/alle) wird gespeichert
+
+Version 1.2.4 (Jun 2015)
+======================
+- URLs der Gebäude der Campus-Karte korrigiert
+
+Version 1.2 (Mar 2015)
+======================
+- jetzt auch mit Homburger Campus
+- neues Design (entsprechend dem Material design)
+- Fehler beim Einlesen des Mensa-Speiseplans behoben
+
+Version 1.1 (Aug 2014)
+======================
+ERSTES ÖFFENTLICHES RELEASE

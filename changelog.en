@@ -1,0 +1,31 @@
+Version 1.4.1 (Oct 2015)
+========================
+- Mensa ingredients can be optionally hidden
+
+Version 1.4 (Oct 2015)
+======================
+- Cache all downloaded content (events, news, mensa menu, staff search)
+- Show mensa ingredients (can be disabled on settings pane)
+
+Version 1.3.1 (Oct 2015)
+========================
+- Remove outdated events and order the rest chronographic
+
+Version 1.3 (Oct 2015)
+======================
+- Fix URL for events
+- Remember staff search selection (profs/all)
+
+Version 1.2.4 (Jun 2015)
+======================
+- Fix URLs for buildings on campus map
+
+Version 1.2 (Mar 2015)
+======================
+- Now includes the Homburg campus
+- Major redesign according to Material design
+- Fixes parsing of Mensa menu
+
+Version 1.1 (Aug 2014)
+======================
+FIRST PUBLIC RELEASE
