@@ -95,22 +95,30 @@ public class MensaXMLParser extends XMLExtractor<Map<Long, List<MensaItem>>> {
             if (parser.getEventType() != XmlPullParser.START_TAG)
                 continue;
             String name = parser.getName();
-            if (name.equals(TITLE)) {
-                title = getElementValue(parser, TITLE);
-            } else if (name.equals(CATEGORY)) {
-                category = getElementValue(parser, CATEGORY);
-            } else if (name.equals(DESCRIPTION)) {
-                desc = getElementValue(parser, DESCRIPTION);
-            } else if (name.equals(PREIS1)) {
-                preis1 = parsePreis(getElementValue(parser, PREIS1));
-            } else if (name.equals(PREIS2)) {
-                preis2 = parsePreis(getElementValue(parser, PREIS2));
-            } else if (name.equals(PREIS3)) {
-                preis3 = parsePreis(getElementValue(parser, PREIS3));
-            } else if (name.equals(COLOR)) {
-                color = parseColor(getElementValue(parser, COLOR));
-            } else {
-                skipTag(parser);
+            switch (name) {
+                case TITLE:
+                    title = getElementValue(parser, TITLE);
+                    break;
+                case CATEGORY:
+                    category = getElementValue(parser, CATEGORY);
+                    break;
+                case DESCRIPTION:
+                    desc = getElementValue(parser, DESCRIPTION);
+                    break;
+                case PREIS1:
+                    preis1 = parsePreis(getElementValue(parser, PREIS1));
+                    break;
+                case PREIS2:
+                    preis2 = parsePreis(getElementValue(parser, PREIS2));
+                    break;
+                case PREIS3:
+                    preis3 = parsePreis(getElementValue(parser, PREIS3));
+                    break;
+                case COLOR:
+                    color = parseColor(getElementValue(parser, COLOR));
+                    break;
+                default:
+                    skipTag(parser);
             }
         }
 

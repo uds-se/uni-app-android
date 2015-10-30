@@ -32,15 +32,15 @@ public class OpeningHoursActivity extends UpNavigationActionBarActivity {
 
     private void setTabs() {
         ActionBar actionBar = getSupportActionBar();
-        actionBar.addTab(actionBar.newTab().setTabListener(new SupportFragmentTabListener<MensaFragment>(
+        actionBar.addTab(actionBar.newTab().setTabListener(new SupportFragmentTabListener<>(
                 this, "mensa", MensaFragment.class)).setText(R.string.mensa));
-        actionBar.addTab(actionBar.newTab().setTabListener(new SupportFragmentTabListener<MensaCafeFragment>(
+        actionBar.addTab(actionBar.newTab().setTabListener(new SupportFragmentTabListener<>(
                 this, "mensacafe", MensaCafeFragment.class)).setText(R.string.mensa_cafe));
-        actionBar.addTab(actionBar.newTab().setTabListener(new SupportFragmentTabListener<AuslanderCafeFragment>(
+        actionBar.addTab(actionBar.newTab().setTabListener(new SupportFragmentTabListener<>(
                 this, "auslaendercafe", AuslanderCafeFragment.class)).setText(R.string.auslander_cafe));
-        actionBar.addTab(actionBar.newTab().setTabListener(new SupportFragmentTabListener<JuristenCafeFragment>(
+        actionBar.addTab(actionBar.newTab().setTabListener(new SupportFragmentTabListener<>(
                 this, "juristencafe", JuristenCafeFragment.class)).setText(R.string.juristen_cafe));
-        actionBar.addTab(actionBar.newTab().setTabListener(new SupportFragmentTabListener<HeroesCafeFragment>(
+        actionBar.addTab(actionBar.newTab().setTabListener(new SupportFragmentTabListener<>(
                 this, "horoescafe", HeroesCafeFragment.class)).setText(R.string.heroes_cafe));
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
     }

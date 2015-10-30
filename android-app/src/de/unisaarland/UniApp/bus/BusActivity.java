@@ -27,7 +27,7 @@ import de.unisaarland.UniApp.utils.UpNavigationActionBarActivity;
 public class BusActivity extends UpNavigationActionBarActivity
         implements GoogleApiClient.ConnectionCallbacks, LocationListener {
     private static final int BUS_ID = 5;
-    private ArrayList<PointOfInterest> busStationsArray = null;
+    private List<PointOfInterest> busStationsArray = null;
     private Location currentLocation = null;
     private String provider = null;
     private ListView busStationsList = null;
@@ -96,7 +96,7 @@ public class BusActivity extends UpNavigationActionBarActivity
     * */
     @Override
     protected void onStart() {
-        busStationsArray = new ArrayList<PointOfInterest>();
+        busStationsArray = new ArrayList<>();
         updateModel();
         super.onStart();
     }
@@ -108,7 +108,7 @@ public class BusActivity extends UpNavigationActionBarActivity
         DatabaseHandler dbHandler = new DatabaseHandler(this);
         List<PointOfInterest> tempBusStations = dbHandler.getPOIsForCategoryWithID(BUS_ID);
         dbHandler.close();
-        HashMap<String,String> tempHashMap = new HashMap<String, String>(5);
+        HashMap<String,String> tempHashMap = new HashMap<>(5);
         for(PointOfInterest poi: tempBusStations){
             if(!tempHashMap.containsKey(poi.getTitle())){
                 busStationsArray.add(poi);
@@ -129,7 +129,7 @@ public class BusActivity extends UpNavigationActionBarActivity
 
         /// for search stations
         ListView searchStationsList = (ListView) findViewById(R.id.search_list_view);
-        ArrayList<SearchStationModel> searchStationArray = new ArrayList<SearchStationModel>();
+        ArrayList<SearchStationModel> searchStationArray = new ArrayList<>();
         SearchStationModel searchStationModel = new SearchStationModel();
         searchStationModel.setName(getString(R.string.search_bus));
         searchStationModel.setURL("Bahn.de");

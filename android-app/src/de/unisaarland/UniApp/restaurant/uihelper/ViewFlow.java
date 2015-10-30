@@ -132,8 +132,8 @@ public class ViewFlow extends AdapterView<Adapter> {
 	}
 
 	private void init() {
-		mLoadedViews = new LinkedList<View>();
-		mRecycledViews = new LinkedList<View>();
+		mLoadedViews = new LinkedList<>();
+		mRecycledViews = new LinkedList<>();
 		mScroller = new Scroller(getContext());
 		final ViewConfiguration configuration = ViewConfiguration
 				.get(getContext());

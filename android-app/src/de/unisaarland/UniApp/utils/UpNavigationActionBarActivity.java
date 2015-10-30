@@ -1,6 +1,7 @@
 package de.unisaarland.UniApp.utils;
 
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
@@ -12,6 +13,7 @@ import android.view.MenuItem;
  * An activity with action bar, providing an up-button, which navigates back to the parent
  * activity.
  */
+@SuppressLint("Registered")
 public class UpNavigationActionBarActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {

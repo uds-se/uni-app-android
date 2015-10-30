@@ -10,7 +10,7 @@
         android:layout_height="fill_parent"
         android:weightSum="3"
         android:gravity="center_horizontal"
-        android:baselineAligned="true">
+        android:baselineAligned="false">
 
         <RelativeLayout
             android:layout_width="fill_parent"

@@ -8,27 +8,22 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import de.unisaarland.UniApp.R;
 import de.unisaarland.UniApp.bus.BusDetailActivity;
 import de.unisaarland.UniApp.bus.model.SearchStationModel;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Shahzad
- * Date: 12/3/13
- * Time: 12:15 PM
- * To change this template use File | Settings | File Templates.
- */
+
 public class SearchStationAdapter extends BaseAdapter {
 
-    private final ArrayList<SearchStationModel> searchStationsArray;
+    private final List<SearchStationModel> searchStationsArray;
     private final Context context;
-    private final HashMap<View,Integer> searchStationsMap = new HashMap<View,Integer>();
+    private final Map<View,Integer> searchStationsMap = new HashMap<>();
 
-    public SearchStationAdapter(Context context, ArrayList<SearchStationModel> searchStationsArray) {
+    public SearchStationAdapter(Context context, List<SearchStationModel> searchStationsArray) {
         this.context = context;
         this.searchStationsArray = searchStationsArray;
     }

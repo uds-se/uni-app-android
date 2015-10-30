@@ -10,7 +10,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:weightSum="2"
-        android:baselineAligned="true">
+        android:baselineAligned="false">
 
         <LinearLayout android:layout_height="wrap_content"
                         android:id="@+id/first_row" android:layout_alignParentTop="true"
@@ -20,7 +20,8 @@
             android:layout_marginLeft="30dp"
             android:weightSum="3"
             android:gravity="center"
-            android:layout_weight="1">
+            android:layout_weight="1"
+                      android:baselineAligned="false">
             <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="110dp"
@@ -75,7 +76,8 @@
             android:weightSum="3"
             android:layout_above="@+id/about_btn"
             android:gravity="center"
-            android:layout_weight="1">
+            android:layout_weight="1"
+                      android:baselineAligned="false">
             <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="110dp"
