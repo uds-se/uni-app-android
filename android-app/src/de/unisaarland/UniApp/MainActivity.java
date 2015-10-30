@@ -2,10 +2,9 @@ package de.unisaarland.UniApp;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -23,7 +22,7 @@ import de.unisaarland.UniApp.staff.SearchStaffActivity;
 /**
  * Launcher Activity of the application this Activity will be displayed when application is launched from the launcher
  */
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,8 +58,7 @@ public class MainActivity extends ActionBarActivity {
                 getString(R.string.pref_campus_saar));
         TextView campusText = (TextView) findViewById(R.id.campusText);
         // unfortunately, campusText happens to be null sometimes.
-        if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE
-                && campusText != null) {
+        if (campusText != null) {
             int text = campus.equals(getString(R.string.pref_campus_saar))
                     ? R.string.c_saarbruecken : R.string.c_homburg;
             campusText.setText(text);

@@ -4,22 +4,21 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
+import android.widget.TextView;
 
 import de.unisaarland.UniApp.R;
 import de.unisaarland.UniApp.campus.CampusActivity;
 import de.unisaarland.UniApp.utils.ContentCache;
 import de.unisaarland.UniApp.utils.NetworkRetrieveAndCache;
+import de.unisaarland.UniApp.utils.UpNavigationActionBarActivity;
 import de.unisaarland.UniApp.utils.Util;
 
 
-public class SearchResultItemDetailActivity extends ActionBarActivity {
+public class SearchResultItemDetailActivity extends UpNavigationActionBarActivity {
     private String url = null;
 
     private NetworkRetrieveAndCache<StaffInfo> networkFetcher = null;
@@ -27,11 +26,6 @@ public class SearchResultItemDetailActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        ActionBar actionBar = getSupportActionBar();
-        //Enabling UP-Navigation
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle(R.string.info);
 
         Bundle extras = getIntent().getExtras();
         url = extras.getString("url");
@@ -48,7 +42,7 @@ public class SearchResultItemDetailActivity extends ActionBarActivity {
         ScrollView infoView = (ScrollView) findViewById(R.id.staff_info_scroll_view);
         infoView.setVisibility(View.INVISIBLE);
 
-        if (networkFetcher == null) {
+        if (networkFetcher == null || networkFetcher.getUrl() != url) {
             String tag = "search-" + Integer.toHexString(url.hashCode());
             ContentCache cache = Util.getContentCache(this);
             networkFetcher = new NetworkRetrieveAndCache<>(url, tag, 15*60, cache,
@@ -59,16 +53,13 @@ public class SearchResultItemDetailActivity extends ActionBarActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
         networkFetcher.loadAsynchronously();
     }
 
     @Override
     protected void onStop() {
-        if (networkFetcher != null) {
+        if (networkFetcher != null)
             networkFetcher.cancel();
-            networkFetcher = null;
-        }
         super.onStop();
     }
 

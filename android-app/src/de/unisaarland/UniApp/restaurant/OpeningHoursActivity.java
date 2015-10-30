@@ -4,7 +4,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 
 import de.unisaarland.UniApp.R;
 import de.unisaarland.UniApp.restaurant.uihelper.AuslanderCafeFragment;
@@ -13,30 +12,22 @@ import de.unisaarland.UniApp.restaurant.uihelper.JuristenCafeFragment;
 import de.unisaarland.UniApp.restaurant.uihelper.MensaCafeFragment;
 import de.unisaarland.UniApp.restaurant.uihelper.MensaFragment;
 import de.unisaarland.UniApp.restaurant.uihelper.SupportFragmentTabListener;
+import de.unisaarland.UniApp.utils.UpNavigationActionBarActivity;
 
 
 //TODO: Add swipe to change Tabs
-public class OpeningHoursActivity extends ActionBarActivity {
+public class OpeningHoursActivity extends UpNavigationActionBarActivity {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
         String campus = settings.getString(getString(R.string.pref_campus), null);
-        setActionBar();
         if (campus.equals(getString(R.string.pref_campus_saar))) {
             //setContentView(R.layout.opening_layout);
             setTabs();
         } else
             setContentView(R.layout.campus_hom_opening_hours);
-    }
-
-    private void setActionBar() {
-        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
-        //Enable Up-Navigation
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle(getResources().getString(R.string.opening_hours));
-
     }
 
     private void setTabs() {

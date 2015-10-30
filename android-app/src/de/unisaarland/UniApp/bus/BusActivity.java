@@ -2,7 +2,6 @@ package de.unisaarland.UniApp.bus;
 
 import android.location.Location;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.widget.ListView;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -22,6 +21,7 @@ import de.unisaarland.UniApp.bus.model.SearchStationModel;
 import de.unisaarland.UniApp.bus.uihelper.BusStationsAdapter;
 import de.unisaarland.UniApp.bus.uihelper.SearchStationAdapter;
 import de.unisaarland.UniApp.database.DatabaseHandler;
+import de.unisaarland.UniApp.utils.UpNavigationActionBarActivity;
 
 /**
  * Created with IntelliJ IDEA.
@@ -34,7 +34,7 @@ import de.unisaarland.UniApp.database.DatabaseHandler;
 /*
 * It implements Location listeners to show the distance of the bus stop from users current location.
 * */
-public class BusActivity extends ActionBarActivity implements ConnectionCallbacks,LocationListener,OnConnectionFailedListener {
+public class BusActivity extends UpNavigationActionBarActivity implements ConnectionCallbacks,LocationListener,OnConnectionFailedListener {
     private static final int BUS_ID = 5;
     private ArrayList<PointOfInterest> busStationsArray = null;
     private Location currentLocation = null;
@@ -96,7 +96,6 @@ public class BusActivity extends ActionBarActivity implements ConnectionCallback
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setActionBar();
         setContentView(R.layout.bus_layout);
     }
 
@@ -145,16 +144,6 @@ public class BusActivity extends ActionBarActivity implements ConnectionCallback
         searchStationModel.setURL("Bahn.de");
         searchStationArray.add(searchStationModel);
         searchStationsList.setAdapter(new SearchStationAdapter(this,searchStationArray));
-    }
-
-    /**
-     * sets the custom navigation bar according to each activity.
-     */
-    private void setActionBar() {
-        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
-        //Enabling Up-Navigation
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle(R.string.busText);
     }
 
     ///////////////// call back methods of location client //////////////

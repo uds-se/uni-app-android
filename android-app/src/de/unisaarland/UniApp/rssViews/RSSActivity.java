@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -29,9 +28,10 @@ import de.unisaarland.UniApp.rssViews.model.RSSItem;
 import de.unisaarland.UniApp.rssViews.model.RSSItemParser;
 import de.unisaarland.UniApp.utils.ContentCache;
 import de.unisaarland.UniApp.utils.NetworkRetrieveAndCache;
+import de.unisaarland.UniApp.utils.UpNavigationActionBarActivity;
 import de.unisaarland.UniApp.utils.Util;
 
-public class RSSActivity extends ActionBarActivity {
+public class RSSActivity extends UpNavigationActionBarActivity {
 
     public enum Category {
         News(R.string.newsText, R.string.news_article, R.string.noNewsText, Util.NEWS_URL, "news") {
@@ -137,8 +137,6 @@ public class RSSActivity extends ActionBarActivity {
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle(cat.title);
-        //Enable Up-Navigation
-        actionBar.setDisplayHomeAsUpEnabled(true);
 
         setContentView(R.layout.news_panel);
     }

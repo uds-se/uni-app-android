@@ -6,8 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Pair;
 import android.view.Display;
 import android.view.KeyEvent;
@@ -28,8 +26,9 @@ import de.unisaarland.UniApp.R;
 import de.unisaarland.UniApp.bus.model.PointOfInterest;
 import de.unisaarland.UniApp.campus.uihelper.CategoryIconCache;
 import de.unisaarland.UniApp.database.DatabaseHandler;
+import de.unisaarland.UniApp.utils.UpNavigationActionBarActivity;
 
-public class CampusSearchActivity extends ActionBarActivity {
+public class CampusSearchActivity extends UpNavigationActionBarActivity {
 
     private static final String TAG = CampusActivity.class.getSimpleName();
 
@@ -40,11 +39,6 @@ public class CampusSearchActivity extends ActionBarActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.campus_search_layout);
-
-        ActionBar actionBar = getSupportActionBar();
-        //Enabling Up-Navigation
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle(R.string.categories);
 
         DatabaseHandler db = new DatabaseHandler(this);
         List<Pair<String, Integer>> categories = db.getAllCategories();

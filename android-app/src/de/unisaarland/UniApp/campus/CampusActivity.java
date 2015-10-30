@@ -14,8 +14,6 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.v4.view.MenuItemCompat;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -60,11 +58,12 @@ import de.unisaarland.UniApp.campus.uihelper.CustomInfoWindowAdapter;
 import de.unisaarland.UniApp.campus.uihelper.SearchAdapter;
 import de.unisaarland.UniApp.database.DatabaseHandler;
 import de.unisaarland.UniApp.restaurant.RestaurantActivity;
+import de.unisaarland.UniApp.utils.UpNavigationActionBarActivity;
 
 /*
 * It implements Location listeners to show the distance of the bus stop from users current location.
 * */
-public class CampusActivity extends ActionBarActivity implements ConnectionCallbacks,OnConnectionFailedListener,
+public class CampusActivity extends UpNavigationActionBarActivity implements ConnectionCallbacks,OnConnectionFailedListener,
         LocationListener,
         GoogleMap.OnMyLocationButtonClickListener, OnMarkerClickListener,OnInfoWindowClickListener {
 
@@ -284,12 +283,9 @@ public class CampusActivity extends ActionBarActivity implements ConnectionCallb
     //Creation Custom Actionbar
     public boolean onCreateOptionsMenu(Menu menu) {
 
-        ActionBar actionBar = getSupportActionBar();
         // Inflate the menu items for use in the action bar
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.campus_search_activity, menu);
-        //Enabling Up-Navigation
-        actionBar.setDisplayHomeAsUpEnabled(true);
         //Setting up the search widget
         this.menu = menu;
 

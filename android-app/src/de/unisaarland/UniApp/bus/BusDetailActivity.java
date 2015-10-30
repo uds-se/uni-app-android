@@ -4,8 +4,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -15,10 +13,11 @@ import android.widget.ProgressBar;
 import java.util.Calendar;
 
 import de.unisaarland.UniApp.R;
+import de.unisaarland.UniApp.utils.UpNavigationActionBarActivity;
 import de.unisaarland.UniApp.utils.Util;
 
 
-public class BusDetailActivity extends ActionBarActivity {
+public class BusDetailActivity extends UpNavigationActionBarActivity {
     private String url;
 
     public void onCreate(Bundle savedInstanceState) {
@@ -32,11 +31,6 @@ public class BusDetailActivity extends ActionBarActivity {
             throw new NullPointerException("url must be set from intent or saved state");
 
         setContentView(R.layout.person_detail_layout);
-
-        ActionBar actionBar = getSupportActionBar();
-        //Enabling Up-Navigation
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle(R.string.busText);
 
         // set the date and time to get the latest results from the saarvv website.
         Calendar calendar = Calendar.getInstance();

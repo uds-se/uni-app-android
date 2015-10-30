@@ -24,7 +24,8 @@
         </activity>
 
         <activity android:name=".SettingsActivity"  android:configChanges="orientation|screenSize"
-            android:parentActivityName=".MainActivity">
+                  android:label="@string/settings"
+                  android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="de.unisaarland.UniApp.MainActivity"
@@ -52,7 +53,7 @@
                 android:value="de.unisaarland.UniApp.MainActivity" />
             </activity>
 
-        <activity android:name=".campus.CampusActivity"  android:label="Campus" android:launchMode="singleTop"
+        <activity android:name=".campus.CampusActivity"  android:label="@string/campusText" android:launchMode="singleTop"
                   android:parentActivityName=".MainActivity">
             <meta-data android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
@@ -73,6 +74,7 @@
         </activity>
 
         <activity android:name=".restaurant.OpeningHoursActivity" android:configChanges="orientation|screenSize"
+                  android:label="@string/opening_hours"
                   android:parentActivityName=".restaurant.RestaurantActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -81,6 +83,7 @@
         </activity>
 
         <activity android:name=".campus.CampusSearchActivity"
+                  android:label="@string/categories"
                   android:parentActivityName=".campus.CampusActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -102,6 +105,7 @@
             </activity>
 
         <activity android:name=".staff.SearchResultActivity" android:launchMode="singleTop" android:configChanges="orientation|screenSize"
+                  android:label="@string/search_results"
                   android:parentActivityName=".staff.SearchStaffActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -109,6 +113,7 @@
             </activity>
 
         <activity android:name=".staff.SearchResultItemDetailActivity" android:launchMode="singleTop" android:configChanges="orientation|screenSize"
+                  android:label="@string/info"
                   android:parentActivityName=".staff.SearchResultActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -116,6 +121,7 @@
         </activity>
 
         <activity android:name=".staff.PersonDetailWebActivity" android:launchMode="singleTop" android:configChanges="orientation|screenSize"
+                  android:label="@string/more_info"
                   android:parentActivityName=".staff.SearchResultItemDetailActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -124,6 +130,7 @@
 
 
         <activity android:name=".bus.BusDetailActivity" android:configChanges="orientation|screenSize"
+                  android:label="@string/busText"
                   android:parentActivityName=".bus.BusActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -142,9 +149,6 @@
              android:name="com.google.android.maps.v2.API_KEY"
              android:value="AIzaSyBURTOVSL3tecwvoHo7KaY_WBMbYXvfaeA"/>
 
-
-
- </application>
-
+    </application>
 
 </manifest>

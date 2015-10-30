@@ -7,26 +7,22 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import de.unisaarland.UniApp.R;
+import de.unisaarland.UniApp.utils.UpNavigationActionBarActivity;
 
 
-public class SearchStaffActivity extends ActionBarActivity {
-    private RadioGroup radioChooser;
-    private TextView lastName;
-    private TextView firstName;
+public class SearchStaffActivity extends UpNavigationActionBarActivity {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        /*
         int orientation = this.getResources().getConfiguration().orientation;
         if (orientation == 1){
             getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
@@ -35,7 +31,6 @@ public class SearchStaffActivity extends ActionBarActivity {
             getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         }
 
-        /*
         //TODO: Hide Keyboard
         InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
@@ -43,14 +38,9 @@ public class SearchStaffActivity extends ActionBarActivity {
 
         setContentView(R.layout.search_staff_layout);
 
-        ActionBar actionBar = getSupportActionBar();
-        //Enabling Up-Navigation
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle(R.string.search_for_staff_text);
-
-        radioChooser = (RadioGroup) findViewById(R.id.radioChooser);
-        lastName = (TextView) findViewById(R.id.last_name);
-        firstName = (TextView) findViewById(R.id.first_name);
+        final RadioGroup radioChooser = (RadioGroup) findViewById(R.id.radioChooser);
+        final TextView lastName = (TextView) findViewById(R.id.last_name);
+        final TextView firstName = (TextView) findViewById(R.id.first_name);
         final Button searchButton = (Button) findViewById(R.id.searchBtn);
         firstName.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override

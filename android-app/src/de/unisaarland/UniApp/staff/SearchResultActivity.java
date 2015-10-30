@@ -4,8 +4,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -16,10 +14,11 @@ import de.unisaarland.UniApp.R;
 import de.unisaarland.UniApp.staff.uihelper.SearchResultAdapter;
 import de.unisaarland.UniApp.utils.ContentCache;
 import de.unisaarland.UniApp.utils.NetworkRetrieveAndCache;
+import de.unisaarland.UniApp.utils.UpNavigationActionBarActivity;
 import de.unisaarland.UniApp.utils.Util;
 
 
-public class SearchResultActivity extends ActionBarActivity {
+public class SearchResultActivity extends UpNavigationActionBarActivity {
     
     private NetworkRetrieveAndCache<List<SearchResult>> networkFetcher;
 
@@ -42,11 +41,6 @@ public class SearchResultActivity extends ActionBarActivity {
 
         if (url == null)
             throw new AssertionError("url should be passed via intent or from saved state");
-
-
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle(R.string.search_results);
 
         setContentView(R.layout.search_result_layout);
 

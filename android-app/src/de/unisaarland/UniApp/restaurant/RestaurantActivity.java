@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -21,13 +20,14 @@ import de.unisaarland.UniApp.R;
 import de.unisaarland.UniApp.restaurant.model.MensaItem;
 import de.unisaarland.UniApp.restaurant.model.MensaXMLParser;
 import de.unisaarland.UniApp.restaurant.uihelper.CircleFlowIndicator;
-import de.unisaarland.UniApp.restaurant.uihelper.ViewFlow;
 import de.unisaarland.UniApp.restaurant.uihelper.MensaItemsAdapter;
+import de.unisaarland.UniApp.restaurant.uihelper.ViewFlow;
 import de.unisaarland.UniApp.utils.ContentCache;
 import de.unisaarland.UniApp.utils.NetworkRetrieveAndCache;
+import de.unisaarland.UniApp.utils.UpNavigationActionBarActivity;
 import de.unisaarland.UniApp.utils.Util;
 
-public class RestaurantActivity extends ActionBarActivity {
+public class RestaurantActivity extends UpNavigationActionBarActivity {
 
     private final String TAG = RestaurantActivity.class.getSimpleName();
 
@@ -41,11 +41,6 @@ public class RestaurantActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        ActionBar actionBar = getSupportActionBar();
-        //Enable Up-Navigation
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle(R.string.mensa_text);
 
         setContentView(R.layout.restaurant_layout);
     }

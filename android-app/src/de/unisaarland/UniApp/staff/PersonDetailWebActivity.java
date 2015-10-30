@@ -4,8 +4,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -13,10 +11,11 @@ import android.widget.ImageButton;
 import android.widget.ProgressBar;
 
 import de.unisaarland.UniApp.R;
+import de.unisaarland.UniApp.utils.UpNavigationActionBarActivity;
 import de.unisaarland.UniApp.utils.Util;
 
 
-public class PersonDetailWebActivity extends ActionBarActivity {
+public class PersonDetailWebActivity extends UpNavigationActionBarActivity {
     private String url;
 
     public void onCreate(Bundle savedInstanceState) {
@@ -27,11 +26,6 @@ public class PersonDetailWebActivity extends ActionBarActivity {
 
         if (url == null)
             throw new AssertionError("url should be passed via intent or saved state");
-
-        ActionBar actionBar = getSupportActionBar();
-        //Enabling Up-Navigation
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle(R.string.more_info);
 
         setContentView(R.layout.person_detail_layout);
 

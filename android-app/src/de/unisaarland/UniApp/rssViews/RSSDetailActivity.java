@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.ProgressBar;
@@ -13,13 +12,14 @@ import de.unisaarland.UniApp.R;
 import de.unisaarland.UniApp.rssViews.model.RSSArticle;
 import de.unisaarland.UniApp.rssViews.model.RSSArticleExtractor;
 import de.unisaarland.UniApp.utils.NetworkRetrieveAndCache;
+import de.unisaarland.UniApp.utils.UpNavigationActionBarActivity;
 import de.unisaarland.UniApp.utils.Util;
 
 
 /**
  * Activity for showing events or news.
  */
-public class RSSDetailActivity extends ActionBarActivity {
+public class RSSDetailActivity extends UpNavigationActionBarActivity {
 
     private NetworkRetrieveAndCache<RSSArticle> fetcher = null;
 
@@ -42,8 +42,6 @@ public class RSSDetailActivity extends ActionBarActivity {
 
         // sets the custom navigation bar according to each activity.
         ActionBar actionBar = getSupportActionBar();
-        //Enabling Up-Navigation
-        actionBar.setDisplayHomeAsUpEnabled(true);
         if (titleId != -1)
             actionBar.setTitle(titleId);
 

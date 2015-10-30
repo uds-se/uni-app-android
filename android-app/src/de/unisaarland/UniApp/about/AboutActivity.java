@@ -2,17 +2,16 @@ package de.unisaarland.UniApp.about;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import de.unisaarland.UniApp.BuildConfig;
 import de.unisaarland.UniApp.R;
+import de.unisaarland.UniApp.utils.UpNavigationActionBarActivity;
 import de.unisaarland.UniApp.utils.Util;
 
-public class AboutActivity extends ActionBarActivity {
+public class AboutActivity extends UpNavigationActionBarActivity {
 
     private static final String TAG = AboutActivity.class.getSimpleName();
 
@@ -21,10 +20,6 @@ public class AboutActivity extends ActionBarActivity {
     * */
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle(R.string.aboutText);
 
         setContentView(R.layout.about_layout);
 
