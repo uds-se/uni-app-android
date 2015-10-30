@@ -62,7 +62,8 @@ public class SearchStaffActivity extends UpNavigationActionBarActivity {
         int lastChecked = prefs.getInt(getString(R.string.pref_staff_search_prof_sel), R.id.rb_only_prof);
         String lastFirstName = prefs.getString(getString(R.string.pref_staff_search_fstnam), "");
         String lastLastName = prefs.getString(getString(R.string.pref_staff_search_lstnam), "");
-        radioChooser.check(lastChecked);
+        if (lastChecked == R.id.rb_only_prof || lastChecked == R.id.rb_all)
+            radioChooser.check(lastChecked);
         firstName.setText(lastFirstName);
         lastName.setText(lastLastName);
 
@@ -70,10 +71,8 @@ public class SearchStaffActivity extends UpNavigationActionBarActivity {
             @Override
             public void onClick(View v) {
 
-                String lstNam = lastName.getText().toString();
-                lstNam = lstNam.trim();
-                String fstNam = firstName.getText().toString();
-                fstNam = fstNam.trim();
+                String lstNam = lastName.getText().toString().trim();
+                String fstNam = firstName.getText().toString().trim();
 
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SearchStaffActivity.this);
                 SharedPreferences.Editor editor = prefs.edit();

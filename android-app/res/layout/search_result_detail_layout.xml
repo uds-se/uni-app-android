@@ -33,18 +33,25 @@
                 android:textStyle="normal"
                 />
 
-            <Button
+            <TextView
                 android:id="@+id/name"
                 android:layout_width="fill_parent"
                 android:layout_height="30dp"
-                android:layout_below="@+id/nametext"
-                android:background="#FFFFFF"
+                android:layout_below="@id/nametext"
+                android:background="@color/white"
                 android:gravity="center_vertical|center_horizontal|clip_vertical|left"
                 android:paddingLeft="10dp"
                 android:singleLine="true"
                 android:textColor="@color/uni_blue"
                 android:textSize="14sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:inputType="textPersonName"/>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="2dp"
+                android:background="@color/uni_blue"
+                android:layout_below="@id/name"/>
 
             <TextView
                 android:id="@+id/gendertext"
@@ -61,18 +68,24 @@
                 android:textSize="16sp"
                 android:textStyle="normal"/>
 
-            <Button
+            <TextView
                 android:id="@+id/gender"
                 android:layout_width="fill_parent"
                 android:layout_height="30dp"
-                android:layout_below="@+id/gendertext"
-                android:background="#FFFFFF"
+                android:layout_below="@id/gendertext"
+                android:background="@color/white"
                 android:gravity="center_vertical|center_horizontal|clip_vertical|left"
                 android:paddingLeft="10dp"
                 android:singleLine="true"
                 android:textColor="@color/uni_blue"
                 android:textSize="14sp"
                 android:textStyle="bold"/>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="2dp"
+                android:background="@color/uni_blue"
+                android:layout_below="@id/gender"/>
 
             <TextView
                 android:id="@+id/academicText"
@@ -89,12 +102,12 @@
                 android:textSize="16sp"
                 android:textStyle="normal"/>
 
-            <Button
+            <TextView
                 android:id="@+id/academic_degree"
                 android:layout_width="fill_parent"
                 android:layout_height="30dp"
-                android:layout_below="@+id/academicText"
-                android:background="#FFFFFF"
+                android:layout_below="@id/academicText"
+                android:background="@color/white"
                 android:gravity="center_vertical|center_horizontal|clip_vertical|left"
                 android:paddingLeft="10dp"
                 android:singleLine="true"
@@ -102,11 +115,17 @@
                 android:textSize="14sp"
                 android:textStyle="bold"/>
 
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="2dp"
+                android:background="@color/uni_blue"
+                android:layout_below="@id/academic_degree"/>
+
             <TextView
                 android:id="@+id/buildingText"
                 android:layout_width="fill_parent"
                 android:layout_height="20dp"
-                android:layout_below="@+id/academic_degree"
+                android:layout_below="@id/academic_degree"
                 android:layout_marginBottom="2dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="15dp"
@@ -117,12 +136,12 @@
                 android:textSize="16sp"
                 android:textStyle="normal"/>
 
-            <Button
+            <TextView
                 android:id="@+id/building"
                 android:layout_width="fill_parent"
                 android:layout_height="30dp"
-                android:layout_below="@+id/buildingText"
-                android:background="@drawable/list_item_selector"
+                android:layout_below="@id/buildingText"
+                android:background="@color/white"
                 android:gravity="center_vertical|center_horizontal|clip_vertical|left"
                 android:paddingLeft="10dp"
                 android:singleLine="true"
@@ -134,18 +153,23 @@
             <ImageButton
                 android:id="@+id/building_forward_icon"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:layout_alignParentRight="true"
-                android:layout_alignTop="@+id/building"
-                android:layout_marginTop="7dp"
+                android:layout_alignTop="@id/building"
                 android:background="@drawable/ic_ab_back_holo_light_am"
                 android:contentDescription="show on map"/>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="2dp"
+                android:background="@color/uni_blue"
+                android:layout_below="@id/building"/>
 
             <TextView
                 android:id="@+id/roomText"
                 android:layout_width="fill_parent"
                 android:layout_height="25dp"
-                android:layout_below="@+id/building"
+                android:layout_below="@id/building"
                 android:layout_marginBottom="2dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="15dp"
@@ -156,18 +180,24 @@
                 android:textSize="16sp"
                 android:textStyle="normal"/>
 
-            <Button
+            <TextView
                 android:id="@+id/room"
                 android:layout_width="fill_parent"
                 android:layout_height="30dp"
                 android:layout_below="@+id/roomText"
-                android:background="#FFFFFF"
+                android:background="@color/white"
                 android:gravity="center_vertical|center_horizontal|clip_vertical|left"
                 android:paddingLeft="10dp"
                 android:singleLine="true"
                 android:textColor="@color/uni_blue"
                 android:textSize="14sp"
                 android:textStyle="bold"/>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="2dp"
+                android:background="@color/uni_blue"
+                android:layout_below="@id/room"/>
 
             <TextView
                 android:id="@+id/phoneText"
@@ -184,25 +214,33 @@
                 android:textSize="16sp"
                 android:textStyle="normal"/>
 
-            <Button
+            <TextView
                 android:id="@+id/phone"
                 android:layout_width="fill_parent"
                 android:layout_height="30dp"
-                android:layout_below="@+id/phoneText"
+                android:layout_below="@id/phoneText"
                 android:autoLink="phone"
-                android:background="#FFFFFF"
+                android:background="@color/white"
                 android:gravity="center_vertical|center_horizontal|clip_vertical|left"
                 android:paddingLeft="10dp"
                 android:singleLine="true"
                 android:textColor="@color/uni_blue"
                 android:textSize="14sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:phoneNumber="true"
+                android:inputType="phone"/>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="2dp"
+                android:background="@color/uni_blue"
+                android:layout_below="@id/phone"/>
 
             <TextView
                 android:id="@+id/faxText"
                 android:layout_width="fill_parent"
                 android:layout_height="25dp"
-                android:layout_below="@+id/phone"
+                android:layout_below="@id/phone"
                 android:layout_marginBottom="2dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="15dp"
@@ -213,25 +251,33 @@
                 android:textSize="16sp"
                 android:textStyle="normal"/>
 
-            <Button
+            <TextView
                 android:id="@+id/fax"
                 android:layout_width="fill_parent"
                 android:layout_height="30dp"
-                android:layout_below="@+id/faxText"
+                android:layout_below="@id/faxText"
                 android:autoLink="phone"
-                android:background="#FFFFFF"
+                android:background="@color/white"
                 android:gravity="center_vertical|center_horizontal|clip_vertical|left"
                 android:paddingLeft="10dp"
                 android:singleLine="true"
                 android:textColor="@color/uni_blue"
                 android:textSize="14sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:phoneNumber="true"
+                android:inputType="phone|textPhonetic"/>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="2dp"
+                android:background="@color/uni_blue"
+                android:layout_below="@id/fax"/>
 
             <TextView
                 android:id="@+id/emailText"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/fax"
+                android:layout_below="@id/fax"
                 android:layout_marginBottom="2dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="15dp"
@@ -242,25 +288,32 @@
                 android:textSize="16sp"
                 android:textStyle="normal"/>
 
-            <Button
+            <TextView
                 android:id="@+id/email"
                 android:layout_width="fill_parent"
                 android:layout_height="30dp"
-                android:layout_below="@+id/emailText"
+                android:layout_below="@id/emailText"
                 android:autoLink="email"
-                android:background="#FFFFFF"
+                android:background="@color/white"
                 android:gravity="center_vertical|center_horizontal|clip_vertical|left"
                 android:paddingLeft="10dp"
                 android:singleLine="true"
                 android:textColor="@color/uni_blue"
                 android:textSize="14sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:inputType="textEmailAddress"/>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="2dp"
+                android:background="@color/uni_blue"
+                android:layout_below="@id/email"/>
 
             <TextView
                 android:id="@+id/moreText"
                 android:layout_width="fill_parent"
                 android:layout_height="25dp"
-                android:layout_below="@+id/email"
+                android:layout_below="@id/email"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="5dp"
                 android:gravity="center_vertical|left"
@@ -269,12 +322,12 @@
                 android:textSize="16sp"
                 android:textStyle="bold"/>
 
-            <Button
+            <TextView
                 android:id="@+id/more"
                 android:layout_width="fill_parent"
                 android:layout_height="30dp"
-                android:layout_below="@+id/moreText"
-                android:background="@drawable/list_item_selector"
+                android:layout_below="@id/moreText"
+                android:background="@color/white"
                 android:gravity="center_vertical|center_horizontal|clip_vertical|left"
                 android:paddingLeft="10dp"
                 android:singleLine="true"
@@ -286,13 +339,18 @@
             <ImageButton
                 android:id="@+id/more_forward_icon"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:layout_alignParentBottom="false"
                 android:layout_alignParentRight="true"
-                android:layout_alignTop="@+id/more"
-                android:layout_marginTop="7dp"
+                android:layout_alignTop="@id/more"
                 android:background="@drawable/ic_ab_back_holo_light_am"
                 android:contentDescription="more information"/>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="2dp"
+                android:background="@color/uni_blue"
+                android:layout_below="@id/more"/>
 
             <include
                 layout="@layout/progress_bar"

@@ -100,47 +100,50 @@ public class SearchResultItemDetailActivity extends UpNavigationActionBarActivit
         }
     }
 
-    private void showResult(StaffInfo info) {
+    private void showResult(final StaffInfo info) {
         ScrollView infoView = (ScrollView) findViewById(R.id.staff_info_scroll_view);
         infoView.setVisibility(View.VISIBLE);
-        Button nameButton = (Button) findViewById(R.id.name);
+        TextView nameButton = (TextView) findViewById(R.id.name);
         nameButton.setText(info.getName());
-        Button genderButton = (Button) findViewById(R.id.gender);
+        TextView genderButton = (TextView) findViewById(R.id.gender);
         genderButton.setText(info.getGender());
-        Button academicDegreeButton = (Button) findViewById(R.id.academic_degree);
+        TextView academicDegreeButton = (TextView) findViewById(R.id.academic_degree);
         academicDegreeButton.setText(info.getAcademicDegree());
-        final Button buildingButton = (Button) findViewById(R.id.building);
+        final TextView buildingButton = (TextView) findViewById(R.id.building);
         ImageButton buildingButtonForwardIcon = (ImageButton) findViewById(R.id.building_forward_icon);
-        if(info.getBuilding() != null && !info.getBuilding().isEmpty()) {
+        if (info.getBuilding() != null && !info.getBuilding().isEmpty()) {
             buildingButtonForwardIcon.setVisibility(View.VISIBLE);
-            buildingButton.setOnClickListener(new View.OnClickListener() {
+            View.OnClickListener showBuildingClick = new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent myIntent = new Intent(SearchResultItemDetailActivity.this, CampusActivity.class);
-                    myIntent.putExtra("building", buildingButton.getText());
+                    myIntent.putExtra("building", info.getBuilding());
                     SearchResultItemDetailActivity.this.startActivity(myIntent);
-
                 }
-            });
+            };
+            buildingButton.setOnClickListener(showBuildingClick);
+            buildingButtonForwardIcon.setOnClickListener(showBuildingClick);
+        } else {
+            buildingButtonForwardIcon.setVisibility(View.GONE);
         }
         buildingButton.setText(info.getBuilding());
-        Button roomButton = (Button) findViewById(R.id.room);
+        TextView roomButton = (TextView) findViewById(R.id.room);
         roomButton.setText(info.getRoom());
-        Button phoneButton = (Button) findViewById(R.id.phone);
+        TextView phoneButton = (TextView) findViewById(R.id.phone);
         phoneButton.setText(info.getPhone());
-        Button faxButton = (Button) findViewById(R.id.fax);
+        TextView faxButton = (TextView) findViewById(R.id.fax);
         faxButton.setText(info.getFax());
-        Button emailButton = (Button) findViewById(R.id.email);
+        TextView emailButton = (TextView) findViewById(R.id.email);
         emailButton.setText(info.getEmail());
-        Button moreButton = (Button) findViewById(R.id.more);
-        moreButton.setOnClickListener(new View.OnClickListener() {
+        View.OnClickListener showMoreClick = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent myIntent = new Intent(SearchResultItemDetailActivity.this, PersonDetailWebActivity.class);
                 myIntent.putExtra("url", url);
                 SearchResultItemDetailActivity.this.startActivity(myIntent);
-
             }
-        });
+        };
+        findViewById(R.id.more).setOnClickListener(showMoreClick);
+        findViewById(R.id.more_forward_icon).setOnClickListener(showMoreClick);
     }
 }
