@@ -34,15 +34,8 @@ public class RSSDetailActivity extends ActionBarActivity {
 
         Bundle extras = getIntent().getExtras();
 
-        String url;
-        int titleId = -1;
-
-        if (extras != null) {
-            url = extras.getString("url");
-            titleId = extras.getInt("titleId");
-        } else {
-            url = savedInstanceState.getString("url");
-        }
+        String url = (String) Util.getExtra("url", savedInstanceState, extras, null);
+        int titleId = extras == null ? -1 : extras.getInt("titleId", -1);
 
         if (url == null)
             throw new AssertionError("url should be passed via intent or from saved state");
@@ -68,16 +61,13 @@ public class RSSDetailActivity extends ActionBarActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        if (fetcher != null)
-            outState.putString("url", fetcher.getUrl());
+        outState.putString("url", fetcher.getUrl());
     }
 
     @Override
     protected void onStop() {
-        if (fetcher != null) {
+        if (fetcher != null)
             fetcher.cancel();
-            fetcher = null;
-        }
         super.onStop();
     }
 

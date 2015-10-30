@@ -3,7 +3,9 @@ package de.unisaarland.UniApp.utils;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Bundle;
 
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -66,5 +68,20 @@ public class Util {
 
     public static RuntimeException makeRuntimeException(Exception e) {
         return makeRuntimeException(null, e);
+    }
+
+    /**
+     * Get a value from either the extras passed in the intent, or from saved instance state.
+     * The extras have precedence if both exist. If none exist, the specified default value is
+     * returned.
+     */
+    public static Object getExtra(String key, Bundle savedInstanceState, Bundle extras,
+                                  Object defaultValue) {
+        Object value;
+        if (extras != null && (value = extras.get(key)) != null)
+            return value;
+        if (savedInstanceState != null && (value = savedInstanceState.get(key)) != null)
+            return value;
+        return defaultValue;
     }
 }

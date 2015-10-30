@@ -15,6 +15,7 @@ import android.widget.ProgressBar;
 import java.util.Calendar;
 
 import de.unisaarland.UniApp.R;
+import de.unisaarland.UniApp.utils.Util;
 
 
 public class BusDetailActivity extends ActionBarActivity {
@@ -25,9 +26,7 @@ public class BusDetailActivity extends ActionBarActivity {
 
         Bundle extras = getIntent().getExtras();
 
-        url = savedInstanceState.getString("url", url);
-        if (extras != null)
-            url = extras.getString("url", url);
+        url = (String) Util.getExtra("url", savedInstanceState, extras, url);
 
         if (url == null)
             throw new NullPointerException("url must be set from intent or saved state");

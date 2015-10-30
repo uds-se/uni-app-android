@@ -130,11 +130,7 @@ public class RSSActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
 
         Bundle extras = getIntent().getExtras();
-        if (extras != null && extras.containsKey("category")) {
-            cat = (Category) extras.getSerializable("category");
-        } else if (savedInstanceState.containsKey("category")) {
-            cat = (Category) savedInstanceState.getSerializable("category");
-        }
+        cat = (Category) Util.getExtra("category", savedInstanceState, extras, cat);
 
         if (cat == null)
             throw new AssertionError("category should be passed via intent or from saved state");
@@ -173,10 +169,8 @@ public class RSSActivity extends ActionBarActivity {
 
     @Override
     protected void onStop() {
-        if (networkFetcher != null) {
+        if (networkFetcher != null)
             networkFetcher.cancel();
-            networkFetcher = null;
-        }
         super.onStop();
     }
 

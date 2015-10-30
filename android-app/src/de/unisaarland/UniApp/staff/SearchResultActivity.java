@@ -38,12 +38,7 @@ public class SearchResultActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
 
         Bundle extras = getIntent().getExtras();
-        String url;
-        if (extras != null) {
-            url = extras.getString("url");
-        } else {
-            url = savedInstanceState.getString("url");
-        }
+        String url = (String) Util.getExtra("url", savedInstanceState, extras, null);
 
         if (url == null)
             throw new AssertionError("url should be passed via intent or from saved state");
@@ -80,10 +75,8 @@ public class SearchResultActivity extends ActionBarActivity {
 
     @Override
     protected void onStop() {
-        if (networkFetcher != null) {
+        if (networkFetcher != null)
             networkFetcher.cancel();
-            networkFetcher = null;
-        }
         super.onStop();
     }
 

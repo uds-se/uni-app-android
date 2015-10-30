@@ -13,6 +13,7 @@ import android.widget.ImageButton;
 import android.widget.ProgressBar;
 
 import de.unisaarland.UniApp.R;
+import de.unisaarland.UniApp.utils.Util;
 
 
 public class PersonDetailWebActivity extends ActionBarActivity {
@@ -21,10 +22,8 @@ public class PersonDetailWebActivity extends ActionBarActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle extras = getIntent().getExtras();
-        if (extras.containsKey("url"))
-            url = extras.getString("url");
-        else if (savedInstanceState.containsKey("url"))
-            url = savedInstanceState.getString("url");
+
+        url = (String) Util.getExtra("url", savedInstanceState, extras, url);
 
         if (url == null)
             throw new AssertionError("url should be passed via intent or saved state");
