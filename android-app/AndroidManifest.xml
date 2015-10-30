@@ -137,9 +137,6 @@
                 android:value=".bus.BusActivity" />
             </activity>
 
-        <meta-data
-                android:name="com.google.android.gms.version"
-                android:value="6171000" />
         <!-- Debugging Key
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"

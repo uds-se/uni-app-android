@@ -5,11 +5,10 @@ import android.os.Bundle;
 import android.widget.ListView;
 
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks;
-import com.google.android.gms.common.GooglePlayServicesClient.OnConnectionFailedListener;
-import com.google.android.gms.location.LocationClient;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,18 +22,11 @@ import de.unisaarland.UniApp.bus.uihelper.SearchStationAdapter;
 import de.unisaarland.UniApp.database.DatabaseHandler;
 import de.unisaarland.UniApp.utils.UpNavigationActionBarActivity;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Shahzad
- * Date: 12/1/13
- * Time: 11:38 PM
- * To change this template use File | Settings | File Templates.
- */
-
 /*
 * It implements Location listeners to show the distance of the bus stop from users current location.
 * */
-public class BusActivity extends UpNavigationActionBarActivity implements ConnectionCallbacks,LocationListener,OnConnectionFailedListener {
+public class BusActivity extends UpNavigationActionBarActivity
+        implements GoogleApiClient.ConnectionCallbacks, LocationListener {
     private static final int BUS_ID = 5;
     private ArrayList<PointOfInterest> busStationsArray = null;
     private Location currentLocation = null;
@@ -44,7 +36,7 @@ public class BusActivity extends UpNavigationActionBarActivity implements Connec
 
 
     //////////////location will be updated after every 3 seconds//////////////
-    private LocationClient locationClient;
+    private GoogleApiClient locationClient;
     private static final LocationRequest REQUEST = LocationRequest.create()
             .setInterval(3000)         // 3 seconds
             .setFastestInterval(16)    // 16ms = 60fps
@@ -83,10 +75,10 @@ public class BusActivity extends UpNavigationActionBarActivity implements Connec
 
     private void setUpLocationClientIfNeeded() {
         if (locationClient == null) {
-            locationClient = new LocationClient(
-                    this,
-                    this,  // ConnectionCallbacks
-                    this); // OnConnectionFailedListener
+            locationClient = new GoogleApiClient.Builder(this)
+                    .addApi(LocationServices.API)
+                    .addConnectionCallbacks(this)
+                    .build();
         }
     }
 
@@ -143,20 +135,21 @@ public class BusActivity extends UpNavigationActionBarActivity implements Connec
         searchStationModel.setName(getString(R.string.search_bus));
         searchStationModel.setURL("Bahn.de");
         searchStationArray.add(searchStationModel);
-        searchStationsList.setAdapter(new SearchStationAdapter(this,searchStationArray));
+        searchStationsList.setAdapter(new SearchStationAdapter(this, searchStationArray));
     }
 
     ///////////////// call back methods of location client //////////////
     @Override
     public void onConnected(Bundle bundle) {
-        locationClient.requestLocationUpdates(
+        LocationServices.FusedLocationApi.requestLocationUpdates(
+                locationClient,
                 REQUEST,
                 this);  // LocationListener
     }
 
     @Override
-    public void onDisconnected() {
-        //To change body of implemented methods use File | Settings | File Templates.
+    public void onConnectionSuspended(int i) {
+        /* nop */
     }
 
     @Override
@@ -165,10 +158,5 @@ public class BusActivity extends UpNavigationActionBarActivity implements Connec
         // reset the adapter to show the updated distance list. It will be called after every 3 seconds.
         busStationAdapter.setCurrentLocation(currentLocation);
         busStationsList.invalidateViews();
-    }
-
-    @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
-        //To change body of implemented methods use File | Settings | File Templates.
     }
 }

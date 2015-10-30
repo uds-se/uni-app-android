@@ -25,12 +25,10 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks;
-import com.google.android.gms.common.GooglePlayServicesClient.OnConnectionFailedListener;
-import com.google.android.gms.location.LocationClient;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -63,14 +61,15 @@ import de.unisaarland.UniApp.utils.UpNavigationActionBarActivity;
 /*
 * It implements Location listeners to show the distance of the bus stop from users current location.
 * */
-public class CampusActivity extends UpNavigationActionBarActivity implements ConnectionCallbacks,OnConnectionFailedListener,
+public class CampusActivity extends UpNavigationActionBarActivity
+        implements GoogleApiClient.ConnectionCallbacks,
         LocationListener,
         GoogleMap.OnMyLocationButtonClickListener, OnMarkerClickListener,OnInfoWindowClickListener {
 
     private static final String TAG = CampusActivity.class.getSimpleName();
 
     private GoogleMap map;
-    private LocationClient locationClient;
+    private GoogleApiClient locationClient;
     private final int REQUEST_CODE = 5;
     private final Map<Marker, PointOfInterest> poisMap = new HashMap<>();
     private Location currentLocation;
@@ -242,11 +241,11 @@ public class CampusActivity extends UpNavigationActionBarActivity implements Con
         }
     }
 
-    /*
-    * It will show the route in external application from current position to destination
-    * if current location is set e.g. using wifi, mobile network or gps otherwise it will display
-    * message that please enable at least one location service and will open the settings page on Clicking
-    * */
+    /**
+     * It will show the route in external application from current position to destination
+     * if current location is set e.g. using wifi, mobile network or gps otherwise it will display
+     * message that please enable at least one location service and will open the settings page on Clicking
+     */
     private void showRouteIfAvailable(PointOfInterest p) {
         if (currentLocation != null) {
             Intent intent = new Intent(Intent.ACTION_VIEW,
@@ -273,10 +272,10 @@ public class CampusActivity extends UpNavigationActionBarActivity implements Con
     // setup location listener
     private void setUpLocationClient() {
         if (locationClient == null) {
-            locationClient = new LocationClient(
-                    getApplicationContext(),
-                    this,  // ConnectionCallbacks
-                    this); // OnConnectionFailedListener
+            locationClient = new GoogleApiClient.Builder(this)
+                    .addApi(LocationServices.API)
+                    .addConnectionCallbacks(this)
+                    .build();
         }
     }
 
@@ -424,24 +423,20 @@ public class CampusActivity extends UpNavigationActionBarActivity implements Con
 
     @Override
     public void onConnected(Bundle bundle) {
-        locationClient.requestLocationUpdates(
+        LocationServices.FusedLocationApi.requestLocationUpdates(
+                locationClient,
                 REQUEST,
-                this);
+                this);  // LocationListener
     }
 
     @Override
-    public void onDisconnected() {
-        //To change body of implemented methods use File | Settings | File Templates.
+    public void onConnectionSuspended(int i) {
+        /* nop */
     }
 
     @Override
     public void onLocationChanged(Location location) {
         currentLocation = location;
-    }
-
-    @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
-        //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override

@@ -11,9 +11,10 @@ apply plugin: 'com.android.application'
 dependencies {
     compile fileTree(dir: 'libs', include: '*.jar')
     // Google Play Services
-    compile 'com.google.android.gms:play-services:6.1.71'
+    compile 'com.google.android.gms:play-services:8.1.0'
     // Support Libraries
     compile 'com.android.support:appcompat-v7:23.1.0'
+    compile 'com.android.support:support-v4:23.1.0'
     // Other
     compile 'org.jsoup:jsoup:1.8.1'
 }
