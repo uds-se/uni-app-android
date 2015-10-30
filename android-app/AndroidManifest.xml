@@ -15,40 +15,45 @@
 
     <application android:label="@string/app_name" android:icon="@drawable/ic_launcher"
                  android:theme="@style/AppTheme" android:allowBackup="true">
-        <activity android:name="de.unisaarland.UniApp.MainActivity"
-                  android:label="@string/app_name" >
+
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
 
-        <activity android:name=".SettingsActivity"  android:configChanges="orientation|screenSize">
+        <activity android:name=".SettingsActivity"  android:configChanges="orientation|screenSize"
+            android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="de.unisaarland.UniApp.MainActivity"
                 android:theme="@style/AppTheme"/>
         </activity>
 
-        <activity android:name=".bus.BusActivity" android:label="@string/busText" android:configChanges="orientation|screenSize">
+        <activity android:name=".bus.BusActivity" android:label="@string/busText" android:configChanges="orientation|screenSize"
+                  android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="de.unisaarland.UniApp.MainActivity" />
             </activity>
 
-        <activity android:name=".rssViews.RSSActivity" android:label="@string/eventsText" android:configChanges="orientation|screenSize">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-            android:value="de.unisaarland.UniApp.MainActivity" />
-            </activity>
-
-        <activity android:name=".staff.SearchStaffActivity" android:label="@string/staff_searchText"  >
+        <activity android:name=".rssViews.RSSActivity" android:label="@string/eventsText" android:configChanges="orientation|screenSize"
+                  android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="de.unisaarland.UniApp.MainActivity" />
             </activity>
 
-        <activity android:name=".campus.CampusActivity"  android:label="Campus"   android:launchMode="singleTop">
+        <activity android:name=".staff.SearchStaffActivity" android:label="@string/staff_searchText"
+                  android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="de.unisaarland.UniApp.MainActivity" />
+            </activity>
+
+        <activity android:name=".campus.CampusActivity"  android:label="Campus" android:launchMode="singleTop"
+                  android:parentActivityName=".MainActivity">
             <meta-data android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
             <intent-filter>
@@ -60,57 +65,66 @@
             </activity>
 
 
-        <activity android:name=".restaurant.RestaurantActivity" android:label="@string/restaurantText" android:configChanges="orientation|screenSize">
+        <activity android:name=".restaurant.RestaurantActivity" android:label="@string/restaurantText" android:configChanges="orientation|screenSize"
+                  android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="de.unisaarland.UniApp.MainActivity" />
         </activity>
 
-        <activity android:name=".restaurant.OpeningHoursActivity" android:configChanges="orientation|screenSize">
+        <activity android:name=".restaurant.OpeningHoursActivity" android:configChanges="orientation|screenSize"
+                  android:parentActivityName=".restaurant.RestaurantActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".restaurant.RestaurantActivity" />
 
         </activity>
 
-        <activity android:name=".campus.CampusSearchActivity" >
+        <activity android:name=".campus.CampusSearchActivity"
+                  android:parentActivityName=".campus.CampusActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".campus.CampusActivity" />
             </activity>
 
-        <activity android:name=".about.AboutActivity" android:label="@string/aboutText" >
+        <activity android:name=".about.AboutActivity" android:label="@string/aboutText"
+                  android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="de.unisaarland.UniApp.MainActivity" />
             </activity>
 
-        <activity android:name=".rssViews.RSSDetailActivity" android:configChanges="orientation|screenSize">
+        <activity android:name=".rssViews.RSSDetailActivity" android:configChanges="orientation|screenSize"
+                  android:parentActivityName=".rssViews.RSSActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".rssViews.RSSActivity" />
             </activity>
 
-        <activity android:name=".staff.SearchResultActivity" android:launchMode="singleTop" android:configChanges="orientation|screenSize">
+        <activity android:name=".staff.SearchResultActivity" android:launchMode="singleTop" android:configChanges="orientation|screenSize"
+                  android:parentActivityName=".staff.SearchStaffActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".staff.SearchStaffActivity" />
             </activity>
 
-        <activity android:name=".staff.SearchResultItemDetailActivity" android:launchMode="singleTop" android:configChanges="orientation|screenSize">
+        <activity android:name=".staff.SearchResultItemDetailActivity" android:launchMode="singleTop" android:configChanges="orientation|screenSize"
+                  android:parentActivityName=".staff.SearchResultActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".staff.SearchResultActivity" />
         </activity>
 
-        <activity android:name=".staff.PersonDetailWebActivity" android:launchMode="singleTop" android:configChanges="orientation|screenSize">
+        <activity android:name=".staff.PersonDetailWebActivity" android:launchMode="singleTop" android:configChanges="orientation|screenSize"
+                  android:parentActivityName=".staff.SearchResultItemDetailActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".staff.SearchResultItemDetailActivity" />
         </activity>
 
 
-        <activity android:name=".bus.BusDetailActivity" android:configChanges="orientation|screenSize">
+        <activity android:name=".bus.BusDetailActivity" android:configChanges="orientation|screenSize"
+                  android:parentActivityName=".bus.BusActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".bus.BusActivity" />
