@@ -1,6 +1,7 @@
 package de.unisaarland.UniApp.restaurant.model;
 
 import android.graphics.Color;
+import android.text.Html;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -203,7 +204,7 @@ public class MensaXMLParser extends XMLExtractor<Map<Long, List<MensaItem>>> {
         StringBuilder res = new StringBuilder();
         while (parser.next() == XmlPullParser.TEXT)
             res.append(parser.getText());
-        return res.toString().trim();
+        return Html.fromHtml(res.toString()).toString().trim();
     }
 
     private void skipTag(XmlPullParser parser)
