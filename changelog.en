@@ -1,3 +1,7 @@
+Version 1.4.6 (Nov 2015)
+========================
+- HTML-encoded entities like &quot; in mensa descriptions are decoded correctly again
+
 Version 1.4.1 (Oct 2015)
 ========================
 - Mensa ingredients can be optionally hidden

@@ -1,3 +1,7 @@
+Version 1.4.6 (Nov 2015)
+========================
+- HTML-kodierte Zeichen wie &quot; in Mensa-Inhalten werden wieder korrekt dargestellt
+
 Version 1.4.1 (Okt 2015)
 ========================
 - Inhaltsstoffe bei Mensa-Essen können optional ausgeblendet werden
