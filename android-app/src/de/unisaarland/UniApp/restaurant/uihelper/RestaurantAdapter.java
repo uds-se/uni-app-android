@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.preference.PreferenceManager;
-import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.SuperscriptSpan;
@@ -20,7 +20,6 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import de.unisaarland.UniApp.R;
@@ -104,52 +103,47 @@ public class RestaurantAdapter extends BaseAdapter {
      * otherwise: returns just a string with all those occurences removed.
      */
     private CharSequence createMensaItemSpannable(String desc) {
-        // if showIngredients==true: even entries are normal text, odd entries are superscript
-        // otherwise: contains all strings which are not ingredients
-        List<String> substrs = new ArrayList<>();
-        int pos = 0;
-        int added = 0;
-        while (pos < desc.length()) {
-            int openParen = desc.indexOf('(', pos);
+        SpannableStringBuilder sb = new SpannableStringBuilder();
+        for (int pos = 0, oldPos = 0; pos < desc.length(); oldPos = pos) {
+            int openParen = desc.indexOf('(', oldPos);
             int closeParen = desc.indexOf(')', openParen+1);
-            if (openParen == -1 || closeParen == -1)
+            pos = closeParen+1;
+            if (openParen == -1 || closeParen == -1) {
+                sb.append(desc, oldPos, desc.length());
                 break;
-            boolean valid = true;
-            String[] parts = desc.substring(openParen+1, closeParen).split(",");
-            for (String part : parts)
-                if (part.trim().length() > 2)
-                    valid = false;
-            if (!valid) {
-                pos = closeParen + 1;
+            }
+            if (!isValidIngredients(desc.substring(openParen+1, closeParen))) {
+                sb.append(desc, oldPos, pos);
                 continue;
             }
+            // remove the potential space before the ingredients
             int firstStrEnd = openParen;
-            if (firstStrEnd > added && desc.charAt(firstStrEnd-1) == ' ')
+            while (firstStrEnd > oldPos && desc.charAt(firstStrEnd - 1) == ' ')
                 --firstStrEnd;
-            substrs.add(desc.substring(added, firstStrEnd));
-            if (showIngredients)
-                substrs.add(desc.substring(openParen+1, closeParen));
-            added = pos = closeParen+1;
+            sb.append(desc, oldPos, firstStrEnd);
+            if (showIngredients) {
+                int oldLen = sb.length();
+                sb.append(desc, openParen + 1, closeParen);
+                int newLen = sb.length();
+                sb.setSpan(new SuperscriptSpan(), oldLen, newLen,
+                        Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                sb.setSpan(new RelativeSizeSpan(0.8f), oldLen, newLen,
+                        Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+            }
         }
-        if (added < desc.length())
-            substrs.add(desc.substring(added));
 
-        StringBuilder sb = new StringBuilder();
-        for (String s : substrs)
-            sb.append(s);
         if (!showIngredients)
-            return sb.toString();
-        SpannableString str = new SpannableString(sb.toString());
-        pos = 0;
-        for (int i = 1; i < substrs.size(); i += 2) {
-            pos += substrs.get(i-1).length();
-            str.setSpan(new SuperscriptSpan(), pos, pos+substrs.get(i).length(),
-                    Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-            str.setSpan(new RelativeSizeSpan(0.8f), pos, pos+substrs.get(i).length(),
-                    Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-            pos += substrs.get(i).length();
-        }
-        return str;
+            return sb.toString(); // no spannable string, just the normal string
+
+        return sb;
+    }
+
+    private boolean isValidIngredients(String substring) {
+        String[] parts = substring.split(",");
+        for (String part : parts)
+            if (part.trim().length() > 2)
+                return false;
+        return true;
     }
 
     public boolean update(List<MensaItem> items) {
