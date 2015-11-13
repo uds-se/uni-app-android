@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -146,11 +147,36 @@ public class MensaXMLParser extends XMLExtractor<Map<Long, List<MensaItem>>> {
                 if (part.trim().length() > 2)
                     valid = false;
             if (valid)
-                labels.addAll(Arrays.asList(parts));
+                for (String part : parts)
+                    labels.add(part.trim().toLowerCase());
             pos = closeParen + 1;
         }
         String[] arr = labels.toArray(new String[labels.size()]);
-        Arrays.sort(arr);
+        Arrays.sort(arr, new Comparator<String>() {
+            @Override
+            public int compare(String lhs, String rhs) {
+                // sort numbers before anything else, and compare numbers numerically
+                boolean lhsNum = isNumerical(lhs);
+                boolean rhsNum = isNumerical(rhs);
+                if (lhsNum && rhsNum)
+                    return Integer.valueOf(lhs).compareTo(Integer.valueOf(rhs));
+                if (!lhsNum && !rhsNum)
+                    return lhs.compareTo(rhs);
+                if (lhsNum) // && !rhsNum
+                    return -1;
+                // !lhsNum && rhsNum
+                return 1;
+            }
+
+            private boolean isNumerical(String s) {
+                for (int i = s.length() - 1; i >= 0; --i) {
+                    char c = s.charAt(i);
+                    if (c < '0' || c > '9')
+                        return false;
+                }
+                return true;
+            }
+        });
         return arr;
     }
 

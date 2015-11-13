@@ -221,7 +221,7 @@ public class RestaurantAdapter extends BaseAdapter {
             }
             String label = labels[position];
             TextView labelView = (TextView) convertView.findViewById(R.id.mensa_label_id);
-            labelView.setText(label);
+            labelView.setText(capitalize(label));
             TextView descView = (TextView) convertView.findViewById(R.id.mensa_label_desc);
             int descId = context.getResources().getIdentifier("label_" + label, "string", context.getPackageName());
             if (descId == 0) {
@@ -229,9 +229,21 @@ public class RestaurantAdapter extends BaseAdapter {
                 descView.setTypeface(descView.getTypeface(), Typeface.ITALIC);
             } else {
                 descView.setText(descId);
-                descView.setTypeface(descView.getTypeface(), Typeface.NORMAL);
+                // getting rid of previously set typeface is not so easy:
+                // http://stackoverflow.com/questions/6200533/set-textview-style-bold-or-italic
+                descView.setTypeface(Typeface.create(descView.getTypeface(), Typeface.NORMAL), Typeface.NORMAL);
             }
             return convertView;
+        }
+
+        private static String capitalize(String label) {
+            if (label.isEmpty())
+                return label;
+            char firstChar = label.charAt(0);
+            String rest = label.substring(1);
+            if (Character.toUpperCase(firstChar) == firstChar && rest.toLowerCase().equals(rest))
+                return label;
+            return label.substring(0, 1).toUpperCase() + label.substring(1);
         }
     }
 }
