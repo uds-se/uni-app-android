@@ -29,17 +29,12 @@ import de.unisaarland.UniApp.restaurant.model.MensaItem;
 public class RestaurantAdapter extends BaseAdapter {
     private final Context context;
     private List<MensaItem> mensaItems;
-
-    private final boolean showIngredients;
-
+    
     public RestaurantAdapter(Context context, List<MensaItem> mensaItems) {
         if (context == null || mensaItems == null)
             throw new NullPointerException();
         this.context = context;
         this.mensaItems = mensaItems;
-        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
-        this.showIngredients = settings.getBoolean(
-                context.getString(R.string.pref_mensa_ingredients), true);
     }
 
     @Override
@@ -64,14 +59,18 @@ public class RestaurantAdapter extends BaseAdapter {
         }
         MensaItem model = mensaItems.get(position);
 
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
+        boolean showIngredients = settings.getBoolean(
+                context.getString(R.string.pref_mensa_ingredients), true);
+
         TextView mealCategory = (TextView) convertView.findViewById(R.id.mensa_menu_category);
         mealCategory.setText(model.getCategory());
 
         TextView mealTitle = (TextView) convertView.findViewById(R.id.mensa_menu_title);
-        mealTitle.setText(createMensaItemSpannable(model.getTitle()));
+        mealTitle.setText(createMensaItemSpannable(model.getTitle(), showIngredients));
 
         TextView mealDescription = (TextView) convertView.findViewById(R.id.mensa_menu_description);
-        mealDescription.setText(createMensaItemSpannable(model.getDesc()));
+        mealDescription.setText(createMensaItemSpannable(model.getDesc(), showIngredients));
 
         ImageView info = (ImageView) convertView.findViewById(R.id.img_info);
         String[] labels = model.getLabels();
@@ -102,7 +101,7 @@ public class RestaurantAdapter extends BaseAdapter {
      * of (A,B,C) are put in superscript with the parentheses removed.
      * otherwise: returns just a string with all those occurences removed.
      */
-    private CharSequence createMensaItemSpannable(String desc) {
+    private CharSequence createMensaItemSpannable(String desc, boolean showIngredients) {
         SpannableStringBuilder sb = new SpannableStringBuilder();
         for (int pos = 0, oldPos = 0; pos < desc.length(); oldPos = pos) {
             int openParen = desc.indexOf('(', oldPos);
@@ -146,14 +145,13 @@ public class RestaurantAdapter extends BaseAdapter {
         return true;
     }
 
-    public boolean update(List<MensaItem> items) {
+    public void update(List<MensaItem> items) {
         if (items == null)
             throw new NullPointerException();
         if (this.mensaItems.equals(items))
-            return false;
+            return;
         this.mensaItems = items;
         this.notifyDataSetChanged();
-        return true;
     }
 
 
@@ -216,9 +214,8 @@ public class RestaurantAdapter extends BaseAdapter {
         // sets the view of news item row
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            if (convertView == null) {
-                convertView = View.inflate(context, R.layout.label_item, null);
-            }
+            if (convertView == null)
+                convertView = View.inflate(context, R.layout.label_item, parent);
             String label = labels[position];
             TextView labelView = (TextView) convertView.findViewById(R.id.mensa_label_id);
             labelView.setText(capitalize(label));
