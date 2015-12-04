@@ -141,11 +141,16 @@
     <string name="label_we">Weizen</string>
     <string name="label_wt">Weichtiere</string>
     <!-- end of labels for mensa items -->
+    <string name="show_ingredients_title">Inhaltsstoffe anzeigen</string>
     <string name="show_ingredients_off">Inhaltsstoffe bei Mensa werden <b>nicht</b> angezeigt</string>
     <string name="show_ingredients_on">Inhaltsstoffe bei Mensa werden angezeigt</string>
-    <string name="show_ingredients_title">Inhaltsstoffe anzeigen</string>
     <string name="remove_all_pins">Alle Nadeln entfernen</string>
     <string name="map_hybrid">Hybrid</string>
     <string name="map_standard">Standard</string>
     <string name="map_satellite">Satellit</string>
+    <string name="set">Setzen</string>
+    <string name="cancel">Abbrechen</string>
+    <string name="mensa_notifications_title">Mensabenachrichtigungen</string>
+    <string name="mensa_settings">Mensa</string>
+    <string name="none">Keine</string>
 </resources>

@@ -9,4 +9,5 @@
     <string name="pref_staff_search_prof_sel" translatable="false">staffLastSel</string>
     <!-- the string to use as summary if only the current pref value should be shown -->
     <string name="pref_show_value" translatable="false">%s</string>
+    <string name="pref_mensa_notification_times" translatable="false">mensa_notification_dates</string>
 </resources>

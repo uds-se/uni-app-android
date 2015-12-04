@@ -5,4 +5,7 @@
     <item android:id="@+id/action_opening_hours"
         android:title="@string/opening_hours"
         UniApp:showAsAction="ifRoom" />
+    <item android:id="@+id/show_settings"
+          android:title="@string/settings"
+          UniApp:showAsAction="never" />
 </menu>

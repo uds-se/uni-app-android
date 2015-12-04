@@ -17,6 +17,7 @@ import de.unisaarland.UniApp.bus.BusActivity;
 import de.unisaarland.UniApp.campus.CampusActivity;
 import de.unisaarland.UniApp.restaurant.RestaurantActivity;
 import de.unisaarland.UniApp.rssViews.RSSActivity;
+import de.unisaarland.UniApp.settings.SettingsActivity;
 import de.unisaarland.UniApp.staff.SearchStaffActivity;
 
 /**
@@ -47,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         // If this is the first start, show preferences...
         if (!settings.contains(getString(R.string.pref_campus))) {
             PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
-            showSettings();
+            startActivity(new Intent(MainActivity.this, SettingsActivity.class));
         }
 
         // take special care in preceeding code to use default values on the settings, as they
@@ -77,24 +78,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-
-            case R.id.action_campus_chooser:
-                showSettings();
+            case R.id.show_settings:
+                startActivity(new Intent(MainActivity.this, SettingsActivity.class));
                 return true;
             case R.id.action_about:
-                Intent myIntent = new Intent(MainActivity.this, AboutActivity.class);
-                MainActivity.this.startActivity(myIntent);
-
+                startActivity(new Intent(MainActivity.this, AboutActivity.class));
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
-
-    private void showSettings(){
-        Intent myIntent = new Intent(MainActivity.this, SettingsActivity.class);
-        MainActivity.this.startActivity(myIntent);
-    }
-
 
     private void setButtonListeners() {
 

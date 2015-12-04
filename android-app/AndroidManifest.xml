@@ -23,7 +23,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".SettingsActivity"  android:configChanges="orientation|screenSize"
+        <activity android:name=".settings.SettingsActivity"  android:configChanges="orientation|screenSize"
                   android:label="@string/settings"
                   android:parentActivityName=".MainActivity">
             <meta-data

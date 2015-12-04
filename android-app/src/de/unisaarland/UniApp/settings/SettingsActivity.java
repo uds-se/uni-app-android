@@ -1,4 +1,4 @@
-package de.unisaarland.UniApp;
+package de.unisaarland.UniApp.settings;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -6,6 +6,7 @@ import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 
+import de.unisaarland.UniApp.R;
 import de.unisaarland.UniApp.utils.UpNavigationActionBarActivity;
 
 public class SettingsActivity extends UpNavigationActionBarActivity {

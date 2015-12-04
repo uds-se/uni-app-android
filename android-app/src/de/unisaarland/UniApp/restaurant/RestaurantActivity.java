@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 import de.unisaarland.UniApp.R;
+import de.unisaarland.UniApp.settings.SettingsActivity;
 import de.unisaarland.UniApp.restaurant.model.MensaItem;
 import de.unisaarland.UniApp.restaurant.model.MensaXMLParser;
 import de.unisaarland.UniApp.restaurant.uihelper.CircleFlowIndicator;
@@ -47,6 +48,11 @@ public class RestaurantActivity extends UpNavigationActionBarActivity {
     @Override
     protected void onStart() {
         super.onStart();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
 
         ProgressBar bar = (ProgressBar) findViewById(R.id.progress_bar);
         bar.setVisibility(View.GONE);
@@ -84,11 +90,12 @@ public class RestaurantActivity extends UpNavigationActionBarActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.show_settings:
+                startActivity(new Intent(RestaurantActivity.this, SettingsActivity.class));
+                return true;
             case R.id.action_opening_hours:
                 //Open opening hours actions when button is pressed
-                Intent myIntent = new Intent(RestaurantActivity.this, OpeningHoursActivity.class);
-                RestaurantActivity.this.startActivity(myIntent);
-
+                startActivity(new Intent(RestaurantActivity.this, OpeningHoursActivity.class));
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -162,5 +169,4 @@ public class RestaurantActivity extends UpNavigationActionBarActivity {
         CircleFlowIndicator indic = (CircleFlowIndicator) findViewById(R.id.viewflowindic);
         viewFlow.setFlowIndicator(indic);
     }
-
 }

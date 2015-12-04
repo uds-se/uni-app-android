@@ -151,4 +151,9 @@
     <string name="map_hybrid">Hybrid</string>
     <string name="map_standard">Standard</string>
     <string name="map_satellite">Satellite</string>
+    <string name="set">Set</string>
+    <string name="cancel">Cancel</string>
+    <string name="mensa_notifications_title">Mensa Notifications</string>
+    <string name="mensa_settings">Mensa</string>
+    <string name="none">None</string>
 </resources>

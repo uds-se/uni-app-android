@@ -4,6 +4,8 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.view.View;
+import android.view.ViewParent;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -83,4 +85,15 @@ public class Util {
             return value;
         return defaultValue;
     }
+
+    public static View findParentWithId(View v, int id) {
+        while (v.getId() != id) {
+            ViewParent parent = v.getParent();
+            if (!(parent instanceof View))
+                return null;
+            v = (View) parent;
+        }
+        return v; // null or parent with given id
+    }
+
 }
