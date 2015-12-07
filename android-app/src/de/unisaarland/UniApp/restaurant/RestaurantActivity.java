@@ -3,9 +3,7 @@ package de.unisaarland.UniApp.restaurant;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -16,25 +14,19 @@ import java.util.List;
 import java.util.Map;
 
 import de.unisaarland.UniApp.R;
-import de.unisaarland.UniApp.settings.SettingsActivity;
+import de.unisaarland.UniApp.restaurant.model.CachedMensaPlan;
 import de.unisaarland.UniApp.restaurant.model.MensaItem;
-import de.unisaarland.UniApp.restaurant.model.MensaXMLParser;
 import de.unisaarland.UniApp.restaurant.uihelper.CircleFlowIndicator;
 import de.unisaarland.UniApp.restaurant.uihelper.MensaItemsAdapter;
 import de.unisaarland.UniApp.restaurant.uihelper.ViewFlow;
-import de.unisaarland.UniApp.utils.ContentCache;
+import de.unisaarland.UniApp.settings.SettingsActivity;
 import de.unisaarland.UniApp.utils.NetworkRetrieveAndCache;
 import de.unisaarland.UniApp.utils.UpNavigationActionBarActivity;
 import de.unisaarland.UniApp.utils.Util;
 
 public class RestaurantActivity extends UpNavigationActionBarActivity {
 
-    private final String TAG = RestaurantActivity.class.getSimpleName();
-
-    private NetworkRetrieveAndCache<Map<Long, List<MensaItem>>> mensaFetcher = null;
-
-    private static final String MENSA_URL_SB = "http://studentenwerk-saarland.de/_menu/actual/speiseplan-saarbruecken.xml";
-    private static final String MENSA_URL_HOM = "http://studentenwerk-saarland.de/_menu/actual/speiseplan-homburg.xml";
+    private CachedMensaPlan mensaPlan = null;
 
     private long lastSelectedDate = 0;
 
@@ -46,34 +38,23 @@ public class RestaurantActivity extends UpNavigationActionBarActivity {
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-    }
-
-    @Override
     protected void onResume() {
         super.onResume();
 
         ProgressBar bar = (ProgressBar) findViewById(R.id.progress_bar);
         bar.setVisibility(View.GONE);
 
-        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        String campus = settings.getString(getString(R.string.pref_campus), null);
-        String mensaUrl = campus.equals(getString(R.string.pref_campus_saar)) ? MENSA_URL_SB : MENSA_URL_HOM;
+        if (mensaPlan == null)
+            mensaPlan = new CachedMensaPlan(new NetworkDelegate(), this);
 
-        if (mensaFetcher == null || !mensaUrl.equals(mensaFetcher.getUrl())) {
-            ContentCache cache = Util.getContentCache(this);
-            mensaFetcher = new NetworkRetrieveAndCache<>(mensaUrl, "mensa-"+campus, 15*60, cache,
-                    new MensaXMLParser(), new NetworkDelegate(), this);
-        }
-        mensaFetcher.loadAsynchronously();
+        mensaPlan.load(15 * 60);
     }
 
     @Override
     protected void onStop() {
-        if (mensaFetcher != null) {
-            mensaFetcher.cancel();
-            mensaFetcher = null;
+        if (mensaPlan != null) {
+            mensaPlan.cancel();
+            mensaPlan = null;
         }
         super.onStop();
     }
@@ -106,10 +87,6 @@ public class RestaurantActivity extends UpNavigationActionBarActivity {
 
         @Override
         public void onUpdate(Map<Long, List<MensaItem>> result) {
-            if (result.isEmpty()) {
-                onFailure(getString(R.string.emptyDocumentError));
-                return;
-            }
             hasItems = true;
 
             ProgressBar bar = (ProgressBar) findViewById(R.id.progress_bar);
@@ -140,6 +117,12 @@ public class RestaurantActivity extends UpNavigationActionBarActivity {
                                 }
                             })
                     .create().show();
+        }
+
+        @Override
+        public String checkValidity(Map<Long, List<MensaItem>> result) {
+            // validitiy was already checked in CachedMensaPlan
+            return null;
         }
     }
 

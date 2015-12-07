@@ -154,15 +154,14 @@ public class RSSActivity extends UpNavigationActionBarActivity {
         if (networkFetcher == null) {
             ContentCache cache = Util.getContentCache(this);
             networkFetcher = new NetworkRetrieveAndCache<>(cat.url, cat.cacheTag,
-                    15 * 60, cache,
-                    new RSSItemParser(), new NetworkDelegate(), this);
+                    cache, new RSSItemParser(), new NetworkDelegate(), this);
         }
     }
 
     @Override
     protected void onResume() {
-        networkFetcher.loadAsynchronously();
         super.onResume();
+        networkFetcher.loadAsynchronously(15 * 60);
     }
 
     @Override
@@ -176,17 +175,13 @@ public class RSSActivity extends UpNavigationActionBarActivity {
         private boolean hasItems = false;
 
         @Override
-        public void onUpdate(List<RSSItem> events) {
-            if (events.isEmpty()) {
-                onFailure(getString(cat.noElementsText));
-                return;
-            }
+        public void onUpdate(List<RSSItem> items) {
             hasItems = true;
 
             ProgressBar bar = (ProgressBar) findViewById(R.id.progress_bar);
             bar.clearAnimation();
             bar.setVisibility(View.INVISIBLE);
-            populateItems(events);
+            populateItems(items);
         }
 
         @Override
@@ -212,6 +207,13 @@ public class RSSActivity extends UpNavigationActionBarActivity {
                             }
                         })
                     .create().show();
+        }
+
+        @Override
+        public String checkValidity(List<RSSItem> items) {
+            if (items.isEmpty())
+                return getString(cat.noElementsText);
+            return null;
         }
     }
 

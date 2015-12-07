@@ -31,9 +31,6 @@ public class NetworkRetrieveAndCache<ResultType> {
 
     private final ContentCache cache;
 
-    // Reload document it cached content is older than this number of seconds
-    private final int reloadIfOlderSeconds;
-
     private final ContentExtractor<ResultType> extractor;
 
     private final Delegate<ResultType> delegate;
@@ -47,13 +44,12 @@ public class NetworkRetrieveAndCache<ResultType> {
      * Initialize a new cache.
      * @param URL the URL to load
      * @param contentTag the tag to use for this data in the cache. can be null if cache is null.
-     * @param reloadIfOlderSeconds document is reloaded if cached data is older than this number of seconds.
      * @param cache the cache to use, can be null.
      * @param extractor extractor to parse ResultType from the loaded document
      * @param delegate object to receive parsed data
      * @param context current application context
      */
-    public NetworkRetrieveAndCache(String URL, String contentTag, int reloadIfOlderSeconds,
+    public NetworkRetrieveAndCache(String URL, String contentTag,
                                    ContentCache cache,
                                    ContentExtractor<ResultType> extractor,
                                    Delegate<ResultType> delegate, Context context) {
@@ -62,7 +58,6 @@ public class NetworkRetrieveAndCache<ResultType> {
         this.url = URL;
         this.contentTag = contentTag;
         this.cache = cache;
-        this.reloadIfOlderSeconds = reloadIfOlderSeconds;
         this.extractor = extractor;
         this.delegate = delegate;
         this.context = context;
@@ -73,22 +68,52 @@ public class NetworkRetrieveAndCache<ResultType> {
     }
 
     public interface Delegate<ResultType> {
+        /**
+         * Called in the UI thread whenever new data was retrieved (from the cached, or from
+         * network).
+         */
         void onUpdate(ResultType result);
+
+        /**
+         * Called in the UI thread when starting to load data from the network. Can be used to show
+         * a spinner or something.
+         */
         void onStartLoading();
+
+        /**
+         * Called in the UI thread when an error occured (network error, parser error, or custom
+         * error from checkValidity().
+         * @param message the error message
+         */
         void onFailure(String message);
+
+        /**
+         * Called by any thread (!) to check whether the retrieved result from network is valid.
+         * Return a custom error string to describe what is wrong this the data. This will be passed
+         * on to the onFailure method.
+         * @param result the parsed result
+         * @return null if the data is valid, a custom error message otherwise
+         */
+        String checkValidity(ResultType result);
     }
 
     /**
-     * load old content from cache file and start fetching new content if it is too old.
+     * Load old content from cache file and start fetching new content if it is too old.
+     * @param reloadIfOlderSeconds document is reloaded if cached data is older than this number of
+     *                             seconds. Pass 0 to always reload, and -1 to never reload.
+     * @return true if the data was initially loaded from the cache, false otherwise. in any case,
+     *         reloading might have been triggered.
      */
-    public void loadAsynchronously() {
+    public boolean loadAsynchronously(int reloadIfOlderSeconds) {
         // We first load the cached data (and show it), then update the
         // document asynchronously if last fetch is too old
         Pair<Date, ResultType> cached = loadFromCache();
         if (cached != null)
             delegate.onUpdate(cached.second);
-        boolean reloadContentFromWeb = cached == null
-                || Math.abs(cached.first.getTime() - System.currentTimeMillis()) > 1000*reloadIfOlderSeconds;
+        boolean reloadContentFromWeb = reloadIfOlderSeconds >= 0 && (cached == null
+                || reloadIfOlderSeconds == 0
+                || Math.abs(cached.first.getTime() - System.currentTimeMillis()) >
+                   1000*reloadIfOlderSeconds);
         if (reloadContentFromWeb) {
             delegate.onStartLoading();
 
@@ -97,6 +122,7 @@ public class NetworkRetrieveAndCache<ResultType> {
             fetcher.startFetchingAsynchronously(url, context);
             lastWebFetcher = fetcher;
         }
+        return cached != null;
     }
 
     private class NetworkDelegate implements INetworkLoaderDelegate {
@@ -122,6 +148,11 @@ public class NetworkRetrieveAndCache<ResultType> {
             InputStream data = params[0];
             try {
                 ResultType result = extractor.extract(data);
+                String customError = delegate.checkValidity(result);
+                if (customError != null) {
+                    errorMessage = customError;
+                    return null;
+                }
                 saveToCache(result);
                 return result;
             } catch (ParseException e) {

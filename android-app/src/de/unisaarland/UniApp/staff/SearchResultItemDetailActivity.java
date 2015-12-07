@@ -45,7 +45,7 @@ public class SearchResultItemDetailActivity extends UpNavigationActionBarActivit
         if (networkFetcher == null || networkFetcher.getUrl() != url) {
             String tag = "search-" + Integer.toHexString(url.hashCode());
             ContentCache cache = Util.getContentCache(this);
-            networkFetcher = new NetworkRetrieveAndCache<>(url, tag, 15*60, cache,
+            networkFetcher = new NetworkRetrieveAndCache<>(url, tag, cache,
                     new StaffInfoParser(url), new NetworkDelegate(), this);
         }
     }
@@ -53,7 +53,7 @@ public class SearchResultItemDetailActivity extends UpNavigationActionBarActivit
     @Override
     protected void onResume() {
         super.onResume();
-        networkFetcher.loadAsynchronously();
+        networkFetcher.loadAsynchronously(15 * 60);
     }
 
     @Override
@@ -97,6 +97,11 @@ public class SearchResultItemDetailActivity extends UpNavigationActionBarActivit
                                 }
                             })
                     .create().show();
+        }
+
+        @Override
+        public String checkValidity(StaffInfo result) {
+            return null;
         }
     }
 

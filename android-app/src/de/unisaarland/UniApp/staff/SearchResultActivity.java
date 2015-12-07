@@ -141,6 +141,12 @@ public class SearchResultActivity extends UpNavigationActionBarActivity {
                             })
                     .create().show();
         }
+
+        @Override
+        public String checkValidity(List<SearchResult> result) {
+            // here, empty result is allowed
+            return null;
+        }
     }
 
     private void showSearchResults(List<SearchResult> result) {

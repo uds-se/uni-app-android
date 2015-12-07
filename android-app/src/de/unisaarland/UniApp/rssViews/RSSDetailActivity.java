@@ -48,12 +48,12 @@ public class RSSDetailActivity extends UpNavigationActionBarActivity {
         setContentView(R.layout.rss_detail);
         if (fetcher == null) {
             String tag = "rss-"+Integer.toHexString(url.hashCode());
-            fetcher = new NetworkRetrieveAndCache<>(url, tag, 15 * 60,
+            fetcher = new NetworkRetrieveAndCache<>(url, tag,
                     Util.getContentCache(this),
                     new RSSArticleExtractor(url),
                     new NetworkDelegate(), this);
         }
-        fetcher.loadAsynchronously();
+        fetcher.loadAsynchronously(15 * 60);
     }
 
     @Override
@@ -101,6 +101,11 @@ public class RSSDetailActivity extends UpNavigationActionBarActivity {
                                 }
                             })
                     .create().show();
+        }
+
+        @Override
+        public String checkValidity(RSSArticle result) {
+            return null;
         }
     }
 
