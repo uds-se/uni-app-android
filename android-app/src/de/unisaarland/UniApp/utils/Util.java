@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewParent;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 
 public class Util {
@@ -28,17 +27,17 @@ public class Util {
         return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
     }
 
-    public static Date getStartOfDay(long time) {
+    public static Calendar getStartOfDay(long time) {
         GregorianCalendar cal = new GregorianCalendar();
         cal.setTimeInMillis(time);
         return new GregorianCalendar(cal.get(Calendar.YEAR),
-                cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH)).getTime();
+                cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
     }
 
-    public static Date getStartOfDay() {
+    public static Calendar getStartOfDay() {
         GregorianCalendar now = new GregorianCalendar();
         return new GregorianCalendar(now.get(Calendar.YEAR),
-                now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH)).getTime();
+                now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH));
     }
 
     /**

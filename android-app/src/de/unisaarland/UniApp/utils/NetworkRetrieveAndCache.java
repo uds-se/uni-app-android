@@ -67,6 +67,14 @@ public class NetworkRetrieveAndCache<ResultType> {
         return url;
     }
 
+    public boolean loadedSince(long timeMillis) {
+        if (cache == null)
+            throw new IllegalArgumentException("cache is null");
+
+        Date date = cache.getContentAge(contentTag);
+        return date != null && date.getTime() >= timeMillis;
+    }
+
     public interface Delegate<ResultType> {
         /**
          * Called in the UI thread whenever new data was retrieved (from the cached, or from
@@ -113,7 +121,7 @@ public class NetworkRetrieveAndCache<ResultType> {
         boolean reloadContentFromWeb = reloadIfOlderSeconds >= 0 && (cached == null
                 || reloadIfOlderSeconds == 0
                 || Math.abs(cached.first.getTime() - System.currentTimeMillis()) >
-                   1000*reloadIfOlderSeconds);
+                   1000L*reloadIfOlderSeconds);
         if (reloadContentFromWeb) {
             delegate.onStartLoading();
 

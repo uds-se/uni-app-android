@@ -20,6 +20,6 @@
             android:summaryOff="@string/show_ingredients_off"/>
         <de.unisaarland.UniApp.settings.MensaNotificationsPreference
             android:key="@string/pref_mensa_notification_times"
-            android:title="@string/mensa_notifications_title"/>
+            android:title="@string/mensa_notifications_pref_title"/>
     </PreferenceCategory>
 </PreferenceScreen>

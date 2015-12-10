@@ -54,7 +54,7 @@ public class RSSActivity extends UpNavigationActionBarActivity {
             @Override
             public List<RSSItem> filterItems(List<RSSItem> items) {
                 List<RSSItem> filtered = new ArrayList<>();
-                Date today = Util.getStartOfDay();
+                Date today = Util.getStartOfDay().getTime();
                 for (RSSItem m : items)
                     if (!m.getPublicationDate().before(today))
                         filtered.add(m);

@@ -16,6 +16,7 @@ import de.unisaarland.UniApp.about.AboutActivity;
 import de.unisaarland.UniApp.bus.BusActivity;
 import de.unisaarland.UniApp.campus.CampusActivity;
 import de.unisaarland.UniApp.restaurant.RestaurantActivity;
+import de.unisaarland.UniApp.restaurant.notifications.MensaNotifications;
 import de.unisaarland.UniApp.rssViews.RSSActivity;
 import de.unisaarland.UniApp.settings.SettingsActivity;
 import de.unisaarland.UniApp.staff.SearchStaffActivity;
@@ -33,6 +34,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.main);
         // set Listeners for the main screen to launch specific activity
         setButtonListeners();
+
+        // And set the mensa preferences (is not strictly needed, since each alarm should trigger
+        // the next one, but for the case that something goes wrong...)
+        new MensaNotifications(this).setNext();
     }
 
     /**

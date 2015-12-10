@@ -53,10 +53,10 @@ public class MensaXMLParser extends XMLExtractor<Map<Long, List<MensaItem>>> {
                 String tempDate = parser.getAttributeValue(null, TIMESTAMP);
                 long date = Long.parseLong(tempDate) * 1000;
 
-                Date tagDate = Util.getStartOfDay(date);
+                long dayStartMillis = Util.getStartOfDay(date).getTimeInMillis();
 
                 List<MensaItem> tagItems = readItems(parser);
-                items.put(tagDate.getTime(), tagItems);
+                items.put(dayStartMillis, tagItems);
             }
         }
 

@@ -21,10 +21,6 @@ public class MensaNotificationTimes {
         this.times = times;
     }
 
-    public MensaNotificationTimes() {
-        this(DEFAULT_TIMES);
-    }
-
     public int getHour(int day) {
         return (int)(times >> (12*day + 1)) & 0x1f;
     }

@@ -128,7 +128,8 @@ public class RestaurantActivity extends UpNavigationActionBarActivity {
 
     private void populateItems(Map<Long, List<MensaItem>> items) {
         // compute which item to preselect (smallest item >= current day, or last selected item)
-        long dateToSelect = lastSelectedDate != 0 ? lastSelectedDate : Util.getStartOfDay().getTime();
+        long dateToSelect = lastSelectedDate != 0 ? lastSelectedDate
+                : Util.getStartOfDay().getTimeInMillis();
         int itemToSelect = 0;
         for (Long l : items.keySet())
             if (l < dateToSelect)

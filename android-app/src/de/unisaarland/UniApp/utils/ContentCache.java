@@ -116,11 +116,40 @@ public class ContentCache {
         return openHelper.getReadableDatabase();
     }
 
+    /**
+     * Get the last stored content with the given name, or null if none is in the cache.
+     * @param name the name of the item to query
+     * @return last stored content, or null if not cached
+     */
     public byte[] getContent(String name) {
         Pair<Date, byte[]> cont = getContentWithAge(name);
         return cont == null ? null : cont.second;
     }
 
+    /**
+     * Get the Date of the last stored item with the given name, or null if none is in the cache.
+     * @param name the name of the item to query
+     * @return last store date, or null if not cached
+     */
+    public Date getContentAge(String name) {
+        SQLiteDatabase db = getReadableDB();
+        Cursor res = db.query("cache", new String[]{"time"}, "key=?", new String[]{name}, null, null, null, "1");
+        if (!res.moveToNext())
+            return null;
+        long time = res.getLong(0);
+        if (Math.abs(System.currentTimeMillis() - time) >= 1000L * discardContentAfterSeconds) {
+            removeOldContent(db);
+            return null;
+        }
+        res.close();
+        return new Date(time);
+    }
+
+    /**
+     * Get the content and Date of the last stored item with the given name, or null if none is in the cache.
+     * @param name the name of the item to query
+     * @return pair with last stored content and Date, or null if not cached
+     */
     public synchronized Pair<Date, byte[]> getContentWithAge(String name) {
         SQLiteDatabase db = getReadableDB();
         Cursor res = db.query("cache", new String[]{"time", "data"}, "key=?", new String[]{name}, null, null, null, "1");

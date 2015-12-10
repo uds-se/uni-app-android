@@ -150,7 +150,9 @@
     <string name="map_satellite">Satellit</string>
     <string name="set">Setzen</string>
     <string name="cancel">Abbrechen</string>
-    <string name="mensa_notifications_title">Mensabenachrichtigungen</string>
+    <string name="mensa_notifications_pref_title">Mensabenachrichtigungen</string>
     <string name="mensa_settings">Mensa</string>
     <string name="none">Keine</string>
+    <string name="mensa_nofitication_text_expand">Expand to see today\'s mensa menu</string>
+    <string name="mensa_notification_title">Heutige Mensa-Speisekarte</string>
 </resources>

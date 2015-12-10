@@ -28,7 +28,7 @@ public class CachedMensaPlan {
         this.context = context;
     }
 
-    public void load(int reloadIfOlderSeconds) {
+    private void initFetcher() {
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
         String campus = settings.getString(context.getString(R.string.pref_campus), null);
         String mensaUrl = campus.equals(context.getString(R.string.pref_campus_saar))
@@ -39,7 +39,15 @@ public class CachedMensaPlan {
             mensaFetcher = new NetworkRetrieveAndCache<>(mensaUrl, "mensa-"+campus, cache,
                     new MensaXMLParser(), new NetworkDelegate(), context);
         }
-        mensaFetcher.loadAsynchronously(reloadIfOlderSeconds);
+    }
+
+    /**
+     * @return true if the data was initially loaded from the cache, false otherwise. in any case,
+     *         reloading might have been triggered.
+     */
+    public boolean load(int reloadIfOlderSeconds) {
+        initFetcher();
+        return mensaFetcher.loadAsynchronously(reloadIfOlderSeconds);
     }
 
     public void cancel() {
@@ -49,20 +57,36 @@ public class CachedMensaPlan {
         }
     }
 
+    public static boolean loadedSince(long timeMillis, Context context) {
+        CachedMensaPlan plan = new CachedMensaPlan(null, context);
+        plan.initFetcher();
+        boolean ret = plan.loadedSince(timeMillis);
+        plan.cancel();
+        return ret;
+    }
+
+    public boolean loadedSince(long timeMillis) {
+        initFetcher();
+        return mensaFetcher.loadedSince(timeMillis);
+    }
+
     private final class NetworkDelegate implements NetworkRetrieveAndCache.Delegate<Map<Long, List<MensaItem>>> {
         @Override
         public void onUpdate(Map<Long, List<MensaItem>> result) {
-            networkDelegate.onUpdate(result);
+            if (networkDelegate != null)
+                networkDelegate.onUpdate(result);
         }
 
         @Override
         public void onStartLoading() {
-            networkDelegate.onStartLoading();
+            if (networkDelegate != null)
+                networkDelegate.onStartLoading();
         }
 
         @Override
         public void onFailure(String message) {
-            networkDelegate.onFailure(message);
+            if (networkDelegate != null)
+                networkDelegate.onFailure(message);
         }
 
         @Override

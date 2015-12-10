@@ -20,6 +20,7 @@ import java.util.Calendar;
 
 import de.unisaarland.UniApp.R;
 import de.unisaarland.UniApp.restaurant.model.MensaNotificationTimes;
+import de.unisaarland.UniApp.restaurant.notifications.MensaNotifications;
 import de.unisaarland.UniApp.utils.Util;
 
 public class MensaNotificationsPreference extends DialogPreference {
@@ -55,6 +56,7 @@ public class MensaNotificationsPreference extends DialogPreference {
         if (positiveResult) {
             persistLong(lastAdapter.times.getRaw());
             setSummary(getSummary());
+            new MensaNotifications(getContext()).setNext();
         }
     }
 
@@ -94,11 +96,11 @@ public class MensaNotificationsPreference extends DialogPreference {
 
     private static class DayListAdapter extends BaseAdapter {
         private final Context context;
-        private final MensaNotificationTimes times = new MensaNotificationTimes();
+        private final MensaNotificationTimes times;
 
         private DayListAdapter(Context context, long times) {
             this.context = context;
-            this.times.setRaw(times);
+            this.times = new MensaNotificationTimes(times);
         }
 
         @Override
