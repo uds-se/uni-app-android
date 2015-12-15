@@ -1,31 +1,30 @@
 package de.unisaarland.UniApp.restaurant.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.SuperscriptSpan;
 
 import java.io.Serializable;
-import java.util.Date;
 
-public class MensaItem implements Serializable {
+public class MensaItem implements Serializable, Parcelable {
 
     private final String category;
     private final String desc;
     private final String title;
-    private final Date tag;
     private final String[] labels;
     private final int preis1;
     private final int preis2;
     private final int preis3;
     private final int color;
 
-    public MensaItem(String category, String desc, String title, Date tag, String[] labels,
+    public MensaItem(String category, String desc, String title, String[] labels,
                      int preis1, int preis2, int preis3, int color) {
         this.category = category;
         this.desc = desc;
         this.title = title;
-        this.tag = tag;
         this.labels = labels;
         this.preis1 = preis1;
         this.preis2 = preis2;
@@ -43,10 +42,6 @@ public class MensaItem implements Serializable {
 
     public String getTitle() {
         return title;
-    }
-
-    public Date getTag() {
-        return tag;
     }
 
     public String[] getLabels() {
@@ -137,4 +132,41 @@ public class MensaItem implements Serializable {
     public CharSequence getDescSpannable(boolean showIngredients) {
         return createMensaItemSpannable(getDesc(), showIngredients);
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(category);
+        dest.writeString(desc);
+        dest.writeString(title);
+        dest.writeStringArray(labels);
+        dest.writeInt(preis1);
+        dest.writeInt(preis2);
+        dest.writeInt(preis3);
+        dest.writeInt(color);
+    }
+
+    public static final Parcelable.Creator<MensaItem> CREATOR
+            = new Parcelable.Creator<MensaItem>() {
+        public MensaItem createFromParcel(Parcel in) {
+            return new MensaItem(
+                    /* category */ in.readString(),
+                    /* desc     */ in.readString(),
+                    /* title    */ in.readString(),
+                    /* labels   */ in.createStringArray(),
+                    /* preis1   */ in.readInt(),
+                    /* preis2   */ in.readInt(),
+                    /* preis3   */ in.readInt(),
+                    /* color    */ in.readInt());
+        }
+
+        public MensaItem[] newArray(int size) {
+            return new MensaItem[size];
+        }
+    };
+
 }

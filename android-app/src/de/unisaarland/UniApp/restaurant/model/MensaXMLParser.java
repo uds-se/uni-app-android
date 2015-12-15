@@ -11,7 +11,6 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -52,9 +51,7 @@ public class MensaXMLParser extends XMLExtractor<Map<Long, List<MensaItem>>> {
             if (parser.getName().equals(TAG)) {
                 String tempDate = parser.getAttributeValue(null, TIMESTAMP);
                 long date = Long.parseLong(tempDate) * 1000;
-
                 long dayStartMillis = Util.getStartOfDay(date).getTimeInMillis();
-
                 List<MensaItem> tagItems = readItems(parser);
                 items.put(dayStartMillis, tagItems);
             }
@@ -79,7 +76,6 @@ public class MensaXMLParser extends XMLExtractor<Map<Long, List<MensaItem>>> {
         return mensaItems;
     }
 
-
     private MensaItem parseMensaItem(XmlPullParser parser)
             throws IOException, XmlPullParserException {
         parser.require(XmlPullParser.START_TAG, null, ITEM_TAG);
@@ -87,7 +83,6 @@ public class MensaXMLParser extends XMLExtractor<Map<Long, List<MensaItem>>> {
         String category = null;
         String desc = null;
         String title = null;
-        Date tag = null;
         int preis1 = 0;
         int preis2 = 0;
         int preis3 = 0;
@@ -125,7 +120,7 @@ public class MensaXMLParser extends XMLExtractor<Map<Long, List<MensaItem>>> {
         }
 
         String[] labels = extractLabels(title + desc);
-        return new MensaItem(category, desc, title, tag, labels, preis1, preis2,
+        return new MensaItem(category, desc, title, labels, preis1, preis2,
                 preis3, color);
     }
 

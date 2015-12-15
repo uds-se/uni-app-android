@@ -20,7 +20,7 @@ public class ContentCache {
 
     private static final String TAG = ContentCache.class.getSimpleName();
 
-    private static final int version = 1;
+    private static final int version = 2;
 
     private static final String dropTable =
             "DROP TABLE IF EXISTS cache";
