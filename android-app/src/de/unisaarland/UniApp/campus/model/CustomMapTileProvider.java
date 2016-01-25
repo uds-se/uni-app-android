@@ -51,6 +51,27 @@ public abstract class CustomMapTileProvider implements TileProvider {
 
     }
 
+    public static class Dudweiler extends CustomMapTileProvider {
+
+        public Dudweiler(AssetManager assets) {
+            super(assets, "tiles/saar/DudweilerTiles");
+        }
+
+        @Override
+        public final SparseArray<Rect> getTileZooms() {
+            return new SparseArray<Rect>() {{
+                put(14,  new Rect(8512,  10776,  8512,  10776 ));
+                put(15,  new Rect(17024,  21552,  17025,  21553 ));
+                put(16, new Rect(34048,  43105,  34050,  43106 ));
+                put(17, new Rect(68096, 86210, 68100, 86213));
+                put(18, new Rect(136193, 172420, 136200, 172426));
+                put(19, new Rect(272387, 344841, 272401, 344852));
+            }};
+        }
+
+    }
+
+
     public static class SaarSport extends CustomMapTileProvider {
 
         public SaarSport(AssetManager assets) {
@@ -74,6 +95,7 @@ public abstract class CustomMapTileProvider implements TileProvider {
     public static CustomMapTileProvider[] allTileProviders(AssetManager assets) {
         return new CustomMapTileProvider[] {
             new Saar(assets),
+            new Dudweiler(assets),
             new SaarSport(assets),
             new Hom(assets)
         };

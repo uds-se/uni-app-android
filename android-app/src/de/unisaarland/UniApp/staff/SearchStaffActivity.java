@@ -95,14 +95,24 @@ public class SearchStaffActivity extends UpNavigationActionBarActivity {
                             .create().show();
                 } else {
                     String profPart = "";
-                    if (radioChooser.getCheckedRadioButtonId() == R.id.rb_only_prof)
+                    String searchType = "all";
+                    String juniorProfURL = "";
+                    if (radioChooser.getCheckedRadioButtonId() == R.id.rb_only_prof) {
                         profPart = "choice.r_funktion.pfid=y&r_funktion.pfid=171&";
+                        juniorProfURL = "https://www.lsf.uni-saarland.de/qisserver/rds?choice.r_funktion.pfid=y&r_funktion.pfid=166&" +
+                                "state=wsearchv&search=7&purge=y&moduleParameter=person/person"+
+                                "&personal.vorname="+Uri.encode(fstNam)+"&personal.nachname="+
+                                Uri.encode(lstNam)+"&P_start=0&P_anzahl=50&_form=display";
+                        searchType = "prof";
+                    }
                     String searchURL  = "https://www.lsf.uni-saarland.de/qisserver/rds?"+
                             profPart+"state=wsearchv&search=7&purge=y&moduleParameter=person/person"+
                             "&personal.vorname="+Uri.encode(fstNam)+"&personal.nachname="+
                             Uri.encode(lstNam)+"&P_start=0&P_anzahl=50&_form=display";
                     Intent myIntent = new Intent(SearchStaffActivity.this, SearchResultActivity.class);
                     myIntent.putExtra("url", searchURL);
+                    myIntent.putExtra("juniorProfURL", juniorProfURL);
+                    myIntent.putExtra("searchType", searchType);
                     SearchStaffActivity.this.startActivity(myIntent);
                 }
             }

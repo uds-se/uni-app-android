@@ -7,7 +7,9 @@ import android.os.Parcelable;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import de.unisaarland.UniApp.R;
@@ -21,10 +23,12 @@ import de.unisaarland.UniApp.utils.Util;
 public class SearchResultActivity extends UpNavigationActionBarActivity {
     
     private NetworkRetrieveAndCache<List<SearchResult>> networkFetcher;
-
+    private NetworkRetrieveAndCache<List<SearchResult>> juniorNetworkFetcher;
+    private List<SearchResult> storedResults;
     // store scroll position on leave and restore on return (on first content load)
     private Parcelable listState = null;
-
+    private String searchType = "";
+    private int failCount = 0;
     @Override
     protected void onPause() {
         super.onPause();
@@ -36,41 +40,65 @@ public class SearchResultActivity extends UpNavigationActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        storedResults = new ArrayList<>();
+
         Bundle extras = getIntent().getExtras();
         String url = (String) Util.getExtra("url", savedInstanceState, extras, null);
-
+        searchType = (String) Util.getExtra("searchType", savedInstanceState, extras, null);
         if (url == null)
             throw new AssertionError("url should be passed via intent or from saved state");
 
+        if (searchType == null)
+            searchType = "all";
         setContentView(R.layout.search_result_layout);
 
         ProgressBar bar = (ProgressBar) findViewById(R.id.progress_bar);
         bar.setVisibility(View.GONE);
 
+        NetworkDelegate networkDelegate = new NetworkDelegate();
         if (networkFetcher == null || !url.equals(networkFetcher.getUrl())) {
             String tag = "search-" + Integer.toHexString(url.hashCode());
             ContentCache cache = Util.getContentCache(this);
             networkFetcher = new NetworkRetrieveAndCache<>(url, tag, 60*15, cache,
-                    new SearchResultExtractor(url), new NetworkDelegate(), this);
+                    new SearchResultExtractor(url), networkDelegate, this);
         }
+        if(searchType.equalsIgnoreCase("prof")) {
+            String juniorProfURL = (String) Util.getExtra("juniorProfURL", savedInstanceState, extras, null);
+            if (juniorNetworkFetcher == null || !juniorProfURL.equals(juniorNetworkFetcher.getUrl())) {
+                String tag = "search-" + Integer.toHexString(juniorProfURL.hashCode());
+                ContentCache cache = Util.getContentCache(this);
+                juniorNetworkFetcher = new NetworkRetrieveAndCache<>(juniorProfURL, tag, 60 * 15, cache,
+                        new SearchResultExtractor(juniorProfURL), new NetworkDelegate(), this);
+            }
+        }
+        else
+            juniorNetworkFetcher = null;
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        storedResults = new ArrayList<>();
         networkFetcher.loadAsynchronously();
+        if(juniorNetworkFetcher != null)
+            juniorNetworkFetcher.loadAsynchronously();
+
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString("url", networkFetcher.getUrl());
+        if(juniorNetworkFetcher != null)
+            outState.putString("juniorProfURL", juniorNetworkFetcher.getUrl());
     }
 
     @Override
     protected void onStop() {
         if (networkFetcher != null)
             networkFetcher.cancel();
+        if(juniorNetworkFetcher != null)
+            juniorNetworkFetcher.cancel();
         super.onStop();
     }
 
@@ -80,7 +108,13 @@ public class SearchResultActivity extends UpNavigationActionBarActivity {
         @Override
         public void onUpdate(List<SearchResult> result) {
             hasResult = true;
-            showSearchResults(result);
+            if(result == null || result.isEmpty())
+                showSearchResults(result);
+            else {
+                storedResults.addAll(result);
+                showSearchResults(storedResults);
+            }
+
         }
 
         @Override
@@ -113,33 +147,42 @@ public class SearchResultActivity extends UpNavigationActionBarActivity {
         ProgressBar pBar = (ProgressBar) findViewById(R.id.progress_bar);
         pBar.setVisibility(View.GONE);
         if (result == null) {
-            new AlertDialog.Builder(this)
-                    .setTitle(R.string.too_few_search_terms_title)
-                    .setMessage(R.string.too_few_search_terms_description)
-                    .setCancelable(true)
-                    .setPositiveButton(getString(R.string.ok),
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    dialog.dismiss();
-                                    onBackPressed();
-                                }
-                            })
-                    .create().show();
+            failCount++;
+            if ((searchType.equalsIgnoreCase("prof") && failCount == 2) || searchType.equalsIgnoreCase("all")) {
+                new AlertDialog.Builder(this)
+                        .setTitle(R.string.too_few_search_terms_title)
+                        .setMessage(R.string.too_few_search_terms_description)
+                        .setCancelable(true)
+                        .setPositiveButton(getString(R.string.ok),
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.dismiss();
+                                        onBackPressed();
+                                    }
+                                })
+                        .create().show();
+                //return;
+            }
             return;
         }
         if (result.isEmpty()) {
-            new AlertDialog.Builder(this)
-                    .setTitle(R.string.no_staff_member_title)
-                    .setMessage(R.string.no_staff_member_found_description)
-                    .setCancelable(true)
-                    .setPositiveButton(getString(R.string.ok),
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    dialog.dismiss();
-                                    onBackPressed();
-                                }
-                            })
-                    .create().show();
+            failCount++;
+            Log.i ("info", String.valueOf(failCount));
+            if ((searchType.equalsIgnoreCase("prof") && failCount == 2) || searchType.equalsIgnoreCase("all")) {
+                new AlertDialog.Builder(this)
+                        .setTitle(R.string.no_staff_member_title)
+                        .setMessage(R.string.no_staff_member_found_description)
+                        .setCancelable(true)
+                        .setPositiveButton(getString(R.string.ok),
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.dismiss();
+                                        onBackPressed();
+                                    }
+                                })
+                        .create().show();
+                //return;
+            }
             return;
         }
 
@@ -150,12 +193,13 @@ public class SearchResultActivity extends UpNavigationActionBarActivity {
 
         SearchResultAdapter adapter = (SearchResultAdapter) body.getAdapter();
         if (adapter == null) {
+            Log.i ("info", "Found NULL");
             body.setAdapter(new SearchResultAdapter(this, result));
         } else {
             adapter.update(result);
             body.invalidate();
         }
-
+        failCount = 0;
         body.onRestoreInstanceState(listState);
         listState = null;
     }
