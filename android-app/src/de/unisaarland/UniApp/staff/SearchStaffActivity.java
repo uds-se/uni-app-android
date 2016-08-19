@@ -19,6 +19,18 @@ import de.unisaarland.UniApp.utils.UpNavigationActionBarActivity;
 
 public class SearchStaffActivity extends UpNavigationActionBarActivity {
 
+    private static String getSearchUrl(String firstName, String lastName, int function) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("https://www.lsf.uni-saarland.de/qisserver/rds?");
+        if (function != 0) {
+            sb.append("choice.r_funktion.pfid=y&r_funktion.pfid=").append(function).append("&");
+        }
+        sb.append("state=wsearchv&search=7&purge=y&moduleParameter=person/person&personal.vorname=");
+        sb.append(Uri.encode(firstName)).append("&personal.nachname=").append(Uri.encode(lastName));
+        sb.append("&P_start=0&P_anzahl=50&_form=display");
+        return sb.toString();
+    }
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -94,25 +106,19 @@ public class SearchStaffActivity extends UpNavigationActionBarActivity {
                                 })
                             .create().show();
                 } else {
-                    String profPart = "";
-                    String searchType = "all";
-                    String juniorProfURL = "";
+                    String[] urls;
                     if (radioChooser.getCheckedRadioButtonId() == R.id.rb_only_prof) {
-                        profPart = "choice.r_funktion.pfid=y&r_funktion.pfid=171&";
-                        juniorProfURL = "https://www.lsf.uni-saarland.de/qisserver/rds?choice.r_funktion.pfid=y&r_funktion.pfid=166&" +
-                                "state=wsearchv&search=7&purge=y&moduleParameter=person/person"+
-                                "&personal.vorname="+Uri.encode(fstNam)+"&personal.nachname="+
-                                Uri.encode(lstNam)+"&P_start=0&P_anzahl=50&_form=display";
-                        searchType = "prof";
+                        urls = new String[] {
+                                getSearchUrl(fstNam, lstNam, 166),
+                                getSearchUrl(fstNam, lstNam, 171)
+                        };
+                    } else {
+                        urls = new String[]{
+                                getSearchUrl(fstNam, lstNam, 0)
+                        };
                     }
-                    String searchURL  = "https://www.lsf.uni-saarland.de/qisserver/rds?"+
-                            profPart+"state=wsearchv&search=7&purge=y&moduleParameter=person/person"+
-                            "&personal.vorname="+Uri.encode(fstNam)+"&personal.nachname="+
-                            Uri.encode(lstNam)+"&P_start=0&P_anzahl=50&_form=display";
                     Intent myIntent = new Intent(SearchStaffActivity.this, SearchResultActivity.class);
-                    myIntent.putExtra("url", searchURL);
-                    myIntent.putExtra("juniorProfURL", juniorProfURL);
-                    myIntent.putExtra("searchType", searchType);
+                    myIntent.putExtra("urls", urls);
                     SearchStaffActivity.this.startActivity(myIntent);
                 }
             }

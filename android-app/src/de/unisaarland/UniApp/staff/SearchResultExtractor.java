@@ -14,7 +14,7 @@ import java.util.List;
 
 import de.unisaarland.UniApp.utils.ContentExtractor;
 
-public class SearchResultExtractor implements ContentExtractor<List<SearchResult>> {
+public class SearchResultExtractor implements ContentExtractor<SearchResult[]> {
 
     private final String baseUrl;
 
@@ -23,7 +23,7 @@ public class SearchResultExtractor implements ContentExtractor<List<SearchResult
     }
 
     @Override
-    public List<SearchResult> extract(InputStream data) throws ParseException, IOException {
+    public SearchResult[] extract(InputStream data) throws ParseException, IOException {
         List<SearchResult> entries = new ArrayList<>();
 
         Document doc = Jsoup.parse(data, null, baseUrl);
@@ -62,6 +62,6 @@ public class SearchResultExtractor implements ContentExtractor<List<SearchResult
             entries.add(new SearchResult(name.toString(), url));
         }
 
-        return entries;
+        return entries.toArray(new SearchResult[entries.size()]);
     }
 }
