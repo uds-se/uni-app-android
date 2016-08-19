@@ -70,7 +70,7 @@ public class CampusActivity extends UpNavigationActionBarActivity
 
     private GoogleMap map;
     private GoogleApiClient locationClient;
-    private final int REQUEST_CODE = 5;
+    private static final int REQUEST_CODE = 5;
     private final Map<Marker, PointOfInterest> poisMap = new HashMap<>();
     private Location currentLocation;
     private static final int TIME_INTERVAL = 3000; // 3 seconds
@@ -80,31 +80,34 @@ public class CampusActivity extends UpNavigationActionBarActivity
             .setInterval(TIME_INTERVAL)
             .setFastestInterval(16)    // 16ms = 60fps
             .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-    private String infoBuilding = null;
     private Menu menu;
     private DatabaseHandler db = null;
 
-    /*
-    * Will be called when activity created first time e.g. from scratch and check if intent has any extra information
-    * extra information will be set if activity is called from search staff page.
-    * */
+    /**
+     * Will be called when activity created first time e.g. from scratch and check if intent has any extra information
+     * extra information will be set if activity is called from search staff page.
+     */
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Bundle extras = getIntent().getExtras();
-        infoBuilding = extras == null ? null : extras.getString("building");
         setContentView(R.layout.campus_layout);
         db = new DatabaseHandler(this);
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+    }
 
-    /*
-    * Will be called when activity created first time after onCreate or when activity comes to the front again or in a pausing state
-    * So its better to set all the things needed to use in the activity here if in case anything is released in onPause method
-    * */
+    /**
+     * Will be called when activity created first time after onCreate or when activity comes to the front again or in a pausing state
+     * So its better to set all the things needed to use in the activity here if in case anything is released in onPause method
+     */
     @Override
     protected void onResume() {
         super.onResume();
         setUpMapIfNeeded();
+        showInfoBuildingIfSet();
         setUpLocationClient();
         locationClient.connect();
     }
@@ -225,20 +228,24 @@ public class CampusActivity extends UpNavigationActionBarActivity
             map.addTileOverlay(new TileOverlayOptions().tileProvider(prov));
 
         resetCamera();
+    }
 
+    private void showInfoBuildingIfSet() {
         // if info building != null means activity is called from search result details page
         // so it will get the building position from the database and will set the marker there.
-        if (infoBuilding != null) {
-            map.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
-                @Override
-                public void onCameraChange(CameraPosition cameraPosition) {
-                    map.setOnCameraChangeListener(null);
-                    List<PointOfInterest> pois = db.getPointsOfInterestForTitle(infoBuilding);
-                    if (!pois.isEmpty())
-                        pinPOIsInArray(pois);
-                }
-            });
-        }
+
+        final String infoBuilding = getIntent().getStringExtra("building");
+        if (infoBuilding == null)
+            return;
+        map.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
+            @Override
+            public void onCameraChange(CameraPosition cameraPosition) {
+                map.setOnCameraChangeListener(null);
+                List<PointOfInterest> pois = db.getPointsOfInterestForTitle(infoBuilding);
+                if (!pois.isEmpty())
+                    pinPOIsInArray(pois);
+            }
+        });
     }
 
     /**

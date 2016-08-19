@@ -9,7 +9,7 @@ import android.text.style.SuperscriptSpan;
 
 import java.io.Serializable;
 
-public class MensaItem implements Serializable, Parcelable {
+public class MensaItem implements Serializable, Parcelable, Comparable<MensaItem> {
 
     private final String category;
     private final String desc;
@@ -169,4 +169,41 @@ public class MensaItem implements Serializable, Parcelable {
         }
     };
 
+    @Override
+    public int compareTo(MensaItem o) {
+        if (this == o)
+            return 0;
+        int cmp;
+        if ((cmp = category.compareTo(o.category)) != 0 ||
+                (cmp = desc.compareTo(o.desc)) != 0 ||
+                (cmp = title.compareTo(o.title)) != 0)
+            return cmp;
+        if (preis1 != o.preis1)
+            return preis1 < o.preis1 ? -1 : 1;
+        if (preis2 != o.preis2)
+            return preis2 < o.preis2 ? -1 : 1;
+        if (preis3 != o.preis3)
+            return preis3 < o.preis3 ? -1 : 1;
+        if (color != o.color)
+            return color < o.color ? -1 : 1;
+        return 0;
+    }
+
+    @Override
+    public boolean equals(Object o0) {
+        if (this == o0)
+            return true;
+        if (o0.getClass() != MensaItem.class)
+            return false;
+        MensaItem o = (MensaItem) o0;
+        if (!o.category.equals(category) ||
+                !o.desc.equals(desc) ||
+                !o.title.equals(title) ||
+                o.preis1 != preis1 ||
+                o.preis2 != preis2 ||
+                o.preis3 != preis3 ||
+                o.color != color)
+            return false;
+        return true;
+    }
 }

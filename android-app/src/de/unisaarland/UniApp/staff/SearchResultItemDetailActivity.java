@@ -33,10 +33,10 @@ public class SearchResultItemDetailActivity extends UpNavigationActionBarActivit
         setContentView(R.layout.search_result_detail_layout);
     }
 
+    // onResume gets called after onCreate or onNewIntent
     @Override
-    protected void onStart() {
-        super.onStart();
-
+    protected void onResume() {
+        super.onResume();
         ProgressBar bar = (ProgressBar) findViewById(R.id.progress_bar);
         bar.setVisibility(View.GONE);
         ScrollView infoView = (ScrollView) findViewById(R.id.staff_info_scroll_view);
@@ -48,18 +48,15 @@ public class SearchResultItemDetailActivity extends UpNavigationActionBarActivit
             networkFetcher = new NetworkRetrieveAndCache<>(url, tag, cache,
                     new StaffInfoParser(url), new NetworkDelegate(), this);
         }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
         networkFetcher.loadAsynchronously(15 * 60);
     }
 
     @Override
     protected void onStop() {
-        if (networkFetcher != null)
+        if (networkFetcher != null) {
             networkFetcher.cancel();
+            networkFetcher = null;
+        }
         super.onStop();
     }
 
@@ -67,7 +64,7 @@ public class SearchResultItemDetailActivity extends UpNavigationActionBarActivit
         private boolean hasResult = false;
 
         @Override
-        public void onUpdate(StaffInfo result) {
+        public void onUpdate(StaffInfo result, boolean fromCache) {
             ProgressBar bar = (ProgressBar) findViewById(R.id.progress_bar);
             bar.setVisibility(View.GONE);
             hasResult = true;

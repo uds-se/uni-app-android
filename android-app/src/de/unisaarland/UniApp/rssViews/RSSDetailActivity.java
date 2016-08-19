@@ -73,7 +73,7 @@ public class RSSDetailActivity extends UpNavigationActionBarActivity {
         private boolean hasItem = false;
 
         @Override
-        public void onUpdate(RSSArticle rss) {
+        public void onUpdate(RSSArticle rss, boolean fromCache) {
             hasItem = true;
             showRSSItem(rss);
         }

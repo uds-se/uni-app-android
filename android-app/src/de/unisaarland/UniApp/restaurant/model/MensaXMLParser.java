@@ -11,17 +11,15 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import de.unisaarland.UniApp.utils.Util;
 import de.unisaarland.UniApp.utils.XMLExtractor;
 
 
-public class MensaXMLParser extends XMLExtractor<Map<Long, List<MensaItem>>> {
+public class MensaXMLParser extends XMLExtractor<MensaDayMenu[]> {
 
     private static final String START_TAG = "speiseplan";
     private static final String TAG = "tag";
@@ -37,9 +35,9 @@ public class MensaXMLParser extends XMLExtractor<Map<Long, List<MensaItem>>> {
     private static final String TIMESTAMP = "timestamp";
 
     @Override
-    public Map<Long, List<MensaItem>> extractFromXML(XmlPullParser parser)
+    public MensaDayMenu[] extractFromXML(XmlPullParser parser)
             throws IOException, XmlPullParserException, ParseException {
-        Map<Long, List<MensaItem>> items = new HashMap<>();
+        List<MensaDayMenu> items = new ArrayList<>(10);
 
         parser.require(XmlPullParser.START_DOCUMENT, null, null);
         parser.next();
@@ -52,18 +50,20 @@ public class MensaXMLParser extends XMLExtractor<Map<Long, List<MensaItem>>> {
                 String tempDate = parser.getAttributeValue(null, TIMESTAMP);
                 long date = Long.parseLong(tempDate) * 1000;
                 long dayStartMillis = Util.getStartOfDay(date).getTimeInMillis();
-                List<MensaItem> tagItems = readItems(parser);
-                items.put(dayStartMillis, tagItems);
+                MensaItem[] tagItems = readItems(parser);
+                items.add(new MensaDayMenu(dayStartMillis, tagItems));
             }
         }
 
-        return items;
+        MensaDayMenu[] arr = items.toArray(new MensaDayMenu[items.size()]);
+        Arrays.sort(arr);
+        return arr;
     }
 
-    private List<MensaItem> readItems(XmlPullParser parser)
+    private MensaItem[] readItems(XmlPullParser parser)
             throws XmlPullParserException, IOException {
         parser.require(XmlPullParser.START_TAG, null, TAG);
-        List<MensaItem> mensaItems = new ArrayList<>();
+        List<MensaItem> mensaItems = new ArrayList<>(8);
 
         while (parser.next() != XmlPullParser.END_TAG) {
             if (parser.getEventType() != XmlPullParser.START_TAG)
@@ -73,7 +73,7 @@ public class MensaXMLParser extends XMLExtractor<Map<Long, List<MensaItem>>> {
             else
                 skipTag(parser);
         }
-        return mensaItems;
+        return mensaItems.toArray(new MensaItem[mensaItems.size()]);
     }
 
     private MensaItem parseMensaItem(XmlPullParser parser)

@@ -4,7 +4,8 @@
     android:layout_height="60dp"
     android:minHeight="60dp"
     android:layout_width="fill_parent"
-    android:id="@+id/news_item_row">
+    android:id="@+id/news_item_row"
+    android:clickable="false">
 
     <TextView
         android:id="@+id/mensa_label_id"

@@ -1,97 +1,120 @@
 package de.unisaarland.UniApp.restaurant.uihelper;
 
-import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.preference.PreferenceManager;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
 
-import java.text.DateFormat;
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
 
 import de.unisaarland.UniApp.R;
 import de.unisaarland.UniApp.restaurant.model.MensaItem;
+import de.unisaarland.UniApp.utils.ui.RemoteOrLocalViewAdapter;
 
-public class MensaItemsAdapter extends BaseAdapter {
-    private Map<Long, List<MensaItem>> mensaItems;
-    private final Context context;
-    private long[] dates;
+/**
+ * Remote view factory and list adapter for the mensa items of one specific day.
+ */
+public class MensaItemsAdapter extends RemoteOrLocalViewAdapter {
+    boolean isWidget;
+    private MensaItem[] items;
 
-    public MensaItemsAdapter(Context context, Map<Long, List<MensaItem>> mensaItems) {
-        if (context == null || mensaItems == null)
-            throw new NullPointerException();
-        this.context = context;
-        this.mensaItems = mensaItems;
-        recomputeDates();
-    }
-
-    private void recomputeDates() {
-        dates = new long[mensaItems.size()];
-
-        int idx = 0;
-        for (Long l : mensaItems.keySet())
-            dates[idx++] = l;
-        Arrays.sort(dates);
+    public MensaItemsAdapter(MensaItem[] items, boolean isWidget) {
+        this.isWidget = isWidget;
+        this.items = items;
     }
 
     @Override
     public int getCount() {
-        return mensaItems.size();
+        return items.length;
     }
 
     @Override
-    public Object getItem(int position) {
-        return mensaItems.get(dates[position]);
-    }
+    public void buildView(int position, RemoteOrLocalViewBuilder builder) {
+        builder.setLayout(R.layout.mensa_item);
 
-    @Override
-    public long getItemId(int position) {
-        return 0;
-    }
+        MensaItem model = items[position];
 
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        if (convertView == null)
-            convertView = View.inflate(context,R.layout.restaurant_layout_list, null);
-        TextView date_label = (TextView) convertView.findViewById(R.id.date_label);
-        TextView day_label = (TextView) convertView.findViewById(R.id.day_label);
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(
+                builder.getContext());
+        boolean showIngredients = settings.getBoolean(
+                builder.getContext().getString(R.string.pref_mensa_ingredients), true);
 
-        Date date = new Date(dates[position]);
-        Calendar dateCal = Calendar.getInstance();
-        dateCal.setTime(date);
-        // Set date in current locale
-        String datestring = DateFormat.getDateInstance(DateFormat.LONG).format(date);
-        date_label.setText(datestring);
-        // Set day in current locale
-        String daystring = dateCal.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG,
-                Locale.getDefault());
-        day_label.setText(daystring);
-        ListView mensaList = (ListView) convertView.findViewById(R.id.mensaList);
-        List<MensaItem> items = mensaItems.get(dates[position]);
-        RestaurantAdapter adapter = (RestaurantAdapter) mensaList.getAdapter();
-        if (adapter == null) {
-            mensaList.setAdapter(new RestaurantAdapter(context, items));
+        builder.setTextViewText(R.id.mensa_menu_category, model.getCategory());
+        builder.setTextViewText(R.id.mensa_menu_title,
+                model.getTitleSpannable(showIngredients));
+        builder.setTextViewText(R.id.mensa_menu_description,
+                model.getDescSpannable(showIngredients));
+
+        String[] labels = model.getLabels();
+        if (!isWidget && labels != null && labels.length != 0 && showIngredients) {
+            Intent intent = new Intent(builder.getContext(),
+                    MensaShowIngredientsActivity.class);
+            intent.setAction(MensaShowIngredientsActivity.ACTION);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.setData(MensaShowIngredientsActivity.encodeLabels(labels));
+            builder.setOnClickIntent(R.id.img_info, intent);
+            builder.setViewVisibility(R.id.img_info, View.VISIBLE);
         } else {
-            adapter.update(items);
+            builder.setViewVisibility(R.id.img_info, View.GONE);
         }
-        convertView.setTag(R.id.mensa_menu_date_tag, Long.valueOf(dates[position]));
-        return convertView;
+
+        builder.setBackgroundColor(R.id.contentBackground, model.getColor());
+
+        if (model.getPreis1() != 0) {
+            String text = builder.getContext().getString(R.string.mensaPriceFormat,
+                    .01 * model.getPreis1(), .01 * model.getPreis2(), .01 * model.getPreis3());
+            builder.setTextViewText(R.id.mensa_menu_price, text);
+            builder.setViewVisibility(R.id.mensa_menu_price, View.VISIBLE);
+        } else {
+            builder.setViewVisibility(R.id.mensa_menu_price, View.INVISIBLE);
+        }
+
+        if (isWidget) {
+            Intent intent = new Intent();
+            intent.putExtra("position", position);
+            builder.setItemFillInIntent(R.id.mensa_item, intent);
+        }
     }
 
-    public boolean update(Map<Long, List<MensaItem>> items) {
-        if (items == null)
-            throw new NullPointerException();
-        if (mensaItems.equals(items))
-            return false;
-        mensaItems = items;
-        recomputeDates();
-        this.notifyDataSetChanged();
-        return true;
+    /**
+     * Update the views on this adapter. This only works if this class is used as list adapter.
+     * Remote views have to be updated manually.
+     */
+    @Override
+    protected void update(RemoteOrLocalViewAdapter newAdapter) {
+        MensaItemsAdapter adap = (MensaItemsAdapter) newAdapter;
+        if (Arrays.equals(items, adap.items))
+            return;
+        items = adap.items;
+        notifyDataSetChanged();
     }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(items.length);
+        dest.writeByte(isWidget ? (byte)1 : 0);
+        for (MensaItem item : items)
+            dest.writeParcelable(item, flags);
+    }
+
+    public static final Parcelable.Creator<MensaItemsAdapter> CREATOR
+            = new Parcelable.Creator<MensaItemsAdapter>() {
+
+        @Override
+        public MensaItemsAdapter createFromParcel(Parcel source) {
+            int len = source.readInt();
+            boolean isWidget = source.readByte() != 0;
+            MensaItem[] items = new MensaItem[len];
+            for (int i = 0; i < len; ++i)
+                items[i] = source.readParcelable(MensaItem.class.getClassLoader());
+            return new MensaItemsAdapter(items, isWidget);
+        }
+
+        @Override
+        public MensaItemsAdapter[] newArray(int size) {
+            return new MensaItemsAdapter[size];
+        }
+    };
 }

@@ -4,10 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import java.util.List;
-import java.util.Map;
-
 import de.unisaarland.UniApp.R;
+import de.unisaarland.UniApp.restaurant.MensaAppWidgetProvider;
 import de.unisaarland.UniApp.utils.ContentCache;
 import de.unisaarland.UniApp.utils.NetworkRetrieveAndCache;
 import de.unisaarland.UniApp.utils.Util;
@@ -17,20 +15,23 @@ public class CachedMensaPlan {
     private static final String MENSA_URL_SB = "http://studentenwerk-saarland.de/_menu/actual/speiseplan-saarbruecken.xml";
     private static final String MENSA_URL_HOM = "http://studentenwerk-saarland.de/_menu/actual/speiseplan-homburg.xml";
 
-    private NetworkRetrieveAndCache<Map<Long, List<MensaItem>>> mensaFetcher = null;
+    private NetworkRetrieveAndCache<MensaDayMenu[]> mensaFetcher = null;
 
-    private final NetworkRetrieveAndCache.Delegate<Map<Long, List<MensaItem>>> networkDelegate;
+    private final NetworkRetrieveAndCache.Delegate<MensaDayMenu[]> networkDelegate;
 
     private final Context context;
 
-    public CachedMensaPlan(NetworkRetrieveAndCache.Delegate<Map<Long, List<MensaItem>>> networkDelegate, Context context) {
+    public CachedMensaPlan(
+            NetworkRetrieveAndCache.Delegate<MensaDayMenu[]> networkDelegate,
+            Context context) {
         this.networkDelegate = networkDelegate;
         this.context = context;
     }
 
     private void initFetcher() {
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
-        String campus = settings.getString(context.getString(R.string.pref_campus), null);
+        String campus = settings.getString(context.getString(R.string.pref_campus),
+                context.getString(R.string.pref_campus_saar));
         String mensaUrl = campus.equals(context.getString(R.string.pref_campus_saar))
                 ? MENSA_URL_SB : MENSA_URL_HOM;
 
@@ -70,11 +71,52 @@ public class CachedMensaPlan {
         return mensaFetcher.loadedSince(timeMillis);
     }
 
-    private final class NetworkDelegate implements NetworkRetrieveAndCache.Delegate<Map<Long, List<MensaItem>>> {
+    public static MensaDayMenu getTodaysMenuIfLoaded(Context context) {
+        final MensaDayMenu[] todayMenu = new MensaDayMenu[1];
+        final long todayMillis = Util.getStartOfDay().getTimeInMillis();
+
+        NetworkRetrieveAndCache.Delegate<MensaDayMenu[]> delegate =
+                new NetworkRetrieveAndCache.Delegate<MensaDayMenu[]>() {
+                    public boolean hasShown = false;
+
+                    @Override
+                    public void onUpdate(MensaDayMenu[] result, boolean fromCache) {
+                        if (hasShown)
+                            throw new AssertionError("we should only be updated once");
+                        hasShown = true;
+                        for (MensaDayMenu menu : result)
+                            if (menu.getDayStartMillis() == todayMillis)
+                                todayMenu[0] = menu;
+                    }
+
+                    @Override
+                    public void onStartLoading() {
+                        throw new AssertionError("we should not load");
+                    }
+
+                    @Override
+                    public void onFailure(String message) {
+                        throw new AssertionError("without loading there should be no failure");
+                    }
+
+                    @Override
+                    public String checkValidity(MensaDayMenu[] result) {
+                        return null;
+                    }
+                };
+        CachedMensaPlan plan = new CachedMensaPlan(delegate, context);
+        plan.load(-1);
+        return todayMenu[0];
+    }
+
+    private final class NetworkDelegate
+            implements NetworkRetrieveAndCache.Delegate<MensaDayMenu[]> {
         @Override
-        public void onUpdate(Map<Long, List<MensaItem>> result) {
+        public void onUpdate(MensaDayMenu[] result, boolean fromCache) {
+            if (!fromCache)
+                MensaAppWidgetProvider.updateAllWidgets(context);
             if (networkDelegate != null)
-                networkDelegate.onUpdate(result);
+                networkDelegate.onUpdate(result, fromCache);
         }
 
         @Override
@@ -90,8 +132,8 @@ public class CachedMensaPlan {
         }
 
         @Override
-        public String checkValidity(Map<Long, List<MensaItem>> result) {
-            if (result.isEmpty())
+        public String checkValidity(MensaDayMenu[] result) {
+            if (result.length == 0)
                 return context.getString(R.string.emptyDocumentError);
             return null;
         }

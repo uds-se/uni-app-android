@@ -4,7 +4,9 @@
               android:orientation="vertical"
               android:layout_width="fill_parent"
               android:minHeight="87dp"
-              android:layout_height="match_parent" android:background="#eeeeeeee">
+              android:layout_height="match_parent" android:background="#eeeeeeee"
+                android:clickable="false"
+                android:id="@+id/mensa_item">
 
     <TextView android:layout_width="fill_parent" android:layout_height="25dp" android:text="@string/categories"
               android:textStyle="bold" android:textSize="18sp" android:id="@+id/mensa_menu_category"
@@ -22,8 +24,7 @@
         android:background="#d9261a"
         android:layout_below="@+id/mensa_menu_category"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="false">
+        android:layout_alignParentRight="true">
 
         <RelativeLayout
             android:layout_width="fill_parent"
@@ -54,21 +55,15 @@
                 android:textColor="#000000"
                 android:textSize="14sp"
                 android:textStyle="bold|normal"
-                android:textAlignment="viewEnd"
                 android:layout_marginTop="3dp"
-                android:layout_marginBottom="-1dp"/>
+                android:layout_marginBottom="-1dp"
+                />
 
             <TextView
                 android:id="@+id/mensa_menu_description"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="false"
-                android:layout_alignParentEnd="false"
                 android:layout_alignParentLeft="true"
-                android:layout_alignParentRight="false"
-                android:layout_alignParentStart="false"
-                android:layout_alignParentTop="false"
-                android:layout_alignWithParentIfMissing="false"
                 android:layout_below="@+id/mensa_menu_title"
                 android:layout_toLeftOf="@+id/img_info"
                 android:background="#ffffff"

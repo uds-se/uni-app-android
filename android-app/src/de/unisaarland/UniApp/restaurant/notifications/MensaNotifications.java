@@ -50,13 +50,15 @@ public class MensaNotifications {
         // load again 120-40 seconds before notification.
         // add jitter / randomness to all dates, to not overload the server.
 
-        long millisForAlarm = 0;
-        String action = "preload";
+        long millisForAlarm;
+        String action;
         Random rand = new Random();
 
-        // if more than 30 minutes before notification: schedule within 30 and 28 minutes before
+        // if more than 30 minutes before notification: schedule within 30 and 28 minutes before,
+        // but only preload if not loaded within 20 minutes
         if (currentMillis < nextMillis - 30 * 60 * 1000) {
             millisForAlarm = nextMillis - 30 * 60 * 1000 + rand.nextInt(120 * 1000);
+            action = "preload-20";
         }
         // if more than 3 minutes before the notification, and not loaded within
         // the last 60 minutes, schedule within 30-90 seconds
@@ -105,7 +107,7 @@ public class MensaNotifications {
             cal.set(Calendar.MINUTE, times.getMinute(day));
             while (cal.get(Calendar.DAY_OF_WEEK) != weekDays[day]
                     || cal.getTimeInMillis() <= currentMillis)
-                cal.roll(Calendar.DATE, true);
+                cal.add(Calendar.DATE, 1);
             if (nextMillis == 0 || cal.getTimeInMillis() < nextMillis)
                 nextMillis = cal.getTimeInMillis();
         }

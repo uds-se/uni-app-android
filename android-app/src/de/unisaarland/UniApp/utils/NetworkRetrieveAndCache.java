@@ -9,6 +9,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InvalidClassException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.text.ParseException;
@@ -77,10 +78,10 @@ public class NetworkRetrieveAndCache<ResultType> {
 
     public interface Delegate<ResultType> {
         /**
-         * Called in the UI thread whenever new data was retrieved (from the cached, or from
+         * Called in the UI thread whenever new data was retrieved (from the cache, or from
          * network).
          */
-        void onUpdate(ResultType result);
+        void onUpdate(ResultType result, boolean fromCache);
 
         /**
          * Called in the UI thread when starting to load data from the network. Can be used to show
@@ -117,7 +118,7 @@ public class NetworkRetrieveAndCache<ResultType> {
         // document asynchronously if last fetch is too old
         Pair<Date, ResultType> cached = loadFromCache();
         if (cached != null)
-            delegate.onUpdate(cached.second);
+            delegate.onUpdate(cached.second, true);
         boolean reloadContentFromWeb = reloadIfOlderSeconds >= 0 && (cached == null
                 || reloadIfOlderSeconds == 0
                 || Math.abs(cached.first.getTime() - System.currentTimeMillis()) >
@@ -181,7 +182,7 @@ public class NetworkRetrieveAndCache<ResultType> {
             if (errorMessage != null) {
                 delegate.onFailure(errorMessage);
             } else {
-                delegate.onUpdate(result);
+                delegate.onUpdate(result, false);
             }
         }
     }
@@ -208,10 +209,13 @@ public class NetworkRetrieveAndCache<ResultType> {
             //noinspection unchecked
             data = (ResultType)ois.readObject();
             ois.close();
+        } catch (ClassNotFoundException | ClassCastException | InvalidClassException e) {
+            // we want to see this error if it happens "in the wild", but we clear the cache
+            // such that it does not happen repeatedly.
+            cache.clearDatabase();
+            throw Util.makeRuntimeException("Weird class error when deserializing", e);
         } catch (IOException e) {
             throw Util.makeAssertionError(e);
-        } catch (ClassNotFoundException | ClassCastException e) {
-            throw Util.makeRuntimeException("Weird class error when deserializing", e);
         } finally {
             try {
                 if (ois != null)

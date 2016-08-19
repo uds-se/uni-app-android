@@ -2,6 +2,7 @@ package de.unisaarland.UniApp.staff;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.View;
@@ -25,6 +26,9 @@ public class SearchResultActivity extends UpNavigationActionBarActivity {
     private NetworkRetrieveAndCache<List<SearchResult>> networkFetcher;
     private NetworkRetrieveAndCache<List<SearchResult>> juniorNetworkFetcher;
     private List<SearchResult> storedResults;
+    private String url;
+    private String juniorUrl;
+
     // store scroll position on leave and restore on return (on first content load)
     private Parcelable listState = null;
     private String searchType = "";
@@ -34,6 +38,12 @@ public class SearchResultActivity extends UpNavigationActionBarActivity {
         super.onPause();
         ListView listView = (ListView)findViewById(R.id.search_result_list);
         listState = listView.onSaveInstanceState();
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        url = intent.getStringExtra("url");
     }
 
     @Override
@@ -51,6 +61,12 @@ public class SearchResultActivity extends UpNavigationActionBarActivity {
         if (searchType == null)
             searchType = "all";
         setContentView(R.layout.search_result_layout);
+    }
+
+    // onResume gets called after onCreate or onNewIntent
+    @Override
+    protected void onResume() {
+        super.onResume();
 
         ProgressBar bar = (ProgressBar) findViewById(R.id.progress_bar);
         bar.setVisibility(View.GONE);
@@ -106,7 +122,7 @@ public class SearchResultActivity extends UpNavigationActionBarActivity {
         private boolean hasResult = false;
 
         @Override
-        public void onUpdate(List<SearchResult> result) {
+        public void onUpdate(List<SearchResult> result, boolean fromCache) {
             hasResult = true;
             if(result == null || result.isEmpty())
                 showSearchResults(result);

@@ -138,12 +138,37 @@
                 android:value=".bus.BusActivity" />
             </activity>
 
+        <activity android:name=".restaurant.uihelper.MensaShowIngredientsActivity"
+                  android:configChanges="orientation|screenSize"
+                  android:parentActivityName=".restaurant.RestaurantActivity"
+                  android:theme="@android:style/Theme.DeviceDefault.Dialog.NoActionBar.MinWidth"
+                  android:excludeFromRecents="true"
+                  android:launchMode="singleInstance"
+                  android:label="@string/labels">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".restaurant.RestaurantActivity" />
+        </activity>
+
         <receiver android:name=".restaurant.notifications.MensaNotificationReceiver"
                   android:enabled="false">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+
+        <receiver android:name=".restaurant.MensaAppWidgetProvider">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider"
+                       android:resource="@xml/mensawidget" />
+        </receiver>
+
+        <service android:name=".utils.ui.RemoteOrLocalViewAdapter$RemoteService"
+            android:exported="false"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
+
         <!-- Debugging Key
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"

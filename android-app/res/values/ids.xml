@@ -5,7 +5,6 @@
     <item type="id" name="campus_search_categorie_tag" />
     <item type="id" name="campus_search_poi_tag" />
     <item type="id" name="campus_search_poi_id_tag" />
-    <item type="id" name="mensa_menu_date_tag" />
     <item type="id" name="mensa_notification_day_tag" />
     <item type="id" name="notification_id_mensa_menu" />
 </resources>

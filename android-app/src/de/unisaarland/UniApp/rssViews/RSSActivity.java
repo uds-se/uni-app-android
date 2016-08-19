@@ -175,7 +175,7 @@ public class RSSActivity extends UpNavigationActionBarActivity {
         private boolean hasItems = false;
 
         @Override
-        public void onUpdate(List<RSSItem> items) {
+        public void onUpdate(List<RSSItem> items, boolean fromCache) {
             hasItems = true;
 
             ProgressBar bar = (ProgressBar) findViewById(R.id.progress_bar);

@@ -6,23 +6,19 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Typeface;
+import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.text.SpannableStringBuilder;
-import android.text.Spanned;
-import android.text.style.StyleSpan;
 import android.util.Log;
-
-import java.util.List;
-import java.util.Map;
+import android.widget.RemoteViews;
 
 import de.unisaarland.UniApp.R;
 import de.unisaarland.UniApp.restaurant.RestaurantActivity;
 import de.unisaarland.UniApp.restaurant.model.CachedMensaPlan;
+import de.unisaarland.UniApp.restaurant.model.MensaDayMenu;
 import de.unisaarland.UniApp.restaurant.model.MensaItem;
-import de.unisaarland.UniApp.utils.NetworkRetrieveAndCache;
-import de.unisaarland.UniApp.utils.Util;
+import de.unisaarland.UniApp.restaurant.uihelper.MensaDaysAdapter;
 
 public class MensaNotificationReceiver extends BroadcastReceiver {
 
@@ -56,39 +52,8 @@ public class MensaNotificationReceiver extends BroadcastReceiver {
     }
 
     private void showNotification(Context context) {
-        final List<MensaItem>[] todayList = new List[1];
-        final long today = Util.getStartOfDay().getTimeInMillis();
-
-        NetworkRetrieveAndCache.Delegate<Map<Long, List<MensaItem>>> delegate =
-                new NetworkRetrieveAndCache.Delegate<Map<Long, List<MensaItem>>>() {
-            public boolean hasShown = false;
-
-            @Override
-            public void onUpdate(Map<Long, List<MensaItem>> result) {
-                if (hasShown)
-                    throw new AssertionError("we should only be updated once");
-                hasShown = true;
-                todayList[0] = result.get(today);
-            }
-
-            @Override
-            public void onStartLoading() {
-                throw new AssertionError("we should not load");
-            }
-
-            @Override
-            public void onFailure(String message) {
-                throw new AssertionError("without loading there should be no failure");
-            }
-
-            @Override
-            public String checkValidity(Map<Long, List<MensaItem>> result) {
-                return null;
-            }
-        };
-        CachedMensaPlan plan = new CachedMensaPlan(delegate, context);
-        plan.load(-1);
-        if (todayList[0] == null) {
+        MensaDayMenu todayMenu = CachedMensaPlan.getTodaysMenuIfLoaded(context);
+        if (todayMenu == null) {
             Log.w(TAG, "no cached mensa menu, skipping notification");
             //showErrorNotification();
             return;
@@ -107,36 +72,49 @@ public class MensaNotificationReceiver extends BroadcastReceiver {
         PendingIntent pendingIntent =
                 stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        CharSequence text = getMensaMenuText(todayList[0]);
-
         NotificationCompat.Builder notifBuilder = new NotificationCompat.Builder(context)
-                .setSmallIcon(R.drawable.restaurant_icon)
+                .setSmallIcon(R.drawable.uds_owl_silhouette)
                 .setContentTitle(context.getString(R.string.mensa_notification_title))
-                .setContentText(context.getString(R.string.mensa_nofitication_text_expand))
+                .setContentText(context.getString(R.string.mensa_notification_text_click))
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true)
-                .setCategory(Notification.CATEGORY_RECOMMENDATION)
-                .setStyle(new NotificationCompat.BigTextStyle().bigText(text));
+                .setCategory(Notification.CATEGORY_RECOMMENDATION);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            notifBuilder.setContentText(context.getString(R.string.mensa_notification_text_expand));
+            CharSequence text = getMensaMenuText(todayMenu);
+            notifBuilder.setStyle(new NotificationCompat.BigTextStyle().bigText(text));
+        }
 
         NotificationManager mNotifyMgr =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotifyMgr.cancel(R.id.notification_id_mensa_menu);
         mNotifyMgr.notify(R.id.notification_id_mensa_menu, notifBuilder.build());
     }
 
-    private CharSequence getMensaMenuText(List<MensaItem> mensaItems) {
+    private CharSequence getMensaMenuText(MensaDayMenu mensaMenu) {
         SpannableStringBuilder sb = new SpannableStringBuilder();
-        for (MensaItem item : mensaItems) {
+        for (MensaItem item : mensaMenu.getItems()) {
             if (sb.length() > 0)
                 sb.append("\n");
+            sb.append("• ").append(item.getTitleSpannable(false));
+            /*
             int oldLen = sb.length();
-            sb.append("• ").append(item.getCategory()).append(": ").append(item.getTitleSpannable(false));
+            sb.append("• ").append(item.getCategory()).append(": ").append(item.getTitleSpannable(
+                    false));
             int newLen = sb.length();
             sb.setSpan(new StyleSpan(Typeface.BOLD_ITALIC), oldLen, newLen,
                     Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
             CharSequence desc = item.getDescSpannable(false);
             if (desc.length() > 0)
                 sb.append(" (").append(desc).append(")");
+            */
         }
         return sb;
+    }
+
+    public RemoteViews getTodaysMensaMenuView(Context context, MensaDayMenu mensaMenu) {
+        MensaDaysAdapter adap = new MensaDaysAdapter(new MensaDayMenu[] { mensaMenu }, true);
+        return adap.asRemoteViewsFactory(context, true).getViewAt(0);
     }
 }

@@ -2,6 +2,7 @@ package de.unisaarland.UniApp.staff;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -18,12 +19,22 @@ import de.unisaarland.UniApp.utils.Util;
 public class PersonDetailWebActivity extends UpNavigationActionBarActivity {
     private String url;
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        url = intent.getStringExtra("url");
+        setup();
+    }
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Bundle extras = getIntent().getExtras();
 
-        url = (String) Util.getExtra("url", savedInstanceState, extras, url);
+        url = (String) Util.getExtra("url", savedInstanceState, getIntent().getExtras(), url);
 
+        setup();
+    }
+
+    private void setup() {
         if (url == null)
             throw new AssertionError("url should be passed via intent or saved state");
 

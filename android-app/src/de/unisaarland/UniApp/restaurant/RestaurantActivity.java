@@ -8,27 +8,27 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ListView;
 import android.widget.ProgressBar;
-
-import java.util.List;
-import java.util.Map;
 
 import de.unisaarland.UniApp.R;
 import de.unisaarland.UniApp.restaurant.model.CachedMensaPlan;
-import de.unisaarland.UniApp.restaurant.model.MensaItem;
+import de.unisaarland.UniApp.restaurant.model.MensaDayMenu;
 import de.unisaarland.UniApp.restaurant.uihelper.CircleFlowIndicator;
-import de.unisaarland.UniApp.restaurant.uihelper.MensaItemsAdapter;
+import de.unisaarland.UniApp.restaurant.uihelper.MensaDaysAdapter;
 import de.unisaarland.UniApp.restaurant.uihelper.ViewFlow;
 import de.unisaarland.UniApp.settings.SettingsActivity;
 import de.unisaarland.UniApp.utils.NetworkRetrieveAndCache;
 import de.unisaarland.UniApp.utils.UpNavigationActionBarActivity;
 import de.unisaarland.UniApp.utils.Util;
+import de.unisaarland.UniApp.utils.ui.RemoteOrLocalViewAdapter;
 
 public class RestaurantActivity extends UpNavigationActionBarActivity {
 
     private CachedMensaPlan mensaPlan = null;
 
     private long lastSelectedDate = 0;
+    private int positionToSelect = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +40,11 @@ public class RestaurantActivity extends UpNavigationActionBarActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
+        // The widget passes the item to select, and it's always for the current date.
+        positionToSelect = getIntent().getIntExtra("position", -1);
+        if (positionToSelect != -1)
+            lastSelectedDate = 0;
 
         ProgressBar bar = (ProgressBar) findViewById(R.id.progress_bar);
         bar.setVisibility(View.GONE);
@@ -82,11 +87,12 @@ public class RestaurantActivity extends UpNavigationActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private final class NetworkDelegate implements NetworkRetrieveAndCache.Delegate<Map<Long, List<MensaItem>>> {
+    private final class NetworkDelegate
+            implements NetworkRetrieveAndCache.Delegate<MensaDayMenu[]> {
         private boolean hasItems = false;
 
         @Override
-        public void onUpdate(Map<Long, List<MensaItem>> result) {
+        public void onUpdate(MensaDayMenu[] result, boolean fromCache) {
             hasItems = true;
 
             ProgressBar bar = (ProgressBar) findViewById(R.id.progress_bar);
@@ -120,37 +126,46 @@ public class RestaurantActivity extends UpNavigationActionBarActivity {
         }
 
         @Override
-        public String checkValidity(Map<Long, List<MensaItem>> result) {
-            // validitiy was already checked in CachedMensaPlan
+        public String checkValidity(MensaDayMenu[] result) {
+            // validity was already checked in CachedMensaPlan
             return null;
         }
     }
 
-    private void populateItems(Map<Long, List<MensaItem>> items) {
+    private void populateItems(final MensaDayMenu[] items) {
         // compute which item to preselect (smallest item >= current day, or last selected item)
         long dateToSelect = lastSelectedDate != 0 ? lastSelectedDate
                 : Util.getStartOfDay().getTimeInMillis();
         int itemToSelect = 0;
-        for (Long l : items.keySet())
-            if (l < dateToSelect)
+        for (MensaDayMenu day : items)
+            if (day.getDayStartMillis() < dateToSelect)
                 ++itemToSelect;
 
         ViewFlow viewFlow = (ViewFlow) findViewById(R.id.viewflow);
-        MensaItemsAdapter adapter = (MensaItemsAdapter) viewFlow.getAdapter();
+        RemoteOrLocalViewAdapter.LocalAdapter adapter =
+                (RemoteOrLocalViewAdapter.LocalAdapter) viewFlow.getAdapter();
+        MensaDaysAdapter newAdapter = new MensaDaysAdapter(items, false);
         if (adapter == null) {
-            viewFlow.setAdapter(new MensaItemsAdapter(this, items), itemToSelect);
-            viewFlow.setOnViewSwitchListener(new ViewFlow.ViewSwitchListener() {
-                @Override
-                public void onSwitched(View view, int position) {
-                    Long date = (Long) view.getTag(R.id.mensa_menu_date_tag);
-                    lastSelectedDate = date.longValue();
-                }
-            });
+            viewFlow.setAdapter(newAdapter.asLocalAdapter(this),
+                    itemToSelect);
         } else {
-            adapter.update(items);
-            viewFlow.setSelection(itemToSelect);
+            adapter.update(newAdapter);
+            if (viewFlow.getSelectedItemPosition() != itemToSelect)
+                viewFlow.setSelection(itemToSelect);
         }
+        viewFlow.setOnViewSwitchListener(new ViewFlow.ViewSwitchListener() {
+            @Override
+            public void onSwitched(View view, int position) {
+                lastSelectedDate = items[position].getDayStartMillis();
+            }
+        });
         CircleFlowIndicator indic = (CircleFlowIndicator) findViewById(R.id.viewflowindic);
         viewFlow.setFlowIndicator(indic);
+        if (positionToSelect != -1) {
+            ListView mensaList = (ListView) viewFlow.getSelectedView().findViewById(R.id.mensaList);
+            int count = mensaList.getCount();
+            if (positionToSelect < count)
+                mensaList.setSelection(positionToSelect);
+        }
     }
 }
