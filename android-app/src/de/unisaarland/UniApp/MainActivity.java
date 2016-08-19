@@ -1,5 +1,7 @@
 package de.unisaarland.UniApp;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -69,6 +71,8 @@ public class MainActivity extends AppCompatActivity {
                     ? R.string.c_saarbruecken : R.string.c_homburg;
             campusText.setText(text);
         }
+
+        showWhatsNew(settings);
     }
 
     @Override
@@ -147,4 +151,22 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void showWhatsNew(SharedPreferences settings) {
+        // Check whether we need to show the "what's new" dialog...
+        int currentVersionNumber = BuildConfig.VERSION_CODE;
+        int savedVersionNumber = settings.getInt(getString(R.string.pref_last_version), 0);
+        if (currentVersionNumber == savedVersionNumber)
+            return;
+
+        settings.edit().putInt(getString(R.string.pref_last_version), currentVersionNumber).commit();
+
+        new AlertDialog.Builder(MainActivity.this)
+                .setTitle(R.string.whatsnew_title)
+                .setMessage(R.string.whatsnew_text)
+                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                }).show();
+    }
 }

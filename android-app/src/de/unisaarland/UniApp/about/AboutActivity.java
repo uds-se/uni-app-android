@@ -1,6 +1,7 @@
 package de.unisaarland.UniApp.about;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -27,6 +28,7 @@ public class AboutActivity extends UpNavigationActionBarActivity {
         final int versionCode = BuildConfig.VERSION_CODE;
         TextView version = (TextView) findViewById(R.id.version_number);
         version.setText("Version " + versionName + " (" + versionCode + ")");
+
         Button contact = (Button) findViewById(R.id.contact_btn);
         contact.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -38,6 +40,15 @@ public class AboutActivity extends UpNavigationActionBarActivity {
                 sendIntent.putExtra(Intent.EXTRA_TEXT, emailBody);
                 sendIntent.setType("message/rfc822");
                 AboutActivity.this.startActivity(Intent.createChooser(sendIntent, "Send Email"));
+            }
+        });
+
+        Button githubBtn = (Button) findViewById(R.id.github_btn);
+        githubBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String url = "https://github.com/uds-se/uni-app-android/";
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
             }
         });
     }

@@ -136,7 +136,7 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".bus.BusActivity" />
-            </activity>
+        </activity>
 
         <activity android:name=".restaurant.uihelper.MensaShowIngredientsActivity"
                   android:configChanges="orientation|screenSize"

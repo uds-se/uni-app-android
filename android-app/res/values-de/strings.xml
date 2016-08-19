@@ -156,4 +156,8 @@
     <string name="mensa_notification_text_click">Klicken zum ansehen</string>
     <string name="mensa_notification_text_expand">Klicken oder größer ziehen zum ansehen</string>
     <string name="mensa_notification_title">Heutige Mensa-Speisekarte</string>
+    <string name="visit_github">Source Code auf GitHub ansehen</string>
+    <string name="whatsnew_title">Was ist neu in dieser Version?</string>
+    <string name="whatsnew_text">• Anpassungen für Android 6\n• Dudweiler Campus\n• Widget für das aktuelle Mensamenü\n• Konfigurierbare Benachrichtigung für Mensa (experimentell)\n• Quellcode dieser App jetzt auf GitHub (siehe Seite "über diese App")</string>
+    <string name="whatsnew_label">Neuheiten</string>
 </resources>
