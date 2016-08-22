@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <TileMap version="1.0.0" tilemapservice="http://tms.osgeo.org/1.0.0">
+      <Title>myoverlay.vrt</Title>
+      <Abstract></Abstract>
+      <SRS>EPSG:900913</SRS>
+      <BoundingBox minx="49.27203824203714" miny="7.03356999999999" maxx="49.27706000000002" maxy="7.04334787968225"/>
+      <Origin x="49.27203824203714" y="7.03356999999999"/>
+      <TileFormat width="256" height="256" mime-type="image/png" extension="png"/>
+      <TileSets profile="mercator">
+        <TileSet href="14" units-per-pixel="9.55462853393555" order="14"/>
+        <TileSet href="15" units-per-pixel="4.77731426696777" order="15"/>
+        <TileSet href="16" units-per-pixel="2.38865713348389" order="16"/>
+        <TileSet href="17" units-per-pixel="1.19432856674194" order="17"/>
+        <TileSet href="18" units-per-pixel="0.59716428337097" order="18"/>
+        <TileSet href="19" units-per-pixel="0.29858214168549" order="19"/>
+      </TileSets>
+    </TileMap>
+    
