@@ -1,5 +1,6 @@
 package de.unisaarland.UniApp.campus;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.SearchManager;
@@ -7,12 +8,16 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.location.Location;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
@@ -188,7 +193,11 @@ public class CampusActivity extends UpNavigationActionBarActivity
             showRouteIfAvailable(p);
         }
     }
-
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
     // get map object and set default parameters e.g mapType and camera position
     // also set the panel listener for changing map type and remove all pins
     private void setUpMapIfNeeded() {
@@ -196,6 +205,18 @@ public class CampusActivity extends UpNavigationActionBarActivity
         if (map != null)
             return;
 
+        if(!isNetworkAvailable()){
+            new AlertDialog.Builder(CampusActivity.this)
+                    .setTitle("Info")
+                    .setMessage("Map could not be displayed. Please check your network connection and try again.")
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    })
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
+        }
         // Try to obtain the map from the SupportMapFragment.
         map = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
                 .getMap();
@@ -430,10 +451,40 @@ public class CampusActivity extends UpNavigationActionBarActivity
 
     @Override
     public void onConnected(Bundle bundle) {
-        LocationServices.FusedLocationApi.requestLocationUpdates(
-                locationClient,
-                REQUEST,
-                this);  // LocationListener
+        // added check for dynamic permissions in API v23
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            // Request missing location permission.
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    REQUEST_CODE_LOCATION);
+        } else {
+            // Location permission has been granted, continue as usual.
+            if(locationClient != null) {
+                LocationServices.FusedLocationApi.requestLocationUpdates(
+                        locationClient,
+                        REQUEST,
+                        this);  // LocationListener
+            }
+        }
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == REQUEST_CODE_LOCATION) {
+            if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // success!
+                if(locationClient != null) {
+                    LocationServices.FusedLocationApi.requestLocationUpdates(
+                            locationClient,
+                            REQUEST,
+                            this);  // LocationListener
+                }
+            } else {
+                // Permission was denied or request was cancelled
+            }
+        }
     }
 
     @Override

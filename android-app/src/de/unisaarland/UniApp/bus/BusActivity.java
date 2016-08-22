@@ -1,7 +1,10 @@
 package de.unisaarland.UniApp.bus;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.widget.ListView;
 
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -27,6 +30,7 @@ import de.unisaarland.UniApp.utils.UpNavigationActionBarActivity;
 public class BusActivity extends UpNavigationActionBarActivity
         implements GoogleApiClient.ConnectionCallbacks, LocationListener {
     private static final int BUS_ID = 5;
+    private static final int REQUEST_CODE_LOCATION = 2;
     private List<PointOfInterest> busStationsArray = null;
     private Location currentLocation = null;
     private String provider = null;
@@ -138,13 +142,44 @@ public class BusActivity extends UpNavigationActionBarActivity
     }
 
     ///////////////// call back methods of location client //////////////
-    @Override
     public void onConnected(Bundle bundle) {
-        LocationServices.FusedLocationApi.requestLocationUpdates(
-                locationClient,
-                REQUEST,
-                this);  // LocationListener
+
+        // added check for dynamic permissions in API v23
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            // Request missing location permission.
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    REQUEST_CODE_LOCATION);
+        } else {
+            // Location permission has been granted, continue as usual.
+            if(locationClient != null) {
+                LocationServices.FusedLocationApi.requestLocationUpdates(
+                        locationClient,
+                        REQUEST,
+                        this);  // LocationListener
+            }
+        }
+
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == REQUEST_CODE_LOCATION) {
+            if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // success!
+                if(locationClient != null) {
+                    LocationServices.FusedLocationApi.requestLocationUpdates(
+                            locationClient,
+                            REQUEST,
+                            this);  // LocationListener
+                }
+            } else {
+                // Permission was denied or request was cancelled
+            }
+        }
+    }
+
 
     @Override
     public void onConnectionSuspended(int i) {
