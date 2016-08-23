@@ -39,6 +39,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
@@ -69,13 +70,14 @@ import de.unisaarland.UniApp.utils.UpNavigationActionBarActivity;
 public class CampusActivity extends UpNavigationActionBarActivity
         implements GoogleApiClient.ConnectionCallbacks,
         LocationListener,
-        GoogleMap.OnMyLocationButtonClickListener, OnMarkerClickListener,OnInfoWindowClickListener {
+        GoogleMap.OnMyLocationButtonClickListener, OnMarkerClickListener, OnInfoWindowClickListener {
 
     private static final String TAG = CampusActivity.class.getSimpleName();
 
     private GoogleMap map;
     private GoogleApiClient locationClient;
     private static final int REQUEST_CODE = 5;
+    private static final int REQUEST_CODE_LOCATION = 2;
     private final Map<Marker, PointOfInterest> poisMap = new HashMap<>();
     private Location currentLocation;
     private static final int TIME_INTERVAL = 3000; // 3 seconds
@@ -87,6 +89,7 @@ public class CampusActivity extends UpNavigationActionBarActivity
             .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
     private Menu menu;
     private DatabaseHandler db = null;
+    private boolean askedForLocationPermission = false;
 
     /**
      * Will be called when activity created first time e.g. from scratch and check if intent has any extra information
@@ -112,9 +115,7 @@ public class CampusActivity extends UpNavigationActionBarActivity
     protected void onResume() {
         super.onResume();
         setUpMapIfNeeded();
-        showInfoBuildingIfSet();
         setUpLocationClient();
-        locationClient.connect();
     }
 
     @Override
@@ -133,16 +134,16 @@ public class CampusActivity extends UpNavigationActionBarActivity
         poisMap.clear();
         pinPOIsInArray(Collections.singletonList(model));
         final SearchView search = (SearchView) menu.findItem(R.id.activity_search).getActionView();
-        search.setQuery("",false);
+        search.setQuery("", false);
         search.setIconified(false);
-        InputMethodManager imm = (InputMethodManager)getSystemService(
+        InputMethodManager imm = (InputMethodManager) getSystemService(
                 Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(search.getWindowToken(), 0);
     }
 
     // return false as i want to open the marker from default implementation i haven't done any specific
     @Override
-    public boolean onMarkerClick(com.google.android.gms.maps.model.Marker marker){
+    public boolean onMarkerClick(com.google.android.gms.maps.model.Marker marker) {
         return false;
     }
 
@@ -164,12 +165,12 @@ public class CampusActivity extends UpNavigationActionBarActivity
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             if (p.isCanShowRightCallOut() == 1 && p.getWebsite().length() > 0) {
-                                if((marker.getTitle().equals("Mensa") && marker.getSnippet().equals("Restaurant")) ||
-                                        marker.getTitle().equals("Mensacafé")){
+                                if ((marker.getTitle().equals("Mensa") && marker.getSnippet().equals("Restaurant")) ||
+                                        marker.getTitle().equals("Mensacafé")) {
                                     Intent myIntent = new Intent(CampusActivity.this, RestaurantActivity.class);
                                     CampusActivity.this.startActivity(myIntent);
 
-                                }else{
+                                } else {
                                     Intent myIntent = new Intent(CampusActivity.this, BusDetailActivity.class);
                                     myIntent.putExtra("url", p.getWebsite());
                                     myIntent.putExtra("back", getString(R.string.campusText));
@@ -193,11 +194,13 @@ public class CampusActivity extends UpNavigationActionBarActivity
             showRouteIfAvailable(p);
         }
     }
+
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
+
     // get map object and set default parameters e.g mapType and camera position
     // also set the panel listener for changing map type and remove all pins
     private void setUpMapIfNeeded() {
@@ -205,7 +208,7 @@ public class CampusActivity extends UpNavigationActionBarActivity
         if (map != null)
             return;
 
-        if(!isNetworkAvailable()){
+        if (!isNetworkAvailable()) {
             new AlertDialog.Builder(CampusActivity.this)
                     .setTitle("Info")
                     .setMessage("Map could not be displayed. Please check your network connection and try again.")
@@ -218,28 +221,25 @@ public class CampusActivity extends UpNavigationActionBarActivity
                     .show();
         }
         // Try to obtain the map from the SupportMapFragment.
-        map = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
-                .getMap();
+        ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
+                .getMapAsync(new OnMapReadyCallback() {
+                    @Override
+                    public void onMapReady(GoogleMap googleMap) {
+                        mapInitialized(googleMap);
+                    }
+                });
 
-        // Check if we were successful in obtaining the map.
-        if (map == null)
-            return;
+    }
+
+    private void mapInitialized(GoogleMap map) {
+        this.map = map;
 
         poisMap.clear();
         // set default options of a map which are loaded with the activity
         // like default zoom level and campera position
-        map.setMyLocationEnabled(true);
         map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         map.setOnMyLocationButtonClickListener(this);
         map.setOnMarkerClickListener(this);
-        map.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
-            @Override
-            public void onCameraChange(CameraPosition cameraPosition) {
-                float maxZoom = 18.0f;
-                if (cameraPosition.zoom > maxZoom)
-                    map.animateCamera(CameraUpdateFactory.zoomTo(maxZoom));
-            }
-        });
         map.setBuildingsEnabled(false);
         map.setMapType(1);
         map.getUiSettings().setZoomControlsEnabled(false);
@@ -249,24 +249,16 @@ public class CampusActivity extends UpNavigationActionBarActivity
             map.addTileOverlay(new TileOverlayOptions().tileProvider(prov));
 
         resetCamera();
-    }
 
-    private void showInfoBuildingIfSet() {
         // if info building != null means activity is called from search result details page
         // so it will get the building position from the database and will set the marker there.
 
         final String infoBuilding = getIntent().getStringExtra("building");
-        if (infoBuilding == null)
-            return;
-        map.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
-            @Override
-            public void onCameraChange(CameraPosition cameraPosition) {
-                map.setOnCameraChangeListener(null);
-                List<PointOfInterest> pois = db.getPointsOfInterestForTitle(infoBuilding);
-                if (!pois.isEmpty())
-                    pinPOIsInArray(pois);
-            }
-        });
+        if (infoBuilding != null) {
+            List<PointOfInterest> pois = db.getPointsOfInterestForTitle(infoBuilding);
+            if (!pois.isEmpty())
+                pinPOIsInArray(pois);
+        }
     }
 
     /**
@@ -287,24 +279,26 @@ public class CampusActivity extends UpNavigationActionBarActivity
                     .setMessage(R.string.enable_location_option)
                     .setCancelable(true)
                     .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                Intent viewIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                                startActivity(viewIntent);
-                            }
-                        })
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent viewIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                            startActivity(viewIntent);
+                        }
+                    })
                     .create().show();
         }
     }
 
     // setup location listener
-    private void setUpLocationClient() {
+    private GoogleApiClient setUpLocationClient() {
         if (locationClient == null) {
             locationClient = new GoogleApiClient.Builder(this)
                     .addApi(LocationServices.API)
                     .addConnectionCallbacks(this)
                     .build();
+            locationClient.connect();
         }
+        return locationClient;
     }
 
     //Creation Custom Actionbar
@@ -354,7 +348,7 @@ public class CampusActivity extends UpNavigationActionBarActivity
         switch (item.getItemId()) {
             case R.id.action_categories:
                 Intent myIntent = new Intent(CampusActivity.this, CampusSearchActivity.class);
-                CampusActivity.this.startActivityForResult(myIntent,REQUEST_CODE);
+                CampusActivity.this.startActivityForResult(myIntent, REQUEST_CODE);
 
                 return true;
             case R.id.action_settings:
@@ -378,7 +372,7 @@ public class CampusActivity extends UpNavigationActionBarActivity
      * add pins to all pointOfInterests in the list and will compute the visible rectangle so that
      * all point of interests are displayed on the screen.
      */
-    private boolean pinPOIsInArray(List<PointOfInterest> POIs){
+    private boolean pinPOIsInArray(List<PointOfInterest> POIs) {
         if (POIs.isEmpty()) {
             // use exception to get stack trace
             Log.w(TAG, new IllegalStateException("empty POI list"));
@@ -393,14 +387,14 @@ public class CampusActivity extends UpNavigationActionBarActivity
         for (PointOfInterest poi : POIs) {
             int tempColor = poi.getColor();
             float color = tempColor == 1 ? BitmapDescriptorFactory.HUE_CYAN
-                    : tempColor == 2 ?  BitmapDescriptorFactory.HUE_GREEN
+                    : tempColor == 2 ? BitmapDescriptorFactory.HUE_GREEN
                     : BitmapDescriptorFactory.HUE_RED;
 
             Marker m = map.addMarker(new MarkerOptions()
-                   .position(new LatLng(poi.getLatitude(), poi.getLongitude()))
-                   .title(poi.getTitle())
-                   .snippet(poi.getSubtitle())
-                   .icon(BitmapDescriptorFactory.defaultMarker(color)));
+                    .position(new LatLng(poi.getLatitude(), poi.getLongitude()))
+                    .title(poi.getTitle())
+                    .snippet(poi.getSubtitle())
+                    .icon(BitmapDescriptorFactory.defaultMarker(color)));
             poisMap.put(m, poi);
         }
 
@@ -439,8 +433,7 @@ public class CampusActivity extends UpNavigationActionBarActivity
             sw = new LatLng(sw.latitude - (zoomN - deltaLat / 2), sw.longitude);
             ne = new LatLng(ne.latitude + (zoomN - deltaLat / 2), ne.longitude);
             bounds = new LatLngBounds(sw, ne);
-        }
-        else if (deltaLon < zoomN) {
+        } else if (deltaLon < zoomN) {
             sw = new LatLng(sw.latitude, sw.longitude - (zoomN - deltaLon / 2));
             ne = new LatLng(ne.latitude, ne.longitude + (zoomN - deltaLon / 2));
             bounds = new LatLngBounds(sw, ne);
@@ -451,40 +444,42 @@ public class CampusActivity extends UpNavigationActionBarActivity
 
     @Override
     public void onConnected(Bundle bundle) {
-        // added check for dynamic permissions in API v23
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-            // Request missing location permission.
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                    REQUEST_CODE_LOCATION);
-        } else {
-            // Location permission has been granted, continue as usual.
-            if(locationClient != null) {
-                LocationServices.FusedLocationApi.requestLocationUpdates(
-                        locationClient,
-                        REQUEST,
-                        this);  // LocationListener
-            }
-        }
-
+        initLocationUpdates();
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        if (requestCode == REQUEST_CODE_LOCATION) {
-            if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // success!
-                if(locationClient != null) {
-                    LocationServices.FusedLocationApi.requestLocationUpdates(
-                            locationClient,
-                            REQUEST,
-                            this);  // LocationListener
-                }
-            } else {
-                // Permission was denied or request was cancelled
-            }
+        initLocationUpdates();
+    }
+
+    private boolean checkLocationUpdatesGranted() {
+        boolean granted = ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED
+            || ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED;
+
+
+        if (!granted && !askedForLocationPermission) {
+            // Request missing location permission.
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    REQUEST_CODE_LOCATION);
+            this.askedForLocationPermission = true;
         }
+
+        return granted;
+    }
+
+    private void initLocationUpdates() {
+        if (!checkLocationUpdatesGranted())
+            return;
+
+        LocationServices.FusedLocationApi.requestLocationUpdates(
+                setUpLocationClient(),
+                REQUEST,
+                this);  // LocationListener
+        if (map != null)
+            map.setMyLocationEnabled(true);
     }
 
     @Override

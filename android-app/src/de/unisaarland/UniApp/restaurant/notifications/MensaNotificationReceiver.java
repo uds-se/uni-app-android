@@ -77,8 +77,11 @@ public class MensaNotificationReceiver extends BroadcastReceiver {
                 .setContentTitle(context.getString(R.string.mensa_notification_title))
                 .setContentText(context.getString(R.string.mensa_notification_text_click))
                 .setContentIntent(pendingIntent)
-                .setAutoCancel(true)
-                .setCategory(Notification.CATEGORY_RECOMMENDATION);
+                .setAutoCancel(true);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            notifBuilder.setCategory(Notification.CATEGORY_RECOMMENDATION);
+        }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             notifBuilder.setContentText(context.getString(R.string.mensa_notification_text_expand));

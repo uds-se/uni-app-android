@@ -8,6 +8,8 @@ import java.util.Arrays;
 
 public class MensaDayMenu implements Serializable, Parcelable, Comparable<MensaDayMenu> {
 
+    private static final long serialVersionUID = -6465656406062632461L;
+
     private final long dayStartMillis;
     private final MensaItem[] items;
 
