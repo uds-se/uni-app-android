@@ -154,11 +154,19 @@ public class MainActivity extends AppCompatActivity {
     private void showWhatsNew(SharedPreferences settings) {
         // Check whether we need to show the "what's new" dialog...
         int currentVersionNumber = BuildConfig.VERSION_CODE;
-        int savedVersionNumber = settings.getInt(getString(R.string.pref_last_version), 0);
+        int savedVersionNumber = settings.getInt(getString(R.string.pref_last_whatsnew_version), 0);
         if (currentVersionNumber == savedVersionNumber)
             return;
 
-        settings.edit().putInt(getString(R.string.pref_last_version), currentVersionNumber).commit();
+        int currentHash = getString(R.string.whatsnew_text).hashCode();
+        int savedHash = settings.getInt(getString(R.string.pref_last_whatsnew_hash), 0);
+        if (currentHash == savedHash)
+            return;
+
+        settings.edit().
+                putInt(getString(R.string.pref_last_whatsnew_version), currentVersionNumber).
+                putInt(getString(R.string.pref_last_whatsnew_hash), currentHash).
+                commit();
 
         new AlertDialog.Builder(MainActivity.this)
                 .setTitle(R.string.whatsnew_title)

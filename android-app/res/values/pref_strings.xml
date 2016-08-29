@@ -10,5 +10,6 @@
     <!-- the string to use as summary if only the current pref value should be shown -->
     <string name="pref_show_value" translatable="false">%s</string>
     <string name="pref_mensa_notification_times" translatable="false">mensa_notification_dates</string>
-    <string name="pref_last_version" translatable="false">last_version</string>
+    <string name="pref_last_whatsnew_version" translatable="false">whatsnew_last_version</string>
+    <string name="pref_last_whatsnew_hash" translatable="false">whatsnew_last_hash</string>
 </resources>
