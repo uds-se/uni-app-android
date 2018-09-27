@@ -7,8 +7,6 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.app.ActionBar;
 import android.view.Gravity;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -237,15 +235,6 @@ public class RSSActivity extends UpNavigationActionBarActivity {
 
         itemsList.onRestoreInstanceState(listState);
         listState = null;
-    }
-
-    //Creation Custom Actionbar with facebook link
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu items for use in the action bar
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.news_activity_actions, menu);
-        return super.onCreateOptionsMenu(menu);
     }
 
 }
