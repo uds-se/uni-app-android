@@ -161,6 +161,7 @@
     <string name="mensa_notification_text_expand">Expand to see today\'s mensa menu</string>
     <string name="visit_github">Visit source code on GitHub</string>
     <string name="whatsnew_title">What\'s new in this version?</string>
-    <string name="whatsnew_text">• Added bus stop Stuhlsatzenhaus\n• Fixes for android 6\n• Dudweiler campus\n• Widget for current mensa menu\n• Scheduled notifications for mensa (experimental)\n• Source code of this app now on GitHub (check the "about" page)</string>
+    <string name="whatsnew_text">• Fixed unresponsive bus itinerary\n• Added bus stop Stuhlsatzenhaus\n• Fixes for android 6\n• Dudweiler campus\n• Widget for current mensa menu\n• Scheduled notifications for mensa (experimental)\n• Source code of this app now on GitHub (check the "about" page)</string>
     <string name="whatsnew_label">Whats New</string>
+    <string name="OLD_SSL_ERROR">Not supported on old devices:%n%s</string>
 </resources>

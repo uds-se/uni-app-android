@@ -3,6 +3,7 @@ package de.unisaarland.UniApp.rssViews;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.app.ActionBar;
@@ -194,7 +195,7 @@ public class RSSActivity extends UpNavigationActionBarActivity {
             ProgressBar bar = (ProgressBar) findViewById(R.id.progress_bar);
             bar.setVisibility(View.GONE);
             new AlertDialog.Builder(RSSActivity.this).
-                    setMessage(message).
+                    setMessage(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ? message: String.format(getString(R.string.OLD_SSL_ERROR), message)).
                     setCancelable(true).
                     setPositiveButton(R.string.ok,
                         new DialogInterface.OnClickListener() {

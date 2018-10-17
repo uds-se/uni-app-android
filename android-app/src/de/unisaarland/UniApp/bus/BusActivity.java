@@ -1,10 +1,13 @@
 package de.unisaarland.UniApp.bus;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AlertDialog;
 import android.widget.ListView;
 
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -36,6 +39,7 @@ public class BusActivity extends UpNavigationActionBarActivity
     private String provider = null;
     private ListView busStationsList = null;
     private BusStationsAdapter busStationAdapter = null;
+    private boolean permDenied = false;
 
 
     //////////////location will be updated after every 3 seconds//////////////
@@ -142,18 +146,32 @@ public class BusActivity extends UpNavigationActionBarActivity
     }
 
     ///////////////// call back methods of location client //////////////
+
+
+    private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
+        new AlertDialog.Builder(this)
+                .setMessage(message)
+                .setPositiveButton("OK", okListener)
+                .setNegativeButton("Cancel", null)
+                .create()
+                .show();
+    }
+
     public void onConnected(Bundle bundle) {
 
         // added check for dynamic permissions in API v23
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // Request missing location permission.
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                    REQUEST_CODE_LOCATION);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                //call the request permission here
+                if (permDenied && !shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)) {
+                    return;
+                }
+            }
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE_LOCATION);
         } else {
             // Location permission has been granted, continue as usual.
-            if(locationClient != null) {
+            if (locationClient != null) {
                 LocationServices.FusedLocationApi.requestLocationUpdates(
                         locationClient,
                         REQUEST,
@@ -176,6 +194,7 @@ public class BusActivity extends UpNavigationActionBarActivity
                 }
             } else {
                 // Permission was denied or request was cancelled
+                permDenied = true;
             }
         }
     }
