@@ -13,9 +13,9 @@ import java.util.GregorianCalendar;
 public class Util {
 
     public static final String EVENTS_URL =
-            "https://www.uni-saarland.de/aktuelles/veranstaltungen/alle-veranstaltungen/rss.xml";
+            "https://www.uni-saarland.de/universitaet/aktuell/veranstaltungen.html?type=100&tx_ttnews[cat]=30";
     public static final String NEWS_URL =
-            "https://www.uni-saarland.de/aktuelles/presse/pms.html?type=100&tx_ttnews[cat]=26";
+            "https://www.uni-saarland.de/universitaet/aktuell/pm.html?type=100&tx_ttnews[cat]=26";
 
     public static final String SUPPORT_MAIL = "uniapp@uni-saarland.de";
 
